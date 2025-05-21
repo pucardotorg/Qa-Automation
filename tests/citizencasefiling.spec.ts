@@ -11,7 +11,7 @@ test('Citizen Case Filing Test', async ({ page }) => {
   console.log('Entering mobile number...');
   const mobileInput = page.locator('input[name="mobileNumber"]');
   await expect(mobileInput).toBeVisible({ timeout: 15000 });
-  await mobileInput.fill('6303338642');
+  await mobileInput.fill('8901379555');
   
   // Click Sign In button
   console.log('Clicking Sign In button...');
@@ -72,7 +72,7 @@ test('Citizen Case Filing Test', async ({ page }) => {
   // Fill complainant details with new mobile number
   console.log('Filling complainant details with new mobile number...');
   const complainantMobileInput = page.locator('xpath=/html/body/div[1]/div/div/div/div[2]/div/div[1]/div/div/div/div[2]/div/div[2]/form/div[1]/div[4]/div/div/div[2]/div/div/input');
-  await complainantMobileInput.fill('7755445511');
+  await complainantMobileInput.fill('9014504345');
   
   // Click Verify Mobile Number button
   const verifyMobileButton = page.getByRole('button').filter({ hasText: 'Verify Mobile Number' });
@@ -417,87 +417,157 @@ test('Citizen Case Filing Test', async ({ page }) => {
   await submitCaseButton.click();
   await page.waitForTimeout(2000);
 
+  // Payment Section
+  console.log('Starting payment process...');
+  try {
+    // Click Make Payment button using XPath
+    console.log('Looking for Make Payment button...');
+    const makePaymentButton = page.locator('button:has-text("Make Payment")').first();
+    await expect(makePaymentButton).toBeVisible({ timeout: 30000 });
+    await makePaymentButton.click();
+    await page.waitForTimeout(3000);
+
+    // Click Pay Online button
+    console.log('Looking for Pay Online button...');
+    const payOnlineButton = page.locator('button:has-text("Pay Online")').first();
+    await expect(payOnlineButton).toBeVisible({ timeout: 30000 });
+    await payOnlineButton.click();
+    await page.waitForTimeout(3000);
+
+    // Store original page reference
+    const originalPage = page;
+
+    // Wait for and switch to new page/popup
+    console.log('Waiting for payment window...');
+    const newPage = await page.context().waitForEvent('page');
+    await newPage.waitForLoadState('networkidle');
+    await newPage.waitForTimeout(5000); // Extra wait for payment page to stabilize
+
+    // Payment Gateway interactions in new window
+    console.log('Switching to payment gateway...');
+
+    // Wait for payment gateway page to be fully loaded
+    await newPage.waitForLoadState('domcontentloaded');
+    await newPage.waitForLoadState('networkidle');
+    await newPage.waitForTimeout(5000);
+
+    // Click Payment Gateway 2 with retry logic
+    console.log('Selecting Payment Gateway 2...');
+    let paymentGatewayClicked = false;
+
+    // First attempt with direct selectors
+    try {
+        const paymentGateway2 = newPage.getByRole('link', { name: 'Payment Gateway 2 (UPI,Credit' });
+        await expect(paymentGateway2).toBeVisible({ timeout: 30000 });
+        await paymentGateway2.click();
+        paymentGatewayClicked = true;
+        console.log('Successfully clicked Payment Gateway 2');
+    } catch (error) {
+        console.log('First attempt to find Payment Gateway 2 failed, trying alternative selectors...');
+        try {
+            const paymentGateway2Alt = newPage.locator('div:has-text("Payment Gateway 2")').first();
+            await expect(paymentGateway2Alt).toBeVisible({ timeout: 30000 });
+            await paymentGateway2Alt.click();
+            paymentGatewayClicked = true;
+            console.log('Successfully clicked Payment Gateway 2 with alternative selector');
+        } catch (error) {
+            console.error('Failed to find Payment Gateway 2 with direct selectors, trying frames...');
+        }
+    }
+
+    // If direct attempts failed, try frames
+    if (!paymentGatewayClicked) {
+        const frames = newPage.frames();
+        for (const frame of frames) {
+            try {
+                const paymentGateway2InFrame = frame.getByRole('link', { name: 'Payment Gateway 2 (UPI,Credit' });
+                await expect(paymentGateway2InFrame).toBeVisible({ timeout: 30000 });
+                await paymentGateway2InFrame.click();
+                paymentGatewayClicked = true;
+                console.log('Successfully clicked Payment Gateway 2 in frame');
+                break;
+            } catch (e) {
+                continue;
+            }
+        }
+    }
+
+    if (!paymentGatewayClicked) {
+        throw new Error('Failed to find and click Payment Gateway 2 with all attempted methods');
+    }
+
+    await newPage.waitForTimeout(5000);
+
+    // Click UPI Payment
+    console.log('Selecting UPI Payment...');
+    const upiPayment = newPage.locator('div').filter({ hasText: 'UPI Payment' }).first();
+    await expect(upiPayment).toBeVisible({ timeout: 60000 });
+    await upiPayment.click();
+    await newPage.waitForTimeout(3000);
+
+    // Click Proceed for Payment
+    console.log('Clicking Proceed for Payment...');
+    const proceedPaymentButton = newPage.locator('input[value="Proceed for Payment"]');
+    await expect(proceedPaymentButton).toBeVisible({ timeout: 60000 });
+    await proceedPaymentButton.click();
+    await newPage.waitForTimeout(3000);
+
+    // Click Ok button
+    console.log('Clicking Ok button...');
+    const okButton = newPage.getByRole('button', { name: 'Ok' });
+    await expect(okButton).toBeVisible({ timeout: 100000 });
+    await okButton.click();
+    await newPage.waitForTimeout(3000);
+
+    // Click UPI option
+    console.log('Selecting UPI option...');
+    const upiOption = newPage.locator('div').filter({ hasText: 'UPI' }).first();
+    await expect(upiOption).toBeVisible({ timeout: 60000 });
+    await upiOption.click();
+    await newPage.waitForTimeout(3000);
+
+    // Enter UPI ID
+    console.log('Entering UPI ID...');
+    const upiInput = newPage.locator('input[placeholder="Enter your UPI virtual id"]');
+    await expect(upiInput).toBeVisible({ timeout: 60000 });
+    await upiInput.click();
+    await upiInput.fill('test@tests');
+    await newPage.waitForTimeout(2000);
+
+    // Click first Continue button
+    console.log('Clicking first Continue button...');
+    const continueButton1 = newPage.locator('span:has-text("Continue")').first();
+    await expect(continueButton1).toBeVisible({ timeout: 60000 });
+    await continueButton1.click();
+    await newPage.waitForTimeout(3000);
+
+    // Click second Continue button
+    console.log('Clicking second Continue button...');
+    const continueButton2 = newPage.locator('a:has-text("Continue")').first();
+    await expect(continueButton2).toBeVisible({ timeout: 60000 });
+    await continueButton2.click();
+    await newPage.waitForTimeout(3000);
+
+    // Wait for transaction message
+    console.log('Waiting for transaction message...');
+    const transactionMessage = newPage.locator('p:has-text("Your transaction was not Successful")');
+    await expect(transactionMessage).toBeVisible({ timeout: 50000 });
+
+    // Close payment window
+    await newPage.close();
+
+    // Switch back to original page
+    await originalPage.bringToFront();
+    console.log('Payment process completed.');
+
+  } catch (error) {
+    console.error('Error in payment process:', error);
+    throw error;
+  }
+
   // Click Go to Home
   const goToHomeButton = page.getByRole('heading', { name: 'Go to Home' });
   await expect(goToHomeButton).toBeVisible({ timeout: 15000 });
   await goToHomeButton.click();
   await page.waitForTimeout(2000);
-
-  // Payment Section
-  console.log('Starting payment process...');
-  
-  // Click Make Payment button
-  const makePaymentButton = page.getByRole('button').filter({ hasText: 'Make Payment' });
-  await expect(makePaymentButton).toBeVisible({ timeout: 15000 });
-  await makePaymentButton.click();
-  await page.waitForTimeout(2000);
-
-  // Click Pay Online button
-  const payOnlineButton = page.getByRole('button').filter({ hasText: 'Pay Online' });
-  await expect(payOnlineButton).toBeVisible({ timeout: 15000 });
-  await payOnlineButton.click();
-  await page.waitForTimeout(2000);
-
-  // Store the original window handle
-  const originalPage = page;
-  
-  // Wait for the new page/popup
-  const newPage = await page.context().waitForEvent('page');
-  await newPage.waitForLoadState();
-  
-  // Switch to the new page and perform payment actions
-  console.log('Switching to payment gateway...');
-  
-  // Click Payment Gateway 2
-  const paymentGateway2 = newPage.locator('div', { hasText: 'Payment Gateway 2' }).first();
-  await expect(paymentGateway2).toBeVisible({ timeout: 60000 });
-  await paymentGateway2.click();
-  
-  // Click UPI Payment
-  const upiPayment = newPage.locator('div', { hasText: 'UPI Payment' }).first();
-  await expect(upiPayment).toBeVisible({ timeout: 60000 });
-  await upiPayment.click();
-  
-  // Click Proceed for Payment
-  const paymentProceedButton = newPage.locator('input[value="Proceed for Payment"]');
-  await expect(paymentProceedButton).toBeVisible({ timeout: 60000 });
-  await paymentProceedButton.click();
-  
-  // Click Ok button
-  const okButton = newPage.getByRole('button', { name: 'Ok' });
-  await expect(okButton).toBeVisible({ timeout: 100000 });
-  await okButton.click();
-  
-  // Click UPI option
-  const upiOption = newPage.locator('div', { hasText: 'UPI' }).first();
-  await expect(upiOption).toBeVisible({ timeout: 60000 });
-  await upiOption.click();
-  
-  // Enter UPI ID
-  const upiInput = newPage.locator('input[placeholder="Enter your UPI virtual id"]');
-  await expect(upiInput).toBeVisible({ timeout: 60000 });
-  await upiInput.click();
-  await upiInput.fill('test@tests');
-  
-  // Click first Continue button
-  const continueButton1 = newPage.locator('span', { hasText: 'Continue' });
-  await expect(continueButton1).toBeVisible({ timeout: 60000 });
-  await continueButton1.click();
-  
-  // Click second Continue button
-  const continueButton2 = newPage.locator('a', { hasText: 'Continue' });
-  await expect(continueButton2).toBeVisible({ timeout: 60000 });
-  await continueButton2.click();
-  
-  // Wait for transaction message
-  const transactionMessage = newPage.locator('p', { hasText: 'Your transaction was not Successful.' });
-  await expect(transactionMessage).toBeVisible({ timeout: 50000 });
-  
-  // Close the payment page
-  await newPage.close();
-  
-  // Switch back to original page
-  await originalPage.bringToFront();
-  
-  console.log('Payment process completed.');
 }); 

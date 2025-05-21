@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('Order Creation Test', async ({ page }) => {
   // Navigate to the employee login page
   console.log('Navigating to employee login page...');
-  await page.goto('https://dristi-kerala-uat.pucar.org/digit-ui/employee/user/login');
+  await page.goto('https://dristi-kerala-uat.pucar.org/ui/employee/user/login');
   
   // Wait for page load
   await page.waitForLoadState('networkidle');
