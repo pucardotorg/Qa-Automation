@@ -1,0 +1,144 @@
+{
+  "citizenAuthToken": "ac99512c-9e03-4b66-866b-8197760b44c0",
+  "caseId": "38b90984-59da-4134-a706-480823a2eb86",
+  "filingNumber": "KL-001711-2025",
+  "nayamitraAuthToken": "dc38d6f6-c576-47f2-9b93-c610d107d77b",
+  "fsousername": "gFso",
+  "fsopassword": "Beehyv@123",
+  "fsoauthtoken": "88574b02-6bda-4e71-b0ea-41acf578c9ac",
+  "judgeusername": "michaelGeorgeJudge",
+  "judgepassword": "Beehyv@123",
+  "judgeauthtoken": "eafda59b-13dc-49b0-bbc5-c7f5830fb78d",
+  "cnrNumber": "KLKM520006102025",
+  "orderId": "2e338ed4-c5fb-49d4-a7a4-b1a2ec41f729",
+  "orderNumber": "KL-001698-2025-OR1",
+  "hearingId": "KL-001698-2025-HR1",
+  "citizenUserInfo": {
+    "id": 1181,
+    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+    "userName": "6303338642",
+    "name": "Maruthi  ch",
+    "mobileNumber": "6303338642",
+    "emailId": "marruthi@gmail.com",
+    "locale": null,
+    "type": "CITIZEN",
+    "roles": [
+      {
+        "name": "USER_REGISTER",
+        "code": "USER_REGISTER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_VIEWER",
+        "code": "CASE_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "HEARING_VIEWER",
+        "code": "HEARING_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "Citizen",
+        "code": "CITIZEN",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_ROLE",
+        "code": "ADVOCATE_ROLE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "APPLICATION_CREATOR",
+        "code": "APPLICATION_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "EVIDENCE_CREATOR",
+        "code": "EVIDENCE_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "EVIDENCE_EDITOR",
+        "code": "EVIDENCE_EDITOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "SUBMISSION_DELETE",
+        "code": "SUBMISSION_DELETE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "HEARING_ACCEPTOR",
+        "code": "HEARING_ACCEPTOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ORDER_VIEWER",
+        "code": "ORDER_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "SUBMISSION_RESPONDER",
+        "code": "SUBMISSION_RESPONDER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_EDITOR",
+        "code": "CASE_EDITOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "EVIDENCE_VIEWER",
+        "code": "EVIDENCE_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_VIEWER",
+        "code": "ADVOCATE_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "APPLICATION_VIEWER",
+        "code": "APPLICATION_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "SUBMISSION_CREATOR",
+        "code": "SUBMISSION_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "TASK_VIEWER",
+        "code": "TASK_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_APPLICATION_VIEWER",
+        "code": "ADVOCATE_APPLICATION_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_CREATOR",
+        "code": "CASE_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "PENDING_TASK_CREATOR",
+        "code": "PENDING_TASK_CREATOR",
+        "tenantId": "kl"
+      }
+    ],
+    "active": true,
+    "tenantId": "kl",
+    "permanentCity": null
+  },
+  "applicationId": "4f8e0103-5910-4282-b254-06dc310d84eb",
+  "applicationNumber": "KL-001698-2025-AP1",
+  "applicationCreatedDate": 1749635190068,
+  "statuteSectionId": "5dead65f-722e-42b6-bb0b-7b5d92b2855e",
+  "applicationDocumentId": "a56e4290-8791-40f5-bbc2-ae4fcd38737a",
+  "applicationDocumentFileStore": "78abb8bd-c5e0-4cb1-9818-48425f10615a",
+  "demandId": "e36cd771-3f3f-47f1-8161-afd049b19c19",
+  "billId": "812c2672-da82-42b0-be5c-59c5cb3c320c"
+}
