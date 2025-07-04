@@ -4,7 +4,7 @@
 tests=(
     "tests/0.citizenauthtoken.spec.js"
     "tests/1.casecreate.spec.js"
-    "tests/1.caseupdatelitigent.spec.js"
+    "tests/1.caselitigantupdate.spec.js"
     "tests/2.caseupdatefromdraft.spec.js"
     "tests/3.caseupdatesign.spec.js"
     "tests/4.1caseupdatesigned.spec.js"
