@@ -4,6 +4,7 @@
 tests=(
     "tests/0.citizenauthtoken.spec.js"
     "tests/1.casecreate.spec.js"
+    "tests/1.caseupdatelitigent.spec.js"
     "tests/2.caseupdatefromdraft.spec.js"
     "tests/3.caseupdatesign.spec.js"
     "tests/4.1caseupdatesigned.spec.js"
@@ -19,6 +20,19 @@ tests=(
     "tests/9.1createorder.spec.js"
     "tests/9.1ordersearch.spec.js"
     "tests/9.2updateorderhearing.spec.js"
+    "tests/9.3hearingsearch.spec.js"
+    "tests/10.1applicationcreate.spec.js"
+    "tests/10.2applicationupdate.spec.js"
+    "tests/10.3createdemandforapplication.spec.js"
+    "tests/10.4fetchbillapplication.spec.js"
+    "tests/10.5collectionpaymentapplication.spec.js"
+    "tests/evidence.spec.js"
+    "tests/evidence2.spec.js"
+    "tests/evidence3.spec.js"
+    "tests/evidence4.spec.js"
+    "tests/evidence5.spec.js"
+    "tests/evidence6.spec.js"
+    "tests/11.1evidencesearch.spec.js"
 )
 
 # Run each test with a 1-second gap
