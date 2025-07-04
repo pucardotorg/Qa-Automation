@@ -2,11 +2,10 @@ import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 
-const baseUrl = 'https://dristi-kerala-uat.pucar.org/case';
-const createUrl = `${baseUrl}/v1/_create?_=1747766769872`;
-
 // Read global variables from JSON file
 const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
+const baseUrl = globalVars.baseURL;
+const createUrl = `${baseUrl}case/v1/_create?`;
 
 const casePayload = {
     "cases": {
@@ -32,8 +31,7 @@ const casePayload = {
         "litigants": [],
         "representatives": [
             {
-               //id:"1d779f1b-deba-4ffc-adde-c67bff584d54",
-                "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
+               "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
                 "tenantId": "kl",
                 "representing": []
             }
@@ -53,8 +51,8 @@ const casePayload = {
             ]
         },
         "additionalDetails": {
-            "payerMobileNo": "8800000019",
-            "payerName": "ADV Eight Nineteen ",
+            "payerMobileNo": "6303338642",
+            "payerName": "Maruthi  ch",
             "advocateDetails": {
                 "formdata": [
                     {
@@ -71,12 +69,12 @@ const casePayload = {
         "apiId": "Rainmaker",
         "authToken": "", // This will be updated for each test case
         "userInfo": {
-            "id": 1934,
-            "uuid": "4c9c972f-1868-4333-a80a-1f02e505c757",
-            "userName": "8800000019",
-            "name": "ADV Eight Nineteen  ",
-            "mobileNumber": "8800000019",
-            "emailId": null,
+            "id": 1181,
+            "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+            "userName": "6303338642",
+            "name": "Maruthi  ch",
+            "mobileNumber": "6303338642",
+            "emailId": "marruthi@gmail.com",
             "locale": null,
             "type": "CITIZEN",
             "roles": [
@@ -244,13 +242,17 @@ test.describe('Case Creation API Tests', () => {
         // Extract filingNumber and caseId
         const filingNumber = responseBody.cases[0].filingNumber;
         const caseId = responseBody.cases[0].id;
+        const representingid=responseBody.cases[0].representatives[0].id;	
 
         // Update global-variables.json
         const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
         const updatedVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
         updatedVars.filingNumber = filingNumber;
         updatedVars.caseId = caseId;
+        updatedVars.representingid=representingid;
         fs.writeFileSync(globalVarsPath, JSON.stringify(updatedVars, null, 2));
         console.log('Stored filingNumber and caseId in global-variables.json:', filingNumber, caseId);
     });
+
+    
 });

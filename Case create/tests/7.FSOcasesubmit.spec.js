@@ -5,11 +5,11 @@ const { test, expect } = require('@playwright/test');
 // Read global variables
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-
+const caseId = globalVars.caseId;
 const AUTH_TOKEN = globalVars.fsoauthtoken; // Use FSO auth token from global variables
 
 // Define the base URL for the update endpoint
-const BASE_URL_UPDATE_CASE = 'https://dristi-kerala-uat.pucar.org/case/v1/_update';
+const BASE_URL_UPDATE_CASE = `${globalVars.baseURL}case/v1/_update`;
 
 // Define the request body for a valid update request
 const validUpdateRequestBody = {
@@ -282,9 +282,9 @@ const validUpdateRequestBody = {
         ],
         "litigants": [
             {
-                "id": "97efae2a-999a-43e8-929c-86be2609502a",
+                "id": globalVars.litigantid,
                 "tenantId": "kl",
-                "caseId": "ef6158c9-eab2-4e16-8eef-505133f13b2f",
+                "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
                 "individualId": "IND-2024-10-29-000629",
@@ -292,40 +292,78 @@ const validUpdateRequestBody = {
                 "isActive": true,
                 "isResponseRequired": false,
                 "isPartyInPerson": false,
-                "documents": null,
+                "documents": [],
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": 1748927638424,
-                    "lastModifiedTime": 1749112334771
+                    "createdTime": globalVars.epochTime,
+                    "lastModifiedTime": 1750756069884
                 },
                 "additionalDetails": {
-                    "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
                     "fullName": "Rajesh Ch",
+                    "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
                     "currentPosition": 1
                 },
-                "hasSigned": true
+                "hasSigned": false
             }
         ],
         "representatives": [
             {
-                "id": "1d779f1b-deba-4ffc-adde-c67bff584d54",
+                "id": globalVars.representingid,
                 "tenantId": "kl",
                 "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
-                "caseId": "ef6158c9-eab2-4e16-8eef-505133f13b2f",
-                "representing": null,
+                "caseId": caseId,
+                "representing":  [
+                    {
+                        "id": globalVars.representingli,
+                        "tenantId": "kl",
+                        "caseId": "56809884-ae9f-4f91-8293-7c13a338a9b4",
+                        "partyCategory": "INDIVIDUAL",
+                        "organisationID": null,
+                        "individualId": "IND-2024-10-29-000629",
+                        "partyType": "complainant.primary",
+                        "isActive": true,
+                        "isResponseRequired": false,
+                        "isPartyInPerson": false,
+                        "documents": [
+                            {
+                                "id": "93a640c6-957c-4bfc-b964-a5a807480fad",
+                                "documentType": "VAKALATNAMA_DOC",
+                                "fileStore": "1819cdd9-ddd8-4db6-8af4-85991d21da3e",
+                                "documentUid": "93a640c6-957c-4bfc-b964-a5a807480fad",
+                                "isActive": true,
+                                "additionalDetails": null
+                            }
+                        ],
+                        "auditDetails": {
+                            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                            "createdTime": 1750836456156,
+                            "lastModifiedTime": 1750838247298
+                        },
+                        "additionalDetails": {
+                            "fullName": "Rajesh Ch",
+                            "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                            "currentPosition": 1
+                        },
+                        "hasSigned": false
+                    }
+                ],
                 "isActive": true,
-                "documents": null,
+                "documents": [],
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": 1748871002201,
-                    "lastModifiedTime": 1749112334771
+                    "createdTime": globalVars.epochTime,
+                    "lastModifiedTime": 1750756069884
                 },
-                "additionalDetails": null,
-                "hasSigned": true
-            },
-            ],
+                "additionalDetails": {
+                    "advocateName": "Maruthi ch",
+                    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f"
+                },
+                "hasSigned": false
+            }
+        ],
         "status": "UNDER_SCRUTINY",
         "documents": [
             {

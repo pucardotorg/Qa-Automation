@@ -4,7 +4,9 @@ import path from 'path';
 const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
 
 let apiContext;
-const baseUrl = 'https://dristi-kerala-uat.pucar.org/case/v1/_update';
+//const baseUrl = 'https://dristi-kerala-uat.pucar.org/case/v1/_update';
+const baseUrl1 = globalVars.baseURL;
+const baseUrl = `${baseUrl1}case/v1/_update?`;
 const tenantId = 'kl'; // Using the provided tenantId
 // Placeholder for dynamic values
 const validAuthToken = globalVars.citizenAuthToken;
@@ -239,18 +241,18 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                 "auditdetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": 1748927638424,
-                    "lastModifiedTime": 1748955070461
+                    "createdTime": globalVars.epochTime,
+                    "lastModifiedTime": 1750756069884
                 },
                 "strSections": "Negotiable Instrument Act,02.",
                 "strSubsections": "138,03."
             }
         ],
-        "litigants": [
+         "litigants": [
             {
-                "id": "97efae2a-999a-43e8-929c-86be2609502a",
+                "id": globalVars.litigantid,
                 "tenantId": "kl",
-                "caseId": "1c1bf6cd-427d-486f-9aeb-a9aec2e301a1",
+                "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
                 "individualId": "IND-2024-10-29-000629",
@@ -262,8 +264,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": 1748927638424,
-                    "lastModifiedTime": 1748955070461
+                    "createdTime": globalVars.epochTime,
+                    "lastModifiedTime": 1750756069884
                 },
                 "additionalDetails": {
                     "fullName": "Rajesh Ch",
@@ -275,18 +277,53 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
         ],
         "representatives": [
             {
-                "id": "1d779f1b-deba-4ffc-adde-c67bff584d54",
+                "id": globalVars.representingid,
                 "tenantId": "kl",
                 "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
-                "caseId": "e428aaf3-9684-4526-9ba7-e9f333725b7c",
-                "representing": null,
+                "caseId": caseId,
+                "representing":  [
+                    {
+                        "id": globalVars.representingli,
+                        "tenantId": "kl",
+                        "caseId": "56809884-ae9f-4f91-8293-7c13a338a9b4",
+                        "partyCategory": "INDIVIDUAL",
+                        "organisationID": null,
+                        "individualId": "IND-2024-10-29-000629",
+                        "partyType": "complainant.primary",
+                        "isActive": true,
+                        "isResponseRequired": false,
+                        "isPartyInPerson": false,
+                        "documents": [
+                            {
+                                "id": "93a640c6-957c-4bfc-b964-a5a807480fad",
+                                "documentType": "VAKALATNAMA_DOC",
+                                "fileStore": "1819cdd9-ddd8-4db6-8af4-85991d21da3e",
+                                "documentUid": "93a640c6-957c-4bfc-b964-a5a807480fad",
+                                "isActive": true,
+                                "additionalDetails": null
+                            }
+                        ],
+                        "auditDetails": {
+                            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                            "createdTime": 1750836456156,
+                            "lastModifiedTime": 1750838247298
+                        },
+                        "additionalDetails": {
+                            "fullName": "Rajesh Ch",
+                            "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                            "currentPosition": 1
+                        },
+                        "hasSigned": false
+                    }
+                ],
                 "isActive": true,
                 "documents": [],
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": 1748927638424,
-                    "lastModifiedTime": 1748955070461
+                    "createdTime": globalVars.epochTime,
+                    "lastModifiedTime": 1750756069884
                 },
                 "additionalDetails": {
                     "advocateName": "Maruthi ch",
@@ -465,8 +502,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                 ],
                 "isCompleted": true
             },
-            "payerMobileNo": "8800000019",
-            "payerName": "ADV Eight Nineteen ",
+            "payerName": "Maruthi ch",
+            "payerMobileNo": "6303338642",
             "respondentDetails": {
                 "formdata": [
                     {
@@ -726,8 +763,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
         "auditDetails": {
             "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
             "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "createdTime": 1748927638424,
-            "lastModifiedTime": 1748955070461
+            "createdTime": globalVars.epochTime,
+            "lastModifiedTime": 1750756069884
         },
         "advocateStatus": "JOINED",
         "poaHolders": []

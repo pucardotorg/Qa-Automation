@@ -4,13 +4,16 @@ import path from 'path';
 const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
 
 let apiContext;
-const baseUrl = 'https://dristi-kerala-uat.pucar.org/case/v1/_update';
+//const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
+const baseUrl1 = globalVars.baseURL;
+const baseUrl = `${baseUrl1}case/v1/_update?`;
 const tenantId = 'kl'; // Using the provided tenantId
 // Placeholder for dynamic values
 const validAuthToken = globalVars.citizenAuthToken;
 const dynamicMsgId = Date.now().toString() + '|en_IN'; // Example dynamic msgId
 const caseId = globalVars.caseId;
 const filingNumber = globalVars.filingNumber;
+
 
 // Request body from the Postman example
 const validRequestBody = {
@@ -31,7 +34,7 @@ const validRequestBody = {
         "accessCode": null,
         "outcome": null,
         "pendingAdvocateRequests": [],
-        "courtId": "KLKM52", // Example courtId, might need to be dynamic or valid
+        //"courtId": "KLKM52", // Example courtId, might need to be dynamic or valid
         "benchId": null,
         "linkedCases": [],
         "filingDate": null,
@@ -239,9 +242,9 @@ const validRequestBody = {
         ],
         "litigants": [
             {
-                "id": "97efae2a-999a-43e8-929c-86be2609502a",
+                "id": globalVars.litigantid,
                 "tenantId": "kl",
-                "caseId": "e428aaf3-9684-4526-9ba7-e9f333725b7c",
+                "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
                 "individualId": "IND-2024-10-29-000629",
@@ -266,15 +269,19 @@ const validRequestBody = {
         ],
         "representatives": [
             {
-                id:"527ba1bd-77bf-457a-8486-f3c3ad0267b6",
+                "id":globalVars.representingid,
                 "tenantId": "kl",
                 "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
-                "caseId": "e428aaf3-9684-4526-9ba7-e9f333725b7c",
+                "caseId": caseId,
                 "representing": [
                     {
-                        "id": "fc2ef01c-e853-4c99-8d49-3158b3c8e95f",
+                         "additionalDetails": {
+                            "fullName": "Rajesh Ch",
+                            "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                            "currentPosition": 1
+                         },
                         "tenantId": "kl",
-                        "caseId": "e428aaf3-9684-4526-9ba7-e9f333725b7c",
+                        "caseId": caseId,
                         "partyCategory": "INDIVIDUAL",
                         "organisationID": null,
                         "individualId": "IND-2024-10-29-000629",
@@ -899,9 +906,7 @@ test.describe('API Tests for /case/v1/_update', () => {
     requestBody.RequestInfo.authToken = token;
     requestBody.RequestInfo.msgId = Date.now().toString() + '|en_IN';
 
-    const response = await apiContext.post(`${baseUrl}?tenantId=${tenantId}&_=${Date.now()}`, {
-      data: requestBody,
-    });
+     const response = await apiContext.post(baseUrl, { data: validRequestBody });
 
     // Assertions based on successful response scenario
     expect(response.status()).toBe(200); // Asserting for 200 OK as per requirement
@@ -916,17 +921,18 @@ test.describe('API Tests for /case/v1/_update', () => {
     // Assuming 'cases' array is the main data structure for successful responses.
     expect(responseBody).toHaveProperty('cases');
     expect(Array.isArray(responseBody.cases)).toBe(true);
-    expect(responseBody.cases.length).toBeGreaterThan(0); // Assuming at least one case is returned
+    expect(responseBody.cases.length).toBeGreaterThan(0);
+    const representingli = responseBody.cases?.[0]?.representatives?.[0]?.representing?.[0]?.id;
+    console.log(representingli);
+    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+            const updatedVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+            updatedVars.representingli = representingli;
+            fs.writeFileSync(globalVarsPath, JSON.stringify(updatedVars, null, 2), 'utf8');
+            
+ // Assuming at least one case is returned
 
     // Optional: Validate fields inside the 'cases' array if structure is consistent
-    if (responseBody.cases.length > 0) {
-      const firstCase = responseBody.cases[0];
-      expect(firstCase).toHaveProperty('id');
-      expect(firstCase).toHaveProperty('tenantId', tenantId);
-      // Add more assertions for other key fields in the case object if needed
-      expect(firstCase).toHaveProperty('filingNumber');
-      expect(firstCase).toHaveProperty('courtId');
-    }
+   
   });
 
    

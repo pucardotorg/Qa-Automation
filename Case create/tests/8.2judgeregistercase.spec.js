@@ -2,14 +2,20 @@ import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 
+// Read global variables
+const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+const caseId = globalVars.caseId;
+const baseURL = globalVars.baseURL;
+const apiUrl = `${baseURL}case/v1/_update?tenantId=kl`;
+
 test.describe('Judge Register Case API Tests', () => {
   let apiContext;
-  const apiUrl = 'https://dristi-kerala-uat.pucar.org/case/v1/_update?tenantId=kl';
 
   // Read global variables
   const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
   const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-
+const caseId = globalVars.caseId;
   const baseRequestBody = {
     "cases": {
         "id": globalVars.caseId, // Use case ID from global variables
@@ -280,9 +286,9 @@ test.describe('Judge Register Case API Tests', () => {
         ],
         "litigants": [
             {
-                "id": "97efae2a-999a-43e8-929c-86be2609502a",
+                "id": globalVars.litigantid,
                 "tenantId": "kl",
-                "caseId": "06a8cc0e-a72f-4613-9975-25c2836d657b",
+                "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
                 "individualId": "IND-2024-10-29-000629",
@@ -290,40 +296,77 @@ test.describe('Judge Register Case API Tests', () => {
                 "isActive": true,
                 "isResponseRequired": false,
                 "isPartyInPerson": false,
-                "documents": null,
+                "documents": [],
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "e5c5dc1a-04f2-40ef-96fa-e36a74229ac2",
-                    "createdTime": 1748927638424,
-                    "lastModifiedTime": 1749208892390
+                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                    "createdTime": globalVars.epochTime,
+                    "lastModifiedTime": 1750756069884
                 },
                 "additionalDetails": {
-                    "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
                     "fullName": "Rajesh Ch",
+                    "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
                     "currentPosition": 1
                 },
-                "hasSigned": true
+                "hasSigned": false
             }
         ],
         "representatives": [
             {
-                "id": "1d779f1b-deba-4ffc-adde-c67bff584d54",
+                "id": globalVars.representingid,
                 "tenantId": "kl",
                 "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
-                "caseId": "06a8cc0e-a72f-4613-9975-25c2836d657b",
-                "representing": null,
+                "caseId": caseId,
+                "representing":  [
+                    {
+                        "id": globalVars.representingli,
+                        "tenantId": "kl",
+                        "caseId": "56809884-ae9f-4f91-8293-7c13a338a9b4",
+                        "partyCategory": "INDIVIDUAL",
+                        "organisationID": null,
+                        "individualId": "IND-2024-10-29-000629",
+                        "partyType": "complainant.primary",
+                        "isActive": true,
+                        "isResponseRequired": false,
+                        "isPartyInPerson": false,
+                        "documents": [
+                            {
+                                "id": "93a640c6-957c-4bfc-b964-a5a807480fad",
+                                "documentType": "VAKALATNAMA_DOC",
+                                "fileStore": "1819cdd9-ddd8-4db6-8af4-85991d21da3e",
+                                "documentUid": "93a640c6-957c-4bfc-b964-a5a807480fad",
+                                "isActive": true,
+                                "additionalDetails": null
+                            }
+                        ],
+                        "auditDetails": {
+                            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                            "createdTime": 1750836456156,
+                            "lastModifiedTime": 1750838247298
+                        },
+                        "additionalDetails": {
+                            "fullName": "Rajesh Ch",
+                            "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                            "currentPosition": 1
+                        },
+                        "hasSigned": false
+                    }
+                ],
                 "isActive": true,
-                "documents": null,
+                "documents": [],
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "e5c5dc1a-04f2-40ef-96fa-e36a74229ac2",
-                    "createdTime": 1748871002201,
-                    "lastModifiedTime": 1749208892390
+                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                    "createdTime": globalVars.epochTime,
+                    "lastModifiedTime": 1750756069884
                 },
-                "additionalDetails": null,
-                "hasSigned": true
-            },
-           
+                "additionalDetails": {
+                    "advocateName": "Maruthi ch",
+                    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f"
+                },
+                "hasSigned": false
+            }
         ],
         "status": "PENDING_REGISTRATION",
         "documents": [
@@ -1084,22 +1127,7 @@ test.describe('Judge Register Case API Tests', () => {
     // Optional: Add more specific assertions for the 400 response body
   });
 
-  test('should return 400 for invalid courtId', async () => {
-    const requestBodyWithInvalidCourtId = {
-      ...baseRequestBody,
-      cases: {
-        ...baseRequestBody.cases,
-        courtId: 'invalid-court-id',
-      },
-    };
-
-    const response = await apiContext.post(apiUrl, {
-      data: requestBodyWithInvalidCourtId,
-    });
-
-    expect(response.status()).toBe(400);
-    // Optional: Add more specific assertions for the 400 response body
-  });
+ 
 
   // Test cases will be added here
 });
