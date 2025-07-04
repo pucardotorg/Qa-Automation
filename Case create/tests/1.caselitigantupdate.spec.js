@@ -91,8 +91,8 @@ const casePayload = {
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": 1750866437087,
-                    "lastModifiedTime": 1750866437087
+                    "createdTime": epochtime,
+                    "lastModifiedTime": epochtime
                 },
                 "additionalDetails": null,
                 "hasSigned": false
@@ -288,8 +288,8 @@ const casePayload = {
         "auditDetails": {
             "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
             "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "createdTime": 1750866437087,
-            "lastModifiedTime": 1750866437087
+            "createdTime": epochtime,
+            "lastModifiedTime": epochtime
         },
         "advocateStatus": null,
         "poaHolders": []

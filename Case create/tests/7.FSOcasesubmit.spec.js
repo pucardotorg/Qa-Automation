@@ -7,7 +7,7 @@ const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 const caseId = globalVars.caseId;
 const AUTH_TOKEN = globalVars.fsoauthtoken; // Use FSO auth token from global variables
-
+const epochtime=globalVars.epochTime;
 // Define the base URL for the update endpoint
 const BASE_URL_UPDATE_CASE = `${globalVars.baseURL}case/v1/_update`;
 
@@ -296,8 +296,8 @@ const validUpdateRequestBody = {
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": globalVars.epochTime,
-                    "lastModifiedTime": 1750756069884
+                    "createdTime": epochtime,
+                    "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
                     "fullName": "Rajesh Ch",
@@ -338,8 +338,8 @@ const validUpdateRequestBody = {
                         "auditDetails": {
                             "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                             "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                            "createdTime": 1750836456156,
-                            "lastModifiedTime": 1750838247298
+                            "createdTime": epochtime,
+                            "lastModifiedTime": epochtime
                         },
                         "additionalDetails": {
                             "fullName": "Rajesh Ch",
@@ -354,8 +354,8 @@ const validUpdateRequestBody = {
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": globalVars.epochTime,
-                    "lastModifiedTime": 1750756069884
+                    "createdTime": epochtime,
+                    "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
                     "advocateName": "Maruthi ch",
@@ -796,8 +796,8 @@ const validUpdateRequestBody = {
         "auditDetails": {
             "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
             "lastModifiedBy": "961", // This might need to be dynamic or match a user ID
-            "createdTime": 1749112008281,
-            "lastModifiedTime": 1749113809252
+            "createdTime": epochtime,
+            "lastModifiedTime": epochtime
         },
         "advocateStatus": null,
         "poaHolders": null

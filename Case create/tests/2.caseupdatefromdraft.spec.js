@@ -13,6 +13,7 @@ const validAuthToken = globalVars.citizenAuthToken;
 const dynamicMsgId = Date.now().toString() + '|en_IN'; // Example dynamic msgId
 const caseId = globalVars.caseId;
 const filingNumber = globalVars.filingNumber;
+const epochtime=globalVars.epochTime;
 
 
 // Request body from the Postman example
@@ -233,8 +234,8 @@ const validRequestBody = {
                 "auditdetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": 1748927638424,
-                    "lastModifiedTime": 1748954363618
+                    "createdTime": epochtime,
+                    "lastModifiedTime": epochtime
                 },
                 "strSections": "Negotiable Instrument Act,02.",
                 "strSubsections": "138,03."
@@ -256,8 +257,8 @@ const validRequestBody = {
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": 1748927638424,
-                    "lastModifiedTime": 1748954363618
+                    "createdTime": epochtime,
+                    "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
                     "fullName": "Rajesh Ch",
@@ -302,8 +303,8 @@ const validRequestBody = {
                         "auditDetails": {
                             "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                             "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                            "createdTime": 1748927638424,
-                            "lastModifiedTime": 1748954363618
+                            "createdTime": epochtime,
+                            "lastModifiedTime": epochtime
                         },
                         "additionalDetails": {
                             "fullName": "Rajesh Ch",
@@ -318,8 +319,8 @@ const validRequestBody = {
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": 1748927638424,
-                    "lastModifiedTime": 1748954363618
+                    "createdTime": epochtime,
+                    "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
                     "advocateName": "Maruthi ch",
@@ -742,8 +743,8 @@ const validRequestBody = {
         "auditDetails": {
             "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
             "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "createdTime": 1748927638424,
-            "lastModifiedTime": 1748954363618
+            "createdTime": epochtime,
+            "lastModifiedTime": epochtime
         },
         "advocateStatus": "JOINED",
         "poaHolders": []

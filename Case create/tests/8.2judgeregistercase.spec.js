@@ -8,7 +8,7 @@ const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 const caseId = globalVars.caseId;
 const baseURL = globalVars.baseURL;
 const apiUrl = `${baseURL}case/v1/_update?tenantId=kl`;
-
+const epochtime=globalVars.epochTime;
 test.describe('Judge Register Case API Tests', () => {
   let apiContext;
 
@@ -300,8 +300,8 @@ const caseId = globalVars.caseId;
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": globalVars.epochTime,
-                    "lastModifiedTime": 1750756069884
+                    "createdTime": epochtime,
+                    "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
                     "fullName": "Rajesh Ch",
@@ -342,8 +342,8 @@ const caseId = globalVars.caseId;
                         "auditDetails": {
                             "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                             "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                            "createdTime": 1750836456156,
-                            "lastModifiedTime": 1750838247298
+                            "createdTime": epochtime,
+                            "lastModifiedTime": epochtime
                         },
                         "additionalDetails": {
                             "fullName": "Rajesh Ch",
@@ -358,8 +358,8 @@ const caseId = globalVars.caseId;
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": globalVars.epochTime,
-                    "lastModifiedTime": 1750756069884
+                    "createdTime": epochtime,
+                    "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
                     "advocateName": "Maruthi ch",
@@ -804,8 +804,8 @@ const caseId = globalVars.caseId;
         "auditDetails": {
             "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
             "lastModifiedBy": "e5c5dc1a-04f2-40ef-96fa-e36a74229ac2",
-            "createdTime": 1749205839928,
-            "lastModifiedTime": 1749208892654
+            "createdTime": epochtime,
+            "lastModifiedTime": epochtime
         },
         "advocateStatus": null,
         "poaHolders": null
