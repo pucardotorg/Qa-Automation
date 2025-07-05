@@ -10,8 +10,30 @@ test.describe('Order Management API - Update Order (Publish)', () => {
     const TENANT_ID = 'kl';
     let globalVars;
 
+    // Utility: Compute next working day (skip weekends)
+    const getNextValidHearingDate = () => {
+        let date = new Date();
+        date.setDate(date.getDate() + 1); // Tomorrow
+
+        while (date.getDay() === 0 || date.getDay() === 6) {
+            date.setDate(date.getDate() + 1); // Skip weekends
+        }
+
+        return date;
+    };
+
+    // Format to YYYY-MM-DD
+    const formatDate = (date) => date.toISOString().split('T')[0];
+
+    // Format to DD-MM-YYYY for businessOfTheDay
+    const formatDDMMYYYY = (date) => {
+        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const yyyy = date.getFullYear();
+        return `${dd}-${mm}-${yyyy}`;
+    };
+
     test.beforeAll(async ({ playwright }) => {
-        // Read global variables
         const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
         globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
@@ -30,6 +52,10 @@ test.describe('Order Management API - Update Order (Publish)', () => {
 
     const createValidUpdateRequestBody = (overrides = {}) => {
         const timestamp = Date.now();
+        const nextHearingDate = getNextValidHearingDate();
+        const hearingDateISO = formatDate(nextHearingDate); // YYYY-MM-DD
+        const hearingDateReadable = formatDDMMYYYY(nextHearingDate); // DD-MM-YYYY
+
         return {
             "order": {
                 "id": globalVars.orderId,
@@ -89,7 +115,7 @@ test.describe('Order Management API - Update Order (Publish)', () => {
                 }],
                 "additionalDetails": {
                     "formdata": {
-                        "hearingDate": "2025-06-20",
+                        "hearingDate": hearingDateISO,
                         "hearingPurpose": {
                             "id": 5,
                             "type": "ADMISSION",
@@ -123,7 +149,7 @@ test.describe('Order Management API - Update Order (Publish)', () => {
                             "text": "Updating hearing date"
                         }
                     },
-                    "businessOfTheDay": "For Admission on 20-06-2025"
+                    "businessOfTheDay": `For Admission on ${hearingDateReadable}`
                 },
                 "auditDetails": {
                     "createdBy": "639b8909-4f25-43da-a952-3417b09afb34",
@@ -169,9 +195,9 @@ test.describe('Order Management API - Update Order (Publish)', () => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Origin': 'https://dristi-kerala-uat.pucar.org',
+                'Origin': BASE_URL,
                 'Connection': 'keep-alive',
-                'Referer': 'https://dristi-kerala-uat.pucar.org/ui/employee/create-order'
+                'Referer': `${BASE_URL}/ui/employee/create-order`
             }
         });
 
@@ -181,11 +207,11 @@ test.describe('Order Management API - Update Order (Publish)', () => {
 
         expect(response.status()).toBe(200);
         const parsedResponse = JSON.parse(responseBody);
-        
+
         expect(parsedResponse.ResponseInfo.status).toBe('successful');
         expect(parsedResponse.order).toBeDefined();
         expect(parsedResponse.order.status).toBe('PUBLISHED');
         expect(parsedResponse.order.id).toBe(globalVars.orderId);
         expect(parsedResponse.order.tenantId).toBe(TENANT_ID);
     });
-}); 
+});

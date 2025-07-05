@@ -265,8 +265,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": globalVars.epochTime,
-                    "lastModifiedTime": 1750756069884
+                    "createdTime": epochtime,
+                    "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
                     "fullName": "Rajesh Ch",

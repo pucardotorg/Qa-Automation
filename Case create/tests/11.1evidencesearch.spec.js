@@ -7,7 +7,7 @@ const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global
 let apiContext;
 const baseUrl = 'https://dristi-kerala-uat.pucar.org/evidence/v1/_search';
 const tenantId = 'kl';
-const validAuthToken = "02279fc6-f73c-4b28-b6d9-3d4863bf1a7e";
+const validAuthToken = globalVars.judgeauthtoken;
 const caseId = globalVars.caseId;
 const filingNumber = globalVars.filingNumber;
 

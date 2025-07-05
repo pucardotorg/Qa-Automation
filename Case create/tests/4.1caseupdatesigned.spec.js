@@ -14,7 +14,7 @@ const validAuthToken = globalVars.citizenAuthToken;
 const dynamicMsgId = Date.now().toString() + '|en_IN'; // Example dynamic msgId
 const caseId = globalVars.caseId;
 const filingNumber = globalVars.filingNumber;
-const epochtime=globalVars.epochTime;
+
 test.describe('API Tests for caseupdatesigned endpoint', () => {
   let apiContext;
 
@@ -288,8 +288,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": epochtime,
-                    "lastModifiedTime": epochtime
+                    "createdTime": globalVars.epochTime,
+                    "lastModifiedTime": 1750756069884
                 },
                 "additionalDetails": {
                     "fullName": "Rajesh Ch",
@@ -330,8 +330,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                         "auditDetails": {
                             "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                             "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                            "createdTime": epochtime,
-                            "lastModifiedTime": epochtime
+                            "createdTime": 1750836456156,
+                            "lastModifiedTime": 1750838247298
                         },
                         "additionalDetails": {
                             "fullName": "Rajesh Ch",
@@ -346,8 +346,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                 "auditDetails": {
                     "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                     "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": epochtimee,
-                    "lastModifiedTime": epochtime
+                    "createdTime": globalVars.epochTime,
+                    "lastModifiedTime": 1750756069884
                 },
                 "additionalDetails": {
                     "advocateName": "Maruthi ch",
@@ -783,8 +783,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
         "auditDetails": {
             "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
             "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "createdTime": epochtime,
-            "lastModifiedTime": epochtime
+            "createdTime": 1748871002201,
+            "lastModifiedTime": 1748955078914
         },
         "advocateStatus": "JOINED",
         "poaHolders": null

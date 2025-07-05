@@ -26,7 +26,7 @@ tests=(
     "tests/10.3createdemandforapplication.spec.js"
     "tests/10.4fetchbillapplication.spec.js"
     "tests/10.5collectionpaymentapplication.spec.js"
-    "tests/evidence.spec.js"
+    "tests/evidence1.spec.js"
     "tests/evidence2.spec.js"
     "tests/evidence3.spec.js"
     "tests/evidence4.spec.js"

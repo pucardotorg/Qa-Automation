@@ -3,17 +3,16 @@ import fs from 'fs';
 import path from 'path';
 require('dotenv').config();
 
+const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+const BASE_URL = globalVars.baseURL;
+
 test.describe('Application Create API Tests', () => {
     let apiContext;
-    const BASE_URL = 'https://dristi-kerala-uat.pucar.org';
     const ENDPOINT_PATH = '/application/v1/create'; 
     const TENANT_ID = 'kl';
-    let globalVars;
 
     test.beforeAll(async ({ playwright }) => {
-        const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
-        globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-
         apiContext = await playwright.request.newContext({
             baseURL: BASE_URL,
             extraHTTPHeaders: {
@@ -161,9 +160,9 @@ test.describe('Application Create API Tests', () => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Origin': 'https://dristi-kerala-uat.pucar.org',
+                'Origin': BASE_URL,
                 'Connection': 'keep-alive',
-                'Referer': 'https://dristi-kerala-uat.pucar.org/ui/employee/create-application'
+                'Referer': `${BASE_URL}/ui/employee/create-application`
             }
         });
 

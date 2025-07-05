@@ -10,7 +10,7 @@ const updateUrl = `${baseUrl}case/v1/_update?`;
 const representid=globalVars.representingid;
 const caseId=globalVars.caseId;
 const filingNumber=globalVars.filingNumber;
-const epochtime=globalVars.epochtime;
+const epochtime=globalVars.epochTime;
 const casePayload = {
     "cases": {
         "id": caseId,
