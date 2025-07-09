@@ -7,8 +7,8 @@ const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL_CREATE_DEMAND = 'https://dristi-kerala-uat.pucar.org/etreasury/payment/v1/_createDemand?_=1749023993191';
-const BASE_URL_CALCULATE = 'https://dristi-kerala-uat.pucar.org/payment-calculator/v1/case/fees/_calculate?_=1749023993098';
+const BASE_URL_CREATE_DEMAND = `${globalVars.baseURL}etreasury/payment/v1/_createDemand?_=1749023993191`;
+const BASE_URL_CALCULATE = `${globalVars.baseURL}payment-calculator/v1/case/fees/_calculate?_=1749023993098`;
 
 // Constants - Use values from global variables
 const filingNumber = globalVars.filingNumber;

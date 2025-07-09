@@ -11,8 +11,12 @@ const headers = {
 }
 
 test('nayamitraauthtoken', async() => {
+    // Read global variables
+    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+    const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+    
     const apiContext = await request.newContext();
-    const empresponse = await apiContext.post("https://dristi-kerala-uat.pucar.org/user/oauth/token?_=1748935894913",
+    const empresponse = await apiContext.post(`${globalVars.baseURL}user/oauth/token?_=1748935894913`,
         {
             headers: headers,
             form: {
@@ -30,9 +34,7 @@ test('nayamitraauthtoken', async() => {
     const empresponsejson = await empresponse.json();
     const nayamitratoken = empresponsejson.access_token;
     
-    // Read and update global variables
-    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
-    const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+    // Update global variables
     globalVars.nayamitraAuthToken = nayamitratoken;
     fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
     

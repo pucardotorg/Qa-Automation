@@ -5,7 +5,7 @@ require('dotenv').config();
 
 test.describe('Order Management API - Create Order', () => {
     let apiContext;
-    const BASE_URL = 'https://dristi-kerala-uat.pucar.org';
+    let BASE_URL;
     const ENDPOINT_PATH = '/order-management/v1/_createOrder';
     const TENANT_ID = 'kl';
     let globalVars;
@@ -14,6 +14,7 @@ test.describe('Order Management API - Create Order', () => {
         // Read global variables
         const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
         globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+        BASE_URL = globalVars.baseURL;
 
         apiContext = await playwright.request.newContext({
             baseURL: BASE_URL,
@@ -138,9 +139,9 @@ test.describe('Order Management API - Create Order', () => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Origin': 'https://dristi-kerala-uat.pucar.org',
+                'Origin': BASE_URL,
                 'Connection': 'keep-alive',
-                'Referer': 'https://dristi-kerala-uat.pucar.org/ui/employee/create-order'
+                'Referer': `${BASE_URL}ui/employee/create-order`
             }
         });
 

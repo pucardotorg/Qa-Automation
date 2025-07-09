@@ -6,7 +6,7 @@ const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 const BASE_URL = globalVars.baseURL;
-const ENDPOINT = '/evidence/v1/_create';
+const ENDPOINT = `${globalVars.baseURL}evidence/v1/_create`;
 
 const getValidRequestBody = () => ({
     "artifact": {

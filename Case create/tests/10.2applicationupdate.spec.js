@@ -5,7 +5,7 @@ require('dotenv').config();
 
 test.describe('Application Update API Tests', () => {
     let apiContext;
-    const BASE_URL = 'https://dristi-kerala-uat.pucar.org';
+    let BASE_URL;
     const ENDPOINT_PATH = '/application/v1/update'; 
     const TENANT_ID = 'kl';
     let globalVars;
@@ -13,6 +13,7 @@ test.describe('Application Update API Tests', () => {
     test.beforeAll(async ({ playwright }) => {
         const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
         globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+        BASE_URL = globalVars.baseURL;
 
         apiContext = await playwright.request.newContext({
             baseURL: BASE_URL,
@@ -161,9 +162,9 @@ test.describe('Application Update API Tests', () => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Origin': 'https://dristi-kerala-uat.pucar.org',
+                'Origin': BASE_URL,
                 'Connection': 'keep-alive',
-                'Referer': 'https://dristi-kerala-uat.pucar.org/ui/employee/create-application'
+                'Referer': `${BASE_URL}ui/employee/create-application`
             }
         });
 

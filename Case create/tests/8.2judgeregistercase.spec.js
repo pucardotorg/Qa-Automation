@@ -8,14 +8,11 @@ const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 const caseId = globalVars.caseId;
 const baseURL = globalVars.baseURL;
 const apiUrl = `${baseURL}case/v1/_update?tenantId=kl`;
-const epochtime=globalVars.epochTime;
+const epochtime = globalVars.epochTime;
+
 test.describe('Judge Register Case API Tests', () => {
   let apiContext;
 
-  // Read global variables
-  const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
-  const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-const caseId = globalVars.caseId;
   const baseRequestBody = {
     "cases": {
         "id": globalVars.caseId, // Use case ID from global variables
@@ -1006,7 +1003,7 @@ const caseId = globalVars.caseId;
         },
         "msgId": `${Date.now()}|en_IN` // Dynamic msgId
     }
-};
+  };
 
   test.beforeAll(async ({ playwright }) => {
     apiContext = await playwright.request.newContext({

@@ -5,7 +5,7 @@ import globalVariables from '../utils/global-variables';
 const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
 
 let apiContext;
-const baseUrl = 'https://dristi-kerala-uat.pucar.org/evidence/v1/_search';
+const baseUrl = `${globalVars.baseURL}evidence/v1/_search`;
 const tenantId = 'kl';
 const validAuthToken = globalVars.judgeauthtoken;
 const caseId = globalVars.caseId;

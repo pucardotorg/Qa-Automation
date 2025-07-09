@@ -5,8 +5,8 @@ import path from 'path';
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
-const BASE_URL = 'https://dristi-kerala-uat.pucar.org';
-const ENDPOINT = '/evidence/v1/_create';
+const BASE_URL = globalVars.baseURL;
+const ENDPOINT = `${globalVars.baseURL}evidence/v1/_create`;
 
 const getValidRequestBody = () => ({
     "artifact": {

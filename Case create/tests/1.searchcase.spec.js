@@ -5,16 +5,17 @@ require('dotenv').config();
 
 test.describe('Case Search API Tests', () => {
     let apiContext;
-    const BASE_URL = 'https://dristi-kerala-uat.pucar.org';
+    let globalVars;
+    let BASE_URL;
     const ENDPOINT_PATH = '/case/v2/search/list';
     const TENANT_ID = 'kl';
-    let globalVars;
     let representativeId;
     const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 
     test.beforeAll(async ({ playwright }) => {
         // Read global variables
         globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+        BASE_URL = globalVars.baseURL;
 
         apiContext = await playwright.request.newContext({
             baseURL: BASE_URL,

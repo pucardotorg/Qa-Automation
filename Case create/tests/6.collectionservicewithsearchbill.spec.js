@@ -8,8 +8,8 @@ const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 const { test, expect } = require('@playwright/test');
 
 // Endpoint URLs
-const BASE_URL_FETCH_BILL = 'https://dristi-kerala-uat.pucar.org/billing-service/bill/v2/_fetchbill';
-const BASE_URL_CREATE_PAYMENT = 'https://dristi-kerala-uat.pucar.org/collection-services/payments/_create';
+const BASE_URL_FETCH_BILL = `${globalVars.baseURL}billing-service/bill/v2/_fetchbill`;
+const BASE_URL_CREATE_PAYMENT = `${globalVars.baseURL}collection-services/payments/_create`;
 
 // Constants for requests
 const tenantId = 'kl';

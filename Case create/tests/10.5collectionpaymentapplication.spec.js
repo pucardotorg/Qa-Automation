@@ -7,7 +7,7 @@ const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL_CREATE_PAYMENT = 'https://dristi-kerala-uat.pucar.org/collection-services/payments/_create';
+const BASE_URL_CREATE_PAYMENT = `${globalVars.baseURL}collection-services/payments/_create`;
 const tenantId = 'kl';
 const businessService = 'application-voluntary-submission';
 const AUTH_TOKEN = globalVars.nayamitraAuthToken;

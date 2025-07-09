@@ -3,12 +3,9 @@ import fs from 'fs';
 import path from 'path';
 require('dotenv').config();
 
-const BASE_URL = 'https://dristi-kerala-uat.pucar.org/order/v1/search';
-let globalVars;
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
-
-// Initialize globalVars
-globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+const BASE_URL = `${globalVars.baseURL}order/v1/search`;
 
 const validBody = {
   criteria: {
@@ -33,7 +30,7 @@ test.describe('Order Search API', () => {
     validBody.RequestInfo.authToken = globalVars.judgeauthtoken;
 
     apiContext = await playwrightRequest.newContext({
-      baseURL: 'https://dristi-kerala-uat.pucar.org',
+      baseURL: globalVars.baseURL,
       extraHTTPHeaders: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
