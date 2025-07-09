@@ -7,10 +7,17 @@ const updateUrl = `${baseUrl}case/v1/_update?`;
 
 // Read global variables from JSON file
 //const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
-const representid=globalVars.representingid;
-const caseId=globalVars.caseId;
-const filingNumber=globalVars.filingNumber;
-const epochtime=globalVars.epochTime;
+const citizenUserInfo = globalVars.citizenUserInfo;
+const citizenMobile = citizenUserInfo.userName;
+const citizenName = citizenUserInfo.name;
+const citizenUUID = citizenUserInfo.uuid;
+const representid = globalVars.representingid;
+const caseId = globalVars.caseId;
+const filingNumber = globalVars.filingNumber;
+const epochtime = globalVars.epochTime;
+const citizenAuthToken = globalVars.citizenAuthToken;
+const advocateId = globalVars.advocateId;
+
 const casePayload = {
     "cases": {
         "id": caseId,
@@ -56,8 +63,8 @@ const casePayload = {
                 ],
                 "additionalDetails": null,
                 "auditdetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
                     "createdTime": epochtime,
                     "lastModifiedTime": epochtime
                 },
@@ -81,16 +88,16 @@ const casePayload = {
         ],
         "representatives": [
             {
-                "id": globalVars.representingid,
+                "id": representid,
                 "tenantId": "kl",
-                "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
+                "advocateId": advocateId,
                 "caseId": caseId,
                 "representing": [],
                 "isActive": true,
                 "documents": null,
                 "auditDetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
                     "createdTime": epochtime,
                     "lastModifiedTime": epochtime
                 },
@@ -134,8 +141,8 @@ const casePayload = {
                     }
                 ]
             },
-            "payerName": "Maruthi ch",
-            "payerMobileNo": "6303338642",
+            "payerName": citizenName,
+            "payerMobileNo": citizenMobile,
             "complainantDetails": {
                 "formdata": [
                     {
@@ -286,8 +293,8 @@ const casePayload = {
             }
         },
         "auditDetails": {
-            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+            "createdBy": citizenUUID,
+            "lastModifiedBy": citizenUUID,
             "createdTime": epochtime,
             "lastModifiedTime": epochtime
         },
@@ -297,127 +304,8 @@ const casePayload = {
     "tenantId": "kl",
     "RequestInfo": {
         "apiId": "Rainmaker",
-        "authToken": "13f57b94-3698-4f6b-9c86-a0a4d4dd8b5d",
-        "userInfo": {
-            "id": 1181,
-            "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "userName": "6303338642",
-            "name": "Maruthi  ch",
-            "mobileNumber": "6303338642",
-            "emailId": "marruthi@gmail.com",
-            "locale": null,
-            "type": "CITIZEN",
-            "roles": [
-                {
-                    "name": "USER_REGISTER",
-                    "code": "USER_REGISTER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_VIEWER",
-                    "code": "CASE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_VIEWER",
-                    "code": "HEARING_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "Citizen",
-                    "code": "CITIZEN",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_ROLE",
-                    "code": "ADVOCATE_ROLE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_CREATOR",
-                    "code": "APPLICATION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_CREATOR",
-                    "code": "EVIDENCE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_EDITOR",
-                    "code": "EVIDENCE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_DELETE",
-                    "code": "SUBMISSION_DELETE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_ACCEPTOR",
-                    "code": "HEARING_ACCEPTOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_VIEWER",
-                    "code": "ORDER_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_RESPONDER",
-                    "code": "SUBMISSION_RESPONDER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_EDITOR",
-                    "code": "CASE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_VIEWER",
-                    "code": "EVIDENCE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_VIEWER",
-                    "code": "ADVOCATE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_VIEWER",
-                    "code": "APPLICATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_CREATOR",
-                    "code": "SUBMISSION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "TASK_VIEWER",
-                    "code": "TASK_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_APPLICATION_VIEWER",
-                    "code": "ADVOCATE_APPLICATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_CREATOR",
-                    "code": "CASE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "PENDING_TASK_CREATOR",
-                    "code": "PENDING_TASK_CREATOR",
-                    "tenantId": "kl"
-                }
-            ],
-            "active": true,
-            "tenantId": "kl",
-            "permanentCity": null
-        },
+        "authToken": citizenAuthToken,
+        "userInfo": citizenUserInfo,
         "msgId": "1750866462003^|en_IN",
         "plainAccessRequest": {}
     }
@@ -455,7 +343,7 @@ test.describe('Case Creation API Tests', () => {
 
     test.only('Create Case with Correct Auth Token', async ({ request }) => {
         const payload = { ...casePayload };
-        const token = globalVars.citizenAuthToken;
+        const token = citizenAuthToken;
         payload.RequestInfo.authToken = token; // Use the token directly, not as a string template
 
         const response = await request.post(updateUrl, {

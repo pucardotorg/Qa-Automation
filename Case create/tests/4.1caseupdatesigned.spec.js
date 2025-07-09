@@ -4,16 +4,27 @@ import path from 'path';
 import globalVariables from '../utils/global-variables';
 const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
 
+const citizenUserInfo = globalVars.citizenUserInfo;
+const citizenMobile = citizenUserInfo.userName;
+const citizenName = citizenUserInfo.name;
+const citizenUUID = citizenUserInfo.uuid;
+const citizenAuthToken = globalVars.citizenAuthToken;
+const representid = globalVars.representingid;
+const representingli = globalVars.representingli;
+const caseId = globalVars.caseId;
+const filingNumber = globalVars.filingNumber;
+const epochtime = globalVars.epochTime;
+const litigantid = globalVars.litigantid;
+const advocateId = globalVars.advocateId;
+
 let apiContext;
 //const baseUrl = 'https://dristi-kerala-uat.pucar.org/case/v1/_update';
 const baseUrl1 = globalVars.baseURL;
 const baseUrl = `${baseUrl1}case/v1/_update?`;
 const tenantId = 'kl'; // Using the provided tenantId
 // Placeholder for dynamic values
-const validAuthToken = globalVars.citizenAuthToken;
 const dynamicMsgId = Date.now().toString() + '|en_IN'; // Example dynamic msgId
-const caseId = globalVars.caseId;
-const filingNumber = globalVars.filingNumber;
+
 
 test.describe('API Tests for caseupdatesigned endpoint', () => {
   let apiContext;
@@ -241,8 +252,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                 ],
                 "additionalDetails": null,
                 "auditdetails": {
-                    "createdBy": null,
-                    "lastModifiedBy": null,
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
                     "createdTime": 0,
                     "lastModifiedTime": 0
                 },
@@ -263,8 +274,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                 ],
                 "additionalDetails": null,
                 "auditdetails": {
-                    "createdBy": null,
-                    "lastModifiedBy": null,
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
                     "createdTime": 0,
                     "lastModifiedTime": 0
                 },
@@ -274,7 +285,7 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
         ],
          "litigants": [
             {
-                "id": globalVars.litigantid,
+                "id": litigantid,
                 "tenantId": "kl",
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
@@ -286,9 +297,9 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                 "isPartyInPerson": false,
                 "documents": [],
                 "auditDetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": globalVars.epochTime,
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
+                    "createdTime": epochtime,
                     "lastModifiedTime": 1750756069884
                 },
                 "additionalDetails": {
@@ -301,13 +312,13 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
         ],
         "representatives": [
             {
-                "id": globalVars.representingid,
+                "id": representid,
                 "tenantId": "kl",
-                "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
+                "advocateId": advocateId,
                 "caseId": caseId,
                 "representing":  [
                     {
-                        "id": globalVars.representingli,
+                        "id": representingli,
                         "tenantId": "kl",
                         "caseId": "56809884-ae9f-4f91-8293-7c13a338a9b4",
                         "partyCategory": "INDIVIDUAL",
@@ -328,8 +339,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                             }
                         ],
                         "auditDetails": {
-                            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                            "createdBy": citizenUUID,
+                            "lastModifiedBy": citizenUUID,
                             "createdTime": 1750836456156,
                             "lastModifiedTime": 1750838247298
                         },
@@ -344,9 +355,9 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                 "isActive": true,
                 "documents": [],
                 "auditDetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": globalVars.epochTime,
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
+                    "createdTime": epochtime,
                     "lastModifiedTime": 1750756069884
                 },
                 "additionalDetails": {
@@ -478,8 +489,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                                         "advocateBarRegNumberWithName": {
                                             "advocateName": "Maruthi ch",
                                             "isDisable": true,
-                                            "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
-                                            "advocateUuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                                            "advocateId": advocateId,
+                                            "advocateUuid": citizenUUID,
                                             "individualId": "IND-2024-11-19-000893",
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST"
@@ -781,8 +792,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
             }
         },
         "auditDetails": {
-            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+            "createdBy": citizenUUID,
+            "lastModifiedBy": citizenUUID,
             "createdTime": 1748871002201,
             "lastModifiedTime": 1748955078914
         },
@@ -792,127 +803,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
     "tenantId": "kl",
     "RequestInfo": {
         "apiId": "Rainmaker",
-        "authToken": globalVars.citizenAuthToken, // Use a dynamic/placeholder value
-        "userInfo": {
-            "id": 1181,
-            "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "userName": "6303338642",
-            "name": "Maruthi  ch",
-            "mobileNumber": "6303338642",
-            "emailId": "marruthi@gmail.com",
-            "locale": null,
-            "type": "CITIZEN",
-            "roles": [
-                {
-                    "name": "USER_REGISTER",
-                    "code": "USER_REGISTER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_VIEWER",
-                    "code": "CASE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_VIEWER",
-                    "code": "HEARING_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "Citizen",
-                    "code": "CITIZEN",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_ROLE",
-                    "code": "ADVOCATE_ROLE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_CREATOR",
-                    "code": "APPLICATION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_CREATOR",
-                    "code": "EVIDENCE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_EDITOR",
-                    "code": "EVIDENCE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_DELETE",
-                    "code": "SUBMISSION_DELETE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_ACCEPTOR",
-                    "code": "HEARING_ACCEPTOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_VIEWER",
-                    "code": "ORDER_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_RESPONDER",
-                    "code": "SUBMISSION_RESPONDER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_EDITOR",
-                    "code": "CASE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_VIEWER",
-                    "code": "EVIDENCE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_VIEWER",
-                    "code": "ADVOCATE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_VIEWER",
-                    "code": "APPLICATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_CREATOR",
-                    "code": "SUBMISSION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "TASK_VIEWER",
-                    "code": "TASK_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_APPLICATION_VIEWER",
-                    "code": "ADVOCATE_APPLICATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_CREATOR",
-                    "code": "CASE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "PENDING_TASK_CREATOR",
-                    "code": "PENDING_TASK_CREATOR",
-                    "tenantId": "kl"
-                }
-            ],
-            "active": true,
-            "tenantId": "kl",
-            "permanentCity": null
-        },
+        "authToken": citizenAuthToken, // Use a dynamic/placeholder value
+        "userInfo": citizenUserInfo,
         "msgId": `test-${Date.now()}`, // Use a dynamic/placeholder value
         "plainAccessRequest": {}
     }

@@ -17,6 +17,14 @@ test.describe('Case Search API Tests', () => {
         globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
         BASE_URL = globalVars.baseURL;
 
+        // Store frequently used global config values in variables
+        var citizenUserInfo = globalVars.citizenUserInfo;
+        var citizenAuthToken = globalVars.citizenAuthToken;
+        var filingNumber = globalVars.filingNumber;
+        var baseURL = globalVars.baseURL;
+        var cnrNumber = globalVars.cnrNumber;
+        var advocateId = globalVars.advocateId;
+
         apiContext = await playwright.request.newContext({
             baseURL: BASE_URL,
             extraHTTPHeaders: {
@@ -34,131 +42,12 @@ test.describe('Case Search API Tests', () => {
         const requestBody = {
             "RequestInfo": {
                 "apiId": "Rainmaker",
-                "authToken": globalVars.citizenAuthToken,
-                "userInfo": {
-                    "id": 1934,
-                    "uuid": "4c9c972f-1868-4333-a80a-1f02e505c757",
-                    "userName": "8800000019",
-                    "name": "ADV Eight Nineteen  ",
-                    "mobileNumber": "8800000019",
-                    "emailId": null,
-                    "locale": null,
-                    "type": "CITIZEN",
-                    "roles": [
-                        {
-                            "name": "USER_REGISTER",
-                            "code": "USER_REGISTER",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "CASE_VIEWER",
-                            "code": "CASE_VIEWER",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "HEARING_VIEWER",
-                            "code": "HEARING_VIEWER",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "Citizen",
-                            "code": "CITIZEN",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "ADVOCATE_ROLE",
-                            "code": "ADVOCATE_ROLE",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "APPLICATION_CREATOR",
-                            "code": "APPLICATION_CREATOR",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "EVIDENCE_CREATOR",
-                            "code": "EVIDENCE_CREATOR",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "EVIDENCE_EDITOR",
-                            "code": "EVIDENCE_EDITOR",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "SUBMISSION_DELETE",
-                            "code": "SUBMISSION_DELETE",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "HEARING_ACCEPTOR",
-                            "code": "HEARING_ACCEPTOR",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "ORDER_VIEWER",
-                            "code": "ORDER_VIEWER",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "SUBMISSION_RESPONDER",
-                            "code": "SUBMISSION_RESPONDER",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "CASE_EDITOR",
-                            "code": "CASE_EDITOR",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "EVIDENCE_VIEWER",
-                            "code": "EVIDENCE_VIEWER",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "ADVOCATE_VIEWER",
-                            "code": "ADVOCATE_VIEWER",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "APPLICATION_VIEWER",
-                            "code": "APPLICATION_VIEWER",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "SUBMISSION_CREATOR",
-                            "code": "SUBMISSION_CREATOR",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "TASK_VIEWER",
-                            "code": "TASK_VIEWER",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "ADVOCATE_APPLICATION_VIEWER",
-                            "code": "ADVOCATE_APPLICATION_VIEWER",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "CASE_CREATOR",
-                            "code": "CASE_CREATOR",
-                            "tenantId": "kl"
-                        },
-                        {
-                            "name": "PENDING_TASK_CREATOR",
-                            "code": "PENDING_TASK_CREATOR",
-                            "tenantId": "kl"
-                        }
-                    ],
-                    "active": true,
-                    "tenantId": "kl",
-                    "permanentCity": null
-                },
+                "authToken": citizenAuthToken,
+                "userInfo": citizenUserInfo,
                 "msgId": `${Date.now()}|en_IN`
             },
             "criteria": {
-                "filingNumber": globalVars.filingNumber
+                "filingNumber": filingNumber
             }
         };
 
@@ -178,6 +67,8 @@ test.describe('Case Search API Tests', () => {
         expect(Array.isArray(parsedResponse.caseList)).toBe(true);
         expect(parsedResponse.caseList.length).toBeGreaterThan(0);
         expect(parsedResponse.caseList[0].filingNumber).toBe(globalVars.filingNumber);
+        // If you want, you can also use the variable here:
+        // expect(parsedResponse.caseList[0].filingNumber).toBe(filingNumber);
         console.log(parsedResponse);
 
        representativeId = parsedResponse.cases.representatives[0].id;

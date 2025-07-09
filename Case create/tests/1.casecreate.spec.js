@@ -7,6 +7,11 @@ const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global
 const baseUrl = globalVars.baseURL;
 const createUrl = `${baseUrl}case/v1/_create?`;
 
+const citizenUserInfo = globalVars.citizenUserInfo;
+const citizenMobile = citizenUserInfo.userName;
+const citizenName = citizenUserInfo.name;
+const advocateId = globalVars.advocateId;
+
 const casePayload = {
     "cases": {
         "tenantId": "kl",
@@ -31,7 +36,7 @@ const casePayload = {
         "litigants": [],
         "representatives": [
             {
-               "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
+               "advocateId": advocateId, // ! DONT CHANGE (Need to call Advocate Search API)
                 "tenantId": "kl",
                 "representing": []
             }
@@ -51,8 +56,8 @@ const casePayload = {
             ]
         },
         "additionalDetails": {
-            "payerMobileNo": "6303338642",
-            "payerName": "Maruthi  ch",
+            "payerMobileNo": citizenMobile,
+            "payerName": citizenName,
             "advocateDetails": {
                 "formdata": [
                     {
@@ -68,126 +73,7 @@ const casePayload = {
     "RequestInfo": {
         "apiId": "Rainmaker",
         "authToken": "", // This will be updated for each test case
-        "userInfo": {
-            "id": 1181,
-            "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "userName": "6303338642",
-            "name": "Maruthi  ch",
-            "mobileNumber": "6303338642",
-            "emailId": "marruthi@gmail.com",
-            "locale": null,
-            "type": "CITIZEN",
-            "roles": [
-                {
-                    "name": "USER_REGISTER",
-                    "code": "USER_REGISTER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_VIEWER",
-                    "code": "CASE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_VIEWER",
-                    "code": "HEARING_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "Citizen",
-                    "code": "CITIZEN",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_ROLE",
-                    "code": "ADVOCATE_ROLE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_CREATOR",
-                    "code": "APPLICATION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_CREATOR",
-                    "code": "EVIDENCE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_EDITOR",
-                    "code": "EVIDENCE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_DELETE",
-                    "code": "SUBMISSION_DELETE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_ACCEPTOR",
-                    "code": "HEARING_ACCEPTOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_VIEWER",
-                    "code": "ORDER_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_RESPONDER",
-                    "code": "SUBMISSION_RESPONDER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_EDITOR",
-                    "code": "CASE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_VIEWER",
-                    "code": "EVIDENCE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_VIEWER",
-                    "code": "ADVOCATE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_VIEWER",
-                    "code": "APPLICATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_CREATOR",
-                    "code": "SUBMISSION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "TASK_VIEWER",
-                    "code": "TASK_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_APPLICATION_VIEWER",
-                    "code": "ADVOCATE_APPLICATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_CREATOR",
-                    "code": "CASE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "PENDING_TASK_CREATOR",
-                    "code": "PENDING_TASK_CREATOR",
-                    "tenantId": "kl"
-                }
-            ],
-            "active": true,
-            "tenantId": "kl",
-            "permanentCity": null
-        },
+        "userInfo": citizenUserInfo,
         "msgId": "1747766769872|en_IN",
         "plainAccessRequest": {}
     }

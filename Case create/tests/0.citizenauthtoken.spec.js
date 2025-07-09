@@ -8,8 +8,7 @@ const headers ={
   Authorization:'Basic ZWdvdi11c2VyLWNsaWVudDo=',
 }
 
-test('citizenauthtoken', async () =>
-{
+test('citizenauthtoken', async () => {
     const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
     let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
@@ -21,24 +20,28 @@ test('citizenauthtoken', async () =>
             {
                 username: process.env.CITIZEN_USERNAME,
                 password: process.env.CITIZEN_PASSWORD,
-            tenantId :"kl",
-            userType:"citizen",
-            scope:"read",
-            grant_type:"password"
+                tenantId :"kl",
+                userType:"citizen",
+                scope:"read",
+                grant_type:"password"
             }
         } );
     const citizenresponsejson= await  citizenresponse.json();
     const citizentoken= await citizenresponsejson.access_token;
+    const citizenUserInfo = citizenresponsejson.UserRequest;
     
     // Read and update global variables
     globalVars.citizenAuthToken = citizentoken;
+    globalVars.citizenUserInfo = citizenUserInfo;
     fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
     
     console.log("full response", citizenresponsejson);
     console.log("accesstoken", citizentoken);
+    console.log("citizenUserInfo", citizenUserInfo);
    }   
 );
- test('Convert current date to epoch timestamp', async () => {
+
+test('Convert current date to epoch timestamp', async () => {
   // Step 1: Get the current date and time
   const currentDate = new Date();
 

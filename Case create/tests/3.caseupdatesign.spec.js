@@ -3,17 +3,27 @@ import fs from 'fs';
 import path from 'path';
 const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
 
+const citizenUserInfo = globalVars.citizenUserInfo;
+const citizenMobile = citizenUserInfo.userName;
+const citizenName = citizenUserInfo.name;
+const citizenUUID = citizenUserInfo.uuid;
+const citizenAuthToken = globalVars.citizenAuthToken;
+const representid = globalVars.representingid;
+const representingli = globalVars.representingli;
+const caseId = globalVars.caseId;
+const filingNumber = globalVars.filingNumber;
+const epochtime = globalVars.epochTime;
+const litigantid = globalVars.litigantid;
+const advocateId = globalVars.advocateId;
+
 let apiContext;
 //const baseUrl = 'https://dristi-kerala-uat.pucar.org/case/v1/_update';
 const baseUrl1 = globalVars.baseURL;
 const baseUrl = `${baseUrl1}case/v1/_update?`;
 const tenantId = 'kl'; // Using the provided tenantId
 // Placeholder for dynamic values
-const validAuthToken = globalVars.citizenAuthToken;
 const dynamicMsgId = Date.now().toString() + '|en_IN'; // Example dynamic msgId
-const caseId = globalVars.caseId;
-const filingNumber = globalVars.filingNumber;
-const epochtime=globalVars.epochTime;
+
 test.describe('API Tests for caseupdatewithsign endpoint', () => {
   let apiContext;
 
@@ -240,8 +250,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                 ],
                 "additionalDetails": null,
                 "auditdetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
                     "createdTime": epochtime,
                     "lastModifiedTime": epochtime
                 },
@@ -251,7 +261,7 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
         ],
          "litigants": [
             {
-                "id": globalVars.litigantid,
+                "id": litigantid,
                 "tenantId": "kl",
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
@@ -263,8 +273,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                 "isPartyInPerson": false,
                 "documents": [],
                 "auditDetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
                     "createdTime": epochtime,
                     "lastModifiedTime": epochtime
                 },
@@ -278,13 +288,13 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
         ],
         "representatives": [
             {
-                "id": globalVars.representingid,
+                "id": representid,
                 "tenantId": "kl",
-                "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
+                "advocateId": advocateId,
                 "caseId": caseId,
                 "representing":  [
                     {
-                        "id": globalVars.representingli,
+                        "id": representingli,
                         "tenantId": "kl",
                         "caseId": "56809884-ae9f-4f91-8293-7c13a338a9b4",
                         "partyCategory": "INDIVIDUAL",
@@ -305,8 +315,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                             }
                         ],
                         "auditDetails": {
-                            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                            "createdBy": citizenUUID,
+                            "lastModifiedBy": citizenUUID,
                             "createdTime": epochtime,
                             "lastModifiedTime": epochtime
                         },
@@ -321,8 +331,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                 "isActive": true,
                 "documents": [],
                 "auditDetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
                     "createdTime": epochtime,
                     "lastModifiedTime": epochtime
                 },
@@ -461,8 +471,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "isDisable": true,
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST",
-                                            "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
-                                            "advocateUuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                                            "advocateId": advocateId,
+                                            "advocateUuid": citizenUUID,
                                             "individualId": "IND-2024-11-19-000893"
                                         }
                                     }
@@ -762,8 +772,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
             "signedCaseDocument": "84279cfc-d6c2-4e62-be40-2b9fa5dbf4e6"
         },
         "auditDetails": {
-            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+            "createdBy": citizenUUID,
+            "lastModifiedBy": citizenUUID,
             "createdTime": epochtime,
             "lastModifiedTime": epochtime
         },
@@ -773,127 +783,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
     "tenantId": "kl",
     "RequestInfo": {
         "apiId": "Rainmaker",
-        "authToken":  globalVars.citizenAuthToken, // Use a dynamic/placeholder value
-        "userInfo": {
-            "id": 1181,
-            "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "userName": "6303338642",
-            "name": "Maruthi  ch",
-            "mobileNumber": "6303338642",
-            "emailId": "marruthi@gmail.com",
-            "locale": null,
-            "type": "CITIZEN",
-            "roles": [
-                {
-                    "name": "USER_REGISTER",
-                    "code": "USER_REGISTER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_VIEWER",
-                    "code": "CASE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_VIEWER",
-                    "code": "HEARING_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "Citizen",
-                    "code": "CITIZEN",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_ROLE",
-                    "code": "ADVOCATE_ROLE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_CREATOR",
-                    "code": "APPLICATION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_CREATOR",
-                    "code": "EVIDENCE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_EDITOR",
-                    "code": "EVIDENCE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_DELETE",
-                    "code": "SUBMISSION_DELETE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_ACCEPTOR",
-                    "code": "HEARING_ACCEPTOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_VIEWER",
-                    "code": "ORDER_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_RESPONDER",
-                    "code": "SUBMISSION_RESPONDER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_EDITOR",
-                    "code": "CASE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_VIEWER",
-                    "code": "EVIDENCE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_VIEWER",
-                    "code": "ADVOCATE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_VIEWER",
-                    "code": "APPLICATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_CREATOR",
-                    "code": "SUBMISSION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "TASK_VIEWER",
-                    "code": "TASK_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_APPLICATION_VIEWER",
-                    "code": "ADVOCATE_APPLICATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_CREATOR",
-                    "code": "CASE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "PENDING_TASK_CREATOR",
-                    "code": "PENDING_TASK_CREATOR",
-                    "tenantId": "kl"
-                }
-            ],
-            "active": true,
-            "tenantId": "kl",
-            "permanentCity": null
-        },
+        "authToken":  citizenAuthToken, // Use a dynamic/placeholder value
+        "userInfo": citizenUserInfo,
         "msgId": `test-${Date.now()}`, // Use a dynamic/placeholder value
         "plainAccessRequest": {}
     }

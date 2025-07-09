@@ -7,13 +7,17 @@ const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL_CREATE_DEMAND = `${globalVars.baseURL}etreasury/payment/v1/_createDemand?_=1749023993191`;
-const BASE_URL_CALCULATE = `${globalVars.baseURL}payment-calculator/v1/case/fees/_calculate?_=1749023993098`;
+const citizenAuthToken = globalVars.citizenAuthToken;
+const caseId = globalVars.caseId;
+const filingNumber = globalVars.filingNumber;
+const baseURL = globalVars.baseURL;
+
+
+const BASE_URL_CREATE_DEMAND = `${baseURL}etreasury/payment/v1/_createDemand?_=1749023993191`;
+const BASE_URL_CALCULATE = `${baseURL}payment-calculator/v1/case/fees/_calculate?_=1749023993098`;
 
 // Constants - Use values from global variables
-const filingNumber = globalVars.filingNumber;
-const caseId = globalVars.caseId;
-const AUTH_TOKEN = globalVars.citizenAuthToken;
+const AUTH_TOKEN = citizenAuthToken;
 
 test.describe('API Tests for create demand endpoint', () => {
   let apiContext;

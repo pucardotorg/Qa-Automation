@@ -4,16 +4,22 @@ import path from 'path';
 const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
 
 let apiContext;
-//const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
 const baseUrl1 = globalVars.baseURL;
 const baseUrl = `${baseUrl1}case/v1/_update?`;
 const tenantId = 'kl'; // Using the provided tenantId
 // Placeholder for dynamic values
 const validAuthToken = globalVars.citizenAuthToken;
 const dynamicMsgId = Date.now().toString() + '|en_IN'; // Example dynamic msgId
+const citizenUserInfo = globalVars.citizenUserInfo;
+const citizenMobile = citizenUserInfo.userName;
+const citizenName = citizenUserInfo.name;
+const citizenUUID = citizenUserInfo.uuid;
+const representid = globalVars.representingid;
 const caseId = globalVars.caseId;
 const filingNumber = globalVars.filingNumber;
-const epochtime=globalVars.epochTime;
+const epochtime = globalVars.epochTime;
+const litigantid = globalVars.litigantid;
+const advocateId = globalVars.advocateId;
 
 
 // Request body from the Postman example
@@ -232,8 +238,8 @@ const validRequestBody = {
                 ],
                 "additionalDetails": null,
                 "auditdetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
                     "createdTime": epochtime,
                     "lastModifiedTime": epochtime
                 },
@@ -243,7 +249,7 @@ const validRequestBody = {
         ],
         "litigants": [
             {
-                "id": globalVars.litigantid,
+                "id": litigantid,
                 "tenantId": "kl",
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
@@ -255,8 +261,8 @@ const validRequestBody = {
                 "isPartyInPerson": false,
                 "documents": [],
                 "auditDetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
                     "createdTime": epochtime,
                     "lastModifiedTime": epochtime
                 },
@@ -270,9 +276,9 @@ const validRequestBody = {
         ],
         "representatives": [
             {
-                "id":globalVars.representingid,
+                "id": representid,
                 "tenantId": "kl",
-                "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
+                "advocateId": advocateId,
                 "caseId": caseId,
                 "representing": [
                     {
@@ -301,8 +307,8 @@ const validRequestBody = {
                             }
                         ],
                         "auditDetails": {
-                            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                            "createdBy": citizenUUID,
+                            "lastModifiedBy": citizenUUID,
                             "createdTime": epochtime,
                             "lastModifiedTime": epochtime
                         },
@@ -317,8 +323,8 @@ const validRequestBody = {
                 "isActive": true,
                 "documents": [],
                 "auditDetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                    "createdBy": citizenUUID,
+                    "lastModifiedBy": citizenUUID,
                     "createdTime": epochtime,
                     "lastModifiedTime": epochtime
                 },
@@ -451,7 +457,7 @@ const validRequestBody = {
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "isDisable": true,
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST",
-                                            "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
+                                            "advocateId": advocateId,
                                             "advocateUuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
                                             "individualId": "IND-2024-11-19-000893"
                                         }
@@ -493,8 +499,8 @@ const validRequestBody = {
                 ],
                 "isCompleted": true
             },
-            "payerMobileNo": "8800000019",
-            "payerName": "ADV Eight Nineteen ",
+            "payerMobileNo": citizenMobile,
+            "payerName": citizenName,
             "respondentDetails": {
                 "formdata": [
                     {
@@ -741,8 +747,8 @@ const validRequestBody = {
             }
         },
         "auditDetails": {
-            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+            "createdBy": citizenUUID,
+            "lastModifiedBy": citizenUUID,
             "createdTime": epochtime,
             "lastModifiedTime": epochtime
         },
@@ -753,126 +759,7 @@ const validRequestBody = {
     "RequestInfo": {
         "apiId": "Rainmaker",
         "authToken": "", // Will be set from global variables
-        "userInfo": {
-            "id": 1181,
-            "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "userName": "6303338642",
-            "name": "Maruthi  ch",
-            "mobileNumber": "6303338642",
-            "emailId": "marruthi@gmail.com",
-            "locale": null,
-            "type": "CITIZEN",
-            "roles": [
-                {
-                    "name": "USER_REGISTER",
-                    "code": "USER_REGISTER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_VIEWER",
-                    "code": "CASE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_VIEWER",
-                    "code": "HEARING_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "Citizen",
-                    "code": "CITIZEN",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_ROLE",
-                    "code": "ADVOCATE_ROLE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_CREATOR",
-                    "code": "APPLICATION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_CREATOR",
-                    "code": "EVIDENCE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_EDITOR",
-                    "code": "EVIDENCE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_DELETE",
-                    "code": "SUBMISSION_DELETE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_ACCEPTOR",
-                    "code": "HEARING_ACCEPTOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_VIEWER",
-                    "code": "ORDER_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_RESPONDER",
-                    "code": "SUBMISSION_RESPONDER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_EDITOR",
-                    "code": "CASE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_VIEWER",
-                    "code": "EVIDENCE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_VIEWER",
-                    "code": "ADVOCATE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_VIEWER",
-                    "code": "APPLICATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_CREATOR",
-                    "code": "SUBMISSION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "TASK_VIEWER",
-                    "code": "TASK_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ADVOCATE_APPLICATION_VIEWER",
-                    "code": "ADVOCATE_APPLICATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_CREATOR",
-                    "code": "CASE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "PENDING_TASK_CREATOR",
-                    "code": "PENDING_TASK_CREATOR",
-                    "tenantId": "kl"
-                }
-            ],
-            "active": true,
-            "tenantId": "kl",
-            "permanentCity": null
-        },
+        "userInfo": citizenUserInfo,
         "msgId": Date.now().toString() + '|en_IN',
         "plainAccessRequest": {}
     }
@@ -900,7 +787,7 @@ test.describe('API Tests for /case/v1/_update', () => {
 
   // Test case for successful update (assuming 200 OK based on common update operations)
   test('should successfully update case with status 200', async () => {
-    const token = globalVars.citizenAuthToken;
+    const token = validAuthToken;
     expect(token).toBeTruthy();
 
     const requestBody = { ...validRequestBody };
@@ -939,7 +826,7 @@ test.describe('API Tests for /case/v1/_update', () => {
    
   // Test case for missing or malformed request fields (status 400)
   test('should fail with 400 Bad Request for missing required fields', async () => {
-    const token = globalVars.citizenAuthToken;
+    const token = validAuthToken;
     expect(token).toBeTruthy();
 
     const invalidRequestBody = { ...validRequestBody };
@@ -962,7 +849,7 @@ test.describe('API Tests for /case/v1/_update', () => {
 
   // Test case for missing or invalid authToken (status 401)
   test('should fail with 401 Unauthorized for missing authToken', async () => {
-    const token = globalVars.citizenAuthToken;
+    const token = validAuthToken;
     expect(token).toBeTruthy();
 
     const requestBodyMissingToken = { ...validRequestBody };
@@ -979,7 +866,7 @@ test.describe('API Tests for /case/v1/_update', () => {
   });
 
     test('should fail with 401 Unauthorized for invalid authToken', async () => {
-        const token = globalVars.citizenAuthToken;
+        const token = validAuthToken;
         expect(token).toBeTruthy();
 
         const requestBodyInvalidToken = { ...validRequestBody };
@@ -1019,7 +906,7 @@ test.describe('API Tests for /case/v1/_update', () => {
   // Add more tests for specific valid/invalid input combinations if needed
      // Add tests for valid/invalid filingNumber, courtId etc. by modifying the requestBody
     test('should fail with 400 Bad Request for invalid filingNumber in body', async () => {
-        const token = globalVars.citizenAuthToken;
+        const token = validAuthToken;
         expect(token).toBeTruthy();
 
         const invalidFilingNumberBody = { ...validRequestBody };
@@ -1037,7 +924,7 @@ test.describe('API Tests for /case/v1/_update', () => {
     });
 
     test('should fail with 400 Bad Request for invalid courtId in body', async () => {
-        const token = globalVars.citizenAuthToken;
+        const token = validAuthToken;
         expect(token).toBeTruthy();
 
         const invalidCourtIdBody = { ...validRequestBody };
