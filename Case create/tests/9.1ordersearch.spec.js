@@ -3,34 +3,49 @@ import fs from 'fs';
 import path from 'path';
 require('dotenv').config();
 
-const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
-let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-const BASE_URL = `${globalVars.baseURL}order/v1/search`;
-
-const validBody = {
-  criteria: {
-    filingNumber: globalVars.filingNumber,
-    tenantId: "kl",
-    status: "DRAFT_IN_PROGRESS",
-    courtId: "KLKM52"
-  },
-  RequestInfo: {
-    apiId: "Rainmaker",
-    authToken: globalVars.judgeauthtoken,
-    msgId: `${Date.now()}|en_IN`,
-    plainAccessRequest: {}
-  }
-};
-
 test.describe('Order Search API', () => {
   let apiContext;
+  let globalVars;
+  const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+
+  // Import values from global config into variables
+  let baseURL;
+  let tenantId;
+  let filingNumber;
+  let judgeauthtoken;
+  let searchEndpoint;
+  
+  let validBody;
 
   test.beforeAll(async ({ playwright }) => {
-    // Set the auth token from global variables
-    validBody.RequestInfo.authToken = globalVars.judgeauthtoken;
+    // Read global variables
+    globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+    
+    // Import values from global config into variables
+    baseURL = globalVars.baseURL;
+    tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+    filingNumber = globalVars.filingNumber;
+    judgeauthtoken = globalVars.judgeauthtoken;
+    searchEndpoint = `${baseURL}order/v1/search`;
+
+    // Initialize valid body with imported values
+    validBody = {
+      criteria: {
+        filingNumber: filingNumber,
+        tenantId: tenantId,
+        status: "DRAFT_IN_PROGRESS",
+        courtId: "KLKM52"
+      },
+      RequestInfo: {
+        apiId: "Rainmaker",
+        authToken: judgeauthtoken,
+        msgId: `${Date.now()}|en_IN`,
+        plainAccessRequest: {}
+      }
+    };
 
     apiContext = await playwrightRequest.newContext({
-      baseURL: globalVars.baseURL,
+      baseURL: baseURL,
       extraHTTPHeaders: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -43,6 +58,11 @@ test.describe('Order Search API', () => {
   });
 
   test('should return order list for valid request and store order details', async () => {
+    console.log('Order Search Request Body:', JSON.stringify(validBody, null, 2));
+    console.log('Using Filing Number:', filingNumber);
+    console.log('Using Judge Auth Token:', judgeauthtoken);
+    console.log('Using Tenant ID:', tenantId);
+    
     const response = await apiContext.post('/order/v1/search', {
       data: validBody
     });

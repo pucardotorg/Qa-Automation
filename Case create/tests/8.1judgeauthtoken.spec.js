@@ -7,6 +7,10 @@ const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 const baseUrl = globalVars.baseURL;
 
+// Import values from global config into variables
+const baseURL = globalVars.baseURL;
+const tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+
 const headers = {
   Authorization: 'Basic ZWdvdi11c2VyLWNsaWVudDo=',
 };
@@ -16,7 +20,7 @@ test('judgeauthtoken', async () => {
   const password = process.env.JUDGE_PASSWORD;
 
   const apiContext = await request.newContext();
-    const empresponse= await apiContext.post(`${baseUrl}user/oauth/token?_=1748935894913`,
+  const empresponse = await apiContext.post(`${baseURL}user/oauth/token?_=1748935894913`,
         {
             headers: headers,
            form: {
@@ -25,7 +29,7 @@ test('judgeauthtoken', async () => {
         district: "KOLLAM",
         courtroom: "KLKM52",
         userType: "EMPLOYEE",
-        tenantId: "kl",
+        tenantId: tenantId,
         scope: "read",
         grant_type: "password"
            }  
@@ -42,17 +46,10 @@ test('judgeauthtoken', async () => {
   console.log('Judge UUID:', judgeUUID);
 
   // Update global-variables.json
-  let globalVarsUpdated = {};
-  try {
-    globalVarsUpdated = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-  } catch (err) {
-    console.log('No existing global variables file found, creating new one');
-  }
-  globalVarsUpdated.judgeusername = username;
-  globalVarsUpdated.judgepassword = password;
-  globalVarsUpdated.judgeauthtoken = judgeauthtoken;
-  globalVarsUpdated.Judgeuserinfo = judgeUserInfo;
-  globalVarsUpdated.JudgeUUID = judgeUUID;
-  fs.writeFileSync(globalVarsPath, JSON.stringify(globalVarsUpdated, null, 2));
-  console.log('Updated global variables with Judge credentials, token, user info, and UUID');
+  globalVars.judgeusername = username;
+  globalVars.judgepassword = password;
+  globalVars.judgeauthtoken = judgeauthtoken;
+  globalVars.judgeUserResponse = responseJson;
+  fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
+  console.log('Updated global variables with Judge credentials, token, and user response');
 }); 

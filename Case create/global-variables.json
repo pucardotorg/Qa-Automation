@@ -1,17 +1,16 @@
 {
-  "caseId": "a8461b54-c952-4612-bfbe-881b74bef130",
-  "filingNumber": "KL-002070-2025",
-  "nayamitraAuthToken": "4cd312bd-6d2e-4d45-b6c2-922c83af20bd",
+  "caseId": "afa9c02e-193a-4cb3-bac3-15e7cfa7d06b",
+  "filingNumber": "KL-002076-2025",
+  "nayamitraAuthToken": "458ba17b-50a3-4724-a537-7799395ae773",
   "fsousername": "michaelGeorgeFso",
   "fsopassword": "Beehyv@123",
-  "fsoauthtoken": "33432ef4-1189-475b-974d-9da1160f40f5",
   "judgeusername": "michaelGeorgeJudge",
   "judgepassword": "Beehyv@123",
-  "judgeauthtoken": "928f2ec3-adc0-4264-95fc-931ba0b5ceb8",
-  "cnrNumber": "KLKM520007382025",
-  "orderId": "e5f1fcba-2563-4cda-be0c-e24bd233db85",
-  "orderNumber": "KL-002061-2025-OR1",
-  "hearingId": "KL-002061-2025-HR1",
+  "judgeauthtoken": "5ea8bf8d-d191-4ed9-b62d-c5be6707f835",
+  "cnrNumber": "KLKM520007472025",
+  "orderId": "97feda2c-f946-4376-be1f-65d7b1a653e4",
+  "orderNumber": "KL-002076-2025-OR1",
+  "hearingId": "KL-002076-2025-HR1",
   "citizenUserInfo": {
     "id": 2149,
     "uuid": "5426acd3-e73f-458c-bfeb-2819a4caa0fd",
@@ -132,23 +131,521 @@
     "tenantId": "kl",
     "permanentCity": null
   },
-  "applicationId": "6c862d86-aab6-4298-b469-3e4af834f5d0",
-  "applicationNumber": "KL-002061-2025-AP1",
-  "applicationCreatedDate": 1752066924567,
-  "statuteSectionId": "b570824a-3e03-4671-b1f0-8d61d2b5b6ef",
-  "applicationDocumentId": "4bbf8f4b-3816-4f03-abf5-ffef36b11c0e",
+  "applicationId": "f24b8484-288e-45ef-b7f6-8a4ea33de3fe",
+  "applicationNumber": "KL-002076-2025-AP1",
+  "applicationCreatedDate": 1752135655740,
+  "statuteSectionId": "ce0bae62-1e57-4b0a-9ba5-a4dcff2ed97e",
+  "applicationDocumentId": "b2a23d6b-ab54-4fdc-b133-30c6dbe7123a",
   "applicationDocumentFileStore": "78abb8bd-c5e0-4cb1-9818-48425f10615a",
-  "demandId": "f7ea7d1b-391a-4066-a322-d56a53134982",
-  "billId": "a0db200e-bd38-47be-8927-8cb24b2e2c17",
+  "advocateuserUUID": "5426acd3-e73f-458c-bfeb-2819a4caa0fd",
+  "advocateIndividualId": "IND-2025-06-27-000443",
+  "demandId": "f48c30a4-3176-4225-8747-2ddeadce8d9e",
+  "billId": "6e11d860-541c-4b06-b324-df2049bc6bb2",
   "citizenAuthToken": "1e288cbd-ebfb-4ab3-96a1-ba2d91b770a4",
-  "epochTime": 1752128489577,
-  "representingid": "e359be37-148a-4822-b425-285bab678b67",
-  "litigantid": "ce07e212-59f5-494b-ab5a-14d63daf4456",
-  "representingli": "6a45b858-ab9f-4da2-ba68-9577e729ab97",
-  "artifactId": "28c76f25-966e-4ab8-a252-f36b0fb1594f",
-  "artifactNumber": "KL-002061-2025-AR6",
+  "epochTime": 1752135594769,
+  "representingid": "87213a36-7063-4988-9179-1316c55ad5ec",
+  "litigantid": "99340653-b131-42b6-a7e0-1169e20018db",
+  "representingli": "03d8f361-440a-4525-9d1f-b1ac412cd0b4",
+  "artifactId": "eee2fb60-8279-4a25-8f15-824a32c41c01",
+  "artifactNumber": "KL-002076-2025-AR6",
   "baseURL": "https://dristi-kerala-uat.pucar.org/",
   "advocateId": "1e641bf6-14d9-43d6-b6d9-5632406dd77e",
-  "advocateuserUUID": "5426acd3-e73f-458c-bfeb-2819a4caa0fd",
-  "advocateIndividualId": "IND-2025-06-27-000443"
+  "nayamitraUserResponse": {
+    "access_token": "458ba17b-50a3-4724-a537-7799395ae773",
+    "token_type": "bearer",
+    "refresh_token": "19db316c-38da-4f9d-9c2d-a873f4f5a083",
+    "expires_in": 604183,
+    "scope": "read",
+    "ResponseInfo": {
+      "api_id": "",
+      "ver": "",
+      "ts": "",
+      "res_msg_id": "",
+      "msg_id": "",
+      "status": "Access Token generated successfully"
+    },
+    "UserRequest": {
+      "id": 2125,
+      "uuid": "c04ed0f9-03de-41b2-84a8-bfe8535a5d60",
+      "userName": "michaelGeorgeNm",
+      "name": "michaelGeorgeNm",
+      "mobileNumber": "9743294383",
+      "emailId": "michaelGeorgeNm@gmail.com",
+      "locale": null,
+      "type": "EMPLOYEE",
+      "roles": [
+        {
+          "name": "ADVOCATE_CLERK_APPROVER",
+          "code": "ADVOCATE_CLERK_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "PAYMENT_COLLECTOR",
+          "code": "PAYMENT_COLLECTOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_VIEWER",
+          "code": "ORDER_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "NYAY_MITRA_ROLE",
+          "code": "NYAY_MITRA_ROLE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "Employee",
+          "code": "EMPLOYEE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ADVOCATE_APPROVER",
+          "code": "ADVOCATE_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ADVOCATE_APPLICATION_VIEWER",
+          "code": "ADVOCATE_APPLICATION_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "TASK_VIEWER",
+          "code": "TASK_VIEWER",
+          "tenantId": "kl"
+        }
+      ],
+      "active": true,
+      "tenantId": "kl",
+      "permanentCity": null
+    }
+  },
+  "fsoUserResponse": {
+    "access_token": "5a0677c7-f08e-464c-872a-b93debbc2f8a",
+    "token_type": "bearer",
+    "refresh_token": "b14d86f9-7afe-4e0e-a161-c416bec828c1",
+    "expires_in": 595814,
+    "scope": "read",
+    "ResponseInfo": {
+      "api_id": "",
+      "ver": "",
+      "ts": "",
+      "res_msg_id": "",
+      "msg_id": "",
+      "status": "Access Token generated successfully"
+    },
+    "UserRequest": {
+      "id": 2122,
+      "uuid": "9e54367b-057a-4c51-8eba-578ae12478a5",
+      "userName": "michaelGeorgeFso",
+      "name": "michaelGeorgeFso",
+      "mobileNumber": "9394534754",
+      "emailId": "michaelGeorgeFso@gmail.com",
+      "locale": null,
+      "type": "EMPLOYEE",
+      "roles": [
+        {
+          "name": "FSO_ROLE",
+          "code": "FSO_ROLE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CASE_VIEWER",
+          "code": "CASE_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_VIEWER",
+          "code": "HEARING_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_APPROVER",
+          "code": "HEARING_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CASE_REVIEWER",
+          "code": "CASE_REVIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_VIEWER",
+          "code": "ORDER_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_REASSIGN",
+          "code": "ORDER_REASSIGN",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CASE_EDITOR",
+          "code": "CASE_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_APPROVER",
+          "code": "ORDER_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "Employee",
+          "code": "EMPLOYEE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "General Court Room Manager",
+          "code": "GENERAL_COURT_ROOM_MANAGER",
+          "tenantId": "kl"
+        }
+      ],
+      "active": true,
+      "tenantId": "kl",
+      "permanentCity": null
+    }
+  },
+  "fsoauthtoken": "5a0677c7-f08e-464c-872a-b93debbc2f8a",
+  "judgeUserResponse": {
+    "access_token": "5ea8bf8d-d191-4ed9-b62d-c5be6707f835",
+    "token_type": "bearer",
+    "refresh_token": "4ae35ffe-7d82-415b-9869-a94ddd4804aa",
+    "expires_in": 598481,
+    "scope": "read",
+    "ResponseInfo": {
+      "api_id": "",
+      "ver": "",
+      "ts": "",
+      "res_msg_id": "",
+      "msg_id": "",
+      "status": "Access Token generated successfully"
+    },
+    "UserRequest": {
+      "id": 1981,
+      "uuid": "747a447a-82a8-4b21-9225-6bffc5619d64",
+      "userName": "michaelGeorgeJudge",
+      "name": "Michael George UAT",
+      "mobileNumber": "6262626262",
+      "emailId": "chrajesh966@gmail.com",
+      "locale": null,
+      "type": "EMPLOYEE",
+      "roles": [
+        {
+          "name": "DIARY_APPROVER",
+          "code": "DIARY_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_VIEWER",
+          "code": "HEARING_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "WORKFLOW_ABANDON",
+          "code": "WORKFLOW_ABANDON",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_ESIGN",
+          "code": "ORDER_ESIGN",
+          "tenantId": "kl"
+        },
+        {
+          "name": "Workflow Admin",
+          "code": "WORKFLOW_ADMIN",
+          "tenantId": "kl"
+        },
+        {
+          "name": "APPLICATION_CREATOR",
+          "code": "APPLICATION_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "DEPOSITION_PUBLISHER",
+          "code": "DEPOSITION_PUBLISHER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_APPROVER",
+          "code": "HEARING_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SUBMISSION_RESPONDER",
+          "code": "SUBMISSION_RESPONDER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_VIEWER",
+          "code": "ORDER_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_REASSIGN",
+          "code": "ORDER_REASSIGN",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CASE_EDITOR",
+          "code": "CASE_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "TASK_CREATOR",
+          "code": "TASK_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "APPLICATION_APPROVER",
+          "code": "APPLICATION_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "DIARY_VIEWER",
+          "code": "DIARY_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "Employee",
+          "code": "EMPLOYEE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SUBMISSION_CREATOR",
+          "code": "SUBMISSION_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_DELETE",
+          "code": "ORDER_DELETE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "NOTIFICATION_APPROVER",
+          "code": "NOTIFICATION_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CASE_VIEWER",
+          "code": "CASE_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "PDF_CREATOR",
+          "code": "PDF_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "TASK_EDITOR",
+          "code": "TASK_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "APPLICATION_REJECTOR",
+          "code": "APPLICATION_REJECTOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_EDITOR",
+          "code": "HEARING_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_APPROVER",
+          "code": "ORDER_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "DIARY_EDITOR",
+          "code": "DIARY_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "NOTIFICATION_CREATOR",
+          "code": "NOTIFICATION_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_CREATOR",
+          "code": "HEARING_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_CREATOR",
+          "code": "ORDER_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "EVIDENCE_CREATOR",
+          "code": "EVIDENCE_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CALCULATION_VIEWER",
+          "code": "CALCULATION_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "JUDGE_ROLE",
+          "code": "JUDGE_ROLE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "EVIDENCE_EDITOR",
+          "code": "EVIDENCE_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CASE_APPROVER",
+          "code": "CASE_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SUBMISSION_APPROVER",
+          "code": "SUBMISSION_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "TASK_VIEWER",
+          "code": "TASK_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_SCHEDULER",
+          "code": "HEARING_SCHEDULER",
+          "tenantId": "kl"
+        }
+      ],
+      "active": true,
+      "tenantId": "kl",
+      "permanentCity": null
+    }
+  },
+  "NAYAMITRAuserinfo": {
+    "id": 2125,
+    "uuid": "c04ed0f9-03de-41b2-84a8-bfe8535a5d60",
+    "userName": "michaelGeorgeNm",
+    "name": "michaelGeorgeNm",
+    "mobileNumber": "9743294383",
+    "emailId": "michaelGeorgeNm@gmail.com",
+    "locale": null,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
+        "name": "ADVOCATE_CLERK_APPROVER",
+        "code": "ADVOCATE_CLERK_APPROVER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "PAYMENT_COLLECTOR",
+        "code": "PAYMENT_COLLECTOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ORDER_VIEWER",
+        "code": "ORDER_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "NYAY_MITRA_ROLE",
+        "code": "NYAY_MITRA_ROLE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "Employee",
+        "code": "EMPLOYEE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_APPROVER",
+        "code": "ADVOCATE_APPROVER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_APPLICATION_VIEWER",
+        "code": "ADVOCATE_APPLICATION_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "TASK_VIEWER",
+        "code": "TASK_VIEWER",
+        "tenantId": "kl"
+      }
+    ],
+    "active": true,
+    "tenantId": "kl",
+    "permanentCity": null
+  },
+  "nayamitrauuid": "c04ed0f9-03de-41b2-84a8-bfe8535a5d60",
+  "FSOuserinfo": {
+    "id": 2122,
+    "uuid": "9e54367b-057a-4c51-8eba-578ae12478a5",
+    "userName": "michaelGeorgeFso",
+    "name": "michaelGeorgeFso",
+    "mobileNumber": "9394534754",
+    "emailId": "michaelGeorgeFso@gmail.com",
+    "locale": null,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
+        "name": "FSO_ROLE",
+        "code": "FSO_ROLE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_VIEWER",
+        "code": "CASE_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "HEARING_VIEWER",
+        "code": "HEARING_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "HEARING_APPROVER",
+        "code": "HEARING_APPROVER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_REVIEWER",
+        "code": "CASE_REVIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ORDER_VIEWER",
+        "code": "ORDER_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ORDER_REASSIGN",
+        "code": "ORDER_REASSIGN",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_EDITOR",
+        "code": "CASE_EDITOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ORDER_APPROVER",
+        "code": "ORDER_APPROVER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "Employee",
+        "code": "EMPLOYEE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "General Court Room Manager",
+        "code": "GENERAL_COURT_ROOM_MANAGER",
+        "tenantId": "kl"
+      }
+    ],
+    "active": true,
+    "tenantId": "kl",
+    "permanentCity": null
+  },
+  "fsouuid": "9e54367b-057a-4c51-8eba-578ae12478a5"
 }

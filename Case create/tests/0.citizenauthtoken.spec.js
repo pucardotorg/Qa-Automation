@@ -20,10 +20,10 @@ test('citizenauthtoken', async () => {
             {
                 username: process.env.CITIZEN_USERNAME,
                 password: process.env.CITIZEN_PASSWORD,
-                tenantId :"kl",
-                userType:"citizen",
-                scope:"read",
-                grant_type:"password"
+            tenantId :"kl",
+            userType:"citizen",
+            scope:"read",
+            grant_type:"password"
             }
         } );
     const citizenresponsejson= await  citizenresponse.json();
@@ -41,7 +41,7 @@ test('citizenauthtoken', async () => {
    }   
 );
 
-test('Convert current date to epoch timestamp', async () => {
+ test('Convert current date to epoch timestamp', async () => {
   // Step 1: Get the current date and time
   const currentDate = new Date();
 

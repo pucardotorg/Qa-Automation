@@ -5,23 +5,35 @@ import path from 'path';
 // Read global variables
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-const caseId = globalVars.caseId;
+
+// Import values from global config into variables
 const baseURL = globalVars.baseURL;
-const apiUrl = `${baseURL}case/v1/_update?tenantId=kl`;
-const epochtime = globalVars.epochTime;
+const tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+const caseId = globalVars.caseId;
+const filingNumber = globalVars.filingNumber;
+const judgeauthtoken = globalVars.judgeauthtoken;
+const epochTime = globalVars.epochTime;
+const litigantid = globalVars.litigantid;
+const representingid = globalVars.representingid;
+const representingli = globalVars.representingli;
+const advocateId = globalVars.advocateId;
+const judgeUserResponse = globalVars.judgeUserResponse;
+const citizenUserInfo = globalVars.citizenUserInfo;
+
+const apiUrl = `${baseURL}case/v1/_update?tenantId=${tenantId}`;
 
 test.describe('Judge Register Case API Tests', () => {
   let apiContext;
 
   const baseRequestBody = {
     "cases": {
-        "id": globalVars.caseId, // Use case ID from global variables
-        "tenantId": "kl",
+        "id": caseId, // Use case ID from global variables
+        "tenantId": tenantId,
         "resolutionMechanism": "COURT",
         "caseTitle": "Rajesh Ch vs Accused Details",
         "isActive": true,
         "caseDescription": "Case description",
-        "filingNumber": globalVars.filingNumber, // Use filing number from global variables
+        "filingNumber": filingNumber, // Use filing number from global variables
         "advocateCount": 0,
         "courtCaseNumber": null,
         "caseNumber": null,
@@ -216,7 +228,7 @@ test.describe('Judge Register Case API Tests', () => {
         "statutesAndSections": [
             {
                 "id": "fddc9e5c-b306-4839-b410-fe302a0b1875",
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "statute": null,
                 "sections": [
                     "Negotiable Instrument Act",
@@ -238,7 +250,7 @@ test.describe('Judge Register Case API Tests', () => {
             },
             {
                 "id": "7d945d58-b014-4f7c-9207-bc9dd9cfe656",
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "statute": null,
                 "sections": [
                     "Negotiable Instrument Act",
@@ -260,7 +272,7 @@ test.describe('Judge Register Case API Tests', () => {
             },
             {
                 "id": "6526b66f-4c12-4055-970b-f2de6fd342cb",
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "statute": null,
                 "sections": [
                     "Negotiable Instrument Act",
@@ -283,8 +295,8 @@ test.describe('Judge Register Case API Tests', () => {
         ],
         "litigants": [
             {
-                "id": globalVars.litigantid,
-                "tenantId": "kl",
+                "id": litigantid,
+                "tenantId": tenantId,
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
@@ -295,10 +307,10 @@ test.describe('Judge Register Case API Tests', () => {
                 "isPartyInPerson": false,
                 "documents": [],
                 "auditDetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": epochtime,
-                    "lastModifiedTime": epochtime
+                    "createdBy": citizenUserInfo?.uuid ,
+                    "lastModifiedBy": citizenUserInfo?.uuid ,
+                    "createdTime": epochTime,
+                    "lastModifiedTime": epochTime
                 },
                 "additionalDetails": {
                     "fullName": "Rajesh Ch",
@@ -310,14 +322,14 @@ test.describe('Judge Register Case API Tests', () => {
         ],
         "representatives": [
             {
-                "id": globalVars.representingid,
-                "tenantId": "kl",
-                "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
+                "id": representingid,
+                "tenantId": tenantId,
+                "advocateId": advocateId,
                 "caseId": caseId,
                 "representing":  [
                     {
-                        "id": globalVars.representingli,
-                        "tenantId": "kl",
+                        "id": representingli,
+                        "tenantId": tenantId,
                         "caseId": "56809884-ae9f-4f91-8293-7c13a338a9b4",
                         "partyCategory": "INDIVIDUAL",
                         "organisationID": null,
@@ -337,10 +349,10 @@ test.describe('Judge Register Case API Tests', () => {
                             }
                         ],
                         "auditDetails": {
-                            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                            "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                            "createdTime": epochtime,
-                            "lastModifiedTime": epochtime
+                            "createdBy": citizenUserInfo?.uuid,
+                            "lastModifiedBy": citizenUserInfo?.uuid,
+                            "createdTime": epochTime,
+                            "lastModifiedTime": epochTime
                         },
                         "additionalDetails": {
                             "fullName": "Rajesh Ch",
@@ -353,14 +365,14 @@ test.describe('Judge Register Case API Tests', () => {
                 "isActive": true,
                 "documents": [],
                 "auditDetails": {
-                    "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "createdTime": epochtime,
-                    "lastModifiedTime": epochtime
+                    "createdBy": citizenUserInfo?.uuid,
+                    "lastModifiedBy": citizenUserInfo?.uuid,
+                    "createdTime": epochTime,
+                    "lastModifiedTime": epochTime
                 },
                 "additionalDetails": {
-                    "advocateName": "Maruthi ch",
-                    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f"
+                    "advocateName": citizenUserInfo?.name,
+                    "uuid": citizenUserInfo?.uuid
                 },
                 "hasSigned": false
             }
@@ -475,7 +487,7 @@ test.describe('Judge Register Case API Tests', () => {
                                         "advocateNameDetails": {
                                             "lastName": "ch",
                                             "firstName": "Maruthi",
-                                            "advocateMobileNumber": "6303338642",
+                                            "advocateMobileNumber": citizenUserInfo?.mobileNumber,
                                             "middleName": "",
                                             "advocateIdProof": [
                                                 {
@@ -487,10 +499,10 @@ test.describe('Judge Register Case API Tests', () => {
                                             ]
                                         },
                                         "advocateBarRegNumberWithName": {
-                                            "advocateName": "Maruthi ch",
+                                            "advocateName": citizenUserInfo?.name,
                                             "isDisable": true,
-                                            "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960",
-                                            "advocateUuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+                                            "advocateId": advocateId,
+                                            "advocateUuid": citizenUserInfo?.uuid,
                                             "individualId": "IND-2024-11-19-000893",
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST"
@@ -799,211 +811,22 @@ test.describe('Judge Register Case API Tests', () => {
             }
         },
         "auditDetails": {
-            "createdBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-            "lastModifiedBy": "e5c5dc1a-04f2-40ef-96fa-e36a74229ac2",
-            "createdTime": epochtime,
-            "lastModifiedTime": epochtime
+            "createdBy": citizenUserInfo?.uuid,
+            "lastModifiedBy": judgeUserResponse?.UserRequest?.uuid,
+            "createdTime": epochTime,
+            "lastModifiedTime": epochTime
         },
         "advocateStatus": null,
         "poaHolders": null
     },
-    "tenantId": "kl",
+    "tenantId": tenantId, // Use tenantId from global config
     "RequestInfo": {
         "apiId": "Rainmaker",
-        "authToken": globalVars.judgeauthtoken, // Use judge auth token from global variables
-        "userInfo": {
-            "id": 963,
-            "uuid": "639b8909-4f25-43da-a952-3417b09afb34",
-            "userName": "gJudge",
-            "name": "Judge",
-            "mobileNumber": "1002335566",
-            "emailId": null,
-            "locale": null,
-            "type": "EMPLOYEE",
-            "roles": [
-                {
-                    "name": "DIARY_APPROVER",
-                    "code": "DIARY_APPROVER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_VIEWER",
-                    "code": "HEARING_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "WORKFLOW_ABANDON",
-                    "code": "WORKFLOW_ABANDON",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_ESIGN",
-                    "code": "ORDER_ESIGN",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "Workflow Admin",
-                    "code": "WORKFLOW_ADMIN",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_CREATOR",
-                    "code": "APPLICATION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "DEPOSITION_PUBLISHER",
-                    "code": "DEPOSITION_PUBLISHER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_APPROVER",
-                    "code": "HEARING_APPROVER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_RESPONDER",
-                    "code": "SUBMISSION_RESPONDER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_VIEWER",
-                    "code": "ORDER_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_REASSIGN",
-                    "code": "ORDER_REASSIGN",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_EDITOR",
-                    "code": "CASE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "TASK_CREATOR",
-                    "code": "TASK_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_APPROVER",
-                    "code": "APPLICATION_APPROVER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "DIARY_VIEWER",
-                    "code": "DIARY_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "Employee",
-                    "code": "EMPLOYEE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_DELETE",
-                    "code": "ORDER_DELETE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "NOTIFICATION_APPROVER",
-                    "code": "NOTIFICATION_APPROVER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_VIEWER",
-                    "code": "CASE_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "TASK_EDITOR",
-                    "code": "TASK_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "APPLICATION_REJECTOR",
-                    "code": "APPLICATION_REJECTOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_EDITOR",
-                    "code": "HEARING_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "DIARY_EDITOR",
-                    "code": "DIARY_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_APPROVER",
-                    "code": "ORDER_APPROVER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "NOTIFICATION_CREATOR",
-                    "code": "NOTIFICATION_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_CREATOR",
-                    "code": "HEARING_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_CREATOR",
-                    "code": "EVIDENCE_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "ORDER_CREATOR",
-                    "code": "ORDER_CREATOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CALCULATION_VIEWER",
-                    "code": "CALCULATION_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "JUDGE_ROLE",
-                    "code": "JUDGE_ROLE",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "EVIDENCE_EDITOR",
-                    "code": "EVIDENCE_EDITOR",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "CASE_APPROVER",
-                    "code": "CASE_APPROVER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "SUBMISSION_APPROVER",
-                    "code": "SUBMISSION_APPROVER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "TASK_VIEWER",
-                    "code": "TASK_VIEWER",
-                    "tenantId": "kl"
-                },
-                {
-                    "name": "HEARING_SCHEDULER",
-                    "code": "HEARING_SCHEDULER",
-                    "tenantId": "kl"
-                }
-            ],
-            "active": true,
-            "tenantId": "kl",
-            "permanentCity": null
-        },
+        "authToken": judgeauthtoken, // Use judge auth token from global variables
+        "userInfo": judgeUserResponse?.UserRequest ,
         "msgId": `${Date.now()}|en_IN` // Dynamic msgId
     }
-  };
+};
 
   test.beforeAll(async ({ playwright }) => {
     apiContext = await playwright.request.newContext({
@@ -1018,6 +841,11 @@ test.describe('Judge Register Case API Tests', () => {
 
   test('should return 200 for successful case registration', async () => {
     console.log('Request Body:', JSON.stringify(baseRequestBody, null, 2));
+    console.log('Using Case ID:', caseId);
+    console.log('Using Filing Number:', filingNumber);
+    console.log('Using Advocate ID:', advocateId);
+    console.log('Using Judge Auth Token:', judgeauthtoken);
+    
     const response = await apiContext.post(apiUrl, {
       data: baseRequestBody,
     });

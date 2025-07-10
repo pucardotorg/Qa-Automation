@@ -2,19 +2,59 @@ import { test, expect, request } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 import globalVariables from '../utils/global-variables';
-const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
-
-let apiContext;
-const baseUrl = `${globalVars.baseURL}evidence/v1/_search`;
-const tenantId = 'kl';
-const validAuthToken = globalVars.judgeauthtoken;
-const caseId = globalVars.caseId;
-const filingNumber = globalVars.filingNumber;
 
 test.describe('API Tests for evidence search endpoint', () => {
   let apiContext;
+  let globalVars;
+  const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+
+  // Import values from global config into variables
+  let baseURL;
+  let tenantId;
+  let judgeauthtoken;
+  let caseId;
+  let filingNumber;
+  let baseUrl;
+  
+  let validRequestBody;
 
   test.beforeAll(async ({ playwright }) => {
+    // Read global variables
+    globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+    
+    // Import values from global config into variables
+    baseURL = globalVars.baseURL;
+    tenantId = globalVars.citizenUserInfo?.tenantId || 'kl';
+    judgeauthtoken = globalVars.judgeauthtoken;
+    caseId = globalVars.caseId;
+    filingNumber = globalVars.filingNumber;
+    baseUrl = `${baseURL}evidence/v1/_search`;
+
+    // Initialize valid request body with imported values
+    validRequestBody = {
+      "apiOperation": "SEARCH",
+      "Individual": {
+        "tenantId": tenantId
+      },
+      "criteria": {
+        "caseId": caseId,
+        "filingNumber": filingNumber,
+        "tenantId": tenantId,
+        "courtId": "KLKM52"
+      },
+      "tenantId": tenantId,
+      "pagination": {
+        "limit": 10,
+        "offSet": 0
+      },
+      "RequestInfo": {
+        "apiId": "Rainmaker",
+        "authToken": judgeauthtoken,
+        "msgId": `${Date.now()}|en_IN`,
+        "plainAccessRequest": {}
+      }
+    };
+
     apiContext = await playwright.request.newContext();
   });
 
@@ -22,32 +62,14 @@ test.describe('API Tests for evidence search endpoint', () => {
     await apiContext.dispose();
   });
 
-  const validRequestBody = {
-    "apiOperation": "SEARCH",
-    "Individual": {
-      "tenantId": tenantId
-    },
-    "criteria": {
-      "caseId": caseId,
-      "filingNumber": filingNumber,
-      "tenantId": tenantId,
-      "courtId": "KLKM52"
-    },
-    "tenantId": tenantId,
-    "pagination": {
-      "limit": 10,
-      "offSet": 0
-    },
-    "RequestInfo": {
-      "apiId": "Rainmaker",
-      "authToken": validAuthToken,
-      "msgId": `${Date.now()}|en_IN`,
-      "plainAccessRequest": {}
-    }
-  };
-
   // Test case for successful request
   test('should return successful response for valid request', async () => {
+    console.log('Evidence Search Request Body:', JSON.stringify(validRequestBody, null, 2));
+    console.log('Using Case ID:', caseId);
+    console.log('Using Filing Number:', filingNumber);
+    console.log('Using Judge Auth Token:', judgeauthtoken);
+    console.log('Using Tenant ID:', tenantId);
+
     const response = await apiContext.post(`${baseUrl}?_=${Date.now()}`, { data: validRequestBody });
 
     // Expect status code 200 for success
@@ -80,15 +102,11 @@ test.describe('API Tests for evidence search endpoint', () => {
     // Update global variables with first artifact information
     if (responseBody.artifacts.length > 0) {
       const artifact = responseBody.artifacts[0];
-      const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
       globalVars.artifactId = artifact.id;
       globalVars.artifactNumber = artifact.artifactNumber;
       
       // Write back to global variables file
-      fs.writeFileSync(
-        path.join(__dirname, '..', 'global-variables.json'),
-        JSON.stringify(globalVars, null, 2)
-      );
+      fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
 
       console.log('\nUpdated Global Variables:');
       console.log('Artifact ID:', artifact.id);

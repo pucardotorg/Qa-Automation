@@ -5,16 +5,47 @@ const path = require('path');
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
+// Import values from global config into variables
+const baseURL = globalVars.baseURL;
+const tenantId = globalVars.citizenUserInfo?.tenantId || 'kl';
+const filingNumber = globalVars.filingNumber;
+const nayamitraAuthToken = globalVars.nayamitraAuthToken;
+const nayamitraUserInfo = globalVars.NAYAMITRAuserinfo;
+const nayamitraUUID = globalVars.nayamitrauuid;
+const caseId = globalVars.caseId;
+const cnrNumber = globalVars.cnrNumber;
+const billIdFromConfig = globalVars.billId;
+const advocateId = globalVars.advocateId;
+const litigantid = globalVars.litigantid;
+const representingid = globalVars.representingid;
+const representingli = globalVars.representingli;
+const epochTime = globalVars.epochTime;
+
+console.log('Using config values:', {
+  baseURL,
+  tenantId,
+  filingNumber,
+  nayamitraAuthToken: nayamitraAuthToken ? '***' : 'undefined',
+  nayamitraUUID,
+  caseId,
+  cnrNumber,
+  billIdFromConfig,
+  advocateId,
+  litigantid,
+  representingid,
+  representingli,
+  epochTime
+});
+
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL_FETCH_BILL = `${globalVars.baseURL}billing-service/bill/v2/_fetchbill`;
+const BASE_URL_FETCH_BILL = `${baseURL}billing-service/bill/v2/_fetchbill`;
 
 // Constants for URL parameters and request body
-const tenantId = 'kl';
 const businessService = 'case-default';
 // Use dynamic consumerCode and auth token from global variables
-const consumerCode = globalVars.filingNumber + '_CASE_FILING';
-const AUTH_TOKEN = globalVars.nayamitraAuthToken;
+const consumerCode = filingNumber + '_CASE_FILING';
+const AUTH_TOKEN = nayamitraAuthToken;
 
 let billId = null; // Variable to store the extracted billId
 

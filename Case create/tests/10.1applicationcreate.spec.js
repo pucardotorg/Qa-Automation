@@ -3,18 +3,37 @@ import fs from 'fs';
 import path from 'path';
 require('dotenv').config();
 
-const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
-let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-const BASE_URL = globalVars.baseURL;
-
 test.describe('Application Create API Tests', () => {
     let apiContext;
+    let globalVars;
+    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+
+    // Import values from global config into variables
+    let baseURL;
+    let tenantId;
+    let filingNumber;
+    let cnrNumber;
+    let caseId;
+    let citizenAuthToken;
+    let citizenUserInfo;
+    
     const ENDPOINT_PATH = '/application/v1/create'; 
-    const TENANT_ID = 'kl';
 
     test.beforeAll(async ({ playwright }) => {
+        // Read global variables
+        globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+        
+        // Import values from global config into variables
+        baseURL = globalVars.baseURL;
+        tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+        filingNumber = globalVars.filingNumber;
+        cnrNumber = globalVars.cnrNumber;
+        caseId = globalVars.caseId;
+        citizenAuthToken = globalVars.citizenAuthToken;
+        citizenUserInfo = globalVars.citizenUserInfo;
+
         apiContext = await playwright.request.newContext({
-            baseURL: BASE_URL,
+            baseURL: baseURL,
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -29,7 +48,7 @@ test.describe('Application Create API Tests', () => {
     test('should create a new application (200 OK) and update global variables', async () => {
         const timestamp = Date.now();
         const requestBody = {
-            "tenantId": TENANT_ID,
+            "tenantId": tenantId,
             "application": {
                 "applicationDetails": {
                     "applicationTitle": "Application for Others",
@@ -37,19 +56,19 @@ test.describe('Application Create API Tests', () => {
                     "reasonForApplication": "afaf",
                     "advocateIndividualId": "IND-2024-11-19-000893"
                 },
-                "tenantId": TENANT_ID,
-                "filingNumber": globalVars.filingNumber,
-                "cnrNumber": globalVars.cnrNumber,
+                "tenantId": tenantId,
+                "filingNumber": filingNumber,
+                "cnrNumber": cnrNumber,
                 "cmpNumber": "CMP/1167/2025", 
-                "caseId": globalVars.caseId,
+                "caseId": caseId,
                 "referenceId": null,
                 "createdDate": timestamp,
                 "applicationType": "OTHERS",
                 "status": "PENDING_NOTICE",
                 "isActive": true,
-                "createdBy": globalVars.citizenUserInfo.uuid,
+                "createdBy": citizenUserInfo?.uuid,
                 "statuteSection": {
-                    "tenantId": TENANT_ID
+                    "tenantId": tenantId
                 },
                 "additionalDetails": {
                     "formdata": {
@@ -83,7 +102,7 @@ test.describe('Application Create API Tests', () => {
                     "onBehalOfName": "Rajesh Ch",
                     "partyType": "complainant",
                     "isResponseRequired": true,
-                    "owner": "Maruthi ch"
+                    "owner": citizenUserInfo?.name
                 },
                 "documents": [
                     {
@@ -111,58 +130,28 @@ test.describe('Application Create API Tests', () => {
             },
             "RequestInfo": {
                 "apiId": "Rainmaker",
-                "authToken": globalVars.citizenAuthToken,
-                "userInfo": {
-                    "id": 1181,
-                    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                    "userName": "6303338642",
-                    "name": "Maruthi ch",
-                    "mobileNumber": "6303338642",
-                    "emailId": "marruthi@gmail.com",
-                    "locale": null,
-                    "type": "CITIZEN",
-                    "roles": [
-                        { "name": "USER_REGISTER", "code": "USER_REGISTER", "tenantId": "kl" },
-                        { "name": "CASE_VIEWER", "code": "CASE_VIEWER", "tenantId": "kl" },
-                        { "name": "HEARING_VIEWER", "code": "HEARING_VIEWER", "tenantId": "kl" },
-                        { "name": "Citizen", "code": "CITIZEN", "tenantId": "kl" },
-                        { "name": "ADVOCATE_ROLE", "code": "ADVOCATE_ROLE", "tenantId": "kl" },
-                        { "name": "APPLICATION_CREATOR", "code": "APPLICATION_CREATOR", "tenantId": "kl" },
-                        { "name": "EVIDENCE_CREATOR", "code": "EVIDENCE_CREATOR", "tenantId": "kl" },
-                        { "name": "EVIDENCE_EDITOR", "code": "EVIDENCE_EDITOR", "tenantId": "kl" },
-                        { "name": "SUBMISSION_DELETE", "code": "SUBMISSION_DELETE", "tenantId": "kl" },
-                        { "name": "HEARING_ACCEPTOR", "code": "HEARING_ACCEPTOR", "tenantId": "kl" },
-                        { "name": "ORDER_VIEWER", "code": "ORDER_VIEWER", "tenantId": "kl" },
-                        { "name": "SUBMISSION_RESPONDER", "code": "SUBMISSION_RESPONDER", "tenantId": "kl" },
-                        { "name": "CASE_EDITOR", "code": "CASE_EDITOR", "tenantId": "kl" },
-                        { "name": "EVIDENCE_VIEWER", "code": "EVIDENCE_VIEWER", "tenantId": "kl" },
-                        { "name": "ADVOCATE_VIEWER", "code": "ADVOCATE_VIEWER", "tenantId": "kl" },
-                        { "name": "APPLICATION_VIEWER", "code": "APPLICATION_VIEWER", "tenantId": "kl" },
-                        { "name": "SUBMISSION_CREATOR", "code": "SUBMISSION_CREATOR", "tenantId": "kl" },
-                        { "name": "TASK_VIEWER", "code": "TASK_VIEWER", "tenantId": "kl" },
-                        { "name": "ADVOCATE_APPLICATION_VIEWER", "code": "ADVOCATE_APPLICATION_VIEWER", "tenantId": "kl" },
-                        { "name": "CASE_CREATOR", "code": "CASE_CREATOR", "tenantId": "kl" },
-                        { "name": "PENDING_TASK_CREATOR", "code": "PENDING_TASK_CREATOR", "tenantId": "kl" }
-                    ],
-                    "active": true,
-                    "tenantId": TENANT_ID,
-                    "permanentCity": null
-                },
+                "authToken": citizenAuthToken,
+                "userInfo": citizenUserInfo ,
                 "msgId": `${timestamp}|en_IN`,
                 "plainAccessRequest": {}
             }
         };
 
         console.log('Create Application Request Body:', JSON.stringify(requestBody, null, 2));
+        console.log('Using Filing Number:', filingNumber);
+        console.log('Using CNR Number:', cnrNumber);
+        console.log('Using Case ID:', caseId);
+        console.log('Using Citizen Auth Token:', citizenAuthToken);
+        console.log('Using Citizen User Info:', citizenUserInfo?.name);
 
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}`, {
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}`, {
             data: requestBody,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Origin': BASE_URL,
+                'Origin': baseURL,
                 'Connection': 'keep-alive',
-                'Referer': `${BASE_URL}/ui/employee/create-application`
+                'Referer': `${baseURL}/ui/employee/create-application`
             }
         });
 
@@ -197,7 +186,7 @@ test.describe('Application Create API Tests', () => {
             globalVars.statuteSectionId = statuteSectionId;
             globalVars.applicationDocumentId = documentId;
             globalVars.applicationDocumentFileStore = documentFileStore;
-            fs.writeFileSync(path.join(__dirname, '..', 'global-variables.json'), JSON.stringify(globalVars, null, 2));
+            fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
             console.log('Updated global variables with application ID, Number, Created Date, Statute Section ID, and Document details');
         }
     });
@@ -205,17 +194,17 @@ test.describe('Application Create API Tests', () => {
     test('should fail with 401 for missing auth token', async () => {
         const timestamp = Date.now();
         const noTokenBody = {
-            "tenantId": TENANT_ID,
+            "tenantId": tenantId,
             "application": {
-                "filingNumber": globalVars.filingNumber,
-                "cnrNumber": globalVars.cnrNumber,
+                "filingNumber": filingNumber,
+                "cnrNumber": cnrNumber,
                 "cmpNumber": "CMP/1167/2025",
-                "caseId": globalVars.caseId,
+                "caseId": caseId,
                 "createdDate": timestamp,
                 "applicationType": "OTHERS",
                 "status": "PENDING_NOTICE",
                 "isActive": true,
-                "createdBy": globalVars.citizenUserInfo.uuid
+                "createdBy": citizenUserInfo?.uuid
             },
             "RequestInfo": {
                 "apiId": "Rainmaker",
@@ -224,7 +213,7 @@ test.describe('Application Create API Tests', () => {
             }
         };
 
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}`, {
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}`, {
             data: noTokenBody
         });
         expect(response.status()).toBe(401);
@@ -233,17 +222,17 @@ test.describe('Application Create API Tests', () => {
     test('should fail with 401 for invalid auth token', async () => {
         const timestamp = Date.now();
         const invalidTokenBody = {
-            "tenantId": TENANT_ID,
+            "tenantId": tenantId,
             "application": {
-                "filingNumber": globalVars.filingNumber,
-                "cnrNumber": globalVars.cnrNumber,
+                "filingNumber": filingNumber,
+                "cnrNumber": cnrNumber,
                 "cmpNumber": "CMP/1167/2025",
-                "caseId": globalVars.caseId,
+                "caseId": caseId,
                 "createdDate": timestamp,
                 "applicationType": "OTHERS",
                 "status": "PENDING_NOTICE",
                 "isActive": true,
-                "createdBy": globalVars.citizenUserInfo.uuid
+                "createdBy": citizenUserInfo?.uuid
             },
             "RequestInfo": {
                 "apiId": "Rainmaker",
@@ -253,7 +242,7 @@ test.describe('Application Create API Tests', () => {
             }
         };
 
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}`, {
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}`, {
             data: invalidTokenBody
         });
         expect(response.status()).toBe(401);

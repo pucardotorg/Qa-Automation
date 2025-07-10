@@ -5,19 +5,33 @@ require('dotenv').config();
 
 test.describe('Order Management API - Create Order', () => {
     let apiContext;
-    let BASE_URL;
-    const ENDPOINT_PATH = '/order-management/v1/_createOrder';
-    const TENANT_ID = 'kl';
     let globalVars;
+    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+
+    // Import values from global config into variables
+    let baseURL;
+    let tenantId;
+    let cnrNumber;
+    let filingNumber;
+    let judgeauthtoken;
+    let judgeUserResponse;
+    
+    const ENDPOINT_PATH = '/order-management/v1/_createOrder';
 
     test.beforeAll(async ({ playwright }) => {
         // Read global variables
-        const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
         globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-        BASE_URL = globalVars.baseURL;
+        
+        // Import values from global config into variables
+        baseURL = globalVars.baseURL;
+        tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+        cnrNumber = globalVars.cnrNumber;
+        filingNumber = globalVars.filingNumber;
+        judgeauthtoken = globalVars.judgeauthtoken;
+        judgeUserResponse = globalVars.judgeUserResponse;
 
         apiContext = await playwright.request.newContext({
-            baseURL: BASE_URL,
+            baseURL: baseURL,
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -34,11 +48,11 @@ test.describe('Order Management API - Create Order', () => {
         return {
             "order": {
                 "createdDate": null,
-                "tenantId": TENANT_ID,
-                "cnrNumber": globalVars.cnrNumber,
-                "filingNumber": globalVars.filingNumber,
+                "tenantId": tenantId,
+                "cnrNumber": cnrNumber,
+                "filingNumber": filingNumber,
                 "statuteSection": {
-                    "tenantId": TENANT_ID
+                    "tenantId": tenantId
                 },
                 "orderTitle": "SCHEDULE_OF_HEARING_DATE",
                 "orderCategory": "INTERMEDIATE",
@@ -72,57 +86,8 @@ test.describe('Order Management API - Create Order', () => {
             },
             "RequestInfo": {
                 "apiId": "Rainmaker",
-                "authToken": globalVars.judgeauthtoken,
-                "userInfo": {
-                    "id": 963,
-                    "uuid": "3112af8e-7155-4476-8938-cee57b006654",
-                    "userName": "gJudge",
-                    "name": "Judge",
-                    "mobileNumber": "1002335566",
-                    "emailId": null,
-                    "locale": null,
-                    "type": "EMPLOYEE",
-                    "roles": [
-                        { "name": "DIARY_APPROVER", "code": "DIARY_APPROVER", "tenantId": TENANT_ID },
-                        { "name": "HEARING_VIEWER", "code": "HEARING_VIEWER", "tenantId": TENANT_ID },
-                        { "name": "WORKFLOW_ABANDON", "code": "WORKFLOW_ABANDON", "tenantId": TENANT_ID },
-                        { "name": "ORDER_ESIGN", "code": "ORDER_ESIGN", "tenantId": TENANT_ID },
-                        { "name": "Workflow Admin", "code": "WORKFLOW_ADMIN", "tenantId": TENANT_ID },
-                        { "name": "APPLICATION_CREATOR", "code": "APPLICATION_CREATOR", "tenantId": TENANT_ID },
-                        { "name": "DEPOSITION_PUBLISHER", "code": "DEPOSITION_PUBLISHER", "tenantId": TENANT_ID },
-                        { "name": "HEARING_APPROVER", "code": "HEARING_APPROVER", "tenantId": TENANT_ID },
-                        { "name": "SUBMISSION_RESPONDER", "code": "SUBMISSION_RESPONDER", "tenantId": TENANT_ID },
-                        { "name": "ORDER_VIEWER", "code": "ORDER_VIEWER", "tenantId": TENANT_ID },
-                        { "name": "ORDER_REASSIGN", "code": "ORDER_REASSIGN", "tenantId": TENANT_ID },
-                        { "name": "CASE_EDITOR", "code": "CASE_EDITOR", "tenantId": TENANT_ID },
-                        { "name": "TASK_CREATOR", "code": "TASK_CREATOR", "tenantId": TENANT_ID },
-                        { "name": "APPLICATION_APPROVER", "code": "APPLICATION_APPROVER", "tenantId": TENANT_ID },
-                        { "name": "DIARY_VIEWER", "code": "DIARY_VIEWER", "tenantId": TENANT_ID },
-                        { "name": "Employee", "code": "EMPLOYEE", "tenantId": TENANT_ID },
-                        { "name": "ORDER_DELETE", "code": "ORDER_DELETE", "tenantId": TENANT_ID },
-                        { "name": "NOTIFICATION_APPROVER", "code": "NOTIFICATION_APPROVER", "tenantId": TENANT_ID },
-                        { "name": "CASE_VIEWER", "code": "CASE_VIEWER", "tenantId": TENANT_ID },
-                        { "name": "TASK_EDITOR", "code": "TASK_EDITOR", "tenantId": TENANT_ID },
-                        { "name": "APPLICATION_REJECTOR", "code": "APPLICATION_REJECTOR", "tenantId": TENANT_ID },
-                        { "name": "HEARING_EDITOR", "code": "HEARING_EDITOR", "tenantId": TENANT_ID },
-                        { "name": "DIARY_EDITOR", "code": "DIARY_EDITOR", "tenantId": TENANT_ID },
-                        { "name": "ORDER_APPROVER", "code": "ORDER_APPROVER", "tenantId": TENANT_ID },
-                        { "name": "NOTIFICATION_CREATOR", "code": "NOTIFICATION_CREATOR", "tenantId": TENANT_ID },
-                        { "name": "HEARING_CREATOR", "code": "HEARING_CREATOR", "tenantId": TENANT_ID },
-                        { "name": "EVIDENCE_CREATOR", "code": "EVIDENCE_CREATOR", "tenantId": TENANT_ID },
-                        { "name": "ORDER_CREATOR", "code": "ORDER_CREATOR", "tenantId": TENANT_ID },
-                        { "name": "CALCULATION_VIEWER", "code": "CALCULATION_VIEWER", "tenantId": TENANT_ID },
-                        { "name": "JUDGE_ROLE", "code": "JUDGE_ROLE", "tenantId": TENANT_ID },
-                        { "name": "EVIDENCE_EDITOR", "code": "EVIDENCE_EDITOR", "tenantId": TENANT_ID },
-                        { "name": "CASE_APPROVER", "code": "CASE_APPROVER", "tenantId": TENANT_ID },
-                        { "name": "SUBMISSION_APPROVER", "code": "SUBMISSION_APPROVER", "tenantId": TENANT_ID },
-                        { "name": "TASK_VIEWER", "code": "TASK_VIEWER", "tenantId": TENANT_ID },
-                        { "name": "HEARING_SCHEDULER", "code": "HEARING_SCHEDULER", "tenantId": TENANT_ID }
-                    ],
-                    "active": true,
-                    "tenantId": TENANT_ID,
-                    "permanentCity": null
-                },
+                "authToken": judgeauthtoken,
+                "userInfo": judgeUserResponse?.UserRequest,
                 "msgId": `${timestamp}|en_IN`,
                 "plainAccessRequest": {}
             },
@@ -133,15 +98,18 @@ test.describe('Order Management API - Create Order', () => {
     test('should create a hearing with a valid request (200 OK)', async () => {
         const requestBody = createValidRequestBody();
         console.log('Create Order Request Body:', JSON.stringify(requestBody, null, 2));
+        console.log('Using CNR Number:', cnrNumber);
+        console.log('Using Filing Number:', filingNumber);
+        console.log('Using Judge Auth Token:', judgeauthtoken);
         
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}&_=${Date.now()}`, { 
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}&_=${Date.now()}`, { 
             data: requestBody,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Origin': BASE_URL,
+                'Origin': baseURL,
                 'Connection': 'keep-alive',
-                'Referer': `${BASE_URL}ui/employee/create-order`
+                'Referer': `${baseURL}ui/employee/create-order`
             }
         });
 
@@ -154,7 +122,7 @@ test.describe('Order Management API - Create Order', () => {
         expect(parsedResponse.ResponseInfo.status).toBe('successful');
         expect(parsedResponse.order).toBeDefined();
         expect(parsedResponse.order.id).toMatch(/[0-9a-fA-F-]{36}/);
-        expect(parsedResponse.order.tenantId).toBe(TENANT_ID);
+        expect(parsedResponse.order.tenantId).toBe(tenantId);
         expect(parsedResponse.order.filingNumber).toBe(requestBody.order.filingNumber);
 
         console.log('Created Order ID:', parsedResponse.order.id);

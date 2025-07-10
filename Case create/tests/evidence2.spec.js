@@ -5,22 +5,32 @@ import path from 'path';
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
-const BASE_URL = globalVars.baseURL;
-const ENDPOINT = `${globalVars.baseURL}evidence/v1/_create`;
+// Import values from global config into variables
+const baseURL = globalVars.baseURL;
+const endpoint = `${baseURL}evidence/v1/_create`;
+const tenantId = globalVars.citizenUserInfo?.tenantId || 'kl';
+const caseId = globalVars.caseId;
+const filingNumber = globalVars.filingNumber;
+const cnrNumber = globalVars.cnrNumber;
+const citizenAuthToken = globalVars.citizenAuthToken;
+
+// If you want to make sourceID and fileStore dynamic, you can import them from globalVars as well
+const sourceID = 'IND-2024-11-19-000893'; // Replace with globalVars value if available
+const fileStore = 'f90ca478-6051-4844-bc2b-165838c97b49'; // Replace with globalVars value if available
 
 const getValidRequestBody = () => ({
     "artifact": {
         "artifactType": "PROOF_OF_DEPOSIT_OF_CHEQUE",
         "sourceType": "COMPLAINANT",
-        "sourceID": "IND-2024-11-19-000893", // This might need to be dynamic
-        "caseId": globalVars.caseId,
-        "filingNumber": globalVars.filingNumber,
-        "cnrNumber": globalVars.cnrNumber,
-        "tenantId": "kl",
+        "sourceID": sourceID, // This might need to be dynamic
+        "caseId": caseId,
+        "filingNumber": filingNumber,
+        "cnrNumber": cnrNumber,
+        "tenantId": tenantId,
         "comments": [],
         "file": {
             "documentType": "case.cheque.depositslip",
-            "fileStore": "f90ca478-6051-4844-bc2b-165838c97b49", // This may need to be dynamic
+            "fileStore": fileStore, // This may need to be dynamic
             "fileName": "CS_PROOF_DEPOSIT_CHEQUE",
             "documentName": "1. Cheque - 15_09_2024.png"
         },
@@ -32,14 +42,14 @@ const getValidRequestBody = () => ({
                     "documentType": "case.cheque.depositslip",
                     "fileName": "CS_PROOF_DEPOSIT_CHEQUE",
                     "documentName": "1. Cheque - 15_09_2024.png",
-                    "fileStoreId": "f90ca478-6051-4844-bc2b-165838c97b49"
+                    "fileStoreId": fileStore
                 }
             ]
         }
     },
     "RequestInfo": {
         "apiId": "Rainmaker",
-        "authToken": globalVars.citizenAuthToken,
+        "authToken": citizenAuthToken,
         "msgId": `${Date.now()}|en_IN`,
         "plainAccessRequest": {}
     }
@@ -50,7 +60,7 @@ test.describe('Evidence Creation API Tests - Set 2', () => {
 
     test.beforeAll(async ({ playwright }) => {
         apiContext = await playwright.request.newContext({
-            baseURL: BASE_URL,
+            baseURL: baseURL,
             extraHTTPHeaders: {
                 'Content-Type': 'application/json',
             },
@@ -63,8 +73,14 @@ test.describe('Evidence Creation API Tests - Set 2', () => {
 
     test('should create evidence successfully (201 Created)', async () => {
         const requestBody = getValidRequestBody();
-        
-        const response = await apiContext.post(ENDPOINT, {
+        console.log('Evidence Create Request Body:', JSON.stringify(requestBody, null, 2));
+        console.log('Using Case ID:', caseId);
+        console.log('Using Filing Number:', filingNumber);
+        console.log('Using CNR Number:', cnrNumber);
+        console.log('Using Tenant ID:', tenantId);
+        console.log('Using Citizen Auth Token:', citizenAuthToken);
+
+        const response = await apiContext.post(endpoint, {
             data: requestBody,
         });
 
@@ -79,7 +95,7 @@ test.describe('Evidence Creation API Tests - Set 2', () => {
         const requestBody = getValidRequestBody();
         requestBody.RequestInfo.authToken = '';
 
-        const response = await apiContext.post(ENDPOINT, {
+        const response = await apiContext.post(endpoint, {
             data: requestBody,
         });
 
@@ -90,7 +106,7 @@ test.describe('Evidence Creation API Tests - Set 2', () => {
         const requestBody = getValidRequestBody();
         requestBody.RequestInfo.authToken = 'invalid-token';
 
-        const response = await apiContext.post(ENDPOINT, {
+        const response = await apiContext.post(endpoint, {
             data: requestBody,
         });
 
@@ -101,7 +117,7 @@ test.describe('Evidence Creation API Tests - Set 2', () => {
         const requestBody = getValidRequestBody();
         delete requestBody.artifact;
 
-        const response = await apiContext.post(ENDPOINT, {
+        const response = await apiContext.post(endpoint, {
             data: requestBody,
         });
 
@@ -112,7 +128,7 @@ test.describe('Evidence Creation API Tests - Set 2', () => {
         const requestBody = getValidRequestBody();
         delete requestBody.artifact.tenantId;
 
-        const response = await apiContext.post(ENDPOINT, {
+        const response = await apiContext.post(endpoint, {
             data: requestBody,
         });
 

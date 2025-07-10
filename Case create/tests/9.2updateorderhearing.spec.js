@@ -5,10 +5,20 @@ require('dotenv').config();
 
 test.describe('Order Management API - Update Order (Publish)', () => {
     let apiContext;
-    let BASE_URL;
-    const ENDPOINT_PATH = '/order-management/v1/_updateOrder';
-    const TENANT_ID = 'kl';
     let globalVars;
+    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+
+    // Import values from global config into variables
+    let baseURL;
+    let tenantId;
+    let orderId;
+    let filingNumber;
+    let cnrNumber;
+    let orderNumber;
+    let judgeauthtoken;
+    let judgeUserResponse;
+    
+    const ENDPOINT_PATH = '/order-management/v1/_updateOrder';
 
     // Utility: Compute next working day (skip weekends)
     const getNextValidHearingDate = () => {
@@ -34,12 +44,21 @@ test.describe('Order Management API - Update Order (Publish)', () => {
     };
 
     test.beforeAll(async ({ playwright }) => {
-        const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+        // Read global variables
         globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-        BASE_URL = globalVars.baseURL;
+        
+        // Import values from global config into variables
+        baseURL = globalVars.baseURL;
+        tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+        orderId = globalVars.orderId;
+        filingNumber = globalVars.filingNumber;
+        cnrNumber = globalVars.cnrNumber;
+        orderNumber = globalVars.orderNumber;
+        judgeauthtoken = globalVars.judgeauthtoken;
+        judgeUserResponse = globalVars.judgeUserResponse;
 
         apiContext = await playwright.request.newContext({
-            baseURL: BASE_URL,
+            baseURL: baseURL,
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -59,14 +78,14 @@ test.describe('Order Management API - Update Order (Publish)', () => {
 
         return {
             "order": {
-                "id": globalVars.orderId,
-                "tenantId": TENANT_ID,
-                "filingNumber": globalVars.filingNumber,
+                "id": orderId,
+                "tenantId": tenantId,
+                "filingNumber": filingNumber,
                 "courtId": "KLKM52",
-                "cnrNumber": globalVars.cnrNumber,
+                "cnrNumber": cnrNumber,
                 "applicationNumber": [],
                 "hearingNumber": null,
-                "orderNumber": globalVars.orderNumber,
+                "orderNumber": orderNumber,
                 "linkedOrderNumber": null,
                 "createdDate": timestamp,
                 "issuedBy": null,
@@ -77,14 +96,14 @@ test.describe('Order Management API - Update Order (Publish)', () => {
                 "isActive": true,
                 "statuteSection": {
                     "id": "f93ee010-787b-47e4-9420-395987c5a7ac",
-                    "tenantId": TENANT_ID,
+                    "tenantId": tenantId,
                     "statute": null,
                     "sections": ["str"],
                     "subsections": ["str"],
                     "additionalDetails": null,
                     "auditDetails": {
-                        "createdBy": "639b8909-4f25-43da-a952-3417b09afb34",
-                        "lastModifiedBy": "639b8909-4f25-43da-a952-3417b09afb34",
+                        "createdBy": judgeUserResponse?.UserRequest?.uuid,
+                        "lastModifiedBy": judgeUserResponse?.UserRequest?.uuid,
                         "createdTime": timestamp,
                         "lastModifiedTime": timestamp
                     }
@@ -130,8 +149,8 @@ test.describe('Order Management API - Update Order (Publish)', () => {
                         },
                         "namesOfPartiesRequired": [
                             {
-                                "code": "Hemadri Rt",
-                                "name": "Hemadri Rt (Complainant)",
+                                "code": "Rajesh Ch",
+                                "name": "Rajesh Ch (Complainant)",
                                 "uuid": ["700a3a1b-f7e1-4e31-a0cd-04f8777e4f66"],
                                 "isJoined": true,
                                 "partyType": "complainant",
@@ -153,33 +172,16 @@ test.describe('Order Management API - Update Order (Publish)', () => {
                     "businessOfTheDay": `For Admission on ${hearingDateReadable}`
                 },
                 "auditDetails": {
-                    "createdBy": "639b8909-4f25-43da-a952-3417b09afb34",
-                    "lastModifiedBy": "639b8909-4f25-43da-a952-3417b09afb34",
+                    "createdBy": judgeUserResponse?.UserRequest?.uuid, 
+                    "lastModifiedBy": judgeUserResponse?.UserRequest?.uuid,
                     "createdTime": timestamp,
                     "lastModifiedTime": timestamp
                 }
             },
             "RequestInfo": {
                 "apiId": "Rainmaker",
-                "authToken": globalVars.judgeauthtoken,
-                "userInfo": {
-                    "id": 963,
-                    "uuid": "639b8909-4f25-43da-a952-3417b09afb34",
-                    "userName": "gJudge",
-                    "name": "Judge",
-                    "mobileNumber": "1002335566",
-                    "emailId": null,
-                    "locale": null,
-                    "type": "EMPLOYEE",
-                    "roles": [
-                        { "name": "ORDER_CREATOR", "code": "ORDER_CREATOR", "tenantId": TENANT_ID },
-                        { "name": "JUDGE_ROLE", "code": "JUDGE_ROLE", "tenantId": TENANT_ID },
-                        { "name": "ORDER_ESIGN", "code": "ORDER_ESIGN", "tenantId": TENANT_ID }
-                    ],
-                    "active": true,
-                    "tenantId": TENANT_ID,
-                    "permanentCity": null
-                },
+                "authToken": judgeauthtoken,
+                "userInfo": judgeUserResponse?.UserRequest,
                 "msgId": `${timestamp}|en_IN`,
                 "plainAccessRequest": {}
             },
@@ -190,15 +192,20 @@ test.describe('Order Management API - Update Order (Publish)', () => {
     test('should publish a hearing order with a valid request (200 OK)', async () => {
         const requestBody = createValidUpdateRequestBody();
         console.log('Update Order Request Body:', JSON.stringify(requestBody, null, 2));
+        console.log('Using Order ID:', orderId);
+        console.log('Using Filing Number:', filingNumber);
+        console.log('Using CNR Number:', cnrNumber);
+        console.log('Using Order Number:', orderNumber);
+        console.log('Using Judge Auth Token:', judgeauthtoken);
         
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}&_=${Date.now()}`, { 
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}&_=${Date.now()}`, { 
             data: requestBody,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Origin': BASE_URL,
+                'Origin': baseURL,
                 'Connection': 'keep-alive',
-                'Referer': `${BASE_URL}ui/employee/create-order`
+                'Referer': `${baseURL}ui/employee/create-order`
             }
         });
 
@@ -212,7 +219,7 @@ test.describe('Order Management API - Update Order (Publish)', () => {
         expect(parsedResponse.ResponseInfo.status).toBe('successful');
         expect(parsedResponse.order).toBeDefined();
         expect(parsedResponse.order.status).toBe('PUBLISHED');
-        expect(parsedResponse.order.id).toBe(globalVars.orderId);
-        expect(parsedResponse.order.tenantId).toBe(TENANT_ID);
+        expect(parsedResponse.order.id).toBe(orderId);
+        expect(parsedResponse.order.tenantId).toBe(tenantId);
     });
 });

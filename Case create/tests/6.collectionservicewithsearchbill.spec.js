@@ -5,20 +5,27 @@ const path = require('path');
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
+// Import values from global config into variables
+const baseURL = globalVars.baseURL;
+const tenantId = globalVars.citizenUserInfo?.tenantId || 'kl';
+const filingNumber = globalVars.filingNumber;
+const nayamitraAuthToken = globalVars.nayamitraAuthToken;
+const nayamitraUserResponse = globalVars.nayamitraUserResponse;
+const citizenUserInfo = globalVars.citizenUserInfo;
+
 const { test, expect } = require('@playwright/test');
 
 // Endpoint URLs
-const BASE_URL_FETCH_BILL = `${globalVars.baseURL}billing-service/bill/v2/_fetchbill`;
-const BASE_URL_CREATE_PAYMENT = `${globalVars.baseURL}collection-services/payments/_create`;
+const BASE_URL_FETCH_BILL = `${baseURL}billing-service/bill/v2/_fetchbill`;
+const BASE_URL_CREATE_PAYMENT = `${baseURL}collection-services/payments/_create`;
 
 // Constants for requests
-const tenantId = 'kl';
 // NOTE: This consumerCode needs to exist for a successful fetch bill request
-const consumerCodeForBillFetch = globalVars.filingNumber + '_CASE_FILING'; // Example consumer code for fetching bill
+const consumerCodeForBillFetch = filingNumber + '_CASE_FILING'; // Example consumer code for fetching bill
 const serviceForBillFetch = 'case-default'; // Service parameter for fetching bill
 
 // Use a valid auth token for both requests
-const AUTH_TOKEN = globalVars.nayamitraAuthToken; // Example auth token
+const AUTH_TOKEN = nayamitraAuthToken; // Example auth token
 
 // Variables to store extracted data
 let fetchedBillId = null;
@@ -35,29 +42,7 @@ test.describe('API Test for Fetch Bill and Create Payment Flow', () => {
       "RequestInfo": {
           "apiId": "Rainmaker",
           "authToken": AUTH_TOKEN,
-          "userInfo": { // Include userInfo as provided
-              "id": 961,
-              "uuid": "ff945ba1-f811-4c40-ba18-b0f66b60a5e3",
-              "userName": "gNm",
-              "name": "Harsh  Gupta",
-              "mobileNumber": "1002335566",
-              "emailId": null,
-              "locale": null,
-              "type": "EMPLOYEE",
-              "roles": [
-                  { "name": "ADVOCATE_CLERK_APPROVER", "code": "ADVOCATE_CLERK_APPROVER", "tenantId": "kl" },
-                  { "name": "PAYMENT_COLLECTOR", "code": "PAYMENT_COLLECTOR", "tenantId": "kl" },
-                  { "name": "ORDER_VIEWER", "code": "ORDER_VIEWER", "tenantId": "kl" },
-                  { "name": "NYAY_MITRA_ROLE", "code": "NYAY_MITRA_ROLE", "tenantId": "kl" },
-                  { "name": "Employee", "code": "EMPLOYEE", "tenantId": "kl" },
-                  { "name": "ADVOCATE_APPLICATION_VIEWER", "code": "ADVOCATE_APPLICATION_VIEWER", "tenantId": "kl" },
-                  { "name": "ADVOCATE_APPROVER", "code": "ADVOCATE_APPROVER", "tenantId": "kl" },
-                  { "name": "TASK_VIEWER", "code": "TASK_VIEWER", "tenantId": "kl" }
-              ],
-              "active": true,
-              "tenantId": "kl",
-              "permanentCity": null
-          },
+          "userInfo": nayamitraUserResponse, 
           "msgId": `test-${Date.now()}`,
           "plainAccessRequest": {}
       }
@@ -69,6 +54,7 @@ test.describe('API Test for Fetch Bill and Create Payment Flow', () => {
     console.log('Request Body:', JSON.stringify(fetchBillRequestBody, null, 2));
     console.log('Using Auth Token:', AUTH_TOKEN);
     console.log('Using Consumer Code:', consumerCodeForBillFetch);
+    console.log('Using Filing Number:', filingNumber);
 
     try {
       const response = await apiContext.post(fetchBillUrl, { data: fetchBillRequestBody });
@@ -137,8 +123,8 @@ test.describe('API Test for Fetch Bill and Create Payment Flow', () => {
             "tenantId": tenantId,
             "paymentMode": "STAMP", // Example payment mode
             "paidBy": "PAY_BY_OWNER",
-            "mobileNumber": "8800000019", // Example mobile number
-            "payerName": "Rajesh Ch", // Example payer name
+            "mobileNumber": citizenUserInfo?.mobileNumber || "8800000019", // Use citizen mobile from global config
+            "payerName": citizenUserInfo?.name || "Rajesh Ch", // Use citizen name from global config
             "totalAmountPaid": billAmount, // Use the fetched bill amount here too
             "instrumentNumber": "", // Example instrument number
             "instrumentDate": Date.now() // Dynamic instrument date
@@ -146,29 +132,7 @@ test.describe('API Test for Fetch Bill and Create Payment Flow', () => {
         "RequestInfo": {
             "apiId": "Rainmaker",
             "authToken": AUTH_TOKEN,
-            "userInfo": { // Include userInfo as provided
-                "id": 961,
-                "uuid": "ff945ba1-f811-4c40-ba18-b0f66b60a5e3",
-                "userName": "gNm",
-                "name": "Harsh  Gupta",
-                "mobileNumber": "1002335566",
-                "emailId": null,
-                "locale": null,
-                "type": "EMPLOYEE",
-                "roles": [
-                    { "name": "ADVOCATE_CLERK_APPROVER", "code": "ADVOCATE_CLERK_APPROVER", "tenantId": "kl" },
-                    { "name": "PAYMENT_COLLECTOR", "code": "PAYMENT_COLLECTOR", "tenantId": "kl" },
-                    { "name": "ORDER_VIEWER", "code": "ORDER_VIEWER", "tenantId": "kl" },
-                    { "name": "NYAY_MITRA_ROLE", "code": "NYAY_MITRA_ROLE", "tenantId": "kl" },
-                    { "name": "Employee", "code": "EMPLOYEE", "tenantId": "kl" },
-                    { "name": "ADVOCATE_APPLICATION_VIEWER", "code": "ADVOCATE_APPLICATION_VIEWER", "tenantId": "kl" },
-                    { "name": "ADVOCATE_APPROVER", "code": "ADVOCATE_APPROVER", "tenantId": "kl" },
-                    { "name": "TASK_VIEWER", "code": "TASK_VIEWER", "tenantId": "kl" }
-                ],
-                "active": true,
-                "tenantId": "kl",
-                "permanentCity": null
-            },
+            "userInfo": nayamitraUserResponse ,
             "msgId": `test-${Date.now()}`, // Dynamic message ID
             "plainAccessRequest": {}
         }

@@ -3,18 +3,31 @@ import fs from 'fs';
 import path from 'path';
 require('dotenv').config();
 
-const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
-const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-const BASE_URL = globalVars.baseURL;
-
 test.describe('Hearing Search API Tests', () => {
     let apiContext;
+    let globalVars;
+    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+
+    // Import values from global config into variables
+    let baseURL;
+    let tenantId;
+    let filingNumber;
+    let judgeauthtoken;
+    
     const ENDPOINT_PATH = '/hearing/v1/search';
-    const TENANT_ID = 'kl';
 
     test.beforeAll(async ({ playwright }) => {
+        // Read global variables
+        globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+        
+        // Import values from global config into variables
+        baseURL = globalVars.baseURL;
+        tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+        filingNumber = globalVars.filingNumber;
+        judgeauthtoken = globalVars.judgeauthtoken;
+
         apiContext = await playwright.request.newContext({
-            baseURL: BASE_URL,
+            baseURL: baseURL,
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -30,31 +43,34 @@ test.describe('Hearing Search API Tests', () => {
         const timestamp = Date.now();
         const requestBody = {
             "hearing": {
-                "tenantId": "kl"
+                "tenantId": tenantId
             },
             "criteria": {
-                "tenantID": "kl",
-                "filingNumber": globalVars.filingNumber,
+                "tenantID": tenantId,
+                "filingNumber": filingNumber,
                 "courtId": "KLKM52"
             },
             "RequestInfo": {
                 "apiId": "Rainmaker",
-                "authToken": globalVars.judgeauthtoken,
+                "authToken": judgeauthtoken,
                 "msgId": `${timestamp}|en_IN`,
                 "plainAccessRequest": {}
             }
         };
 
         console.log('Search Hearing by Filing Number Request Body:', JSON.stringify(requestBody, null, 2));
+        console.log('Using Filing Number:', filingNumber);
+        console.log('Using Judge Auth Token:', judgeauthtoken);
+        console.log('Using Tenant ID:', tenantId);
         
         const response = await apiContext.post(`${ENDPOINT_PATH}?_=${timestamp}`, {
             data: requestBody,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Origin': BASE_URL,
+                'Origin': baseURL,
                 'Connection': 'keep-alive',
-                'Referer': `${BASE_URL}/ui/employee/create-order`
+                'Referer': `${baseURL}/ui/employee/create-order`
             }
         });
 
@@ -80,7 +96,7 @@ test.describe('Hearing Search API Tests', () => {
             // Update global variables
             globalVars.hearingId = hearingId;
             globalVars.hearingNumber = hearingNumber;
-            fs.writeFileSync(path.join(__dirname, '..', 'global-variables.json'), JSON.stringify(globalVars, null, 2));
+            fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
             console.log('Updated global variables with hearing details');
         }
     });
@@ -92,11 +108,11 @@ test.describe('Hearing Search API Tests', () => {
                 "msgId": `${Date.now()}|en_IN`
             },
             "criteria": {
-                "filingNumber": globalVars.filingNumber
+                "filingNumber": filingNumber
             }
         };
 
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}`, {
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}`, {
             data: noTokenBody
         });
         expect(response.status()).toBe(401);
@@ -110,11 +126,11 @@ test.describe('Hearing Search API Tests', () => {
                 "msgId": `${Date.now()}|en_IN`
             },
             "criteria": {
-                "filingNumber": globalVars.filingNumber
+                "filingNumber": filingNumber
             }
         };
 
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}`, {
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}`, {
             data: invalidTokenBody
         });
         expect(response.status()).toBe(401);

@@ -15,8 +15,16 @@ const headers = {
 }
 
 test('fsoauthtoken', async() => {
+    // Read global variables
+    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+    const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+    
+    // Import values from global config into variables
+    const baseURL = globalVars.baseURL;
+    const tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+    
     const apiContext = await request.newContext();
-    const empresponse = await apiContext.post(`${baseUrl}user/oauth/token?_=1748935894913`,
+    const empresponse = await apiContext.post(`${baseURL}user/oauth/token?_=1748935894913`,
         {
             headers: headers,
             form: {
@@ -25,7 +33,7 @@ test('fsoauthtoken', async() => {
                 district: "KOLLAM",
                 courtroom: "KLKM52",
                 userType: "EMPLOYEE",
-                tenantId: "kl",
+                tenantId: tenantId,
                 scope: "read",
                 grant_type: "password"
             }  
@@ -46,4 +54,10 @@ test('fsoauthtoken', async() => {
     console.log("Nayamitra Access Token:", fsoauthtoken);
     console.log("FSO User Info:", FSOuserinfo);
     console.log("FSO UUID:", fsouuid);
+    globalVars.fsoUserResponse = empresponsejson;
+    fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
+    
+    console.log("Full Response JSON:", empresponsejson);
+    console.log("FSO Access Token:", fsoauthtoken);
+    console.log("FSO User Response saved to global config");
 });

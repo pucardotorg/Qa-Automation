@@ -7,12 +7,15 @@ const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL_CREATE_PAYMENT = `${globalVars.baseURL}collection-services/payments/_create`;
-const tenantId = 'kl';
+// Import values from global config into variables
+const baseURL = globalVars.baseURL;
+const tenantId = globalVars.citizenUserInfo?.tenantId || 'kl';
 const businessService = 'application-voluntary-submission';
-const AUTH_TOKEN = globalVars.nayamitraAuthToken;
+const nayamitraAuthToken = globalVars.nayamitraAuthToken;
 const billId = globalVars.billId; // Use the billId stored from the fetch bill step
-const userInfo = globalVars.nayamitraUserInfo;
+const nayamitraUserInfo = globalVars.nayamitraUserResponse?.UserRequest;
+
+const BASE_URL_CREATE_PAYMENT = `${baseURL}collection-services/payments/_create`;
 
 const billAmount = 20; // If you want to use a dynamic amount, fetch from globalVars or another source
 
@@ -50,8 +53,8 @@ test.describe('Collection Payment for Application API Tests', () => {
       },
       "RequestInfo": {
         "apiId": "Rainmaker",
-        "authToken": AUTH_TOKEN,
-        "userInfo": userInfo,
+        "authToken": nayamitraAuthToken,
+        "userInfo": nayamitraUserInfo,
         "msgId": `${timestamp}|en_IN`,
         "plainAccessRequest": {}
       }
@@ -61,6 +64,9 @@ test.describe('Collection Payment for Application API Tests', () => {
 
     console.log('Create Payment Request URL:', createPaymentUrl);
     console.log('Create Payment Request Body:', JSON.stringify(createPaymentRequestBody, null, 2));
+    console.log('Using Bill ID:', billId);
+    console.log('Using Auth Token:', nayamitraAuthToken);
+    console.log('Using Tenant ID:', tenantId);
 
     const response = await apiContext.post(createPaymentUrl, {
       data: createPaymentRequestBody,

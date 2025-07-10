@@ -7,13 +7,16 @@ const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL_FETCH_BILL = `${globalVars.baseURL}billing-service/bill/v2/_fetchbill`;
-
-// Constants for URL parameters and request body
-const tenantId = 'kl';
+// Import values from global config into variables
+const baseURL = globalVars.baseURL;
+const tenantId = globalVars.citizenUserInfo?.tenantId || 'kl';
 const businessService = 'application-voluntary-submission';
-const consumerCode = globalVars.applicationNumber + '_APPL_FILING';
-const AUTH_TOKEN = globalVars.nayamitraAuthToken;
+const applicationNumber = globalVars.applicationNumber;
+const consumerCode = applicationNumber + '_APPL_FILING';
+const nayamitraAuthToken = globalVars.nayamitraAuthToken;
+const citizenUserInfo = globalVars.citizenUserInfo;
+
+const BASE_URL_FETCH_BILL = `${baseURL}billing-service/bill/v2/_fetchbill`;
 
 let billId = null; // Variable to store the extracted billId
 
@@ -34,8 +37,8 @@ test.describe('API Tests for fetch bill endpoint', () => {
     const fetchBillRequestBody = {
       "RequestInfo": {
         "apiId": "Rainmaker",
-        "authToken": AUTH_TOKEN,
-        "userInfo": globalVars.citizenUserInfo,
+        "authToken": nayamitraAuthToken,
+        "userInfo": citizenUserInfo,
         "msgId": `${timestamp}|en_IN`,
         "plainAccessRequest": {}
       }
@@ -46,8 +49,9 @@ test.describe('API Tests for fetch bill endpoint', () => {
     
     console.log('Request URL:', fetchBillUrl);
     console.log('Request Body:', JSON.stringify(fetchBillRequestBody, null, 2));
-    console.log('Using Auth Token:', AUTH_TOKEN);
+    console.log('Using Auth Token:', nayamitraAuthToken);
     console.log('Using Consumer Code:', consumerCode);
+    console.log('Using Tenant ID:', tenantId);
 
     const response = await apiContext.post(fetchBillUrl, { 
       data: fetchBillRequestBody,
@@ -91,7 +95,7 @@ test.describe('API Tests for fetch bill endpoint', () => {
       // Store bill ID in global variables for future use
       if (billId) {
         globalVars.billId = billId;
-        fs.writeFileSync(path.join(__dirname, '..', 'global-variables.json'), JSON.stringify(globalVars, null, 2));
+        fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
         console.log('Updated global variables with bill ID:', billId);
       }
     }
@@ -146,8 +150,8 @@ test.describe('API Tests for fetch bill endpoint', () => {
     const fetchBillRequestBody = {
       "RequestInfo": {
         "apiId": "Rainmaker",
-        "authToken": AUTH_TOKEN,
-        "userInfo": globalVars.citizenUserInfo,
+        "authToken": nayamitraAuthToken,
+        "userInfo": citizenUserInfo,
         "msgId": `${timestamp}|en_IN`,
         "plainAccessRequest": {}
       }

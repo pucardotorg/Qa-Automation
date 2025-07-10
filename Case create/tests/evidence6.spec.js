@@ -5,18 +5,39 @@ import path from 'path';
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
+// Import all relevant values from global config
 const BASE_URL = globalVars.baseURL;
 const ENDPOINT = `${globalVars.baseURL}evidence/v1/_create`;
+const citizenAuthToken = globalVars.citizenAuthToken;
+const caseId = globalVars.caseId;
+const filingNumber = globalVars.filingNumber;
+const cnrNumber = globalVars.cnrNumber;
+const tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+const advocateId = globalVars.advocateId;
+const litigantid = globalVars.litigantid;
+const representingid = globalVars.representingid;
+
+console.log('Using config values:', {
+    baseURL: BASE_URL,
+    caseId,
+    filingNumber,
+    cnrNumber,
+    citizenAuthToken: citizenAuthToken ? '***' : 'undefined',
+    tenantId,
+    advocateId,
+    litigantid,
+    representingid
+});
 
 const getValidRequestBody = () => ({
     "artifact": {
         "artifactType": "PROOF_OF_DISPATCH_OF_LEGAL_NOTICE",
         "sourceType": "COMPLAINANT",
-        "sourceID": "IND-2024-11-19-000893", // This might need to be dynamic
-        "caseId": globalVars.caseId,
-        "filingNumber": globalVars.filingNumber,
-        "cnrNumber": globalVars.cnrNumber,
-        "tenantId": "kl",
+        "sourceID": representingid, // Using representing ID from global config
+        "caseId": caseId,
+        "filingNumber": filingNumber,
+        "cnrNumber": cnrNumber,
+        "tenantId": tenantId,
         "comments": [],
         "file": {
             "documentType": "case.demandnotice.proof",
@@ -39,7 +60,7 @@ const getValidRequestBody = () => ({
     },
     "RequestInfo": {
         "apiId": "Rainmaker",
-        "authToken": globalVars.citizenAuthToken,
+        "authToken": citizenAuthToken,
         "msgId": `${Date.now()}|en_IN`,
         "plainAccessRequest": {}
     }
@@ -64,15 +85,31 @@ test.describe('Evidence Creation API Tests - Set 6', () => {
     test('should create evidence successfully (201 Created)', async () => {
         const requestBody = getValidRequestBody();
         
+        console.log('Request payload:', JSON.stringify(requestBody, null, 2));
+        
         const response = await apiContext.post(ENDPOINT, {
             data: requestBody,
         });
 
-        expect(response.status()).toBe(200);
+        console.log('Response status:', response.status());
         const responseBody = await response.json();
+        console.log('Response body:', JSON.stringify(responseBody, null, 2));
+
+        expect(response.status()).toBe(200);
         expect(responseBody.ResponseInfo.status).toBe('successful');
         expect(responseBody.artifact).toBeDefined();
         expect(responseBody.artifact.artifactNumber).toBeDefined();
+        
+        // Store the new artifact info in global config for future use
+        if (responseBody.artifact) {
+            globalVars.artifactId = responseBody.artifact.id;
+            globalVars.artifactNumber = responseBody.artifact.artifactNumber;
+            fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
+            console.log('Updated global config with new artifact info:', {
+                artifactId: globalVars.artifactId,
+                artifactNumber: globalVars.artifactNumber
+            });
+        }
     });
 
     test('should fail with 401 for missing authToken', async () => {

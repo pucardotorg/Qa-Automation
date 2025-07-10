@@ -5,18 +5,47 @@ require('dotenv').config();
 
 test.describe('Application Update API Tests', () => {
     let apiContext;
-    let BASE_URL;
-    const ENDPOINT_PATH = '/application/v1/update'; 
-    const TENANT_ID = 'kl';
     let globalVars;
+    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+
+    // Import values from global config into variables
+    let baseURL;
+    let tenantId;
+    let applicationId;
+    let caseId;
+    let filingNumber;
+    let cnrNumber;
+    let applicationCreatedDate;
+    let citizenUserInfo;
+    let citizenAuthToken;
+    let applicationNumber;
+    let statuteSectionId;
+    let applicationDocumentId;
+    let applicationDocumentFileStore;
+    
+    const ENDPOINT_PATH = '/application/v1/update'; 
 
     test.beforeAll(async ({ playwright }) => {
-        const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+        // Read global variables
         globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-        BASE_URL = globalVars.baseURL;
+        
+        // Import values from global config into variables
+        baseURL = globalVars.baseURL;
+        tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+        applicationId = globalVars.applicationId;
+        caseId = globalVars.caseId;
+        filingNumber = globalVars.filingNumber;
+        cnrNumber = globalVars.cnrNumber;
+        applicationCreatedDate = globalVars.applicationCreatedDate;
+        citizenUserInfo = globalVars.citizenUserInfo;
+        citizenAuthToken = globalVars.citizenAuthToken;
+        applicationNumber = globalVars.applicationNumber;
+        statuteSectionId = globalVars.statuteSectionId;
+        applicationDocumentId = globalVars.applicationDocumentId;
+        applicationDocumentFileStore = globalVars.applicationDocumentFileStore;
 
         apiContext = await playwright.request.newContext({
-            baseURL: BASE_URL,
+            baseURL: baseURL,
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -31,25 +60,25 @@ test.describe('Application Update API Tests', () => {
     test('should update an existing application (200 OK)', async () => {
         const timestamp = Date.now();
         const requestBody = {
-            "tenantId": TENANT_ID,
+            "tenantId": tenantId,
             "application": {
                 "responseRequired": false,
-                "id": globalVars.applicationId,
-                "tenantId": TENANT_ID,
-                "caseId": globalVars.caseId,
+                "id": applicationId,
+                "tenantId": tenantId,
+                "caseId": caseId,
                 "courtId": "KLKM52",
-                "filingNumber": globalVars.filingNumber,
-                "cnrNumber": globalVars.cnrNumber,
+                "filingNumber": filingNumber,
+                "cnrNumber": cnrNumber,
                 "cmpNumber": null,
                 "referenceId": null,
-                "createdDate": globalVars.applicationCreatedDate,
-                "createdBy": globalVars.citizenUserInfo.uuid,
+                "createdDate": applicationCreatedDate,
+                "createdBy": citizenUserInfo?.uuid,
                 "onBehalfOf": [
                     "f562d86f-57b2-472d-a159-cba6bcbd3e5c"
                 ],
                 "applicationCMPNumber": null,
                 "applicationType": "OTHERS",
-                "applicationNumber": globalVars.applicationNumber,
+                "applicationNumber": applicationNumber,
                 "issuedBy": null,
                 "status": "PENDINGESIGN",
                 "comment": [],
@@ -62,16 +91,16 @@ test.describe('Application Update API Tests', () => {
                     "reasonForApplication": "afaf"
                 },
                 "statuteSection": {
-                    "id": globalVars.statuteSectionId,
-                    "tenantId": TENANT_ID,
+                    "id": statuteSectionId,
+                    "tenantId": tenantId,
                     "statute": null,
                     "sections": null,
                     "subsections": null,
                     "additionalDetails": null,
                     "auditdetails": {
-                        "createdBy": globalVars.citizenUserInfo.uuid,
-                        "lastModifiedBy": globalVars.citizenUserInfo.uuid,
-                        "createdTime": globalVars.applicationCreatedDate,
+                        "createdBy": citizenUserInfo?.uuid,
+                        "lastModifiedBy": citizenUserInfo?.uuid,
+                        "createdTime": applicationCreatedDate,
                         "lastModifiedTime": timestamp
                     },
                     "strSections": null,
@@ -79,9 +108,9 @@ test.describe('Application Update API Tests', () => {
                 },
                 "documents": [
                     {
-                        "id": globalVars.applicationDocumentId,
+                        "id": applicationDocumentId,
                         "documentType": "application/pdf",
-                        "fileStore": globalVars.applicationDocumentFileStore,
+                        "fileStore": applicationDocumentFileStore,
                         "documentUid": null,
                         "documentOrder": 0,
                         "additionalDetails": {
@@ -99,7 +128,7 @@ test.describe('Application Update API Tests', () => {
                     }
                 ],
                 "additionalDetails": {
-                    "owner": "Maruthi ch",
+                    "owner": citizenUserInfo?.name,
                     "formdata": {
                         "prayer": {
                             "text": "faf"
@@ -133,9 +162,9 @@ test.describe('Application Update API Tests', () => {
                     "isResponseRequired": true
                 },
                 "auditDetails": {
-                    "createdBy": globalVars.citizenUserInfo.uuid,
-                    "lastModifiedBy": globalVars.citizenUserInfo.uuid,
-                    "createdTime": globalVars.applicationCreatedDate,
+                    "createdBy": citizenUserInfo?.uuid,
+                    "lastModifiedBy": citizenUserInfo?.uuid,
+                    "createdTime": applicationCreatedDate,
                     "lastModifiedTime": timestamp
                 },
                 "workflow": {
@@ -148,23 +177,30 @@ test.describe('Application Update API Tests', () => {
             },
             "RequestInfo": {
                 "apiId": "Rainmaker",
-                "authToken": globalVars.citizenAuthToken,
-                "userInfo": globalVars.citizenUserInfo,
+                "authToken": citizenAuthToken,
+                "userInfo": citizenUserInfo,
                 "msgId": `${timestamp}|en_IN`,
                 "plainAccessRequest": {}
             }
         };
 
         console.log('Update Application Request Body:', JSON.stringify(requestBody, null, 2));
+        console.log('Using Application ID:', applicationId);
+        console.log('Using Case ID:', caseId);
+        console.log('Using Filing Number:', filingNumber);
+        console.log('Using CNR Number:', cnrNumber);
+        console.log('Using Application Number:', applicationNumber);
+        console.log('Using Citizen Auth Token:', citizenAuthToken);
+        console.log('Using Citizen User Info:', citizenUserInfo?.name);
 
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}`, {
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}`, {
             data: requestBody,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Origin': BASE_URL,
+                'Origin': baseURL,
                 'Connection': 'keep-alive',
-                'Referer': `${BASE_URL}ui/employee/create-application`
+                'Referer': `${baseURL}ui/employee/create-application`
             }
         });
 
@@ -187,16 +223,16 @@ test.describe('Application Update API Tests', () => {
     test('should fail with 401 for missing auth token', async () => {
         const timestamp = Date.now();
         const noTokenBody = {
-            "tenantId": TENANT_ID,
+            "tenantId": tenantId,
             "application": {
-                "id": globalVars.applicationId,
-                "tenantId": TENANT_ID,
-                "caseId": globalVars.caseId,
-                "filingNumber": globalVars.filingNumber,
-                "cnrNumber": globalVars.cnrNumber,
+                "id": applicationId,
+                "tenantId": tenantId,
+                "caseId": caseId,
+                "filingNumber": filingNumber,
+                "cnrNumber": cnrNumber,
                 "cmpNumber": null,
-                "createdDate": globalVars.applicationCreatedDate,
-                "createdBy": globalVars.citizenUserInfo.uuid,
+                "createdDate": applicationCreatedDate,
+                "createdBy": citizenUserInfo?.uuid,
                 "applicationType": "OTHERS",
                 "status": "PENDINGESIGN"
             },
@@ -216,16 +252,16 @@ test.describe('Application Update API Tests', () => {
     test('should fail with 401 for invalid auth token', async () => {
         const timestamp = Date.now();
         const invalidTokenBody = {
-            "tenantId": TENANT_ID,
+            "tenantId": tenantId,
             "application": {
-                "id": globalVars.applicationId,
-                "tenantId": TENANT_ID,
-                "caseId": globalVars.caseId,
-                "filingNumber": globalVars.filingNumber,
-                "cnrNumber": globalVars.cnrNumber,
+                "id": applicationId,
+                "tenantId": tenantId,
+                "caseId": caseId,
+                "filingNumber": filingNumber,
+                "cnrNumber": cnrNumber,
                 "cmpNumber": null,
-                "createdDate": globalVars.applicationCreatedDate,
-                "createdBy": globalVars.citizenUserInfo.uuid,
+                "createdDate": applicationCreatedDate,
+                "createdBy": citizenUserInfo?.uuid,
                 "applicationType": "OTHERS",
                 "status": "PENDINGESIGN"
             },

@@ -5,18 +5,33 @@ require('dotenv').config();
 
 test.describe('Create Demand for Application API Tests', () => {
     let apiContext;
-    let BASE_URL;
-    const ENDPOINT_PATH = '/etreasury/payment/v1/_createDemand';
-    const TENANT_ID = 'kl';
     let globalVars;
+    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+
+    // Import values from global config into variables
+    let baseURL;
+    let tenantId;
+    let filingNumber;
+    let applicationNumber;
+    let citizenAuthToken;
+    let citizenUserInfo;
+    
+    const ENDPOINT_PATH = '/etreasury/payment/v1/_createDemand';
 
     test.beforeAll(async ({ playwright }) => {
-        const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+        // Read global variables
         globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-        BASE_URL = globalVars.baseURL;
+        
+        // Import values from global config into variables
+        baseURL = globalVars.baseURL;
+        tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
+        filingNumber = globalVars.filingNumber;
+        applicationNumber = globalVars.applicationNumber;
+        citizenAuthToken = globalVars.citizenAuthToken;
+        citizenUserInfo = globalVars.citizenUserInfo;
 
         apiContext = await playwright.request.newContext({
-            baseURL: BASE_URL,
+            baseURL: baseURL,
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -31,13 +46,13 @@ test.describe('Create Demand for Application API Tests', () => {
     test('should create demand successfully (200 OK)', async () => {
         const timestamp = Date.now();
         const requestBody = {
-            "tenantId": TENANT_ID,
+            "tenantId": tenantId,
             "entityType": "application-voluntary-submission",
-            "filingNumber": globalVars.filingNumber,
-            "consumerCode": `${globalVars.applicationNumber}_APPL_FILING`,
+            "filingNumber": filingNumber,
+            "consumerCode": `${applicationNumber}_APPL_FILING`,
             "calculation": [
                 {
-                    "tenantId": TENANT_ID,
+                    "tenantId": tenantId,
                     "totalAmount": "20",
                     "breakDown": [
                         {
@@ -51,23 +66,27 @@ test.describe('Create Demand for Application API Tests', () => {
             ],
             "RequestInfo": {
                 "apiId": "Rainmaker",
-                "authToken": globalVars.citizenAuthToken,
-                "userInfo": globalVars.citizenUserInfo,
+                "authToken": citizenAuthToken,
+                "userInfo": citizenUserInfo,
                 "msgId": `${timestamp}|en_IN`,
                 "plainAccessRequest": {}
             }
         };
 
         console.log('Create Demand Request Body:', JSON.stringify(requestBody, null, 2));
+        console.log('Using Filing Number:', filingNumber);
+        console.log('Using Application Number:', applicationNumber);
+        console.log('Using Consumer Code:', `${applicationNumber}_APPL_FILING`);
+        console.log('Using Citizen Auth Token:', citizenAuthToken);
 
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}`, {
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}`, {
             data: requestBody,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Origin': BASE_URL,
+                'Origin': baseURL,
                 'Connection': 'keep-alive',
-                'Referer': `${BASE_URL}ui/employee/create-application`
+                'Referer': `${baseURL}ui/employee/create-application`
             }
         });
 
@@ -84,8 +103,8 @@ test.describe('Create Demand for Application API Tests', () => {
 
         // Validate demand details
         const demand = parsedResponse.Demands[0];
-        expect(demand.tenantId).toBe(TENANT_ID);
-        expect(demand.consumerCode).toBe(`${globalVars.applicationNumber}_APPL_FILING`);
+        expect(demand.tenantId).toBe(tenantId);
+        expect(demand.consumerCode).toBe(`${applicationNumber}_APPL_FILING`);
         expect(demand.consumerType).toBe('application-voluntary-submission');
         expect(demand.status).toBe('ACTIVE');
         expect(demand.isPaymentCompleted).toBe(false);
@@ -98,7 +117,7 @@ test.describe('Create Demand for Application API Tests', () => {
         // Store demand ID in global variables for future use
         if (demand.id) {
             globalVars.demandId = demand.id;
-            fs.writeFileSync(path.join(__dirname, '..', 'global-variables.json'), JSON.stringify(globalVars, null, 2));
+            fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
             console.log('Updated global variables with demand ID:', demand.id);
         }
     });
@@ -106,13 +125,13 @@ test.describe('Create Demand for Application API Tests', () => {
     test('should fail with 401 for missing auth token', async () => {
         const timestamp = Date.now();
         const noTokenBody = {
-            "tenantId": TENANT_ID,
+            "tenantId": tenantId,
             "entityType": "application-voluntary-submission",
-            "filingNumber": globalVars.filingNumber,
-            "consumerCode": `${globalVars.applicationNumber}_APPL_FILING`,
+            "filingNumber": filingNumber,
+            "consumerCode": `${applicationNumber}_APPL_FILING`,
             "calculation": [
                 {
-                    "tenantId": TENANT_ID,
+                    "tenantId": tenantId,
                     "totalAmount": "20",
                     "breakDown": [
                         {
@@ -131,7 +150,7 @@ test.describe('Create Demand for Application API Tests', () => {
             }
         };
 
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}`, {
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}`, {
             data: noTokenBody
         });
 
@@ -141,13 +160,13 @@ test.describe('Create Demand for Application API Tests', () => {
     test('should fail with 401 for invalid auth token', async () => {
         const timestamp = Date.now();
         const invalidTokenBody = {
-            "tenantId": TENANT_ID,
+            "tenantId": tenantId,
             "entityType": "application-voluntary-submission",
-            "filingNumber": globalVars.filingNumber,
-            "consumerCode": `${globalVars.applicationNumber}_APPL_FILING`,
+            "filingNumber": filingNumber,
+            "consumerCode": `${applicationNumber}_APPL_FILING`,
             "calculation": [
                 {
-                    "tenantId": TENANT_ID,
+                    "tenantId": tenantId,
                     "totalAmount": "20",
                     "breakDown": [
                         {
@@ -167,7 +186,7 @@ test.describe('Create Demand for Application API Tests', () => {
             }
         };
 
-        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${TENANT_ID}`, {
+        const response = await apiContext.post(`${ENDPOINT_PATH}?tenantId=${tenantId}`, {
             data: invalidTokenBody
         });
 
@@ -179,8 +198,8 @@ test.describe('Create Demand for Application API Tests', () => {
         const invalidTenantBody = {
             "tenantId": "invalid-tenant",
             "entityType": "application-voluntary-submission",
-            "filingNumber": globalVars.filingNumber,
-            "consumerCode": `${globalVars.applicationNumber}_APPL_FILING`,
+            "filingNumber": filingNumber,
+            "consumerCode": `${applicationNumber}_APPL_FILING`,
             "calculation": [
                 {
                     "tenantId": "invalid-tenant",
@@ -197,7 +216,7 @@ test.describe('Create Demand for Application API Tests', () => {
             ],
             "RequestInfo": {
                 "apiId": "Rainmaker",
-                "authToken": globalVars.citizenAuthToken,
+                "authToken": citizenAuthToken,
                 "msgId": `${timestamp}|en_IN`,
                 "plainAccessRequest": {}
             }
