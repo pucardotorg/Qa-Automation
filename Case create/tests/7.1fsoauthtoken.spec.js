@@ -5,18 +5,18 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+const baseUrl = globalVars.baseURL;
+
 const headers = {
   Authorization:'Basic ZWdvdi11c2VyLWNsaWVudDo=',
   // "gjudge:secret" (example)
 }
 
 test('fsoauthtoken', async() => {
-    // Read global variables
-    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
-    const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-    
     const apiContext = await request.newContext();
-    const empresponse = await apiContext.post(`${globalVars.baseURL}user/oauth/token?_=1748935894913`,
+    const empresponse = await apiContext.post(`${baseUrl}user/oauth/token?_=1748935894913`,
         {
             headers: headers,
             form: {
@@ -33,11 +33,17 @@ test('fsoauthtoken', async() => {
 
     const empresponsejson = await empresponse.json();
     const fsoauthtoken = empresponsejson.access_token;
+    const FSOuserinfo = empresponsejson.UserRequest;
+    const fsouuid = FSOuserinfo?.uuid;
     
-    // Update global variables
+    // Read and update global variables
     globalVars.fsoauthtoken = fsoauthtoken;
+    globalVars.FSOuserinfo = FSOuserinfo;
+    globalVars.fsouuid = fsouuid;
     fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
     
     console.log("Full Response JSON:", empresponsejson);
     console.log("Nayamitra Access Token:", fsoauthtoken);
+    console.log("FSO User Info:", FSOuserinfo);
+    console.log("FSO UUID:", fsouuid);
 });

@@ -1,6 +1,6 @@
 {
-  "caseId": "e929ae0e-5f4a-403a-aa42-d552aab2c490",
-  "filingNumber": "KL-002061-2025",
+  "caseId": "a8461b54-c952-4612-bfbe-881b74bef130",
+  "filingNumber": "KL-002070-2025",
   "nayamitraAuthToken": "4cd312bd-6d2e-4d45-b6c2-922c83af20bd",
   "fsousername": "michaelGeorgeFso",
   "fsopassword": "Beehyv@123",
@@ -13,12 +13,12 @@
   "orderNumber": "KL-002061-2025-OR1",
   "hearingId": "KL-002061-2025-HR1",
   "citizenUserInfo": {
-    "id": 1181,
-    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-    "userName": "6303338642",
-    "name": "Maruthi  ch",
-    "mobileNumber": "6303338642",
-    "emailId": "marruthi@gmail.com",
+    "id": 2149,
+    "uuid": "5426acd3-e73f-458c-bfeb-2819a4caa0fd",
+    "userName": "8826000000",
+    "name": "ADV EIGHT TWENTY SIX  ",
+    "mobileNumber": "8826000000",
+    "emailId": "test26@gmail.com",
     "locale": null,
     "type": "CITIZEN",
     "roles": [
@@ -140,13 +140,15 @@
   "applicationDocumentFileStore": "78abb8bd-c5e0-4cb1-9818-48425f10615a",
   "demandId": "f7ea7d1b-391a-4066-a322-d56a53134982",
   "billId": "a0db200e-bd38-47be-8927-8cb24b2e2c17",
-  "citizenAuthToken": "21532fac-5229-486f-b2e8-17a10822aae9",
-  "epochTime": 1752066868531,
-  "representingid": "0eaa7c91-4689-4be0-97e6-cfe02519e24e",
+  "citizenAuthToken": "1e288cbd-ebfb-4ab3-96a1-ba2d91b770a4",
+  "epochTime": 1752128489577,
+  "representingid": "e359be37-148a-4822-b425-285bab678b67",
   "litigantid": "ce07e212-59f5-494b-ab5a-14d63daf4456",
   "representingli": "6a45b858-ab9f-4da2-ba68-9577e729ab97",
   "artifactId": "28c76f25-966e-4ab8-a252-f36b0fb1594f",
   "artifactNumber": "KL-002061-2025-AR6",
   "baseURL": "https://dristi-kerala-uat.pucar.org/",
-  "advocateId": "ead05651-b931-45f2-bbd7-c4b9ac30d960"
+  "advocateId": "1e641bf6-14d9-43d6-b6d9-5632406dd77e",
+  "advocateuserUUID": "5426acd3-e73f-458c-bfeb-2819a4caa0fd",
+  "advocateIndividualId": "IND-2025-06-27-000443"
 }
