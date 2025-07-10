@@ -2,16 +2,24 @@ import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 
+// Import global config
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-const BASE_URL = 'https://dristi-kerala-uat.pucar.org';
+
+// Import values from global config
+const BASE_URL = globalVars.baseURL;
 const ENDPOINT_PATH = '/user/_search';
-const TENANT_ID = 'kl';
-const mobileNumber=globalVars.citizenUserInfo.mobileNumber;
+const TENANT_ID = globalVars.citizenUserInfo.tenantId || 'kl';
+const mobileNumber = globalVars.citizenUserInfo.mobileNumber;
+
+console.log('[Config] BASE_URL:', BASE_URL);
+console.log('[Config] TENANT_ID:', TENANT_ID);
+console.log('[Config] mobileNumber:', mobileNumber);
+
 let apiContext;
 
 // Use CITIZEN_USERNAME from environment or fallback
-const mobileNumber1 = process.env.CITIZEN_USERNAME || '6303338642';
+// const mobileNumber1 = process.env.CITIZEN_USERNAME;
 
 test.describe('User Search API Tests', () => {
   test.beforeAll(async ({ playwright }) => {
@@ -31,7 +39,7 @@ test.describe('User Search API Tests', () => {
   test('should search user by mobile number and store advocateuserUUID', async () => {
     const requestBody = {
       tenantId: TENANT_ID,
-      mobileNumber:mobileNumber,
+      mobileNumber: mobileNumber,
       pageSize: '100',
       RequestInfo: {
         apiId: 'Rainmaker',

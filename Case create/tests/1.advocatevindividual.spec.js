@@ -2,18 +2,28 @@ import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 
+// Import global config
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-const BASE_URL = 'https://dristi-kerala-uat.pucar.org';
-const ENDPOINT_PATH = '/individual/v1/_search?tenantId=kl&limit=1000&offset=0&_=' + Date.now();
-let apiContext;
 
-const userUuid = globalVars.advocateuserUUID || '5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f';
+// Import values from global config
+const BASE_URL = globalVars.baseURL;
+const TENANT_ID = globalVars.citizenUserInfo.tenantId || 'kl';
+const userUuid = globalVars.advocateuserUUID;
 const authToken = globalVars.citizenAuthToken;
 
-const cookie = '_ga_P0JH39REGV=GS2.1.s1752066421$o60$g1$t1752066439$j42$l0$h0; _ga=GA1.1.268185039.1750425578; _ga_6DRDK00D5W=GS2.1.s1751813767$o8$g0$t1751813767$j60$l0$h0';
+// Build endpoint path dynamically
+const ENDPOINT_PATH = `/individual/v1/_search?tenantId=${TENANT_ID}&limit=1000&offset=0&_=${Date.now()}`;
 
+// If you want to use a cookie from config, add it to global-variables.json; otherwise, keep as is or remove if not needed
 test.describe('Individual User Search API Tests', () => {
+  console.log('[Config] BASE_URL:', BASE_URL);
+  console.log('[Config] TENANT_ID:', TENANT_ID);
+  console.log('[Config] userUuid:', userUuid);
+  console.log('[Config] authToken:', authToken);
+
+  let apiContext;
+
   test.beforeAll(async ({ playwright }) => {
     apiContext = await playwright.request.newContext({
       baseURL: BASE_URL,
@@ -24,10 +34,10 @@ test.describe('Individual User Search API Tests', () => {
         'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0',
         'Accept-Language': 'en-US,en;q=0.5',
         'Content-Type': 'application/json;charset=utf-8',
-        'Origin': 'https://dristi-kerala-uat.pucar.org',
-        'Referer': 'https://dristi-kerala-uat.pucar.org/ui/citizen/dristi/home',
+        'Origin': BASE_URL,
+        'Referer': `${BASE_URL}ui/citizen/dristi/home`,
         'Authorization': `Bearer ${authToken}`,
-        'Cookie': cookie,
+        // 'Cookie': cookie, // Uncomment and set from config if needed
         'Sec-Fetch-Dest': 'empty',
         'Sec-Fetch-Mode': 'cors',
         'Sec-Fetch-Site': 'same-origin',
