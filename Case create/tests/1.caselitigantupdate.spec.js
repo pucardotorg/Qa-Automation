@@ -77,11 +77,11 @@ const casePayload = {
                 "tenantId": "kl",
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
-                "individualId": "IND-2024-10-29-000629",
+                "individualId": globalVars.litigentIndividualId,
                 "partyType": "complainant.primary",
                 "additionalDetails": {
-                    "fullName": "Rajesh Ch",
-                    "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                    "fullName":  globalVars.litigentuserinfo?.name,
+                    "uuid": globalVars.litigentuuid,
                     "currentPosition": 1
                 }
             }
@@ -108,10 +108,10 @@ const casePayload = {
         "status": "DRAFT_IN_PROGRESS",
         "documents": [
             {
-                "fileName": "AADHAR",
-                "fileStore": "b7b06ce0-c41b-431c-8825-06f9f92fea3f",
-                "documentName": "adhaar.jpg",
-                "documentType": "COMPLAINANT_ID_PROOF"
+                "fileStore": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
+                "fileName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentType": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
             }
         ],
         "remarks": null,
@@ -160,15 +160,15 @@ const casePayload = {
                                 "complainantLocation": true
                             },
                             "complainantVerification": {
-                                "mobileNumber": "9032273758",
+                                "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
                                 "otpNumber": "123456",
                                 "individualDetails": {
-                                    "individualId": "IND-2024-10-29-000629",
-                                    "userUuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                                    "individualId": globalVars.litigentIndividualId,
+                                    "userUuid": globalVars.litigentuuid,
                                     "document": [
                                         {
                                             "fileName": "AADHAR",
-                                            "fileStore": "b7b06ce0-c41b-431c-8825-06f9f92fea3f",
+                                            "fileStore": globalVars.litigentIndividualResponse?.Individual?.[0]?.individualId,
                                             "documentName": "adhaar.jpg"
                                         }
                                     ],

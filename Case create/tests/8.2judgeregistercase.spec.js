@@ -19,7 +19,11 @@ const representingli = globalVars.representingli;
 const advocateId = globalVars.advocateId;
 const judgeUserResponse = globalVars.judgeUserResponse;
 const citizenUserInfo = globalVars.citizenUserInfo;
-
+const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
+const firstName = litigentIndividual?.name?.givenName;
+const lastName = litigentIndividual?.name?.familyName;
+const citizenMobile = citizenUserInfo.userName;
+const citizenName = citizenUserInfo.name;
 const apiUrl = `${baseURL}case/v1/_update?tenantId=${tenantId}`;
 
 test.describe('Judge Register Case API Tests', () => {
@@ -312,9 +316,9 @@ test.describe('Judge Register Case API Tests', () => {
                     "createdTime": epochTime,
                     "lastModifiedTime": epochTime
                 },
-                "additionalDetails": {
-                    "fullName": "Rajesh Ch",
-                    "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                "additionalDetails":{
+                    "fullName":  globalVars.litigentuserinfo?.name,
+                    "uuid": globalVars.litigentuuid,
                     "currentPosition": 1
                 },
                 "hasSigned": false
@@ -355,10 +359,10 @@ test.describe('Judge Register Case API Tests', () => {
                             "lastModifiedTime": epochTime
                         },
                         "additionalDetails": {
-                            "fullName": "Rajesh Ch",
-                            "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
-                            "currentPosition": 1
-                        },
+                    "fullName":  globalVars.litigentuserinfo?.name,
+                    "uuid": globalVars.litigentuuid,
+                    "currentPosition": 1
+                },
                         "hasSigned": false
                     }
                 ],
@@ -510,12 +514,12 @@ test.describe('Judge Register Case API Tests', () => {
                                     }
                                 ],
                                 "boxComplainant": {
-                                    "firstName": "Rajesh",
-                                    "lastName": "Ch",
-                                    "mobileNumber": "9032273758",
+                                    "firstName": firstName,
+                                    "lastName": lastName,
+                                     "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
                                     "middleName": "",
-                                    "index": 0,
-                                    "individualId": "IND-2024-10-29-000629"
+                                    "individualId": globalVars.litigentIndividualId,
+                                    "index": 0
                                 },
                                 "showAffidavit": false,
                                 "isComplainantPip": {
@@ -673,15 +677,15 @@ test.describe('Judge Register Case API Tests', () => {
                                             "documentName": "adhaar.jpg"
                                         }
                                     ],
-                                    "userUuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
-                                    "individualId": "IND-2024-10-29-000629"
+                                    "individualId": globalVars.litigentIndividualId,
+                                   "userUuid": globalVars.litigentuuid,
                                 },
-                                "mobileNumber": "9032273758",
+                                "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
                                 "otpNumber": "123456",
                                 "isUserVerified": true
                             },
-                            "firstName": "Rajesh",
-                            "lastName": "Ch",
+                            "firstName": firstName,
+                            "lastName": lastName,
                             "poaVerification": {
                                 "isUserVerified": false
                             },

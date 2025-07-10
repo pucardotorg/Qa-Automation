@@ -3,6 +3,8 @@
 # Array of test files in order
 tests=(
     "tests/0.citizenauthtoken.spec.js"
+    "tests/0.litigentauthtoken.spec.js"
+    "tests/0.litigentusersearch.spec.js"
     "tests/1.advocateusersearch.spec.js"
     "tests/1.advocatevindividual.spec.js"
     "tests/1.advocatevuserid.spec.js"

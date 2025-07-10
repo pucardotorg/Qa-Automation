@@ -20,7 +20,9 @@ const filingNumber = globalVars.filingNumber;
 const epochtime = globalVars.epochTime;
 const litigantid = globalVars.litigantid;
 const advocateId = globalVars.advocateId;
-
+const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
+const firstName = litigentIndividual?.name?.givenName;
+const lastName = litigentIndividual?.name?.familyName;
 
 // Request body from the Postman example
 const validRequestBody = {
@@ -254,7 +256,7 @@ const validRequestBody = {
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
-                "individualId": "IND-2024-10-29-000629",
+                "individualId": globalVars.litigentIndividualId,
                 "partyType": "complainant.primary",
                 "isActive": true,
                 "isResponseRequired": false,
@@ -267,8 +269,8 @@ const validRequestBody = {
                     "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
-                    "fullName": "Rajesh Ch",
-                    "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                    "fullName":  globalVars.litigentuserinfo?.name,
+                    "uuid": globalVars.litigentuuid,
                     "currentPosition": 1
                 },
                 "hasSigned": false
@@ -283,8 +285,8 @@ const validRequestBody = {
                 "representing": [
                     {
                          "additionalDetails": {
-                            "fullName": "Rajesh Ch",
-                            "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                             "fullName":  globalVars.litigentuserinfo?.name,
+                    "uuid": globalVars.litigentuuid,
                             "currentPosition": 1
                          },
                         "tenantId": "kl",
@@ -313,8 +315,8 @@ const validRequestBody = {
                             "lastModifiedTime": epochtime
                         },
                         "additionalDetails": {
-                            "fullName": "Rajesh Ch",
-                            "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                             "fullName":  globalVars.litigentuserinfo?.name,
+                    "uuid": globalVars.litigentuuid,
                             "currentPosition": 1
                         },
                         "hasSigned": false
@@ -458,17 +460,17 @@ const validRequestBody = {
                                             "isDisable": true,
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST",
                                             "advocateId": advocateId,
-                                            "advocateUuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-                                            "individualId": "IND-2024-11-19-000893"
+                                            "advocateUuid": globalVars.advocateuserUUID,
+                                            "individualId": globalVars.advocateIndividualId
                                         }
                                     }
                                 ],
                                 "boxComplainant": {
-                                    "firstName": "Rajesh",
-                                    "lastName": "Ch",
-                                    "mobileNumber": "9032273758",
+                                    "firstName": firstName,
+                                    "lastName": lastName,
+                                     "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
                                     "middleName": "",
-                                    "individualId": "IND-2024-10-29-000629",
+                                    "individualId": globalVars.litigentIndividualId,
                                     "index": 0
                                 },
                                 "isComplainantPip": {
@@ -620,22 +622,23 @@ const validRequestBody = {
                                             "name": "YES"
                                         }
                                     },
-                                    "individualId": "IND-2024-10-29-000629",
-                                    "userUuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                                    "individualId": globalVars.litigentIndividualId,
+                                   "userUuid": globalVars.litigentuuid,
                                     "document": [
                                         {
-                                            "fileName": "AADHAR",
-                                            "fileStore": "b7b06ce0-c41b-431c-8825-06f9f92fea3f",
-                                            "documentName": "adhaar.jpg"
+                                             "fileStore": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
+                "fileName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentType": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
                                         }
                                     ]
                                 },
-                                "mobileNumber": "9032273758",
+                                "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
                                 "otpNumber": "123456",
                                 "isUserVerified": true
                             },
-                            "lastName": "Ch",
-                            "firstName": "Rajesh",
+                            "lastName": lastName,
+                            "firstName": firstName,
                             "poaVerification": {
                                 "isUserVerified": false
                             },

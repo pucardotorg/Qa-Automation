@@ -19,7 +19,11 @@ const representingli = globalVars.representingli;
 const advocateId = globalVars.advocateId;
 const fsoUserResponse = globalVars.fsoUserResponse;
 const citizenUserInfo = globalVars.citizenUserInfo;
-
+const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
+const firstName = litigentIndividual?.name?.givenName;
+const lastName = litigentIndividual?.name?.familyName;
+const citizenMobile = citizenUserInfo.userName;
+const citizenName = citizenUserInfo.name;
 // Use FSO auth token from global variables
 const AUTH_TOKEN = fsoauthtoken;
 
@@ -315,8 +319,8 @@ const validUpdateRequestBody = {
                     "lastModifiedTime": epochTime
                 },
                 "additionalDetails": {
-                    "fullName": "Rajesh Ch",
-                    "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                    "fullName":  globalVars.litigentuserinfo?.name,
+                    "uuid": globalVars.litigentuuid,
                     "currentPosition": 1
                 },
                 "hasSigned": false
@@ -357,10 +361,10 @@ const validUpdateRequestBody = {
                             "lastModifiedTime": epochTime
                         },
                         "additionalDetails": {
-                            "fullName": "Rajesh Ch",
-                            "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
-                            "currentPosition": 1
-                        },
+                    "fullName":  globalVars.litigentuserinfo?.name,
+                    "uuid": globalVars.litigentuuid,
+                    "currentPosition": 1
+                },
                         "hasSigned": false
                     }
                 ],
@@ -513,12 +517,12 @@ const validUpdateRequestBody = {
                                     }
                                 ],
                                 "boxComplainant": {
-                                    "firstName": "Rajesh",
-                                    "lastName": "Ch",
-                                    "mobileNumber": "9032273758",
+                                    "firstName": firstName,
+                                    "lastName": lastName,
+                                     "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
                                     "middleName": "",
-                                    "index": 0,
-                                    "individualId": "IND-2024-10-29-000629"
+                                    "individualId": globalVars.litigentIndividualId,
+                                    "index": 0
                                 },
                                 "showAffidavit": false,
                                 "isComplainantPip": {
@@ -548,8 +552,8 @@ const validUpdateRequestBody = {
                 ],
                 "isCompleted": true
             },
-            "payerMobileNo": "8800000019",
-            "payerName": "ADV Eight Nineteen ",
+            "payerMobileNo": citizenMobile,
+            "payerName": citizenName,
             "respondentDetails": {
                 "formdata": [
                     {
@@ -671,20 +675,21 @@ const validUpdateRequestBody = {
                                     },
                                     "document": [
                                         {
-                                            "fileName": "AADHAR",
-                                            "fileStore": "b7b06ce0-c41b-431c-8825-06f9f92fea3f",
-                                            "documentName": "adhaar.jpg"
+                                             "fileStore": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
+                "fileName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentType": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
                                         }
                                     ],
-                                    "userUuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
-                                    "individualId": "IND-2024-10-29-000629"
+                                     "individualId": globalVars.litigentIndividualId,
+                                   "userUuid": globalVars.litigentuuid,
                                 },
-                                "mobileNumber": "9032273758",
+                                "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
                                 "otpNumber": "123456",
                                 "isUserVerified": true
                             },
-                            "lastName": "Ch",
-                            "firstName": "Rajesh",
+                            "lastName": lastName,
+                            "firstName": firstName,
                             "poaVerification": {
                                 "isUserVerified": false
                             },

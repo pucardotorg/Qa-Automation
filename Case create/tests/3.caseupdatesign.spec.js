@@ -15,7 +15,9 @@ const filingNumber = globalVars.filingNumber;
 const epochtime = globalVars.epochTime;
 const litigantid = globalVars.litigantid;
 const advocateId = globalVars.advocateId;
-
+const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
+const firstName = litigentIndividual?.name?.givenName;
+const lastName = litigentIndividual?.name?.familyName;
 let apiContext;
 //const baseUrl = 'https://dristi-kerala-uat.pucar.org/case/v1/_update';
 const baseUrl1 = globalVars.baseURL;
@@ -279,8 +281,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                     "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
-                    "fullName": "Rajesh Ch",
-                    "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+                    "fullName":  globalVars.litigentuserinfo?.name,
+                    "uuid": globalVars.litigentuuid,
                     "currentPosition": 1
                 },
                 "hasSigned": false
@@ -321,10 +323,10 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                             "lastModifiedTime": epochtime
                         },
                         "additionalDetails": {
-                            "fullName": "Rajesh Ch",
-                            "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
-                            "currentPosition": 1
-                        },
+                    "fullName":  globalVars.litigentuserinfo?.name,
+                    "uuid": globalVars.litigentuuid,
+                    "currentPosition": 1
+                },
                         "hasSigned": false
                     }
                 ],
@@ -471,18 +473,18 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "isDisable": true,
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST",
-                                            "advocateId": advocateId,
-                                            "advocateUuid": citizenUUID,
-                                            "individualId": "IND-2024-11-19-000893"
+                                             "advocateId": advocateId,
+                                            "advocateUuid": globalVars.advocateuserUUID,
+                                            "individualId": globalVars.advocateIndividualId
                                         }
                                     }
                                 ],
                                 "boxComplainant": {
-                                    "firstName": "Rajesh",
-                                    "lastName": "Ch",
-                                    "mobileNumber": "9032273758",
+                                    "firstName": firstName,
+                                    "lastName": lastName,
+                                     "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
                                     "middleName": "",
-                                    "individualId": "IND-2024-10-29-000629",
+                                    "individualId": globalVars.litigentIndividualId,
                                     "index": 0
                                 },
                                 "isComplainantPip": {
@@ -513,8 +515,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                 ],
                 "isCompleted": true
             },
-            "payerName": "Maruthi ch",
-            "payerMobileNo": "6303338642",
+            "payerMobileNo": citizenMobile,
+            "payerName": citizenName,
             "respondentDetails": {
                 "formdata": [
                     {
@@ -638,18 +640,19 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                                     "userUuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
                                     "document": [
                                         {
-                                            "fileName": "AADHAR",
-                                            "fileStore": "b7b06ce0-c41b-431c-8825-06f9f92fea3f",
-                                            "documentName": "adhaar.jpg"
+                                             "fileStore": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
+                "fileName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentType": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
                                         }
                                     ]
                                 },
-                                "mobileNumber": "9032273758",
+                                "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
                                 "otpNumber": "123456",
                                 "isUserVerified": true
                             },
-                            "lastName": "Ch",
-                            "firstName": "Rajesh",
+                            "lastName": lastName,
+                            "firstName": firstName,
                             "poaVerification": {
                                 "isUserVerified": false
                             },
