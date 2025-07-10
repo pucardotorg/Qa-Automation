@@ -268,7 +268,7 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
-                "individualId": "IND-2024-10-29-000629",
+                "individualId": globalVars.litigentIndividualId,
                 "partyType": "complainant.primary",
                 "isActive": true,
                 "isResponseRequired": false,

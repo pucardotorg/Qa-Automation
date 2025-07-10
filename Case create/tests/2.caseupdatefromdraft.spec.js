@@ -293,7 +293,7 @@ const validRequestBody = {
                         "caseId": caseId,
                         "partyCategory": "INDIVIDUAL",
                         "organisationID": null,
-                        "individualId": "IND-2024-10-29-000629",
+                        "individualId": globalVars.litigentIndividualId,
                         "partyType": "complainant.primary",
                         "isActive": true,
                         "isResponseRequired": false,
@@ -332,7 +332,7 @@ const validRequestBody = {
                 },
                 "additionalDetails": {
                     "advocateName": "Maruthi ch",
-                    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f" // Corrected advocate UUID
+                    "uuid": globalVars.advocateIndividualId // Corrected advocate UUID
                 },
                 "hasSigned": false
             }

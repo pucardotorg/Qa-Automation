@@ -292,7 +292,7 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
-                "individualId": "IND-2024-10-29-000629",
+                "individualId": globalVars.litigentIndividualId,
                 "partyType": "complainant.primary",
                 "isActive": true,
                 "isResponseRequired": false,
@@ -322,10 +322,10 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                     {
                         "id": representingli,
                         "tenantId": "kl",
-                        "caseId": "56809884-ae9f-4f91-8293-7c13a338a9b4",
+                        "caseId": caseId,
                         "partyCategory": "INDIVIDUAL",
                         "organisationID": null,
-                        "individualId": "IND-2024-10-29-000629",
+                        "individualId": globalVars.litigentIndividualId,
                         "partyType": "complainant.primary",
                         "isActive": true,
                         "isResponseRequired": false,
@@ -493,7 +493,7 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                                             "isDisable": true,
                                             "advocateId": advocateId,
                                             "advocateUuid": citizenUUID,
-                                            "individualId": "IND-2024-11-19-000893",
+                                            "individualId": "IND-202-11-19-000893",
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST"
                                         }
