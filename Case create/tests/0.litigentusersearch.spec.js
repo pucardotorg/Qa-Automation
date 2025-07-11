@@ -4,19 +4,27 @@ import path from 'path';
 
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-const BASE_URL = 'https://dristi-kerala-uat.pucar.org';
-const ENDPOINT_PATH = '/individual/v1/_search?tenantId=kl&limit=1000&offset=0&_=' + Date.now();
-let apiContext;
 
+// Import configuration values from global config
+const baseURL = globalVars.baseURL;
+const tenantId = 'kl'; // This is hardcoded in the original, keeping as constant
 const userUuid = globalVars.litigentuuid;
 const authToken = globalVars.litigentAuthToken;
+
+console.log('Using baseURL from global config:', baseURL);
+console.log('Using tenantId:', tenantId);
+console.log('Using litigentuuid from global config:', userUuid);
+console.log('Using litigentAuthToken from global config:', authToken);
+
+const ENDPOINT_PATH = `/individual/v1/_search?tenantId=${tenantId}&limit=1000&offset=0&_=${Date.now()}`;
+let apiContext;
 
 const cookie = '_ga_P0JH39REGV=GS2.1.s1752066421$o60$g1$t1752066439$j42$l0$h0; _ga=GA1.1.268185039.1750425578; _ga_6DRDK00D5W=GS2.1.s1751813767$o8$g0$t1751813767$j60$l0$h0';
 
 test.describe('Litigent Individual User Search API Tests', () => {
   test.beforeAll(async ({ playwright }) => {
     apiContext = await playwright.request.newContext({
-      baseURL: BASE_URL,
+      baseURL: baseURL,
       extraHTTPHeaders: {
         'Accept': 'application/json, text/plain, */*',
         'Accept-Encoding': 'gzip, deflate, br, zstd',
@@ -24,8 +32,8 @@ test.describe('Litigent Individual User Search API Tests', () => {
         'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0',
         'Accept-Language': 'en-US,en;q=0.5',
         'Content-Type': 'application/json;charset=utf-8',
-        'Origin': 'https://dristi-kerala-uat.pucar.org',
-        'Referer': 'https://dristi-kerala-uat.pucar.org/ui/citizen/dristi/home',
+        'Origin': baseURL,
+        'Referer': `${baseURL}ui/citizen/dristi/home`,
         'Authorization': `Bearer ${authToken}`,
         'Cookie': cookie,
         'Sec-Fetch-Dest': 'empty',

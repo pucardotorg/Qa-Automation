@@ -1,15 +1,14 @@
 import { test, expect, request } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
-const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
 
-let apiContext;
-const baseUrl1 = globalVars.baseURL;
-const baseUrl = `${baseUrl1}case/v1/_update?`;
-const tenantId = 'kl'; // Using the provided tenantId
-// Placeholder for dynamic values
+const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+
+// Import configuration values from global config
+const baseURL = globalVars.baseURL;
+const tenantId = 'kl'; // This is hardcoded in the original, keeping as constant
 const validAuthToken = globalVars.citizenAuthToken;
-const dynamicMsgId = Date.now().toString() + '|en_IN'; // Example dynamic msgId
 const citizenUserInfo = globalVars.citizenUserInfo;
 const citizenMobile = citizenUserInfo.userName;
 const citizenName = citizenUserInfo.name;
@@ -22,15 +21,31 @@ const litigantid = globalVars.litigantid;
 const advocateId = globalVars.advocateId;
 const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
 const firstName = litigentIndividual?.name?.givenName;
-const lastName = litigentIndividual?.name?.familyName;
+const lastName = litigentIndividual?.name?.familyName || ''; // Set to empty string if null
+const litigentIndividualId = globalVars.litigentIndividualId;
+const litigentuserinfo = globalVars.litigentuserinfo;
+const litigentuuid = globalVars.litigentuuid;
+const litigentIndividualResponse = globalVars.litigentIndividualResponse;
+const advocateIndividualId = globalVars.advocateIndividualId;
+const advocateuserUUID = globalVars.advocateuserUUID;
+
+console.log('Using baseURL from global config:', baseURL);
+console.log('Using tenantId:', tenantId);
+console.log('Using caseId from global config:', caseId);
+console.log('Using filingNumber from global config:', filingNumber);
+console.log('Using citizenAuthToken from global config:', validAuthToken);
+
+let apiContext;
+const baseUrl = `${baseURL}case/v1/_update?`;
+const dynamicMsgId = Date.now().toString() + '|en_IN'; // Example dynamic msgId
 
 // Request body from the Postman example
 const validRequestBody = {
     "cases": {
         "id": caseId,
-        "tenantId": "kl",
+        "tenantId": tenantId,
         "resolutionMechanism": "COURT",
-        "caseTitle": "Rajesh Ch vs Accused Details",
+        "caseTitle": `${firstName} ${lastName} vs Accused Details`,
         "isActive": true,
         "caseDescription": "Case description",
         "filingNumber": filingNumber,
@@ -228,7 +243,7 @@ const validRequestBody = {
         "statutesAndSections": [
             {
                 "id": "7d945d58-b014-4f7c-9207-bc9dd9cfe656",
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "statute": null,
                 "sections": [
                     "Negotiable Instrument Act",
@@ -252,11 +267,11 @@ const validRequestBody = {
         "litigants": [
             {
                 "id": litigantid,
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
-                "individualId": globalVars.litigentIndividualId,
+                "individualId": litigentIndividualId,
                 "partyType": "complainant.primary",
                 "isActive": true,
                 "isResponseRequired": false,
@@ -269,8 +284,8 @@ const validRequestBody = {
                     "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
-                    "fullName":  globalVars.litigentuserinfo?.name,
-                    "uuid": globalVars.litigentuuid,
+                    "fullName":  litigentuserinfo?.name,
+                    "uuid": litigentuuid,
                     "currentPosition": 1
                 },
                 "hasSigned": false
@@ -279,21 +294,21 @@ const validRequestBody = {
         "representatives": [
             {
                 "id": representid,
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "advocateId": advocateId,
                 "caseId": caseId,
                 "representing": [
                     {
                          "additionalDetails": {
-                             "fullName":  globalVars.litigentuserinfo?.name,
-                    "uuid": globalVars.litigentuuid,
+                             "fullName":  litigentuserinfo?.name,
+                             "uuid": litigentuuid,
                             "currentPosition": 1
                          },
-                        "tenantId": "kl",
+                        "tenantId": tenantId,
                         "caseId": caseId,
                         "partyCategory": "INDIVIDUAL",
                         "organisationID": null,
-                        "individualId": globalVars.litigentIndividualId,
+                        "individualId": litigentIndividualId,
                         "partyType": "complainant.primary",
                         "isActive": true,
                         "isResponseRequired": false,
@@ -315,8 +330,8 @@ const validRequestBody = {
                             "lastModifiedTime": epochtime
                         },
                         "additionalDetails": {
-                             "fullName":  globalVars.litigentuserinfo?.name,
-                    "uuid": globalVars.litigentuuid,
+                             "fullName":  litigentuserinfo?.name,
+                    "uuid": litigentuuid,
                             "currentPosition": 1
                         },
                         "hasSigned": false
@@ -332,7 +347,7 @@ const validRequestBody = {
                 },
                 "additionalDetails": {
                     "advocateName": "Maruthi ch",
-                    "uuid": globalVars.advocateIndividualId // Corrected advocate UUID
+                    "uuid": advocateIndividualId // Corrected advocate UUID
                 },
                 "hasSigned": false
             }
@@ -460,17 +475,17 @@ const validRequestBody = {
                                             "isDisable": true,
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST",
                                             "advocateId": advocateId,
-                                            "advocateUuid": globalVars.advocateuserUUID,
-                                            "individualId": globalVars.advocateIndividualId
+                                            "advocateUuid": advocateuserUUID,
+                                            "individualId": advocateIndividualId
                                         }
                                     }
                                 ],
                                 "boxComplainant": {
                                     "firstName": firstName,
                                     "lastName": lastName,
-                                     "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
+                                     "mobileNumber": litigentuserinfo?.mobileNumber,
                                     "middleName": "",
-                                    "individualId": globalVars.litigentIndividualId,
+                                    "individualId": litigentIndividualId,
                                     "index": 0
                                 },
                                 "isComplainantPip": {
@@ -622,18 +637,18 @@ const validRequestBody = {
                                             "name": "YES"
                                         }
                                     },
-                                    "individualId": globalVars.litigentIndividualId,
-                                   "userUuid": globalVars.litigentuuid,
+                                    "individualId": litigentIndividualId,
+                                   "userUuid": litigentuuid,
                                     "document": [
                                         {
-                                             "fileStore": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
-                "fileName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
-                "documentName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
-                "documentType": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
+                                             "fileStore": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
+                "fileName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentType": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
                                         }
                                     ]
                                 },
-                                "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
+                                "mobileNumber": litigentuserinfo?.mobileNumber,
                                 "otpNumber": "123456",
                                 "isUserVerified": true
                             },
@@ -758,7 +773,7 @@ const validRequestBody = {
         "advocateStatus": "JOINED",
         "poaHolders": []
     },
-    "tenantId": "kl",
+    "tenantId": tenantId,
     "RequestInfo": {
         "apiId": "Rainmaker",
         "authToken": "", // Will be set from global variables
@@ -815,7 +830,6 @@ test.describe('API Tests for /case/v1/_update', () => {
     expect(responseBody.cases.length).toBeGreaterThan(0);
     const representingli = responseBody.cases?.[0]?.representatives?.[0]?.representing?.[0]?.id;
     console.log(representingli);
-    const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
             const updatedVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
             updatedVars.representingli = representingli;
             fs.writeFileSync(globalVarsPath, JSON.stringify(updatedVars, null, 2), 'utf8');

@@ -1,12 +1,13 @@
 import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
-const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
-const baseUrl = globalVars.baseURL;
-const updateUrl = `${baseUrl}case/v1/_update?`;
 
-// Read global variables from JSON file
-//const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
+const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+
+// Import configuration values from global config
+const baseURL = globalVars.baseURL;
+const tenantId = 'kl'; // This is hardcoded in the original, keeping as constant
 const citizenUserInfo = globalVars.citizenUserInfo;
 const citizenMobile = citizenUserInfo.userName;
 const citizenName = citizenUserInfo.name;
@@ -17,13 +18,32 @@ const filingNumber = globalVars.filingNumber;
 const epochtime = globalVars.epochTime;
 const citizenAuthToken = globalVars.citizenAuthToken;
 const advocateId = globalVars.advocateId;
+const litigentIndividualId = globalVars.litigentIndividualId;
+const litigentuserinfo = globalVars.litigentuserinfo;
+const litigentuuid = globalVars.litigentuuid;
+const litigentIndividualResponse = globalVars.litigentIndividualResponse;
+
+// Extract litigant name from global config
+const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
+const firstName = litigentIndividual?.name?.givenName;
+const lastName = litigentIndividual?.name?.familyName || ''; // Set to empty string if null
+const litigantFullName = `${firstName || ''} ${lastName}`.trim();
+
+console.log('Using baseURL from global config:', baseURL);
+console.log('Using tenantId:', tenantId);
+console.log('Using caseId from global config:', caseId);
+console.log('Using filingNumber from global config:', filingNumber);
+console.log('Using citizenAuthToken from global config:', citizenAuthToken);
+console.log('Using litigant name from global config:', litigantFullName);
+
+const updateUrl = `${baseURL}case/v1/_update?`;
 
 const casePayload = {
     "cases": {
         "id": caseId,
-        "tenantId": "kl",
+        "tenantId": tenantId,
         "resolutionMechanism": "COURT",
-        "caseTitle": "Rajesh Ch vs ",
+        "caseTitle": `${litigantFullName} vs `,
         "isActive": true,
         "caseDescription": "Case description",
         "filingNumber": filingNumber,
@@ -51,7 +71,7 @@ const casePayload = {
         "statutesAndSections": [
             {
                 "id": "444c8198-08dd-4867-a90c-fb10ed27358e",
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "statute": null,
                 "sections": [
                     "Negotiable Instrument Act",
@@ -74,14 +94,14 @@ const casePayload = {
         ],
         "litigants": [
             {
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
-                "individualId": globalVars.litigentIndividualId,
+                "individualId": litigentIndividualId,
                 "partyType": "complainant.primary",
                 "additionalDetails": {
-                    "fullName":  globalVars.litigentuserinfo?.name,
-                    "uuid": globalVars.litigentuuid,
+                    "fullName":  litigentuserinfo?.name,
+                    "uuid": litigentuuid,
                     "currentPosition": 1
                 }
             }
@@ -89,7 +109,7 @@ const casePayload = {
         "representatives": [
             {
                 "id": representid,
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "advocateId": advocateId,
                 "caseId": caseId,
                 "representing": [],
@@ -108,10 +128,10 @@ const casePayload = {
         "status": "DRAFT_IN_PROGRESS",
         "documents": [
             {
-                "fileStore": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
-                "fileName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
-                "documentName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
-                "documentType": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
+                "fileStore": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
+                "fileName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                "documentType": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
             }
         ],
         "remarks": null,
@@ -160,15 +180,15 @@ const casePayload = {
                                 "complainantLocation": true
                             },
                             "complainantVerification": {
-                                "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
+                                "mobileNumber": litigentuserinfo?.mobileNumber,
                                 "otpNumber": "123456",
                                 "individualDetails": {
-                                    "individualId": globalVars.litigentIndividualId,
-                                    "userUuid": globalVars.litigentuuid,
+                                    "individualId": litigentIndividualId,
+                                    "userUuid": litigentuuid,
                                     "document": [
                                         {
                                             "fileName": "AADHAR",
-                                            "fileStore": globalVars.litigentIndividualResponse?.Individual?.[0]?.individualId,
+                                            "fileStore": litigentIndividualResponse?.Individual?.[0]?.individualId,
                                             "documentName": "adhaar.jpg"
                                         }
                                     ],
@@ -230,9 +250,9 @@ const casePayload = {
                             "complainantId": {
                                 "complainantId": true
                             },
-                            "firstName": "Rajesh",
+                            "firstName": firstName,
                             "middleName": "",
-                            "lastName": "Ch",
+                            "lastName": lastName,
                             "complainantAge": "45",
                             "addressDetails-select": {
                                 "pincode": "500089",
@@ -301,7 +321,7 @@ const casePayload = {
         "advocateStatus": null,
         "poaHolders": []
     },
-    "tenantId": "kl",
+    "tenantId": tenantId,
     "RequestInfo": {
         "apiId": "Rainmaker",
         "authToken": citizenAuthToken,
@@ -364,7 +384,6 @@ test.describe('Case Creation API Tests', () => {
         const litigantid=responseBody.cases[0].litigants[0].id;
 
         // Update global-variables.json
-        const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
         const updatedVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
         updatedVars.filingNumber = filingNumber;
         updatedVars.caseId = caseId;

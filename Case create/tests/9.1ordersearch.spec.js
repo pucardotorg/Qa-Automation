@@ -5,8 +5,8 @@ require('dotenv').config();
 
 test.describe('Order Search API', () => {
   let apiContext;
-  let globalVars;
-  const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+let globalVars;
+const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 
   // Import values from global config into variables
   let baseURL;
@@ -19,8 +19,8 @@ test.describe('Order Search API', () => {
 
   test.beforeAll(async ({ playwright }) => {
     // Read global variables
-    globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-    
+globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+
     // Import values from global config into variables
     baseURL = globalVars.baseURL;
     tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
@@ -30,19 +30,19 @@ test.describe('Order Search API', () => {
 
     // Initialize valid body with imported values
     validBody = {
-      criteria: {
+  criteria: {
         filingNumber: filingNumber,
         tenantId: tenantId,
-        status: "DRAFT_IN_PROGRESS",
-        courtId: "KLKM52"
-      },
-      RequestInfo: {
-        apiId: "Rainmaker",
+    status: "DRAFT_IN_PROGRESS",
+    courtId: "KLKM52"
+  },
+  RequestInfo: {
+    apiId: "Rainmaker",
         authToken: judgeauthtoken,
-        msgId: `${Date.now()}|en_IN`,
-        plainAccessRequest: {}
-      }
-    };
+    msgId: `${Date.now()}|en_IN`,
+    plainAccessRequest: {}
+  }
+};
 
     apiContext = await playwrightRequest.newContext({
       baseURL: baseURL,

@@ -8,7 +8,7 @@ const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 // Import values from global config
 const BASE_URL = globalVars.baseURL;
-const TENANT_ID = globalVars.citizenUserInfo.tenantId || 'kl';
+const TENANT_ID = 'kl';
 const userUuid = globalVars.advocateuserUUID;
 const authToken = globalVars.citizenAuthToken;
 

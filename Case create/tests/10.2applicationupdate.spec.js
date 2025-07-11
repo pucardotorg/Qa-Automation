@@ -22,6 +22,11 @@ test.describe('Application Update API Tests', () => {
     let statuteSectionId;
     let applicationDocumentId;
     let applicationDocumentFileStore;
+    let firstName;
+    let lastName;
+    let litigentIndividual;
+    let litigentIndividualId;
+    let litigentuuid;
     
     const ENDPOINT_PATH = '/application/v1/update'; 
 
@@ -43,6 +48,29 @@ test.describe('Application Update API Tests', () => {
         statuteSectionId = globalVars.statuteSectionId;
         applicationDocumentId = globalVars.applicationDocumentId;
         applicationDocumentFileStore = globalVars.applicationDocumentFileStore;
+        
+        // Extract litigant individual details
+        litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
+        firstName = litigentIndividual?.name?.givenName;
+        lastName = litigentIndividual?.name?.familyName || '';
+        litigentIndividualId = globalVars.litigentIndividualId;
+        litigentuuid = globalVars.litigentuuid;
+
+        // Log configuration values being used
+        console.log('=== Configuration Values Used ===');
+        console.log('Base URL:', baseURL);
+        console.log('Tenant ID:', tenantId);
+        console.log('Application ID:', applicationId);
+        console.log('Case ID:', caseId);
+        console.log('Filing Number:', filingNumber);
+        console.log('CNR Number:', cnrNumber);
+        console.log('Application Number:', applicationNumber);
+        console.log('Citizen Auth Token:', citizenAuthToken ? '***' + citizenAuthToken.slice(-4) : 'Not set');
+        console.log('Citizen User Info:', citizenUserInfo?.name);
+        console.log('Litigant Name:', `${firstName} ${lastName}`);
+        console.log('Litigant Individual ID:', litigentIndividualId);
+        console.log('Litigant UUID:', litigentuuid);
+        console.log('================================');
 
         apiContext = await playwright.request.newContext({
             baseURL: baseURL,
@@ -149,8 +177,8 @@ test.describe('Application Update API Tests', () => {
                         },
                         "applicationTitle": "Application for Others",
                         "selectComplainant": {
-                            "code": "Rajesh Ch",
-                            "name": "Rajesh Ch",
+                            "code": `${firstName} ${lastName}`,
+                            "name": `${firstName} ${lastName}`,
                             "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c"
                         },
                         "applicationDetails": {
@@ -158,7 +186,7 @@ test.describe('Application Update API Tests', () => {
                         }
                     },
                     "partyType": "complainant",
-                    "onBehalOfName": "Rajesh Ch",
+                    "onBehalOfName": `${firstName} ${lastName}`,
                     "isResponseRequired": true
                 },
                 "auditDetails": {

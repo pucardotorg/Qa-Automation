@@ -14,6 +14,14 @@ const businessService = 'application-voluntary-submission';
 const nayamitraAuthToken = globalVars.nayamitraAuthToken;
 const billId = globalVars.billId; // Use the billId stored from the fetch bill step
 const nayamitraUserInfo = globalVars.nayamitraUserResponse?.UserRequest;
+const citizenUserInfo = globalVars.citizenUserInfo;
+
+// Extract litigant individual details
+const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
+const firstName = litigentIndividual?.name?.givenName;
+const lastName = litigentIndividual?.name?.familyName || '';
+const litigentIndividualId = globalVars.litigentIndividualId;
+const litigentuuid = globalVars.litigentuuid;
 
 const BASE_URL_CREATE_PAYMENT = `${baseURL}collection-services/payments/_create`;
 
@@ -23,6 +31,22 @@ test.describe('Collection Payment for Application API Tests', () => {
   let apiContext;
 
   test.beforeAll(async ({ playwright }) => {
+    // Log configuration values being used
+    console.log('=== Configuration Values Used ===');
+    console.log('Base URL:', baseURL);
+    console.log('Tenant ID:', tenantId);
+    console.log('Business Service:', businessService);
+    console.log('Bill ID:', billId);
+    console.log('Nayamitra Auth Token:', nayamitraAuthToken ? '***' + nayamitraAuthToken.slice(-4) : 'Not set');
+    console.log('Nayamitra User Info:', nayamitraUserInfo?.name);
+    console.log('Citizen User Info:', citizenUserInfo?.name);
+    console.log('Citizen Mobile Number:', citizenUserInfo?.mobileNumber);
+    console.log('Litigant Name:', `${firstName} ${lastName}`);
+    console.log('Litigant Individual ID:', litigentIndividualId);
+    console.log('Litigant UUID:', litigentuuid);
+    console.log('Bill Amount:', billAmount);
+    console.log('================================');
+
     apiContext = await playwright.request.newContext();
   });
 
@@ -45,8 +69,8 @@ test.describe('Collection Payment for Application API Tests', () => {
         "tenantId": tenantId,
         "paymentMode": "STAMP",
         "paidBy": "PAY_BY_OWNER",
-        "mobileNumber": "8800000019",
-        "payerName": "Rajesh Ch",
+        "mobileNumber": citizenUserInfo?.mobileNumber,
+        "payerName": `${firstName} ${lastName}`,
         "totalAmountPaid": billAmount,
         "instrumentNumber": "",
         "instrumentDate": timestamp

@@ -1,31 +1,64 @@
 import { test, expect, request } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
-import globalVariables from '../utils/global-variables';
+
+// Import global configuration
 const globalVars = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'global-variables.json'), 'utf8'));
 
-const citizenUserInfo = globalVars.citizenUserInfo;
-const citizenMobile = citizenUserInfo.userName;
-const citizenName = citizenUserInfo.name;
-const citizenUUID = citizenUserInfo.uuid;
-const citizenAuthToken = globalVars.citizenAuthToken;
-const representid = globalVars.representingid;
-const representingli = globalVars.representingli;
+// Log the configuration values being used
+console.log('=== Configuration Values Used ===');
+console.log('Base URL:', globalVars.baseURL);
+console.log('Tenant ID: kl');
+console.log('Case ID:', globalVars.caseId);
+console.log('Filing Number:', globalVars.filingNumber);
+console.log('Citizen Auth Token:', globalVars.citizenAuthToken ? '***' + globalVars.citizenAuthToken.slice(-4) : 'Not set');
+console.log('Citizen User Info:', {
+  userName: globalVars.citizenUserInfo?.userName,
+  name: globalVars.citizenUserInfo?.name,
+  uuid: globalVars.citizenUserInfo?.uuid
+});
+console.log('Advocate ID:', globalVars.advocateId);
+console.log('Litigant ID:', globalVars.litigantid);
+console.log('Representing ID:', globalVars.representingid);
+console.log('Representing LI:', globalVars.representingli);
+console.log('Epoch Time:', globalVars.epochTime);
+console.log('================================');
+
+// Extract configuration values
+const baseURL = globalVars.baseURL;
+const tenantId = 'kl';
 const caseId = globalVars.caseId;
 const filingNumber = globalVars.filingNumber;
-const epochtime = globalVars.epochTime;
-const litigantid = globalVars.litigantid;
+const citizenAuthToken = globalVars.citizenAuthToken;
+const citizenUserInfo = globalVars.citizenUserInfo;
+const citizenMobile = citizenUserInfo?.userName;
+const citizenName = citizenUserInfo?.name;
+const citizenUUID = citizenUserInfo?.uuid;
 const advocateId = globalVars.advocateId;
+const litigantid = globalVars.litigantid;
+const representid = globalVars.representingid;
+const representingli = globalVars.representingli;
+const epochtime = globalVars.epochTime;
+
+// Extract litigant individual details
 const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
 const firstName = litigentIndividual?.name?.givenName;
-const lastName = litigentIndividual?.name?.familyName;
+const lastName = litigentIndividual?.name?.familyName || '';
+const litigentIndividualId = globalVars.litigentIndividualId;
+const litigentuserinfo = globalVars.litigentuserinfo;
+const litigentuuid = globalVars.litigentuuid;
+
+// Extract advocate details
+const advocateuserUUID = globalVars.advocateuserUUID;
+const advocateIndividualId = globalVars.advocateIndividualId;
+
+// Build API URL
+const baseUrl = `${baseURL}case/v1/_update?`;
+
+// Dynamic message ID
+const dynamicMsgId = Date.now().toString() + '|en_IN';
+
 let apiContext;
-//const baseUrl = 'https://dristi-kerala-uat.pucar.org/case/v1/_update';
-const baseUrl1 = globalVars.baseURL;
-const baseUrl = `${baseUrl1}case/v1/_update?`;
-const tenantId = 'kl'; // Using the provided tenantId
-// Placeholder for dynamic values
-const dynamicMsgId = Date.now().toString() + '|en_IN'; // Example dynamic msgId
 
 
 test.describe('API Tests for caseupdatesigned endpoint', () => {
@@ -42,9 +75,9 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
   const validRequestBody = {
     "cases": {
         "id": caseId,
-        "tenantId": "kl",
+        "tenantId": tenantId,
         "resolutionMechanism": "COURT",
-        "caseTitle": "Rajesh Ch vs Accused Details",
+        "caseTitle": `${firstName} ${lastName} vs Accused Details`,
         "isActive": true,
         "caseDescription": "Case description",
         "filingNumber": filingNumber,
@@ -242,7 +275,7 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
         "statutesAndSections": [
             {
                 "id": "7d945d58-b014-4f7c-9207-bc9dd9cfe656",
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "statute": null,
                 "sections": [
                     "Negotiable Instrument Act",
@@ -264,7 +297,7 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
             },
             {
                 "id": "fddc9e5c-b306-4839-b410-fe302a0b1875",
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "statute": null,
                 "sections": [
                     "Negotiable Instrument Act",
@@ -288,11 +321,11 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
          "litigants": [
             {
                 "id": litigantid,
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
-                "individualId": globalVars.litigentIndividualId,
+                "individualId": litigentIndividualId,
                 "partyType": "complainant.primary",
                 "isActive": true,
                 "isResponseRequired": false,
@@ -305,8 +338,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                     "lastModifiedTime": 1750756069884
                 },
                 "additionalDetails": {
-                    "fullName":  globalVars.litigentuserinfo?.name,
-                    "uuid": globalVars.litigentuuid,
+                    "fullName": litigentuserinfo?.name,
+                    "uuid": litigentuuid,
                     "currentPosition": 1
                 },
                 "hasSigned": false
@@ -315,17 +348,17 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
         "representatives": [
             {
                 "id": representid,
-                "tenantId": "kl",
+                "tenantId": tenantId,
                 "advocateId": advocateId,
                 "caseId": caseId,
                 "representing":  [
                     {
                         "id": representingli,
-                        "tenantId": "kl",
+                        "tenantId": tenantId,
                         "caseId": caseId,
                         "partyCategory": "INDIVIDUAL",
                         "organisationID": null,
-                        "individualId": globalVars.litigentIndividualId,
+                        "individualId": litigentIndividualId,
                         "partyType": "complainant.primary",
                         "isActive": true,
                         "isResponseRequired": false,
@@ -347,8 +380,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                             "lastModifiedTime": 1750838247298
                         },
                         "additionalDetails": {
-                            "fullName":  globalVars.litigentuserinfo?.name,
-                    "uuid": globalVars.litigentuuid,
+                            "fullName": litigentuserinfo?.name,
+                    "uuid": litigentuuid,
                             "currentPosition": 1
                         },
                         "hasSigned": false
@@ -492,8 +525,8 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                                             "advocateName": "Maruthi ch",
                                             "isDisable": true,
                                             "advocateId": advocateId,
-                                            "advocateUuid": citizenUUID,
-                                            "individualId": "IND-202-11-19-000893",
+                                            "advocateUuid": advocateuserUUID,
+                                            "individualId": advocateIndividualId,
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST"
                                         }
@@ -502,9 +535,9 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                                 "boxComplainant": {
                                     "firstName": firstName,
                                     "lastName": lastName,
-                                     "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
+                                     "mobileNumber": litigentuserinfo?.mobileNumber,
                                     "middleName": "",
-                                    "individualId": globalVars.litigentIndividualId,
+                                    "individualId": litigentIndividualId,
                                     "index": 0
                                 },
                                 "showAffidavit": false,
@@ -664,10 +697,10 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
                 "documentType": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
                                         }
                                     ],
-                                     "individualId": globalVars.litigentIndividualId,
-                                   "userUuid": globalVars.litigentuuid,
+                                     "individualId": litigentIndividualId,
+                                   "userUuid": litigentuuid,
                                 },
-                                "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
+                                "mobileNumber": litigentuserinfo?.mobileNumber,
                                 "otpNumber": "123456",
                                 "isUserVerified": true
                             },
@@ -803,19 +836,24 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
         "advocateStatus": "JOINED",
         "poaHolders": null
     },
-    "tenantId": "kl",
+    "tenantId": tenantId,
     "RequestInfo": {
         "apiId": "Rainmaker",
-        "authToken": citizenAuthToken, // Use a dynamic/placeholder value
+        "authToken": citizenAuthToken,
         "userInfo": citizenUserInfo,
-        "msgId": `test-${Date.now()}`, // Use a dynamic/placeholder value
+        "msgId": dynamicMsgId,
         "plainAccessRequest": {}
     }
 };
 
   // Test case for successful request (expecting 200 or 201)
   test('should return successful response for valid request', async () => {
-    const response = await apiContext.post(`${baseUrl}?tenantId=kl&_=${Date.now()}`, { data: validRequestBody });
+    console.log('Running test: should return successful response for valid request');
+    console.log('Using case ID:', caseId);
+    console.log('Using filing number:', filingNumber);
+    console.log('Using citizen UUID:', citizenUUID);
+    
+    const response = await apiContext.post(`${baseUrl}?tenantId=${tenantId}&_=${Date.now()}`, { data: validRequestBody });
 
     // Expect status code 200 or 201 for success
     expect(response.status()).toBeGreaterThanOrEqual(200);
@@ -831,7 +869,7 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
     // Optional: Validate fields inside cases array if needed
     if (responseBody.cases.length > 0) {
         const firstCase = responseBody.cases[0];
-        expect(firstCase.tenantId).toBe('kl');
+        expect(firstCase.tenantId).toBe(tenantId);
         // Add more assertions based on expected response structure
     }
   });
@@ -845,7 +883,7 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
             authToken: undefined // Remove or set to undefined
         }
     };
-    const response = await apiContext.post(`${baseUrl}?tenantId=kl&_=${Date.now()}`, { data: requestBodyWithoutToken });
+    const response = await apiContext.post(`${baseUrl}?tenantId=${tenantId}&_=${Date.now()}`, { data: requestBodyWithoutToken });
     expect(response.status()).toBe(401);
   });
 
@@ -858,7 +896,7 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
               authToken: 'invalid-token-123' // Use an invalid token
           }
       };
-      const response = await apiContext.post(`${baseUrl}?tenantId=kl&_=${Date.now()}`, { data: requestBodyWithInvalidToken });
+      const response = await apiContext.post(`${baseUrl}?tenantId=${tenantId}&_=${Date.now()}`, { data: requestBodyWithInvalidToken });
       expect(response.status()).toBe(401);
     });
 
@@ -869,7 +907,7 @@ test.describe('API Tests for caseupdatesigned endpoint', () => {
       ...validRequestBody,
       tenantId: undefined // Remove or set to undefined
     };
-    const response = await apiContext.post(`${baseUrl}?tenantId=kl&_=${Date.now()}`, { data: requestBodyWithoutTenantId });
+    const response = await apiContext.post(`${baseUrl}?tenantId=${tenantId}&_=${Date.now()}`, { data: requestBodyWithoutTenantId });
     expect(response.status()).toBe(400);
   });
 

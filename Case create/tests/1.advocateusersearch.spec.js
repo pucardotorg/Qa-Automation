@@ -9,17 +9,19 @@ const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 // Import values from global config
 const BASE_URL = globalVars.baseURL;
 const ENDPOINT_PATH = '/user/_search';
-const TENANT_ID = globalVars.citizenUserInfo.tenantId || 'kl';
-const mobileNumber = globalVars.citizenUserInfo.mobileNumber;
+const TENANT_ID = 'kl';
+
+// Use mobile number from environment variables or global config citizenUserInfo
+const mobileNumber = process.env.CITIZEN_USERNAME || globalVars.citizenUserInfo?.mobileNumber;
 
 console.log('[Config] BASE_URL:', BASE_URL);
 console.log('[Config] TENANT_ID:', TENANT_ID);
-console.log('[Config] mobileNumber:', mobileNumber);
+console.log('[Config] mobileNumber from env:', process.env.CITIZEN_USERNAME ? '***' + process.env.CITIZEN_USERNAME.slice(-4) : 'Not set');
+console.log('[Config] mobileNumber from global config:', globalVars.citizenUserInfo?.mobileNumber);
+console.log('[Config] Final mobileNumber used:', mobileNumber);
+
 
 let apiContext;
-
-// Use CITIZEN_USERNAME from environment or fallback
-// const mobileNumber1 = process.env.CITIZEN_USERNAME;
 
 test.describe('User Search API Tests', () => {
   test.beforeAll(async ({ playwright }) => {
@@ -57,10 +59,13 @@ test.describe('User Search API Tests', () => {
     expect(body.responseInfo.status).toBe('200');
     expect(Array.isArray(body.user)).toBe(true);
     expect(body.user.length).toBeGreaterThan(0);
+    
     const advocateuserUUID = body.user[0].uuid;
     // Store in global-variables.json
     globalVars.advocateuserUUID = advocateuserUUID;
+
     fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
+    
     console.log('Stored advocateuserUUID:', advocateuserUUID);
   });
 }); 

@@ -17,6 +17,11 @@ test.describe('Order Management API - Update Order (Publish)', () => {
     let orderNumber;
     let judgeauthtoken;
     let judgeUserResponse;
+    let firstName;
+    let lastName;
+    let litigentIndividual;
+    let litigentIndividualId;
+    let litigentuuid;
     
     const ENDPOINT_PATH = '/order-management/v1/_updateOrder';
 
@@ -56,6 +61,27 @@ test.describe('Order Management API - Update Order (Publish)', () => {
         orderNumber = globalVars.orderNumber;
         judgeauthtoken = globalVars.judgeauthtoken;
         judgeUserResponse = globalVars.judgeUserResponse;
+        
+        // Extract litigant individual details
+        litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
+        firstName = litigentIndividual?.name?.givenName;
+        lastName = litigentIndividual?.name?.familyName || '';
+        litigentIndividualId = globalVars.litigentIndividualId;
+        litigentuuid = globalVars.litigentuuid;
+
+        // Log configuration values being used
+        console.log('=== Configuration Values Used ===');
+        console.log('Base URL:', baseURL);
+        console.log('Tenant ID:', tenantId);
+        console.log('Order ID:', orderId);
+        console.log('Filing Number:', filingNumber);
+        console.log('CNR Number:', cnrNumber);
+        console.log('Order Number:', orderNumber);
+        console.log('Judge Auth Token:', judgeauthtoken ? '***' + judgeauthtoken.slice(-4) : 'Not set');
+        console.log('Litigant Name:', `${firstName} ${lastName}`);
+        console.log('Litigant Individual ID:', litigentIndividualId);
+        console.log('Litigant UUID:', litigentuuid);
+        console.log('================================');
 
         apiContext = await playwright.request.newContext({
             baseURL: baseURL,
@@ -149,13 +175,13 @@ test.describe('Order Management API - Update Order (Publish)', () => {
                         },
                         "namesOfPartiesRequired": [
                             {
-                                "code": "Rajesh Ch",
-                                "name": "Rajesh Ch (Complainant)",
-                                "uuid": ["700a3a1b-f7e1-4e31-a0cd-04f8777e4f66"],
+                                "code": `${firstName} ${lastName}`,
+                                "name": `${firstName} ${lastName} (Complainant)`,
+                                "uuid": [litigentuuid],
                                 "isJoined": true,
                                 "partyType": "complainant",
-                                "partyUuid": "700a3a1b-f7e1-4e31-a0cd-04f8777e4f66",
-                                "individualId": "IND-2025-02-18-000070"
+                                "partyUuid": litigentuuid,
+                                "individualId": litigentIndividualId
                             },
                             {
                                 "code": "Accused Details",

@@ -79,7 +79,7 @@ test.describe('Evidence Creation API Tests - Set 3', () => {
         console.log('Using CNR Number:', cnrNumber);
         console.log('Using Tenant ID:', tenantId);
         console.log('Using Citizen Auth Token:', citizenAuthToken);
-
+        
         const response = await apiContext.post(endpoint, {
             data: requestBody,
         });

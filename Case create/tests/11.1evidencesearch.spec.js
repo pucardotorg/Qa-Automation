@@ -32,28 +32,28 @@ test.describe('API Tests for evidence search endpoint', () => {
 
     // Initialize valid request body with imported values
     validRequestBody = {
-      "apiOperation": "SEARCH",
-      "Individual": {
-        "tenantId": tenantId
-      },
-      "criteria": {
-        "caseId": caseId,
-        "filingNumber": filingNumber,
-        "tenantId": tenantId,
-        "courtId": "KLKM52"
-      },
+    "apiOperation": "SEARCH",
+    "Individual": {
+      "tenantId": tenantId
+    },
+    "criteria": {
+      "caseId": caseId,
+      "filingNumber": filingNumber,
       "tenantId": tenantId,
-      "pagination": {
-        "limit": 10,
-        "offSet": 0
-      },
-      "RequestInfo": {
-        "apiId": "Rainmaker",
+      "courtId": "KLKM52"
+    },
+    "tenantId": tenantId,
+    "pagination": {
+      "limit": 10,
+      "offSet": 0
+    },
+    "RequestInfo": {
+      "apiId": "Rainmaker",
         "authToken": judgeauthtoken,
-        "msgId": `${Date.now()}|en_IN`,
-        "plainAccessRequest": {}
-      }
-    };
+      "msgId": `${Date.now()}|en_IN`,
+      "plainAccessRequest": {}
+    }
+  };
 
     apiContext = await playwright.request.newContext();
   });

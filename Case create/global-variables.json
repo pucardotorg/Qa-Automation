@@ -1,160 +1,39 @@
 {
-  "caseId": "ac67d9c9-c0e8-48b8-8df4-7140a0d4f87f",
-  "filingNumber": "KL-002114-2025",
-  "nayamitraAuthToken": "06c0da50-0559-47f4-99d1-6ae44be9e3bf",
+  "caseId": "34c0b784-c451-414c-9ed1-6f06e8f1f2d9",
+  "filingNumber": "KL-002136-2025",
+  "nayamitraAuthToken": "54b73b9d-61e7-49f6-98cf-cea290662eb0",
   "fsousername": "michaelGeorgeFso",
   "fsopassword": "Beehyv@123",
   "judgeusername": "michaelGeorgeJudge",
   "judgepassword": "Beehyv@123",
-  "judgeauthtoken": "d73ed3a0-907c-4e80-98a8-545ac235e20a",
-  "cnrNumber": "KLKM520007682025",
-  "orderId": "b8469a5e-b27c-478f-8151-784e91a68277",
-  "orderNumber": "KL-002114-2025-OR1",
-  "hearingId": "KL-002114-2025-HR1",
-  "citizenUserInfo": {
-    "id": 1639,
-    "uuid": "f6e039bb-1eb2-4b44-8690-a2f077687983",
-    "userName": "6393644478",
-    "name": "nitish  ",
-    "mobileNumber": "6393644478",
-    "emailId": null,
-    "locale": null,
-    "type": "CITIZEN",
-    "roles": [
-      {
-        "name": "USER_REGISTER",
-        "code": "USER_REGISTER",
-        "tenantId": "kl"
-      },
-      {
-        "name": "CASE_VIEWER",
-        "code": "CASE_VIEWER",
-        "tenantId": "kl"
-      },
-      {
-        "name": "HEARING_VIEWER",
-        "code": "HEARING_VIEWER",
-        "tenantId": "kl"
-      },
-      {
-        "name": "Citizen",
-        "code": "CITIZEN",
-        "tenantId": "kl"
-      },
-      {
-        "name": "ADVOCATE_ROLE",
-        "code": "ADVOCATE_ROLE",
-        "tenantId": "kl"
-      },
-      {
-        "name": "APPLICATION_CREATOR",
-        "code": "APPLICATION_CREATOR",
-        "tenantId": "kl"
-      },
-      {
-        "name": "EVIDENCE_CREATOR",
-        "code": "EVIDENCE_CREATOR",
-        "tenantId": "kl"
-      },
-      {
-        "name": "EVIDENCE_EDITOR",
-        "code": "EVIDENCE_EDITOR",
-        "tenantId": "kl"
-      },
-      {
-        "name": "SUBMISSION_DELETE",
-        "code": "SUBMISSION_DELETE",
-        "tenantId": "kl"
-      },
-      {
-        "name": "HEARING_ACCEPTOR",
-        "code": "HEARING_ACCEPTOR",
-        "tenantId": "kl"
-      },
-      {
-        "name": "ORDER_VIEWER",
-        "code": "ORDER_VIEWER",
-        "tenantId": "kl"
-      },
-      {
-        "name": "SUBMISSION_RESPONDER",
-        "code": "SUBMISSION_RESPONDER",
-        "tenantId": "kl"
-      },
-      {
-        "name": "CASE_EDITOR",
-        "code": "CASE_EDITOR",
-        "tenantId": "kl"
-      },
-      {
-        "name": "EVIDENCE_VIEWER",
-        "code": "EVIDENCE_VIEWER",
-        "tenantId": "kl"
-      },
-      {
-        "name": "ADVOCATE_VIEWER",
-        "code": "ADVOCATE_VIEWER",
-        "tenantId": "kl"
-      },
-      {
-        "name": "APPLICATION_VIEWER",
-        "code": "APPLICATION_VIEWER",
-        "tenantId": "kl"
-      },
-      {
-        "name": "SUBMISSION_CREATOR",
-        "code": "SUBMISSION_CREATOR",
-        "tenantId": "kl"
-      },
-      {
-        "name": "TASK_VIEWER",
-        "code": "TASK_VIEWER",
-        "tenantId": "kl"
-      },
-      {
-        "name": "ADVOCATE_APPLICATION_VIEWER",
-        "code": "ADVOCATE_APPLICATION_VIEWER",
-        "tenantId": "kl"
-      },
-      {
-        "name": "CASE_CREATOR",
-        "code": "CASE_CREATOR",
-        "tenantId": "kl"
-      },
-      {
-        "name": "PENDING_TASK_CREATOR",
-        "code": "PENDING_TASK_CREATOR",
-        "tenantId": "kl"
-      }
-    ],
-    "active": true,
-    "tenantId": "kl",
-    "permanentCity": null
-  },
-  "applicationId": "d82e26a0-4988-4fd6-83bf-b61ec1d00832",
-  "applicationNumber": "KL-002114-2025-AP1",
-  "applicationCreatedDate": 1752183376632,
-  "statuteSectionId": "27b72123-548d-49f8-81d8-6435501d07a5",
-  "applicationDocumentId": "c59a5a9f-a460-4be4-b561-4bc656218c62",
+  "judgeauthtoken": "12d5986f-b7a2-4797-962e-556b612eeb0f",
+  "cnrNumber": "KLKM520007812025",
+  "orderId": "157a8bca-3350-44e1-ba27-a1d13171e453",
+  "orderNumber": "KL-002136-2025-OR1",
+  "hearingId": "KL-002136-2025-HR1",
+  "applicationId": "a766ce19-4105-422d-9b1d-ee0e212937dd",
+  "applicationNumber": "KL-002136-2025-AP1",
+  "applicationCreatedDate": 1752219778907,
+  "statuteSectionId": "bcb04109-2ff4-4e03-96a6-446db9c53329",
+  "applicationDocumentId": "6421c1b8-f176-4158-a10b-b20a0ea9cb4a",
   "applicationDocumentFileStore": "78abb8bd-c5e0-4cb1-9818-48425f10615a",
-  "advocateuserUUID": "f6e039bb-1eb2-4b44-8690-a2f077687983",
-  "advocateIndividualId": "IND-2025-02-18-000074",
-  "demandId": "45e5390a-95a4-4b0d-bdf3-e89378572529",
-  "billId": "f8a313ff-5ff3-4fa9-ae7b-8edf5aeb8175",
-  "citizenAuthToken": "1f7b1f83-43c9-421e-80bb-b051e82f54eb",
-  "epochTime": 1752183232300,
-  "representingid": "d3da6cff-9164-4d0b-a7ea-111510b9823b",
-  "litigantid": "cb1aed3c-ac43-4dc6-b6b1-1cd444e51ae4",
-  "representingli": "38895715-f829-49cb-896b-f0a5f79b7ebd",
-  "artifactId": "08f7f285-9ff1-4456-bd4b-95d89ed517bf",
-  "artifactNumber": "KL-002114-2025-AR6",
+  "advocateuserUUID": "0ed1b6a0-a494-405e-b343-dfb1951c0cf2",
+  "advocateIndividualId": "IND-2025-05-28-000405",
+  "demandId": "8e213a17-ffd9-4869-b7b1-d89faa3fbf34",
+  "billId": "05e91000-622f-45fc-994b-7388d65cfe08",
+  "epochTime": 1752219713505,
+  "representingid": "a74e0bfd-48eb-4c23-b012-641b35f7a98a",
+  "litigantid": "10de4d5e-b9c0-4aed-b437-17356fedfe5b",
+  "representingli": "f01532e8-3fbd-47a8-91c7-d7bb3f95e804",
+  "artifactId": "ce1ffa0e-c1d6-46b1-a58d-a12af738ced2",
+  "artifactNumber": "KL-002136-2025-AR6",
   "baseURL": "https://dristi-kerala-uat.pucar.org/",
-  "advocateId": "b07e94a0-3f3d-4584-914f-aaa11a334f32",
+  "advocateId": "df5ed97c-c579-4171-810a-30122ddbb343",
   "nayamitraUserResponse": {
-    "access_token": "06c0da50-0559-47f4-99d1-6ae44be9e3bf",
+    "access_token": "54b73b9d-61e7-49f6-98cf-cea290662eb0",
     "token_type": "bearer",
-    "refresh_token": "3fc31727-8d38-4417-af3d-3fbe95c32f51",
-    "expires_in": 555126,
+    "refresh_token": "2b887021-3eea-495c-ad5c-f1957d875019",
+    "expires_in": 604109,
     "scope": "read",
     "ResponseInfo": {
       "api_id": "",
@@ -165,12 +44,12 @@
       "status": "Access Token generated successfully"
     },
     "UserRequest": {
-      "id": 961,
-      "uuid": "ff945ba1-f811-4c40-ba18-b0f66b60a5e3",
-      "userName": "gNm",
-      "name": "Harsh  Gupta",
-      "mobileNumber": "1002335566",
-      "emailId": null,
+      "id": 2125,
+      "uuid": "c04ed0f9-03de-41b2-84a8-bfe8535a5d60",
+      "userName": "michaelGeorgeNm",
+      "name": "michaelGeorgeNm",
+      "mobileNumber": "9743294383",
+      "emailId": "michaelGeorgeNm@gmail.com",
       "locale": null,
       "type": "EMPLOYEE",
       "roles": [
@@ -200,13 +79,13 @@
           "tenantId": "kl"
         },
         {
-          "name": "ADVOCATE_APPLICATION_VIEWER",
-          "code": "ADVOCATE_APPLICATION_VIEWER",
+          "name": "ADVOCATE_APPROVER",
+          "code": "ADVOCATE_APPROVER",
           "tenantId": "kl"
         },
         {
-          "name": "ADVOCATE_APPROVER",
-          "code": "ADVOCATE_APPROVER",
+          "name": "ADVOCATE_APPLICATION_VIEWER",
+          "code": "ADVOCATE_APPLICATION_VIEWER",
           "tenantId": "kl"
         },
         {
@@ -221,10 +100,10 @@
     }
   },
   "fsoUserResponse": {
-    "access_token": "3458cca6-affb-434a-b57f-b9a77ffccd76",
+    "access_token": "5f9170e4-ac9c-43b8-adb3-1a43ac4f59f7",
     "token_type": "bearer",
-    "refresh_token": "5dd26b48-adf2-461e-a1a1-cea97f666970",
-    "expires_in": 577819,
+    "refresh_token": "e76d6c3a-f5ea-4f47-bcc6-d059f952bf7f",
+    "expires_in": 601892,
     "scope": "read",
     "ResponseInfo": {
       "api_id": "",
@@ -305,12 +184,12 @@
       "permanentCity": null
     }
   },
-  "fsoauthtoken": "3458cca6-affb-434a-b57f-b9a77ffccd76",
+  "fsoauthtoken": "5f9170e4-ac9c-43b8-adb3-1a43ac4f59f7",
   "judgeUserResponse": {
-    "access_token": "d73ed3a0-907c-4e80-98a8-545ac235e20a",
+    "access_token": "12d5986f-b7a2-4797-962e-556b612eeb0f",
     "token_type": "bearer",
-    "refresh_token": "778b1ed6-a4a0-4272-acd0-3788637dda24",
-    "expires_in": 578511,
+    "refresh_token": "d60d3f2f-17cd-435a-bcde-c125c68119b6",
+    "expires_in": 604532,
     "scope": "read",
     "ResponseInfo": {
       "api_id": "",
@@ -324,7 +203,7 @@
       "id": 1981,
       "uuid": "747a447a-82a8-4b21-9225-6bffc5619d64",
       "userName": "michaelGeorgeJudge",
-      "name": "Michael George UAT",
+      "name": "Judge UAT",
       "mobileNumber": "6262626262",
       "emailId": "chrajesh966@gmail.com",
       "locale": null,
@@ -522,12 +401,12 @@
     }
   },
   "NAYAMITRAuserinfo": {
-    "id": 961,
-    "uuid": "ff945ba1-f811-4c40-ba18-b0f66b60a5e3",
-    "userName": "gNm",
-    "name": "Harsh  Gupta",
-    "mobileNumber": "1002335566",
-    "emailId": null,
+    "id": 2125,
+    "uuid": "c04ed0f9-03de-41b2-84a8-bfe8535a5d60",
+    "userName": "michaelGeorgeNm",
+    "name": "michaelGeorgeNm",
+    "mobileNumber": "9743294383",
+    "emailId": "michaelGeorgeNm@gmail.com",
     "locale": null,
     "type": "EMPLOYEE",
     "roles": [
@@ -557,13 +436,13 @@
         "tenantId": "kl"
       },
       {
-        "name": "ADVOCATE_APPLICATION_VIEWER",
-        "code": "ADVOCATE_APPLICATION_VIEWER",
+        "name": "ADVOCATE_APPROVER",
+        "code": "ADVOCATE_APPROVER",
         "tenantId": "kl"
       },
       {
-        "name": "ADVOCATE_APPROVER",
-        "code": "ADVOCATE_APPROVER",
+        "name": "ADVOCATE_APPLICATION_VIEWER",
+        "code": "ADVOCATE_APPLICATION_VIEWER",
         "tenantId": "kl"
       },
       {
@@ -576,7 +455,7 @@
     "tenantId": "kl",
     "permanentCity": null
   },
-  "nayamitrauuid": "ff945ba1-f811-4c40-ba18-b0f66b60a5e3",
+  "nayamitrauuid": "c04ed0f9-03de-41b2-84a8-bfe8535a5d60",
   "FSOuserinfo": {
     "id": 2122,
     "uuid": "9e54367b-057a-4c51-8eba-578ae12478a5",
@@ -648,62 +527,62 @@
     "permanentCity": null
   },
   "fsouuid": "9e54367b-057a-4c51-8eba-578ae12478a5",
-  "litigentAuthToken": "5f832106-1ce5-4b0b-a7aa-60f175556159",
-  "litigentuuid": "700a3a1b-f7e1-4e31-a0cd-04f8777e4f66",
+  "litigentAuthToken": "2b593a6a-febd-42d8-bd3a-d3e2c63108c6",
+  "litigentuuid": "17255d77-23f5-4a9e-8d9c-02eebd82f8fb",
   "litigentIndividualResponse": {
     "ResponseInfo": {
       "apiId": "Rainmaker",
       "ver": null,
-      "ts": 1752183244733,
-      "resMsgId": "1752183244599|en_IN",
-      "msgId": "1752183244599|en_IN",
+      "ts": 1752219718473,
+      "resMsgId": "1752219718276|en_IN",
+      "msgId": "1752219718276|en_IN",
       "status": "successful"
     },
     "Individual": [
       {
-        "id": "ca72d36a-20e1-417e-b493-075d5b0632eb",
-        "individualId": "IND-2025-02-18-000070",
+        "id": "a830dad0-32b5-412a-bb88-370f782b4d25",
+        "individualId": "IND-2025-01-29-000026",
         "tenantId": "kl",
         "clientReferenceId": null,
-        "userId": "1197",
-        "userUuid": "700a3a1b-f7e1-4e31-a0cd-04f8777e4f66",
+        "userId": "1566",
+        "userUuid": "17255d77-23f5-4a9e-8d9c-02eebd82f8fb",
         "name": {
-          "givenName": "hemadri",
-          "familyName": "rt",
+          "givenName": "GURU LIT",
+          "familyName": null,
           "otherNames": null
         },
         "dateOfBirth": null,
         "gender": null,
         "bloodGroup": null,
-        "mobileNumber": "9014504345",
+        "mobileNumber": "9914000002",
         "altContactNumber": null,
         "email": null,
         "address": [
           {
-            "id": "10aeb249-0a74-4d42-bb76-9276e113e42a",
+            "id": "8ddaac57-286d-48d8-83af-c63645531e7b",
             "clientReferenceId": null,
-            "individualId": "ca72d36a-20e1-417e-b493-075d5b0632eb",
+            "individualId": "a830dad0-32b5-412a-bb88-370f782b4d25",
             "tenantId": "kl",
-            "doorNo": "sf",
+            "doorNo": null,
             "latitude": 0,
             "longitude": 0,
             "locationAccuracy": 0,
             "type": "PERMANENT",
-            "addressLine1": "sf",
-            "addressLine2": "sf",
+            "addressLine1": "test",
+            "addressLine2": "test",
             "landmark": null,
-            "city": "sf",
-            "pincode": "685005",
-            "buildingName": "sf",
-            "street": "sf",
+            "city": "test",
+            "pincode": "686005",
+            "buildingName": null,
+            "street": "address",
             "locality": null,
             "ward": null,
             "isDeleted": false,
             "auditDetails": {
-              "createdBy": "700a3a1b-f7e1-4e31-a0cd-04f8777e4f66",
-              "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-              "createdTime": 1739867994301,
-              "lastModifiedTime": 1742542374668
+              "createdBy": "07ed667c-c09d-4e6d-a0af-3aef61fff166",
+              "lastModifiedBy": "07ed667c-c09d-4e6d-a0af-3aef61fff166",
+              "createdTime": 1738127420004,
+              "lastModifiedTime": 1738127420004
             }
           }
         ],
@@ -712,17 +591,17 @@
         "relationship": null,
         "identifiers": [
           {
-            "id": "bd062666-331d-45b6-9255-fe46e0f10ffe",
+            "id": "228428d0-6b1d-4c7d-98b0-7258e952849b",
             "clientReferenceId": null,
-            "individualId": "ca72d36a-20e1-417e-b493-075d5b0632eb",
+            "individualId": "a830dad0-32b5-412a-bb88-370f782b4d25",
             "identifierType": "AADHAR",
-            "identifierId": "********************************875f",
+            "identifierId": "********************************9233",
             "isDeleted": false,
             "auditDetails": {
-              "createdBy": "700a3a1b-f7e1-4e31-a0cd-04f8777e4f66",
-              "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-              "createdTime": 1739867994306,
-              "lastModifiedTime": 1742542374668
+              "createdBy": "07ed667c-c09d-4e6d-a0af-3aef61fff166",
+              "lastModifiedBy": "07ed667c-c09d-4e6d-a0af-3aef61fff166",
+              "createdTime": 1738127420004,
+              "lastModifiedTime": 1738127420004
             }
           }
         ],
@@ -738,25 +617,21 @@
             },
             {
               "key": "userTypeDetail",
-              "value": "{\"code\":\"LITIGANT\",\"name\":\"LITIGANT_TEXT\",\"showBarDetails\":false,\"isVerified\":false,\"role\":[\"CASE_CREATOR\",\"CASE_EDITOR\",\"CASE_VIEWER\",\"EVIDENCE_CREATOR\",\"EVIDENCE_VIEWER\",\"EVIDENCE_EDITOR\",\"APPLICATION_CREATOR\",\"APPLICATION_VIEWER\",\"HEARING_VIEWER\",\"ORDER_VIEWER\",\"SUBMISSION_CREATOR\",\"SUBMISSION_RESPONDER\",\"SUBMISSION_DELETE\",\"TASK_VIEWER\",\"HEARING_ACCEPTOR\",\"ADVOCATE_VIEWER\",\"PENDING_TASK_CREATOR\"],\"subText\":\"LITIGANT_SUB_TEXT\"}"
-            },
-            {
-              "key": "termsAndCondition",
-              "value": "true"
+              "value": "[{\"code\":\"LITIGANT\",\"name\":\"LITIGANT_TEXT\",\"showBarDetails\":false,\"isVerified\":false,\"role\":[\"CASE_CREATOR\",\"CASE_EDITOR\",\"CASE_VIEWER\",\"EVIDENCE_CREATOR\",\"EVIDENCE_VIEWER\",\"EVIDENCE_EDITOR\",\"APPLICATION_CREATOR\",\"APPLICATION_VIEWER\",\"HEARING_VIEWER\",\"ORDER_VIEWER\",\"SUBMISSION_CREATOR\",\"SUBMISSION_RESPONDER\",\"SUBMISSION_DELETE\",\"TASK_VIEWER\",\"HEARING_ACCEPTOR\",\"ADVOCATE_VIEWER\",\"PENDING_TASK_CREATOR\"],\"subText\":\"LITIGANT_SUB_TEXT\"},{\"code\":\"ADVOCATE\",\"name\":\"ADVOCATE_TEXT\",\"showBarDetails\":true,\"isVerified\":true,\"hasBarRegistrationNo\":true,\"role\":[\"ADVOCATE_ROLE\",\"CASE_CREATOR\",\"CASE_EDITOR\",\"CASE_VIEWER\",\"EVIDENCE_CREATOR\",\"EVIDENCE_VIEWER\",\"EVIDENCE_EDITOR\",\"APPLICATION_CREATOR\",\"APPLICATION_VIEWER\",\"HEARING_VIEWER\",\"ORDER_VIEWER\",\"SUBMISSION_CREATOR\",\"SUBMISSION_RESPONDER\",\"SUBMISSION_DELETE\",\"TASK_VIEWER\",\"HEARING_ACCEPTOR\",\"USER_REGISTER\",\"ADVOCATE_VIEWER\",\"ADVOCATE_APPLICATION_VIEWER\",\"PENDING_TASK_CREATOR\"],\"apiDetails\":{\"serviceName\":\"/advocate/v1/_create\",\"requestKey\":\"advocate\",\"AdditionalFields\":[\"barRegistrationNumber\"]},\"subText\":\"ADVOCATE_SUB_TEXT\"}]"
             },
             {
               "key": "identifierIdDetails",
-              "value": "{\"fileStoreId\":\"6416c9c5-759c-43a7-b3d9-a8388f12875f\",\"filename\":\"1. Cheque - 15_09_2024.png\",\"documentType\":\"image/png\"}"
+              "value": "{\"fileStoreId\":\"76bf63b2-fd6f-4c2e-a55a-a9778df19233\",\"filename\":\"test2.png\",\"documentType\":\"image/png\"}"
             }
           ]
         },
         "isDeleted": false,
-        "rowVersion": 2,
+        "rowVersion": 1,
         "auditDetails": {
-          "createdBy": "700a3a1b-f7e1-4e31-a0cd-04f8777e4f66",
-          "lastModifiedBy": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
-          "createdTime": 1739867994301,
-          "lastModifiedTime": 1742542374668
+          "createdBy": "07ed667c-c09d-4e6d-a0af-3aef61fff166",
+          "lastModifiedBy": "07ed667c-c09d-4e6d-a0af-3aef61fff166",
+          "createdTime": 1738127420004,
+          "lastModifiedTime": 1738127420004
         },
         "clientAuditDetails": {
           "createdBy": null,
@@ -767,7 +642,7 @@
         "isSystemUser": true,
         "isSystemUserActive": true,
         "userDetails": {
-          "username": "9014504345",
+          "username": "9914000002",
           "password": null,
           "tenantId": "kl",
           "roles": [
@@ -862,14 +737,20 @@
               "tenantId": "kl"
             },
             {
-              "name": "HEARING_ACCEPTOR",
-              "code": "HEARING_ACCEPTOR",
+              "name": "ADVOCATE_VIEWER",
+              "code": "ADVOCATE_VIEWER",
               "description": null,
               "tenantId": "kl"
             },
             {
-              "name": "ADVOCATE_VIEWER",
-              "code": "ADVOCATE_VIEWER",
+              "name": "CASE_RESPONDER",
+              "code": "CASE_RESPONDER",
+              "description": null,
+              "tenantId": "kl"
+            },
+            {
+              "name": "HEARING_ACCEPTOR",
+              "code": "HEARING_ACCEPTOR",
               "description": null,
               "tenantId": "kl"
             },
@@ -885,14 +766,14 @@
       }
     ]
   },
-  "litigentIndividualId": "IND-2025-02-18-000070",
+  "litigentIndividualId": "IND-2025-01-29-000026",
   "litigentuserinfo": {
-    "id": 1197,
-    "userName": "9014504345",
+    "id": 1566,
+    "userName": "9914000002",
     "salutation": null,
-    "name": "hemadri  rt",
+    "name": "GURU LIT  ",
     "gender": null,
-    "mobileNumber": "9014504345",
+    "mobileNumber": "9914000002",
     "emailId": null,
     "altContactNumber": null,
     "pan": null,
@@ -916,7 +797,7 @@
     "photo": null,
     "identificationMark": null,
     "createdBy": 0,
-    "lastModifiedBy": 1181,
+    "lastModifiedBy": 1565,
     "tenantId": "kl",
     "roles": [
       {
@@ -952,6 +833,11 @@
       {
         "code": "SUBMISSION_DELETE",
         "name": "SUBMISSION_DELETE",
+        "tenantId": "kl"
+      },
+      {
+        "code": "CASE_RESPONDER",
+        "name": "CASE_RESPONDER",
         "tenantId": "kl"
       },
       {
@@ -1010,10 +896,131 @@
         "tenantId": "kl"
       }
     ],
-    "uuid": "700a3a1b-f7e1-4e31-a0cd-04f8777e4f66",
-    "createdDate": "19-11-2024 19:51:33",
-    "lastModifiedDate": "21-03-2025 13:02:54",
+    "uuid": "17255d77-23f5-4a9e-8d9c-02eebd82f8fb",
+    "createdDate": "29-01-2025 10:39:16",
+    "lastModifiedDate": "29-01-2025 10:40:20",
     "dob": null,
-    "pwdExpiryDate": "17-02-2025 19:51:33"
+    "pwdExpiryDate": "29-04-2025 10:39:16"
+  },
+  "citizenAuthToken": "709b7ebd-9d0e-4c46-99d7-318aca6b8544",
+  "citizenUserInfo": {
+    "id": 2099,
+    "uuid": "0ed1b6a0-a494-405e-b343-dfb1951c0cf2",
+    "userName": "8800000025",
+    "name": "ADV EIGHT TWENTY FIVE  ",
+    "mobileNumber": "8800000025",
+    "emailId": "testabc@gmail.com",
+    "locale": null,
+    "type": "CITIZEN",
+    "roles": [
+      {
+        "name": "USER_REGISTER",
+        "code": "USER_REGISTER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_VIEWER",
+        "code": "CASE_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "HEARING_VIEWER",
+        "code": "HEARING_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "Citizen",
+        "code": "CITIZEN",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_ROLE",
+        "code": "ADVOCATE_ROLE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "APPLICATION_CREATOR",
+        "code": "APPLICATION_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "EVIDENCE_CREATOR",
+        "code": "EVIDENCE_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "EVIDENCE_EDITOR",
+        "code": "EVIDENCE_EDITOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "SUBMISSION_DELETE",
+        "code": "SUBMISSION_DELETE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "HEARING_ACCEPTOR",
+        "code": "HEARING_ACCEPTOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ORDER_VIEWER",
+        "code": "ORDER_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "SUBMISSION_RESPONDER",
+        "code": "SUBMISSION_RESPONDER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_EDITOR",
+        "code": "CASE_EDITOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "EVIDENCE_VIEWER",
+        "code": "EVIDENCE_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_VIEWER",
+        "code": "ADVOCATE_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "APPLICATION_VIEWER",
+        "code": "APPLICATION_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "SUBMISSION_CREATOR",
+        "code": "SUBMISSION_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "TASK_VIEWER",
+        "code": "TASK_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_APPLICATION_VIEWER",
+        "code": "ADVOCATE_APPLICATION_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_CREATOR",
+        "code": "CASE_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "PENDING_TASK_CREATOR",
+        "code": "PENDING_TASK_CREATOR",
+        "tenantId": "kl"
+      }
+    ],
+    "active": true,
+    "tenantId": "kl",
+    "permanentCity": null
   }
 }

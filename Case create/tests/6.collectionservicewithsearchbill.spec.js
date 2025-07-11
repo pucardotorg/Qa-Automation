@@ -123,8 +123,8 @@ test.describe('API Test for Fetch Bill and Create Payment Flow', () => {
             "tenantId": tenantId,
             "paymentMode": "STAMP", // Example payment mode
             "paidBy": "PAY_BY_OWNER",
-            "mobileNumber": citizenUserInfo?.mobileNumber || "8800000019", // Use citizen mobile from global config
-            "payerName": citizenUserInfo?.name || "Rajesh Ch", // Use citizen name from global config
+            "mobileNumber": citizenUserInfo?.mobileNumber, // Use citizen mobile from global config
+            "payerName": citizenUserInfo?.name, // Use citizen name from global config
             "totalAmountPaid": billAmount, // Use the fetched bill amount here too
             "instrumentNumber": "", // Example instrument number
             "instrumentDate": Date.now() // Dynamic instrument date

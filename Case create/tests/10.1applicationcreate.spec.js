@@ -16,6 +16,11 @@ test.describe('Application Create API Tests', () => {
     let caseId;
     let citizenAuthToken;
     let citizenUserInfo;
+    let firstName;
+    let lastName;
+    let litigentIndividual;
+    let litigentIndividualId;
+    let litigentuuid;
     
     const ENDPOINT_PATH = '/application/v1/create'; 
 
@@ -31,6 +36,27 @@ test.describe('Application Create API Tests', () => {
         caseId = globalVars.caseId;
         citizenAuthToken = globalVars.citizenAuthToken;
         citizenUserInfo = globalVars.citizenUserInfo;
+        
+        // Extract litigant individual details
+        litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
+        firstName = litigentIndividual?.name?.givenName;
+        lastName = litigentIndividual?.name?.familyName || '';
+        litigentIndividualId = globalVars.litigentIndividualId;
+        litigentuuid = globalVars.litigentuuid;
+
+        // Log configuration values being used
+        console.log('=== Configuration Values Used ===');
+        console.log('Base URL:', baseURL);
+        console.log('Tenant ID:', tenantId);
+        console.log('Filing Number:', filingNumber);
+        console.log('CNR Number:', cnrNumber);
+        console.log('Case ID:', caseId);
+        console.log('Citizen Auth Token:', citizenAuthToken ? '***' + citizenAuthToken.slice(-4) : 'Not set');
+        console.log('Citizen User Info:', citizenUserInfo?.name);
+        console.log('Litigant Name:', `${firstName} ${lastName}`);
+        console.log('Litigant Individual ID:', litigentIndividualId);
+        console.log('Litigant UUID:', litigentuuid);
+        console.log('================================');
 
         apiContext = await playwright.request.newContext({
             baseURL: baseURL,
@@ -82,8 +108,8 @@ test.describe('Application Create API Tests', () => {
                             "isActive": true
                         },
                         "selectComplainant": {
-                            "code": "Rajesh Ch",
-                            "name": "Rajesh Ch",
+                            "code": `${firstName} ${lastName}`,
+                            "name": `${firstName} ${lastName}`,
                             "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c"
                         },
                         "applicationTitle": "Application for Others",
@@ -99,7 +125,7 @@ test.describe('Application Create API Tests', () => {
                             "text": "afaf"
                         }
                     },
-                    "onBehalOfName": "Rajesh Ch",
+                    "onBehalOfName": `${firstName} ${lastName}`,
                     "partyType": "complainant",
                     "isResponseRequired": true,
                     "owner": citizenUserInfo?.name

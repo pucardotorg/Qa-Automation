@@ -25,7 +25,7 @@ console.log('Using config values:', {
   baseURL,
   tenantId,
   filingNumber,
-  nayamitraAuthToken: nayamitraAuthToken ? '***' : 'undefined',
+  nayamitraAuthToken: nayamitraAuthToken,
   nayamitraUUID,
   caseId,
   cnrNumber,

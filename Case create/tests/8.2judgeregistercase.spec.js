@@ -2,11 +2,35 @@ import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 
-// Read global variables
+// Import global configuration
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
-// Import values from global config into variables
+// Log the configuration values being used
+console.log('=== Configuration Values Used ===');
+console.log('Base URL:', globalVars.baseURL);
+console.log('Tenant ID:', globalVars.citizenUserInfo?.tenantId || "kl");
+console.log('Case ID:', globalVars.caseId);
+console.log('Filing Number:', globalVars.filingNumber);
+console.log('Judge Auth Token:', globalVars.judgeauthtoken ? '***' + globalVars.judgeauthtoken.slice(-4) : 'Not set');
+console.log('Judge User Info:', {
+  userName: globalVars.judgeUserResponse?.UserRequest?.userName,
+  name: globalVars.judgeUserResponse?.UserRequest?.name,
+  uuid: globalVars.judgeUserResponse?.UserRequest?.uuid
+});
+console.log('Citizen User Info:', {
+  userName: globalVars.citizenUserInfo?.userName,
+  name: globalVars.citizenUserInfo?.name,
+  uuid: globalVars.citizenUserInfo?.uuid
+});
+console.log('Advocate ID:', globalVars.advocateId);
+console.log('Litigant ID:', globalVars.litigantid);
+console.log('Representing ID:', globalVars.representingid);
+console.log('Representing LI:', globalVars.representingli);
+console.log('Epoch Time:', globalVars.epochTime);
+console.log('================================');
+
+// Extract configuration values
 const baseURL = globalVars.baseURL;
 const tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
 const caseId = globalVars.caseId;
@@ -19,12 +43,27 @@ const representingli = globalVars.representingli;
 const advocateId = globalVars.advocateId;
 const judgeUserResponse = globalVars.judgeUserResponse;
 const citizenUserInfo = globalVars.citizenUserInfo;
+
+// Extract litigant individual details
 const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
 const firstName = litigentIndividual?.name?.givenName;
-const lastName = litigentIndividual?.name?.familyName;
-const citizenMobile = citizenUserInfo.userName;
-const citizenName = citizenUserInfo.name;
+const lastName = litigentIndividual?.name?.familyName || '';
+const litigentIndividualId = globalVars.litigentIndividualId;
+const litigentuserinfo = globalVars.litigentuserinfo;
+const litigentuuid = globalVars.litigentuuid;
+
+// Extract advocate details
+const advocateuserUUID = globalVars.advocateuserUUID;
+const advocateIndividualId = globalVars.advocateIndividualId;
+
+const citizenMobile = citizenUserInfo?.userName;
+const citizenName = citizenUserInfo?.name;
+
+// Build API URL
 const apiUrl = `${baseURL}case/v1/_update?tenantId=${tenantId}`;
+
+// Dynamic message ID
+const dynamicMsgId = Date.now().toString() + '|en_IN';
 
 test.describe('Judge Register Case API Tests', () => {
   let apiContext;
@@ -34,7 +73,7 @@ test.describe('Judge Register Case API Tests', () => {
         "id": caseId, // Use case ID from global variables
         "tenantId": tenantId,
         "resolutionMechanism": "COURT",
-        "caseTitle": "Rajesh Ch vs Accused Details",
+        "caseTitle": `${firstName} ${lastName} vs Accused Details`,
         "isActive": true,
         "caseDescription": "Case description",
         "filingNumber": filingNumber, // Use filing number from global variables
@@ -304,7 +343,7 @@ test.describe('Judge Register Case API Tests', () => {
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
-                "individualId": globalVars.litigentIndividualId,
+                "individualId": litigentIndividualId,
                 "partyType": "complainant.primary",
                 "isActive": true,
                 "isResponseRequired": false,
@@ -317,8 +356,8 @@ test.describe('Judge Register Case API Tests', () => {
                     "lastModifiedTime": epochTime
                 },
                 "additionalDetails":{
-                    "fullName":  globalVars.litigentuserinfo?.name,
-                    "uuid": globalVars.litigentuuid,
+                    "fullName":  litigentuserinfo?.name,
+                    "uuid": litigentuuid,
                     "currentPosition": 1
                 },
                 "hasSigned": false
@@ -337,7 +376,7 @@ test.describe('Judge Register Case API Tests', () => {
                         "caseId":caseId,
                         "partyCategory": "INDIVIDUAL",
                         "organisationID": null,
-                        "individualId": globalVars.litigentIndividualId,
+                        "individualId": litigentIndividualId,
                         "partyType": "complainant.primary",
                         "isActive": true,
                         "isResponseRequired": false,
@@ -359,8 +398,8 @@ test.describe('Judge Register Case API Tests', () => {
                             "lastModifiedTime": epochTime
                         },
                         "additionalDetails": {
-                    "fullName":  globalVars.litigentuserinfo?.name,
-                    "uuid": globalVars.litigentuuid,
+                    "fullName":  litigentuserinfo?.name,
+                    "uuid": litigentuuid,
                     "currentPosition": 1
                 },
                         "hasSigned": false
@@ -506,8 +545,8 @@ test.describe('Judge Register Case API Tests', () => {
                                             "advocateName": citizenUserInfo?.name,
                                             "isDisable": true,
                                             "advocateId": advocateId,
-                                            "advocateUuid": citizenUserInfo?.uuid,
-                                            "individualId": "IND-2024-11-19-000893",
+                                            "advocateUuid": advocateuserUUID,
+                                            "individualId": advocateIndividualId,
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST"
                                         }
@@ -516,9 +555,9 @@ test.describe('Judge Register Case API Tests', () => {
                                 "boxComplainant": {
                                     "firstName": firstName,
                                     "lastName": lastName,
-                                     "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
+                                     "mobileNumber": litigentuserinfo?.mobileNumber,
                                     "middleName": "",
-                                    "individualId": globalVars.litigentIndividualId,
+                                    "individualId": litigentIndividualId,
                                     "index": 0
                                 },
                                 "showAffidavit": false,
@@ -677,10 +716,10 @@ test.describe('Judge Register Case API Tests', () => {
                                             "documentName": "adhaar.jpg"
                                         }
                                     ],
-                                    "individualId": globalVars.litigentIndividualId,
-                                   "userUuid": globalVars.litigentuuid,
+                                    "individualId": litigentIndividualId,
+                                   "userUuid": litigentuuid,
                                 },
-                                "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
+                                "mobileNumber": litigentuserinfo?.mobileNumber,
                                 "otpNumber": "123456",
                                 "isUserVerified": true
                             },
@@ -828,7 +867,7 @@ test.describe('Judge Register Case API Tests', () => {
         "apiId": "Rainmaker",
         "authToken": judgeauthtoken, // Use judge auth token from global variables
         "userInfo": judgeUserResponse?.UserRequest ,
-        "msgId": `${Date.now()}|en_IN` // Dynamic msgId
+        "msgId": dynamicMsgId // Dynamic msgId
     }
 };
 
@@ -844,6 +883,13 @@ test.describe('Judge Register Case API Tests', () => {
   });
 
   test('should return 200 for successful case registration', async () => {
+    console.log('Running test: should return 200 for successful case registration');
+    console.log('Using case ID:', caseId);
+    console.log('Using filing number:', filingNumber);
+    console.log('Using advocate ID:', advocateId);
+    console.log('Using judge auth token:', judgeauthtoken ? '***' + judgeauthtoken.slice(-4) : 'Not set');
+    console.log('Using judge user UUID:', judgeUserResponse?.UserRequest?.uuid);
+    
     console.log('Request Body:', JSON.stringify(baseRequestBody, null, 2));
     console.log('Using Case ID:', caseId);
     console.log('Using Filing Number:', filingNumber);

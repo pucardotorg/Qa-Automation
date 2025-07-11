@@ -2,11 +2,35 @@ const fs = require('fs');
 const path = require('path');
 const { test, expect } = require('@playwright/test');
 
-// Read global variables
+// Import global configuration
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
-// Import values from global config into variables
+// Log the configuration values being used
+console.log('=== Configuration Values Used ===');
+console.log('Base URL:', globalVars.baseURL);
+console.log('Tenant ID:', globalVars.citizenUserInfo?.tenantId || "kl");
+console.log('Case ID:', globalVars.caseId);
+console.log('Filing Number:', globalVars.filingNumber);
+console.log('FSO Auth Token:', globalVars.fsoauthtoken ? '***' + globalVars.fsoauthtoken.slice(-4) : 'Not set');
+console.log('FSO User Info:', {
+  userName: globalVars.fsoUserResponse?.UserRequest?.userName,
+  name: globalVars.fsoUserResponse?.UserRequest?.name,
+  id: globalVars.fsoUserResponse?.UserRequest?.id
+});
+console.log('Citizen User Info:', {
+  userName: globalVars.citizenUserInfo?.userName,
+  name: globalVars.citizenUserInfo?.name,
+  uuid: globalVars.citizenUserInfo?.uuid
+});
+console.log('Advocate ID:', globalVars.advocateId);
+console.log('Litigant ID:', globalVars.litigantid);
+console.log('Representing ID:', globalVars.representingid);
+console.log('Representing LI:', globalVars.representingli);
+console.log('Epoch Time:', globalVars.epochTime);
+console.log('================================');
+
+// Extract configuration values
 const baseURL = globalVars.baseURL;
 const tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
 const caseId = globalVars.caseId;
@@ -19,16 +43,30 @@ const representingli = globalVars.representingli;
 const advocateId = globalVars.advocateId;
 const fsoUserResponse = globalVars.fsoUserResponse;
 const citizenUserInfo = globalVars.citizenUserInfo;
+
+// Extract litigant individual details
 const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
 const firstName = litigentIndividual?.name?.givenName;
-const lastName = litigentIndividual?.name?.familyName;
-const citizenMobile = citizenUserInfo.userName;
-const citizenName = citizenUserInfo.name;
+const lastName = litigentIndividual?.name?.familyName || '';
+const litigentIndividualId = globalVars.litigentIndividualId;
+const litigentuserinfo = globalVars.litigentuserinfo;
+const litigentuuid = globalVars.litigentuuid;
+
+// Extract advocate details
+const advocateuserUUID = globalVars.advocateuserUUID;
+const advocateIndividualId = globalVars.advocateIndividualId;
+
+const citizenMobile = citizenUserInfo?.userName;
+const citizenName = citizenUserInfo?.name;
+
 // Use FSO auth token from global variables
 const AUTH_TOKEN = fsoauthtoken;
 
 // Define the base URL for the update endpoint
 const BASE_URL_UPDATE_CASE = `${baseURL}case/v1/_update`;
+
+// Dynamic message ID
+const dynamicMsgId = Date.now().toString() + '|en_IN';
 
 // Define the request body for a valid update request
 const validUpdateRequestBody = {
@@ -36,7 +74,7 @@ const validUpdateRequestBody = {
         "id": caseId, // Use case ID from global variables
         "tenantId": tenantId,
         "resolutionMechanism": "COURT",
-        "caseTitle": "Rajesh Ch vs Accused Details - Updated", // Modified title for testing
+        "caseTitle": `${firstName} ${lastName} vs Accused Details - Updated`, // Modified title for testing
         "isActive": true,
         "caseDescription": "Case description",
         "filingNumber": filingNumber, // Use filing number from global variables
@@ -306,7 +344,7 @@ const validUpdateRequestBody = {
                 "caseId": caseId,
                 "partyCategory": "INDIVIDUAL",
                 "organisationID": null,
-                "individualId": globalVars.litigentIndividualId,
+                "individualId": litigentIndividualId,
                 "partyType": "complainant.primary",
                 "isActive": true,
                 "isResponseRequired": false,
@@ -319,8 +357,8 @@ const validUpdateRequestBody = {
                     "lastModifiedTime": epochTime
                 },
                 "additionalDetails": {
-                    "fullName":  globalVars.litigentuserinfo?.name,
-                    "uuid": globalVars.litigentuuid,
+                    "fullName":  litigentuserinfo?.name,
+                    "uuid": litigentuuid,
                     "currentPosition": 1
                 },
                 "hasSigned": false
@@ -339,7 +377,7 @@ const validUpdateRequestBody = {
                         "caseId":caseId,
                         "partyCategory": "INDIVIDUAL",
                         "organisationID": null,
-                        "individualId": globalVars.litigentIndividualId,
+                        "individualId": litigentIndividualId,
                         "partyType": "complainant.primary",
                         "isActive": true,
                         "isResponseRequired": false,
@@ -361,8 +399,8 @@ const validUpdateRequestBody = {
                             "lastModifiedTime": epochTime
                         },
                         "additionalDetails": {
-                    "fullName":  globalVars.litigentuserinfo?.name,
-                    "uuid": globalVars.litigentuuid,
+                    "fullName":  litigentuserinfo?.name,
+                    "uuid": litigentuuid,
                     "currentPosition": 1
                 },
                         "hasSigned": false
@@ -509,8 +547,8 @@ const validUpdateRequestBody = {
                                             "advocateName": citizenUserInfo?.name,
                                             "isDisable": true,
                                             "advocateId": advocateId,
-                                            "advocateUuid": citizenUserInfo?.uuid ,
-                                            "individualId": "IND-2024-11-19-000893",
+                                            "advocateUuid": advocateuserUUID,
+                                            "individualId": advocateIndividualId,
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "barRegistrationNumberOriginal": "K/MARUTHI/TEST"
                                         }
@@ -519,9 +557,9 @@ const validUpdateRequestBody = {
                                 "boxComplainant": {
                                     "firstName": firstName,
                                     "lastName": lastName,
-                                     "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
+                                     "mobileNumber": litigentuserinfo?.mobileNumber,
                                     "middleName": "",
-                                    "individualId": globalVars.litigentIndividualId,
+                                    "individualId": litigentIndividualId,
                                     "index": 0
                                 },
                                 "showAffidavit": false,
@@ -681,10 +719,10 @@ const validUpdateRequestBody = {
                 "documentType": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
                                         }
                                     ],
-                                     "individualId": globalVars.litigentIndividualId,
-                                   "userUuid": globalVars.litigentuuid,
+                                     "individualId": litigentIndividualId,
+                                   "userUuid": litigentuuid,
                                 },
-                                "mobileNumber": globalVars.litigentuserinfo?.mobileNumber,
+                                "mobileNumber": litigentuserinfo?.mobileNumber,
                                 "otpNumber": "123456",
                                 "isUserVerified": true
                             },
@@ -827,7 +865,7 @@ const validUpdateRequestBody = {
         "apiId": "Rainmaker",
         "authToken": AUTH_TOKEN, // Use the constant AUTH_TOKEN
         "userInfo": fsoUserResponse?.UserRequest ,
-        "msgId": `test-${Date.now()}`, // Dynamic msgId
+        "msgId": dynamicMsgId, // Dynamic msgId
         "plainAccessRequest": {}
     }
 };
@@ -846,6 +884,12 @@ test.describe('API Tests for FSO Case Update endpoint', () => {
 
     // Test case for successful request (expecting 200 or 201)
     test('should successfully update a case with valid data', async () => {
+        console.log('Running test: should successfully update a case with valid data');
+        console.log('Using case ID:', caseId);
+        console.log('Using filing number:', filingNumber);
+        console.log('Using advocate ID:', advocateId);
+        console.log('Using FSO auth token:', AUTH_TOKEN ? '***' + AUTH_TOKEN.slice(-4) : 'Not set');
+        
         const url = `${BASE_URL_UPDATE_CASE}?tenantId=${tenantId}`; // Include query parameter
         
         // Log the request details

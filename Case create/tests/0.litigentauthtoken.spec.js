@@ -7,21 +7,28 @@ dotenv.config();
 
 const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
-const baseUrl = globalVars.baseURL;
+
+// Import configuration values from global config
+const baseURL = globalVars.baseURL;
+const tenantId = 'kl'; // This is hardcoded in the original, keeping as constant
+const authorizationHeader = 'Basic ZWdvdi11c2VyLWNsaWVudDo=';
+
+console.log('Using baseURL from global config:', baseURL);
+console.log('Using tenantId:', tenantId);
 
 const headers = {
-  Authorization: 'Basic ZWdvdi11c2VyLWNsaWVudDo=',
+  Authorization: authorizationHeader,
 };
 
 test('litigentauthtoken', async () => {
   const apiContext = await request.newContext();
   // Step 1: Get token for litigant
-  const tokenResponse = await apiContext.post(`${baseUrl}user/oauth/token?`, {
+  const tokenResponse = await apiContext.post(`${baseURL}user/oauth/token?`, {
     headers: headers,
     form: {
       username: process.env.LITIGENT_USERNAME,
       password: process.env.LITIGENT_PASSWORD,
-      tenantId: 'kl',
+      tenantId: tenantId,
       userType: 'citizen',
       scope: 'read',
       grant_type: 'password',
@@ -34,9 +41,9 @@ test('litigentauthtoken', async () => {
   fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2));
 
   // Step 2: Fetch user info using the token
-  const userSearchUrl = `${baseUrl}user/_search`;
+  const userSearchUrl = `${baseURL}user/_search`;
   const userSearchBody = {
-    tenantId: 'kl',
+    tenantId: tenantId,
     mobileNumber: process.env.LITIGENT_USERNAME,
     pageSize: '100',
     RequestInfo: {
