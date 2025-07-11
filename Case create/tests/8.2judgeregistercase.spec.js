@@ -93,64 +93,152 @@ test.describe('Judge Register Case API Tests', () => {
         "registrationDate": 1749212914578,
         "judgementDate": null,
         "caseDetails": {
-            "chequeDetails": {
+          "chequeDetails": {
                 "formdata": [
                     {
+                        "isenabled": true,
                         "data": {
-                            "ifsc": "SHSH0HSSHSH",
-                            "name": "Payee Name On Cheque",
-                            "delayReason": {
-                                "reasonForReturnCheque": "Reason for the return of cheque"
-                            },
-                            "depositDate": "2025-04-18",
-                            "infoBoxData": {
-                                "data": [
-                                    "CS_SIX_MONTH_BEFORE_DEPOSIT_TEXT",
-                                    "CS_CHEQUE_RETURNED_INSUFFICIENT_FUND"
-                                ],
-                                "header": "CS_YOU_HAVE_CONFIRMED",
-                                "scrutinyHeader": "CS_COMPLAINANT_HAVE_CONFIRMED"
-                            },
-                            "chequeAmount": "235222",
-                            "chequeNumber": "363763",
-                            "issuanceDate": "2025-04-01",
-                            "payeeBankName": "Payee Bank Name",
-                            "payerBankName": "Shshshshsh",
-                            "payeeBranchName": "Payee Bank Branch Name",
-                            "payerBranchName": "Payer Bank Branch Name",
                             "chequeSignatoryName": "Cheque Namr",
-                            "returnMemoFileUpload": {
-                                "document": [
-                                    {
-                                        "fileName": "CS_CHEQUE_RETURN_MEMO",
-                                        "fileStore": "abbe61b4-9998-45dd-a640-0fb21d34d79e",
-                                        "documentName": "2. Cheque Return Memo - 27_09_2024.png",
-                                        "documentType": "case.cheque.returnmemo"
-                                    }
-                                ]
-                            },
                             "bouncedChequeFileUpload": {
                                 "document": [
                                     {
-                                        "fileName": "CS_BOUNCED_CHEQUE",
-                                        "fileStore": "303153cb-7117-4c52-924d-7daade1fb40e",
+                                        "documentType": "case.cheque",
+                                           "fileStore": globalVars.UATfilestore["case.cheque"],
                                         "documentName": "1.Judge Issue summons.png",
-                                        "documentType": "case.cheque"
+                                        "fileName": "CS_BOUNCED_CHEQUE"
+                                    }
+                                ]
+                            },
+                            "name": "Payee Name On Cheque",
+                            "payeeBankName": "Payee Bank Name",
+                            "payeeBranchName": "Payee Bank Branch Name",
+                            "chequeNumber": "363763",
+                            "issuanceDate": "2025-04-01",
+                            "payerBankName": "Shshshshsh",
+                            "payerBranchName": "Payer Bank Branch Name",
+                            "ifsc": "SHSH0HSSHSH",
+                            "chequeAmount": "235222",
+                            "policeStationJurisDictionCheque": {
+                                "code": 15996057,
+                                "name": "MEDICAL COLLEGE PS",
+                                "active": true,
+                                "district": "THRISSUR CITY"
+                            },
+                            "depositDate": "2025-04-18",
+                            "depositChequeFileUpload": null,
+                            "delayReason": {
+                                "reasonForReturnCheque": "Reason for the return of cheque"
+                            },
+                            "returnMemoFileUpload": {
+                                "document": [
+                                    {
+                                        "documentType": "case.cheque.returnmemo",
+                                         "fileStore": globalVars.UATfilestore["case.cheque.returnmemo"],
+                                        "documentName": "2. Cheque Return Memo - 27_09_2024.png",
+                                        "fileName": "CS_CHEQUE_RETURN_MEMO"
                                     }
                                 ]
                             },
                             "chequeAdditionalDetails": {
                                 "text": "Additional details about cheque"
                             },
-                            "depositChequeFileUpload": null,
-                            "policeStationJurisDictionCheque": {
-                                "code": 15996057,
-                                "name": "MEDICAL COLLEGE PS",
-                                "active": true,
-                                "district": "THRISSUR CITY"
+                            "infoBoxData": {
+                                "header": "CS_YOU_HAVE_CONFIRMED",
+                                "scrutinyHeader": "CS_COMPLAINANT_HAVE_CONFIRMED",
+                                "data": [
+                                    "CS_SIX_MONTH_BEFORE_DEPOSIT_TEXT",
+                                    "CS_CHEQUE_RETURNED_INSUFFICIENT_FUND"
+                                ]
                             }
                         },
+                        "displayindex": 0
+                    }
+                ],
+                "isCompleted": true
+            },
+            "debtLiabilityDetails": {
+                "formdata": [
+                    {
                         "isenabled": true,
+                        "data": {
+                            "liabilityNature": "Tested",
+                            "liabilityType": {
+                                "id": 1,
+                                "code": "FULL_LIABILITY",
+                                "name": "FULL_LIABILITY",
+                                "isActive": true,
+                                "liabilityType": 1,
+                                "showAmountCovered": false
+                            },
+                            "debtLiabilityFileUpload": {
+                                "document": [
+                                    {
+                                        "documentType": "case.liabilityproof",
+                                        "fileStore": globalVars.UATfilestore["case.liabilityproof"],
+                                        "documentName": "2. Cheque Return Memo - 27_09_2024.png",
+                                        "fileName": "CS_PROOF_DEBT"
+                                    }
+                                ]
+                            },
+                            "additionalDebtLiabilityDetails": {
+                                "text": "sgsg"
+                            },
+                            "totalAmount": "235222"
+                        },
+                        "displayindex": 0
+                    }
+                ],
+                "isCompleted": true
+            },
+            "demandNoticeDetails": {
+                "formdata": [
+                    {
+                        "isenabled": true,
+                        "data": {
+                            "dateOfDispatch": "2025-04-25",
+                            "legalDemandNoticeFileUpload": {
+                                "document": [
+                                    {
+                                        "documentType": "case.demandnotice",
+                                         "fileStore": globalVars.UATfilestore["case.demandnotice"],
+                                        "documentName": "5. Legal Notice - 07_10_2024.pdf",
+                                        "fileName": "LEGAL_DEMAND_NOTICE"
+                                    }
+                                ]
+                            },
+                            "proofOfDispatchFileUpload": {
+                                "document": [
+                                    {
+                                        "documentType": "case.demandnotice.proof",
+                                        "fileStore": globalVars.UATfilestore["case.demandnotice.proof"],
+                                        "documentName": "4. Lease Agreement - 17_06_2024.pdf",
+                                        "fileName": "PROOF_OF_DISPATCH_FILE_NAME"
+                                    }
+                                ]
+                            },
+                            "dateOfService": "2025-04-28",
+                            "proofOfAcknowledgmentFileUpload": {
+                                "document": [
+                                    {
+                                        "documentType": "case.demandnotice.serviceproof",
+                                        "fileStore": globalVars.UATfilestore["case.demandnotice.serviceproof"],
+                                        "documentName": "3. Power of Attorney - 01_04_2024.pdf",
+                                        "fileName": "PROOF_LEGAL_DEMAND_NOTICE_FILE_NAME"
+                                    }
+                                ]
+                            },
+                            "proofOfReply": {
+                                "code": "NO",
+                                "name": "NO",
+                                "isEnabled": true,
+                                "isVerified": true,
+                                "showProofOfReply": false,
+                                "hasBarRegistrationNo": true
+                            },
+                            "proofOfReplyFileUpload": null,
+                            "dateOfAccrual": "2025-05-14",
+                            "infoBoxData": null
+                        },
                         "displayindex": 0
                     }
                 ],
@@ -159,6 +247,7 @@ test.describe('Judge Register Case API Tests', () => {
             "delayApplications": {
                 "formdata": [
                     {
+                        "isenabled": true,
                         "data": {
                             "delayCondonationType": {
                                 "code": "YES",
@@ -168,95 +257,6 @@ test.describe('Judge Register Case API Tests', () => {
                             },
                             "condonationFileUpload": null
                         },
-                        "isenabled": true,
-                        "displayindex": 0
-                    }
-                ],
-                "isCompleted": true
-            },
-            "demandNoticeDetails": {
-                "formdata": [
-                    {
-                        "data": {
-                            "infoBoxData": null,
-                            "proofOfReply": {
-                                "code": "NO",
-                                "name": "NO",
-                                "isEnabled": true,
-                                "isVerified": true,
-                                "showProofOfReply": false,
-                                "hasBarRegistrationNo": true
-                            },
-                            "dateOfAccrual": "2025-05-14",
-                            "dateOfService": "2025-04-28",
-                            "dateOfDispatch": "2025-04-25",
-                            "proofOfReplyFileUpload": null,
-                            "proofOfDispatchFileUpload": {
-                                "document": [
-                                    {
-                                        "fileName": "PROOF_OF_DISPATCH_FILE_NAME",
-                                        "fileStore": "1290b4c8-a8f0-4675-af80-d4903ab13d71",
-                                        "documentName": "4. Lease Agreement - 17_06_2024.pdf",
-                                        "documentType": "case.demandnotice.proof"
-                                    }
-                                ]
-                            },
-                            "legalDemandNoticeFileUpload": {
-                                "document": [
-                                    {
-                                        "fileName": "LEGAL_DEMAND_NOTICE",
-                                        "fileStore": "812000fc-a947-4941-a841-9c3e36d312ca",
-                                        "documentName": "5. Legal Notice - 07_10_2024.pdf",
-                                        "documentType": "case.demandnotice"
-                                    }
-                                ]
-                            },
-                            "proofOfAcknowledgmentFileUpload": {
-                                "document": [
-                                    {
-                                        "fileName": "PROOF_LEGAL_DEMAND_NOTICE_FILE_NAME",
-                                        "fileStore": "5ee759f0-9974-4946-b020-6dd8d523da14",
-                                        "documentName": "3. Power of Attorney - 01_04_2024.pdf",
-                                        "documentType": "case.demandnotice.serviceproof"
-                                    }
-                                ]
-                            }
-                        },
-                        "isenabled": true,
-                        "displayindex": 0
-                    }
-                ],
-                "isCompleted": true
-            },
-            "debtLiabilityDetails": {
-                "formdata": [
-                    {
-                        "data": {
-                            "totalAmount": "235222",
-                            "liabilityType": {
-                                "id": 1,
-                                "code": "FULL_LIABILITY",
-                                "name": "FULL_LIABILITY",
-                                "isActive": true,
-                                "liabilityType": 1,
-                                "showAmountCovered": false
-                            },
-                            "liabilityNature": "Tested",
-                            "debtLiabilityFileUpload": {
-                                "document": [
-                                    {
-                                        "fileName": "CS_PROOF_DEBT",
-                                        "fileStore": "ca57727d-71d0-4943-b083-215b1d71e99f",
-                                        "documentName": "2. Cheque Return Memo - 27_09_2024.png",
-                                        "documentType": "case.liabilityproof"
-                                    }
-                                ]
-                            },
-                            "additionalDebtLiabilityDetails": {
-                                "text": "sgsg"
-                            }
-                        },
-                        "isenabled": true,
                         "displayindex": 0
                     }
                 ],
@@ -385,7 +385,7 @@ test.describe('Judge Register Case API Tests', () => {
                             {
                                 "id": "93a640c6-957c-4bfc-b964-a5a807480fad",
                                 "documentType": "VAKALATNAMA_DOC",
-                                "fileStore": "1819cdd9-ddd8-4db6-8af4-85991d21da3e",
+                                "fileStore": globalVars.UATfilestore["VAKALATNAMA_DOC"],
                                 "documentUid": "93a640c6-957c-4bfc-b964-a5a807480fad",
                                 "isActive": true,
                                 "additionalDetails": null
@@ -421,59 +421,11 @@ test.describe('Judge Register Case API Tests', () => {
             }
         ],
         "status": "PENDING_REGISTRATION",
-        "documents": [
-            {
-                "id": "3f98d19b-9253-4536-9bfb-4a427bb1b75c",
-                "documentType": "COMPLAINANT_ID_PROOF",
-                "fileStore": "b7b06ce0-c41b-431c-8825-06f9f92fea3f",
-                "documentUid": null,
-                "isActive": true,
-                "additionalDetails": null
-            },
+        "documents":  [
             {
                 "id": "6f9d37ea-8199-4dbe-ac96-87cc32dfbc88",
                 "documentType": "case.liabilityproof",
-                "fileStore": "ca57727d-71d0-4943-b083-215b1d71e99f",
-                "documentUid": null,
-                "isActive": true,
-                "additionalDetails": null
-            },
-            {
-                "id": "a4a15821-af8b-4799-b6bf-03f427de4bd0",
-                "documentType": "case.affidavit.225bnss",
-                "fileStore": "ab09c39e-c5b0-487e-b50e-6de9801980c0",
-                "documentUid": null,
-                "isActive": true,
-                "additionalDetails": null
-            },
-            {
-                "id": "2922c675-2fab-4990-88be-b76297dc72c3",
-                "documentType": "case.cheque",
-                "fileStore": "303153cb-7117-4c52-924d-7daade1fb40e",
-                "documentUid": null,
-                "isActive": true,
-                "additionalDetails": null
-            },
-            {
-                "id": "61dd9404-442b-4cf1-b23b-4f2f1feb9682",
-                "documentType": "case.cheque.returnmemo",
-                "fileStore": "abbe61b4-9998-45dd-a640-0fb21d34d79e",
-                "documentUid": null,
-                "isActive": true,
-                "additionalDetails": null
-            },
-            {
-                "id": "80d9f0dc-c87e-4def-8d6f-c45012eef096",
-                "documentType": "case.demandnotice",
-                "fileStore": "812000fc-a947-4941-a841-9c3e36d312ca",
-                "documentUid": null,
-                "isActive": true,
-                "additionalDetails": null
-            },
-            {
-                "id": "95cb58fc-acee-4d88-97ed-81f6fb78903f",
-                "documentType": "case.demandnotice.serviceproof",
-                "fileStore": "5ee759f0-9974-4946-b020-6dd8d523da14",
+                "fileStore": globalVars.UATfilestore["case.liabilityproof"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -481,7 +433,47 @@ test.describe('Judge Register Case API Tests', () => {
             {
                 "id": "6db0e58d-6a69-4a08-8501-088a23a17c0b",
                 "documentType": "case.affidavit.223bnss",
-                "fileStore": "2e1c7855-e7bb-4243-ad73-2cffc502b0fe",
+                "fileStore": globalVars.UATfilestore["case.affidavit.223bnss"],
+                "documentUid": null,
+                "isActive": true,
+                "additionalDetails": null
+            },
+            {
+                "id": "3f98d19b-9253-4536-9bfb-4a427bb1b75c",
+                "documentType": "COMPLAINANT_ID_PROOF",
+                "fileStore": globalVars.UATfilestore["COMPLAINANT_ID_PROOF"],
+                "documentUid": null,
+                "isActive": true,
+                "additionalDetails": null
+            },
+            {
+                "id": "a4a15821-af8b-4799-b6bf-03f427de4bd0",
+                "documentType": "case.affidavit.225bnss",
+                "fileStore": globalVars.UATfilestore["case.affidavit.225bnss"],
+                "documentUid": null,
+                "isActive": true,
+                "additionalDetails": null
+            },
+            {
+                "id": "2922c675-2fab-4990-88be-b76297dc72c3",
+                "documentType": "case.cheque",
+                 "fileStore": globalVars.UATfilestore["case.cheque"],
+                "documentUid": null,
+                "isActive": true,
+                "additionalDetails": null
+            },
+            {
+                "id": "61dd9404-442b-4cf1-b23b-4f2f1feb9682",
+                "documentType": "case.cheque.returnmemo",
+                "fileStore": globalVars.UATfilestore["case.cheque.returnmemo"],
+                "documentUid": null,
+                "isActive": true,
+                "additionalDetails": null
+            },
+            {
+                "id": "80d9f0dc-c87e-4def-8d6f-c45012eef096",
+                "documentType": "case.demandnotice",
+               "fileStore": globalVars.UATfilestore["case.demandnotice"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -489,26 +481,25 @@ test.describe('Judge Register Case API Tests', () => {
             {
                 "id": "0d64728f-a9a6-4c97-ac2a-df57a5985e9f",
                 "documentType": "case.demandnotice.proof",
-                "fileStore": "1290b4c8-a8f0-4675-af80-d4903ab13d71",
+                "fileStore": globalVars.UATfilestore["case.demandnotice.proof"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
             },
             {
-                "id": "91dd7501-0962-4848-99fa-65aecf8469b9",
+                "id": "95cb58fc-acee-4d88-97ed-81f6fb78903f",
+                "documentType": "case.demandnotice.serviceproof",
+                "fileStore": globalVars.UATfilestore["case.demandnotice.serviceproof"],
+                "documentUid": null,
+                "isActive": true,
+                "additionalDetails": null
+            },
+            {
                 "documentType": "VAKALATNAMA_DOC",
-                "fileStore": "ba1ffab5-b508-4cea-b0e7-ecfcbd7d6056",
-                "documentUid": null,
-                "isActive": true,
-                "additionalDetails": null
-            },
-            {
-                "id": "15a30e89-2b98-404e-b693-12074a59586f",
-                "documentType": "case.complaint.signed",
-                "fileStore": "f700e0c3-b6d2-4beb-bb07-a748aab5ca35",
-                "documentUid": "15a30e89-2b98-404e-b693-12074a59586f",
-                "isActive": true,
-                "additionalDetails": null
+                "fileStore": globalVars.UATfilestore["VAKALATNAMA_DOC"],
+                "documentName": "7 Proof of Delivery of Legal Notice - 9_10_2024 (1).png",
+                "fileName": "VAKALATNAMA",
+                "id": "91dd7501-0962-4848-99fa-65aecf8469b9"
             }
         ],
         "remarks": null,
@@ -536,7 +527,7 @@ test.describe('Judge Register Case API Tests', () => {
                                                 {
                                                     "name": "OTHER",
                                                     "fileName": "ID Proof",
-                                                    "fileStore": "014f6f67-798f-4cf4-a02f-5a4302ec0340",
+                                                     "fileStore": globalVars.UATfilestore["OTHER"],
                                                     "documentName": "downloadedFile (15).pdf"
                                                 }
                                             ]
@@ -572,7 +563,7 @@ test.describe('Judge Register Case API Tests', () => {
                                     "document": [
                                         {
                                             "fileName": "VAKALATNAMA",
-                                            "fileStore": "ba1ffab5-b508-4cea-b0e7-ecfcbd7d6056",
+                                             "fileStore": globalVars.UATfilestore["VAKALATNAMA_DOC"],
                                             "documentName": "7 Proof of Delivery of Legal Notice - 9_10_2024 (1).png",
                                             "documentType": "VAKALATNAMA_DOC"
                                         }
@@ -637,7 +628,7 @@ test.describe('Judge Register Case API Tests', () => {
                                 "document": [
                                     {
                                         "fileName": "Affidavit under section 225 of BNSS",
-                                        "fileStore": "ab09c39e-c5b0-487e-b50e-6de9801980c0",
+                                       "fileStore": globalVars.UATfilestore["case.affidavit.225bnss"],
                                         "documentName": "1.Judge Issue summons.png",
                                         "documentType": "case.affidavit.225bnss"
                                     }
@@ -712,7 +703,7 @@ test.describe('Judge Register Case API Tests', () => {
                                     "document": [
                                         {
                                             "fileName": "AADHAR",
-                                            "fileStore": "b7b06ce0-c41b-431c-8825-06f9f92fea3f",
+                                           "fileStore": globalVars.UATfilestore["OTHER"],
                                             "documentName": "adhaar.jpg"
                                         }
                                     ],
@@ -823,7 +814,7 @@ test.describe('Judge Register Case API Tests', () => {
                                 "document": [
                                     {
                                         "fileName": "CS_SWORN_STATEMENT_HEADER",
-                                        "fileStore": "2e1c7855-e7bb-4243-ad73-2cffc502b0fe",
+                                        "fileStore": globalVars.UATfilestore["COMPLAINANT_ID_PROOF"],
                                         "documentName": "Affidavit.pdf",
                                         "documentType": "case.affidavit.223bnss"
                                     }

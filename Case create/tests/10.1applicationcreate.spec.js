@@ -133,7 +133,7 @@ test.describe('Application Create API Tests', () => {
                 "documents": [
                     {
                         "documentType": "application/pdf",
-                        "fileStore": "78abb8bd-c5e0-4cb1-9818-48425f10615a",
+                        "fileStore": globalVars.applicationDocumentFileStore,
                         "documentOrder": 0,
                         "additionalDetails": {
                             "name": "10.Scrutiny.Checklist.Update (3).pdf"

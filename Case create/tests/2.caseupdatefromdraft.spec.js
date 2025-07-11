@@ -75,7 +75,7 @@ const validRequestBody = {
                                 "document": [
                                     {
                                         "documentType": "case.cheque",
-                                        "fileStore": "303153cb-7117-4c52-924d-7daade1fb40e",
+                                           "fileStore": globalVars.UATfilestore["case.cheque"],
                                         "documentName": "1.Judge Issue summons.png",
                                         "fileName": "CS_BOUNCED_CHEQUE"
                                     }
@@ -105,7 +105,7 @@ const validRequestBody = {
                                 "document": [
                                     {
                                         "documentType": "case.cheque.returnmemo",
-                                        "fileStore": "abbe61b4-9998-45dd-a640-0fb21d34d79e",
+                                         "fileStore": globalVars.UATfilestore["case.cheque.returnmemo"],
                                         "documentName": "2. Cheque Return Memo - 27_09_2024.png",
                                         "fileName": "CS_CHEQUE_RETURN_MEMO"
                                     }
@@ -146,7 +146,7 @@ const validRequestBody = {
                                 "document": [
                                     {
                                         "documentType": "case.liabilityproof",
-                                        "fileStore": "ca57727d-71d0-4943-b083-215b1d71e99f",
+                                        "fileStore": globalVars.UATfilestore["case.liabilityproof"],
                                         "documentName": "2. Cheque Return Memo - 27_09_2024.png",
                                         "fileName": "CS_PROOF_DEBT"
                                     }
@@ -172,7 +172,7 @@ const validRequestBody = {
                                 "document": [
                                     {
                                         "documentType": "case.demandnotice",
-                                        "fileStore": "812000fc-a947-4941-a841-9c3e36d312ca",
+                                         "fileStore": globalVars.UATfilestore["case.demandnotice"],
                                         "documentName": "5. Legal Notice - 07_10_2024.pdf",
                                         "fileName": "LEGAL_DEMAND_NOTICE"
                                     }
@@ -182,7 +182,7 @@ const validRequestBody = {
                                 "document": [
                                     {
                                         "documentType": "case.demandnotice.proof",
-                                        "fileStore": "1290b4c8-a8f0-4675-af80-d4903ab13d71",
+                                        "fileStore": globalVars.UATfilestore["case.demandnotice.proof"],
                                         "documentName": "4. Lease Agreement - 17_06_2024.pdf",
                                         "fileName": "PROOF_OF_DISPATCH_FILE_NAME"
                                     }
@@ -193,7 +193,7 @@ const validRequestBody = {
                                 "document": [
                                     {
                                         "documentType": "case.demandnotice.serviceproof",
-                                        "fileStore": "5ee759f0-9974-4946-b020-6dd8d523da14",
+                                        "fileStore": globalVars.UATfilestore["case.demandnotice.serviceproof"],
                                         "documentName": "3. Power of Attorney - 01_04_2024.pdf",
                                         "fileName": "PROOF_LEGAL_DEMAND_NOTICE_FILE_NAME"
                                     }
@@ -317,7 +317,7 @@ const validRequestBody = {
                             {
                                 "id": "cb299613-4ab8-4917-bdbe-feac6be65c27",
                                 "documentType": "VAKALATNAMA_DOC",
-                                "fileStore": "ba1ffab5-b508-4cea-b0e7-ecfcbd7d6056",
+                                 "fileStore": globalVars.UATfilestore["VAKALATNAMA_DOC"],
                                 "documentUid": "cb299613-4ab8-4917-bdbe-feac6be65c27",
                                 "isActive": true,
                                 "additionalDetails": null
@@ -357,7 +357,7 @@ const validRequestBody = {
             {
                 "id": "6f9d37ea-8199-4dbe-ac96-87cc32dfbc88",
                 "documentType": "case.liabilityproof",
-                "fileStore": "ca57727d-71d0-4943-b083-215b1d71e99f",
+                "fileStore": globalVars.UATfilestore["case.liabilityproof"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -365,7 +365,7 @@ const validRequestBody = {
             {
                 "id": "6db0e58d-6a69-4a08-8501-088a23a17c0b",
                 "documentType": "case.affidavit.223bnss",
-                "fileStore": "2e1c7855-e7bb-4243-ad73-2cffc502b0fe",
+                "fileStore": globalVars.UATfilestore["case.affidavit.223bnss"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -373,7 +373,7 @@ const validRequestBody = {
             {
                 "id": "3f98d19b-9253-4536-9bfb-4a427bb1b75c",
                 "documentType": "COMPLAINANT_ID_PROOF",
-                "fileStore": "b7b06ce0-c41b-431c-8825-06f9f92fea3f",
+                "fileStore": globalVars.UATfilestore["COMPLAINANT_ID_PROOF"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -381,7 +381,7 @@ const validRequestBody = {
             {
                 "id": "a4a15821-af8b-4799-b6bf-03f427de4bd0",
                 "documentType": "case.affidavit.225bnss",
-                "fileStore": "ab09c39e-c5b0-487e-b50e-6de9801980c0",
+                "fileStore": globalVars.UATfilestore["case.affidavit.225bnss"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -389,7 +389,7 @@ const validRequestBody = {
             {
                 "id": "2922c675-2fab-4990-88be-b76297dc72c3",
                 "documentType": "case.cheque",
-                "fileStore": "303153cb-7117-4c52-924d-7daade1fb40e",
+                 "fileStore": globalVars.UATfilestore["case.cheque"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -397,7 +397,7 @@ const validRequestBody = {
             {
                 "id": "61dd9404-442b-4cf1-b23b-4f2f1feb9682",
                 "documentType": "case.cheque.returnmemo",
-                "fileStore": "abbe61b4-9998-45dd-a640-0fb21d34d79e",
+                "fileStore": globalVars.UATfilestore["case.cheque.returnmemo"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -405,7 +405,7 @@ const validRequestBody = {
             {
                 "id": "80d9f0dc-c87e-4def-8d6f-c45012eef096",
                 "documentType": "case.demandnotice",
-                "fileStore": "812000fc-a947-4941-a841-9c3e36d312ca",
+               "fileStore": globalVars.UATfilestore["case.demandnotice"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -413,7 +413,7 @@ const validRequestBody = {
             {
                 "id": "0d64728f-a9a6-4c97-ac2a-df57a5985e9f",
                 "documentType": "case.demandnotice.proof",
-                "fileStore": "1290b4c8-a8f0-4675-af80-d4903ab13d71",
+                "fileStore": globalVars.UATfilestore["case.demandnotice.proof"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -421,14 +421,14 @@ const validRequestBody = {
             {
                 "id": "95cb58fc-acee-4d88-97ed-81f6fb78903f",
                 "documentType": "case.demandnotice.serviceproof",
-                "fileStore": "5ee759f0-9974-4946-b020-6dd8d523da14",
+                "fileStore": globalVars.UATfilestore["case.demandnotice.serviceproof"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
             },
             {
                 "documentType": "VAKALATNAMA_DOC",
-                "fileStore": "ba1ffab5-b508-4cea-b0e7-ecfcbd7d6056",
+                "fileStore": globalVars.UATfilestore["VAKALATNAMA_DOC"],
                 "documentName": "7 Proof of Delivery of Legal Notice - 9_10_2024 (1).png",
                 "fileName": "VAKALATNAMA",
                 "id": "91dd7501-0962-4848-99fa-65aecf8469b9"
@@ -463,7 +463,7 @@ const validRequestBody = {
                                             "advocateIdProof": [
                                                 {
                                                     "name": "OTHER",
-                                                    "fileStore": "014f6f67-798f-4cf4-a02f-5a4302ec0340",
+                                                    "fileStore": globalVars.UATfilestore["OTHER"],
                                                     "documentName": "downloadedFile (15).pdf",
                                                     "fileName": "ID Proof"
                                                 }
@@ -500,7 +500,7 @@ const validRequestBody = {
                                     "document": [
                                         {
                                             "documentType": "VAKALATNAMA_DOC",
-                                            "fileStore": "ba1ffab5-b508-4cea-b0e7-ecfcbd7d6056",
+                                            "fileStore": globalVars.UATfilestore["VAKALATNAMA_DOC"],
                                             "documentName": "7 Proof of Delivery of Legal Notice - 9_10_2024 (1).png",
                                             "fileName": "VAKALATNAMA"
                                         }
@@ -564,7 +564,7 @@ const validRequestBody = {
                                 "document": [
                                     {
                                         "documentType": "case.affidavit.225bnss",
-                                        "fileStore": "ab09c39e-c5b0-487e-b50e-6de9801980c0",
+                                         "fileStore": globalVars.UATfilestore["case.affidavit.225bnss"],
                                         "documentName": "1.Judge Issue summons.png",
                                         "fileName": "Affidavit under section 225 of BNSS"
                                     }
@@ -744,7 +744,7 @@ const validRequestBody = {
                                 "document": [
                                     {
                                         "documentType": "case.affidavit.223bnss",
-                                        "fileStore": "2e1c7855-e7bb-4243-ad73-2cffc502b0fe",
+                                        "fileStore": globalVars.UATfilestore["COMPLAINANT_ID_PROOF"],
                                         "documentName": "Affidavit.pdf",
                                         "fileName": "CS_SWORN_STATEMENT_HEADER"
                                     }

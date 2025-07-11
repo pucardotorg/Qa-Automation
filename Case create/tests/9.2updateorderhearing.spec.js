@@ -143,7 +143,7 @@ test.describe('Order Management API - Update Order (Publish)', () => {
                     "documents": [{
                         "isActive": true,
                         "documentType": "SIGNED",
-                        "fileStore": "758dcbda-4428-4b26-a061-e510ffc2ea58",
+                        "fileStore": globalVars.UATfilestore["orderTitle"],
                         "documentOrder": 1,
                         "additionalDetails": {
                             "name": "Order: Schedule of Hearing Date.pdf"
@@ -153,7 +153,7 @@ test.describe('Order Management API - Update Order (Publish)', () => {
                 "documents": [{
                     "isActive": true,
                     "documentType": "SIGNED",
-                    "fileStore": "758dcbda-4428-4b26-a061-e510ffc2ea58",
+                    "fileStore": globalVars.UATfilestore["orderTitle"],
                     "documentOrder": 1,
                     "additionalDetails": {
                         "name": "Order: Schedule of Hearing Date.pdf"
