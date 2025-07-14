@@ -148,7 +148,7 @@ test.describe('Application Update API Tests', () => {
                     },
                     {
                         "documentType": "SIGNED",
-                        "fileStore": "5cc9ddb8-0478-40d6-86e2-81131e63e147",
+                        "fileStore": globalVars.UATfilestore["application"],
                         "documentOrder": 2,
                         "additionalDetails": {
                             "name": "Application: Others.pdf"
