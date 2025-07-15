@@ -55,7 +55,8 @@ const litigentuuid = globalVars.litigentuuid;
 // Extract advocate details
 const advocateuserUUID = globalVars.advocateuserUUID;
 const advocateIndividualId = globalVars.advocateIndividualId;
-
+const advocatebarregistration=globalVars.advocatebarregistration;
+const advoctaeusername=globalVars.advoctaeusername;
 const citizenMobile = citizenUserInfo?.userName;
 const citizenName = citizenUserInfo?.name;
 
@@ -522,7 +523,7 @@ const validUpdateRequestBody = {
                                     {
                                         "advocateNameDetails": {
                                             "lastName": "ch",
-                                            "firstName": "Maruthi",
+                                            "firstName": citizenUserInfo?.name,
                                             "middleName": "",
                                             "advocateMobileNumber": citizenUserInfo?.mobileNumber,
                                             "advocateIdProof": [
@@ -535,13 +536,13 @@ const validUpdateRequestBody = {
                                             ]
                                         },
                                         "advocateBarRegNumberWithName": {
-                                            "advocateName": citizenUserInfo?.name,
+                                            "advocateName": advoctaeusername,
                                             "isDisable": true,
                                             "advocateId": advocateId,
                                             "advocateUuid": advocateuserUUID,
                                             "individualId": advocateIndividualId,
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
-                                            "barRegistrationNumberOriginal": "K/MARUTHI/TEST"
+                                            "barRegistrationNumberOriginal": advocatebarregistration
                                         }
                                     }
                                 ],

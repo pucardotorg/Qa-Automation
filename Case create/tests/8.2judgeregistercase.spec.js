@@ -56,7 +56,8 @@ const litigentuuid = globalVars.litigentuuid;
 // Extract advocate details
 const advocateuserUUID = globalVars.advocateuserUUID;
 const advocateIndividualId = globalVars.advocateIndividualId;
-
+const advocatebarregistration=globalVars.advocatebarregistration;
+const advoctaeusername=globalVars.advoctaeusername;
 const citizenMobile = citizenUserInfo?.userName;
 const citizenName = citizenUserInfo?.name;
 
@@ -536,8 +537,8 @@ test.describe('Judge Register Case API Tests', () => {
                                     {
                                         "advocateNameDetails": {
                                             "lastName": "ch",
-                                            "firstName": "Maruthi",
-                                            "advocateMobileNumber": citizenUserInfo?.mobileNumber,
+                                            "firstName": citizenName,
+                                            "advocateMobileNumber": citizenMobile,
                                             "middleName": "",
                                             "advocateIdProof": [
                                                 {
@@ -549,13 +550,13 @@ test.describe('Judge Register Case API Tests', () => {
                                             ]
                                         },
                                         "advocateBarRegNumberWithName": {
-                                            "advocateName": citizenUserInfo?.name,
+                                            "advocateName": advoctaeusername,
                                             "isDisable": true,
                                             "advocateId": advocateId,
                                             "advocateUuid": advocateuserUUID,
                                             "individualId": advocateIndividualId,
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
-                                            "barRegistrationNumberOriginal": "K/MARUTHI/TEST"
+                                            "barRegistrationNumberOriginal": advocatebarregistration
                                         }
                                     }
                                 ],

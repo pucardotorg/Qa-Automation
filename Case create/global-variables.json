@@ -1,39 +1,39 @@
 {
   "baseURL": "https://dristi-kerala-uat.pucar.org/",
-  "caseId": "b6abca44-3d1b-4553-ab57-a9a943e20cd2",
-  "filingNumber": "KL-002176-2025",
+  "caseId": "e74e6e22-3d01-4144-a94d-eb19d3959cb7",
+  "filingNumber": "KL-002180-2025",
   "nayamitraAuthToken": "83467c5a-171d-4305-85f5-a5a5209613a0",
   "fsousername": "michaelGeorgeFso",
   "fsopassword": "Beehyv@123",
   "judgeusername": "michaelGeorgeJudge",
   "judgepassword": "Beehyv@123",
-  "judgeauthtoken": "aa9a68a5-c73f-47f1-9bec-63b2cd158977",
-  "cnrNumber": "KLKM520011652025",
-  "orderId": "9256da74-3f95-43f1-bf6e-cdfd6e7ad16b",
-  "orderNumber": "KL-002176-2025-OR1",
-  "hearingId": "KL-002176-2025-HR1",
-  "applicationId": "971d1372-9e75-4199-95f9-5480a8267ecc",
-  "applicationNumber": "KL-002176-2025-AP1",
-  "applicationCreatedDate": 1752575605704,
-  "statuteSectionId": "248ea096-2173-41c3-aff1-b6077a6f2095",
-  "applicationDocumentId": "2a68923f-8d4f-43f6-9323-82afd91ee6ff",
+  "judgeauthtoken": "e2c0c6ed-2bf8-4afa-be55-6b16c2cf154e",
+  "cnrNumber": "KLKM520011682025",
+  "orderId": "cb6a5e3e-e92b-4ce7-8534-a82c87bc5857",
+  "orderNumber": "KL-002180-2025-OR1",
+  "hearingId": "KL-002180-2025-HR1",
+  "applicationId": "5818b928-3079-407e-a1d6-240de285bb22",
+  "applicationNumber": "KL-002180-2025-AP1",
+  "applicationCreatedDate": 1752585134168,
+  "statuteSectionId": "0c1ec154-e30e-4b75-b962-4336e8b6b502",
+  "applicationDocumentId": "49a3b451-f703-4474-b78d-0beb7c8439cf",
   "applicationDocumentFileStore": "f700e0c3-b6d2-4beb-bb07-a748aab5ca35",
   "advocateuserUUID": "8a0e73ca-1c54-4fc7-8d80-fe5f8149fb24",
   "advocateIndividualId": "IND-2025-07-04-000455",
-  "demandId": "122cd09f-af16-496f-b48f-5e162e9114f8",
-  "billId": "a7e60a20-6cca-414f-a605-29d0503f0501",
-  "epochTime": 1752575515669,
-  "representingid": "486ac1f8-f96e-4bae-877c-80fee9f38fe4",
-  "litigantid": "b544d238-7de8-4a93-aff4-1b60dbd37025",
-  "representingli": "0abeef59-07e5-49a4-bb3f-28c469731912",
-  "artifactId": "84a01e7d-bd63-4b8c-9f76-e7ac2beca9a1",
-  "artifactNumber": "KL-002176-2025-AR6",
+  "demandId": "2588f5b7-d732-4689-9e69-be09a5838f00",
+  "billId": "394c2112-7088-4040-a20c-b0af9a1c11ba",
+  "epochTime": 1752585044834,
+  "representingid": "f557159e-4de8-48d5-b785-beb817b32692",
+  "litigantid": "52c5580b-348a-4040-ba94-8b196bca72a0",
+  "representingli": "11bd4ddd-4da2-4686-bb77-dbb1bd0f1514",
+  "artifactId": "a506f23e-4d00-46d4-b194-c721c6d307d2",
+  "artifactNumber": "KL-002180-2025-AR6",
   "advocateId": "d13f639e-ae4c-48ea-8413-bed6ce168fd6",
   "nayamitraUserResponse": {
     "access_token": "83467c5a-171d-4305-85f5-a5a5209613a0",
     "token_type": "bearer",
     "refresh_token": "16a4b1e1-bdc0-4af5-ae01-4287ee80cac9",
-    "expires_in": 528584,
+    "expires_in": 519055,
     "scope": "read",
     "ResponseInfo": {
       "api_id": "",
@@ -100,10 +100,10 @@
     }
   },
   "fsoUserResponse": {
-    "access_token": "edd509dd-eed9-4d63-ad6f-1d474e6e96ea",
+    "access_token": "803c5a2e-9d77-401e-bfe9-427ce6e2d8de",
     "token_type": "bearer",
-    "refresh_token": "13df6921-7f3c-432e-93bd-d22947fb935f",
-    "expires_in": 602167,
+    "refresh_token": "b74107e2-f545-49c9-8d40-87f89081d5c8",
+    "expires_in": 604799,
     "scope": "read",
     "ResponseInfo": {
       "api_id": "",
@@ -184,12 +184,12 @@
       "permanentCity": null
     }
   },
-  "fsoauthtoken": "edd509dd-eed9-4d63-ad6f-1d474e6e96ea",
+  "fsoauthtoken": "803c5a2e-9d77-401e-bfe9-427ce6e2d8de",
   "judgeUserResponse": {
-    "access_token": "aa9a68a5-c73f-47f1-9bec-63b2cd158977",
+    "access_token": "e2c0c6ed-2bf8-4afa-be55-6b16c2cf154e",
     "token_type": "bearer",
-    "refresh_token": "3bd3d56f-a772-4195-98d6-28e072eecec9",
-    "expires_in": 601443,
+    "refresh_token": "af20dc46-3112-45b5-b0c9-a14b0d01d04a",
+    "expires_in": 604778,
     "scope": "read",
     "ResponseInfo": {
       "api_id": "",
@@ -533,9 +533,9 @@
     "ResponseInfo": {
       "apiId": "Rainmaker",
       "ver": null,
-      "ts": 1752575522228,
-      "resMsgId": "1752575522092|en_IN",
-      "msgId": "1752575522092|en_IN",
+      "ts": 1752585051355,
+      "resMsgId": "1752585051242|en_IN",
+      "msgId": "1752585051242|en_IN",
       "status": "successful"
     },
     "Individual": [
@@ -1046,10 +1046,12 @@
     "orderTitle": "f700e0c3-b6d2-4beb-bb07-a748aab5ca35",
     "application": "f700e0c3-b6d2-4beb-bb07-a748aab5ca35",
     "image/png": "76bf63b2-fd6f-4c2e-a55a-a9778df19233",
-    "case.complaint.signed": "0ccc79d7-35b6-4c32-9e2e-0bfc5d73eafa"
+    "case.complaint.signed": "5ababae9-4aab-45e4-9a44-4081f61c0e1c"
   },
   "fetchCaseBundlePdfResponse": {
     "filePath": "/home/bhlp0121/Desktop/Qa-Automation/Case create/tests/caseComplaintDetails.pdf"
   },
-  "complainantfilestore": "35120a2b-9dd1-4732-954e-8204ef68aabf"
+  "complainantfilestore": "35120a2b-9dd1-4732-954e-8204ef68aabf",
+  "advocateusername": "ADV EIGHT TWENTY SEVEN",
+  "advocatebarregistration": "ADV//882700000"
 }

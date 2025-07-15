@@ -27,6 +27,8 @@ const litigentuserinfo = globalVars.litigentuserinfo;
 const litigentuuid = globalVars.litigentuuid;
 const litigentIndividualResponse = globalVars.litigentIndividualResponse;
 const advocateIndividualId = globalVars.advocateIndividualId;
+const advocatebarregistration=globalVars.advocatebarregistration;
+const advoctaeusername=globalVars.advoctaeusername;
 const advocateuserUUID = globalVars.advocateuserUUID;
 
 console.log('Using baseURL from global config:', baseURL);
@@ -353,7 +355,7 @@ const validRequestBody = {
                     "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
-                    "advocateName": "Maruthi ch",
+                    "advocateName": advoctaeusername,
                     "uuid": advocateIndividualId // Corrected advocate UUID
                 },
                 "hasSigned": false
@@ -466,7 +468,7 @@ const validRequestBody = {
                                             "lastName": "ch",
                                             "firstName": "Maruthi",
                                             "middleName": "",
-                                            "advocateMobileNumber": "6303338642",
+                                            "advocateMobileNumber": globalVars.citizenUserInfo?.mobileNumber,
                                             "advocateIdProof": [
                                                 {
                                                     "name": "OTHER",
@@ -477,10 +479,10 @@ const validRequestBody = {
                                             ]
                                         },
                                         "advocateBarRegNumberWithName": {
-                                            "advocateName": "Maruthi ch",
+                                            "advocateName": advoctaeusername,
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "isDisable": true,
-                                            "barRegistrationNumberOriginal": "K/MARUTHI/TEST",
+                                            "barRegistrationNumberOriginal": advocatebarregistration,
                                             "advocateId": advocateId,
                                             "advocateUuid": advocateuserUUID,
                                             "individualId": advocateIndividualId

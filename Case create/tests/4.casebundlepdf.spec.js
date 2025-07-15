@@ -44,6 +44,8 @@ const litigentIndividualResponse = globalVars.litigentIndividualResponse;
 // Extract advocate details
 const advocateuserUUID = globalVars.advocateuserUUID;
 const advocateIndividualId = globalVars.advocateIndividualId;
+const advocatebarregistration=globalVars.advocatebarregistration;
+const advoctaeusername=globalVars.advoctaeusername;
 test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
   let apiContext;
 
@@ -410,8 +412,8 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                     "lastModifiedTime": 1750756069884
                 },
                 "additionalDetails": {
-                    "advocateName": "Maruthi ch",
-                    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f"
+                    "advocateName": advoctaeusername,
+                    "uuid": advocateuserUUID
                 },
                 "hasSigned": false
             }
@@ -519,7 +521,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                             "lastName": "ch",
                                             "firstName": "Maruthi",
                                             "middleName": "",
-                                            "advocateMobileNumber": "6303338642",
+                                            "advocateMobileNumber": citizenMobile,
                                             "advocateIdProof": [
                                                 {
                                                     "name": "OTHER",
@@ -530,13 +532,13 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                             ]
                                         },
                                         "advocateBarRegNumberWithName": {
-                                            "advocateName": "Maruthi ch",
+                                            "advocateName": advoctaeusername,
                                             "isDisable": true,
                                             "advocateId": advocateId,
                                             "advocateUuid": advocateuserUUID,
                                             "individualId": advocateIndividualId,
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
-                                            "barRegistrationNumberOriginal": "K/MARUTHI/TEST"
+                                            "barRegistrationNumberOriginal": advocatebarregistration
                                         }
                                     }
                                 ],

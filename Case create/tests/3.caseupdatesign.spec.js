@@ -52,7 +52,8 @@ const litigentIndividualResponse = globalVars.litigentIndividualResponse;
 // Extract advocate details
 const advocateuserUUID = globalVars.advocateuserUUID;
 const advocateIndividualId = globalVars.advocateIndividualId;
-
+const advoctaeusername=globalVars.advoctaeusername;
+const advocatebarregistration=globalVars.advocatebarregistration;
 // Build API URL
 const baseUrl = `${baseURL}case/v1/_update?`;
 
@@ -381,8 +382,8 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                     "lastModifiedTime": epochtime
                 },
                 "additionalDetails": {
-                    "advocateName": "Maruthi ch",
-                    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f"
+                    "advocateName": advoctaeusername,
+                    "uuid": advocateuserUUID
                 },
                 "hasSigned": false
             }
@@ -494,7 +495,7 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                                             "lastName": "ch",
                                             "firstName": "Maruthi",
                                             "middleName": "",
-                                            "advocateMobileNumber": "6303338642",
+                                            "advocateMobileNumber": globalVars.citizenUserInfo?.mobileNumber,
                                             "advocateIdProof": [
                                                 {
                                                     "name": "OTHER",
@@ -505,10 +506,10 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                                             ]
                                         },
                                         "advocateBarRegNumberWithName": {
-                                            "advocateName": "Maruthi ch",
+                                            "advocateName": advoctaeusername,
                                             "barRegistrationNumber": "K/MARUTHI/TEST (Maruthi ch)",
                                             "isDisable": true,
-                                            "barRegistrationNumberOriginal": "K/MARUTHI/TEST",
+                                            "barRegistrationNumberOriginal": advocatebarregistration,
                                              "advocateId": advocateId,
                                             "advocateUuid": advocateuserUUID,
                                             "individualId": advocateIndividualId
