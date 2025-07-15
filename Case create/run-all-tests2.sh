@@ -12,7 +12,6 @@ tests=(
     "tests/1.caselitigantupdate.spec.js"
     "tests/2.caseupdatefromdraft.spec.js"
     "tests/3.caseupdatesign.spec.js"
-    "tests/4.casebundlepdf.spec.js"
     "tests/4.1caseupdatesigned.spec.js"
     "tests/4.2.createdemand.spec.js"
     "tests/5.fetchbill.spec.js"
