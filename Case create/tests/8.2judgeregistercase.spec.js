@@ -43,6 +43,7 @@ const representingli = globalVars.representingli;
 const advocateId = globalVars.advocateId;
 const judgeUserResponse = globalVars.judgeUserResponse;
 const citizenUserInfo = globalVars.citizenUserInfo;
+const litigentIndividualResponse = globalVars.litigentIndividualResponse;
 
 // Extract litigant individual details
 const litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
@@ -348,7 +349,14 @@ test.describe('Judge Register Case API Tests', () => {
                 "isActive": true,
                 "isResponseRequired": false,
                 "isPartyInPerson": false,
-                "documents": [],
+                "documents": [
+                    {
+                        "fileStore": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
+                        "fileName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                        "documentName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename || "AADHAR",
+                        "documentType": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType || "COMPLAINANT_ID_PROOF"
+                    }
+                ],
                 "auditDetails": {
                     "createdBy": citizenUserInfo?.uuid ,
                     "lastModifiedBy": citizenUserInfo?.uuid ,
@@ -500,6 +508,14 @@ test.describe('Judge Register Case API Tests', () => {
                 "documentName": "7 Proof of Delivery of Legal Notice - 9_10_2024 (1).png",
                 "fileName": "VAKALATNAMA",
                 "id": "91dd7501-0962-4848-99fa-65aecf8469b9"
+            },
+            {
+                "id": "15a30e89-2b98-404e-b693-12074a59586f",
+                "documentType": "case.complaint.signed",
+                "fileStore": globalVars.UATfilestore["case.complaint.signed"],
+                "documentUid": null,
+                "isActive": true,
+                "additionalDetails": null
             }
         ],
         "remarks": null,
@@ -527,7 +543,7 @@ test.describe('Judge Register Case API Tests', () => {
                                                 {
                                                     "name": "OTHER",
                                                     "fileName": "ID Proof",
-                                                     "fileStore": globalVars.UATfilestore["OTHER"],
+                                                     "fileStore": globalVars.UATfilestore["COMPLAINANT_ID_PROOF"],
                                                     "documentName": "downloadedFile (15).pdf"
                                                 }
                                             ]
@@ -702,9 +718,10 @@ test.describe('Judge Register Case API Tests', () => {
                                     },
                                     "document": [
                                         {
-                                            "fileName": "AADHAR",
-                                           "fileStore": globalVars.UATfilestore["OTHER"],
-                                            "documentName": "adhaar.jpg"
+                                            "fileStore": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
+                                            "fileName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                                            "documentName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename || "AADHAR",
+                                            "documentType": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType || "COMPLAINANT_ID_PROOF"
                                         }
                                     ],
                                     "individualId": litigentIndividualId,

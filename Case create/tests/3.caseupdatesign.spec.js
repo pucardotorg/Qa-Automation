@@ -47,6 +47,7 @@ const lastName = litigentIndividual?.name?.familyName || '';
 const litigentIndividualId = globalVars.litigentIndividualId;
 const litigentuserinfo = globalVars.litigentuserinfo;
 const litigentuuid = globalVars.litigentuuid;
+const litigentIndividualResponse = globalVars.litigentIndividualResponse;
 
 // Extract advocate details
 const advocateuserUUID = globalVars.advocateuserUUID;
@@ -307,7 +308,14 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                 "isActive": true,
                 "isResponseRequired": false,
                 "isPartyInPerson": false,
-                "documents": [],
+                "documents": [
+                    {
+                        "fileStore": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
+                        "fileName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                        "documentName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename || "AADHAR",
+                        "documentType": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType || "COMPLAINANT_ID_PROOF"
+                    }
+                ],
                 "auditDetails": {
                     "createdBy": citizenUUID,
                     "lastModifiedBy": citizenUUID,
@@ -490,7 +498,7 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                                             "advocateIdProof": [
                                                 {
                                                     "name": "OTHER",
-                                                    "fileStore": globalVars.UATfilestore["OTHER"],
+                                                    "fileStore": globalVars.UATfilestore["COMPLAINANT_ID_PROOF"],
                                                     "documentName": "downloadedFile (15).pdf",
                                                     "fileName": "ID Proof"
                                                 }
@@ -668,10 +676,10 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                                     "userUuid": litigentuuid,
                                     "document": [
                                         {
-                                             "fileStore": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
-                "fileName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
-                "documentName": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
-                "documentType": JSON.parse(globalVars.litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType
+                                            "fileStore": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').fileStoreId,
+                                            "fileName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename,
+                                            "documentName": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').filename || "AADHAR",
+                                            "documentType": JSON.parse(litigentIndividualResponse?.Individual?.[0]?.additionalFields?.fields?.find(f => f.key === 'identifierIdDetails')?.value || '{}').documentType || "COMPLAINANT_ID_PROOF"
                                         }
                                     ]
                                 },
