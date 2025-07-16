@@ -544,7 +544,7 @@ test.describe('Judge Register Case API Tests', () => {
                                                 {
                                                     "name": "OTHER",
                                                     "fileName": "ID Proof",
-                                                     "fileStore": globalVars.UATfilestore["COMPLAINANT_ID_PROOF"],
+                                                     "fileStore":  globalVars.advocateidproof,
                                                     "documentName": "downloadedFile (15).pdf"
                                                 }
                                             ]

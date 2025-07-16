@@ -499,7 +499,7 @@ test.describe('API Tests for caseupdatewithsign endpoint', () => {
                                             "advocateIdProof": [
                                                 {
                                                     "name": "OTHER",
-                                                    "fileStore": globalVars.UATfilestore["COMPLAINANT_ID_PROOF"],
+                                                    "fileStore":  globalVars.advocateidproof,
                                                     "documentName": "downloadedFile (15).pdf",
                                                     "fileName": "ID Proof"
                                                 }

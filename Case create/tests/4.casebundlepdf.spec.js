@@ -526,7 +526,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                                 {
                                                     "name": "OTHER",
                                                     "fileName": "ID Proof",
-                                                    "fileStore": globalVars.UATfilestore["OTHER"],
+                                                    "fileStore":  globalVars.advocateidproof,
                                                     "documentName": "downloadedFile (15).pdf"
                                                 }
                                             ]

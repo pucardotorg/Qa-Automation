@@ -58,15 +58,17 @@ test('Advocate search and store details', async ({ request }) => {
   const advocate = responseBody.advocates?.[0]?.responseList?.[0];
   const username = advocate?.additionalDetails?.username;
   const barRegistrationNumber = advocate?.barRegistrationNumber;
-
+  const advocateIdProof = advocate?.documents?.[0]?.fileStore;
   console.log('username:', username);
   console.log('barRegistrationNumber:', barRegistrationNumber);
+  console.log('advocateIdProof:', advocateIdProof);
 
   expect(username).toBeTruthy();
   expect(barRegistrationNumber).toBeTruthy();
-
+  expect(advocateIdProof).toBeTruthy(); 
   // Store in global variables
   globalVars.advocateusername = username;
   globalVars.advocatebarregistration = barRegistrationNumber;
+  globalVars.advocateidproof = advocateIdProof;
   fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2), 'utf8');
 });

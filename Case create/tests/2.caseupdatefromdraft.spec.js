@@ -472,7 +472,7 @@ const validRequestBody = {
                                             "advocateIdProof": [
                                                 {
                                                     "name": "OTHER",
-                                                    "fileStore": globalVars.UATfilestore["OTHER"],
+                                                    "fileStore": globalVars.advocateidproof,
                                                     "documentName": "downloadedFile (15).pdf",
                                                     "fileName": "ID Proof"
                                                 }
