@@ -8,10 +8,10 @@ export default defineConfig({
   
   forbidOnly: !!process.env.CI,
   
-  retries: process.env.CI ? 2 : 0,
-  
-  workers: process.env.CI ? 1 : undefined,
-  
+  retries: 1,
+
+  workers: 1,
+
   reporter: 'html',
   
   use: {
@@ -20,15 +20,20 @@ export default defineConfig({
     launchOptions: {
       slowMo: 1000,  // Slow down execution by 1000ms
     },
-    trace: 'on-first-retry',
+    trace: 'on-first-retry',    
   },
 
   
-  projects: [
+ projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      workers: 1
+ 
     },
+ 
+ 
+
 
   
 
