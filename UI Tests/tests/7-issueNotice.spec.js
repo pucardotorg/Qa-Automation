@@ -1,17 +1,18 @@
 import { test, expect } from '@playwright/test';
+import globalVars from '../global-variables.json';
 
-test('test', async ({ page }) => {
-  await page.goto('https://dristi-kerala-uat.pucar.org/ui/employee/user/login');
+test('Issue Notice Test', async ({ page }) => {
+  await page.goto(`${globalVars.baseURL}ui/employee/user/login`);
   await page.locator('input[name="username"]').click();
-  await page.locator('input[name="username"]').fill('michaelGeorgeJudge');
+  await page.locator('input[name="username"]').fill(globalVars.judgeUsername);
   await page.locator('input[name="password"]').click();
-  await page.locator('input[name="password"]').fill('Beehyv@123');
+  await page.locator('input[name="password"]').fill(globalVars.judgePassword);
   await page.waitForTimeout(1000);
   await page.getByRole('button').click();
   await page.waitForTimeout(1000);
   await page.getByRole('link', { name: 'All Cases' }).click();
   await page.waitForTimeout(1000);
-  await page.getByRole('cell', { name: 'GURU TEST vs Test' }).click();
+  await page.getByRole('cell', { name: globalVars.cmpNumber }).click();
   await page.waitForTimeout(1000);
   await page.getByRole('button', { name: 'Take Action' }).click();
   await page.waitForTimeout(1000);

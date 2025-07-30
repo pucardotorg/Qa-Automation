@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import globalVars from '../global-variables.json';
 
-test('Nm Login Test', async ({ page }) => {
+test('JOIN CASE PAYMENT', async ({ page }) => {
   // Navigate to the employee login page
   console.log('Navigating to Nm login page...');
   await page.goto(globalVars.baseURL + 'ui/employee/user/login');
@@ -37,9 +37,10 @@ test('Nm Login Test', async ({ page }) => {
   // 
   await page.getByRole('button').filter({ hasText: 'View Pending Payments' }).click();
   await page.locator('input[name="caseTitleFilingNumber"]').click();
-  await page.locator('input[name="caseTitleFilingNumber"]').fill(globalVars.filingNumber);
+  await page.locator('input[name="caseTitleFilingNumber"]').fill(globalVars.cmpNumber);
   await page.getByRole('button').filter({ hasText: 'Search' }).click();
-  await page.getByRole('link', { name: `${globalVars.filingNumber}` }).click();
+  await page.waitForTimeout(2000);
+  await page.getByRole('link', { name: `${globalVars.cmpNumber}` }).click();
   await page.locator('div').filter({ hasText: /^Mode of Payment$/ }).locator('path').nth(1).click();
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Stamp' }).click();
   await page.waitForTimeout(5000);

@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
+import globalVars from '../global-variables.json';
 
 test('FSO Login Test', async ({ page }) => {
   // Navigate to the employee login page
   console.log('Navigating to FSO login page...');
-  await page.goto('https://dristi-kerala-uat.pucar.org/ui/employee/user/login');
+  await page.goto(globalVars.baseURL + 'ui/employee/user/login');
   await page.waitForLoadState('networkidle');
 
   // Verify the page title
@@ -14,14 +15,14 @@ test('FSO Login Test', async ({ page }) => {
   console.log('Entering username...');
   const usernameInput = page.locator('input[name="username"]');
   await expect(usernameInput).toBeVisible({ timeout: 10000 });
-  await usernameInput.fill('michaelGeorgeFso');
-  console.log('Entered username: michaelGeorgeFso');
+  await usernameInput.fill(globalVars.fsoUsername);
+  console.log('Entered username:', globalVars.fsoUsername);
 
   // Enter password
   console.log('Entering password...');
   const passwordInput = page.locator('input[name="password"]');
   await expect(passwordInput).toBeVisible({ timeout: 10000 });
-  await passwordInput.fill('Beehyv@123');
+  await passwordInput.fill(globalVars.fsoPassword);
   console.log('Entered password');
 
   // Click Continue button
@@ -46,7 +47,7 @@ test('FSO Login Test', async ({ page }) => {
   console.log('Searching for case...');
   
   // Set the case ID to search for
-  const caseId = 'KL-002283-2025';
+  const caseId = globalVars.filingNumber;
 
   // Wait for the page to be fully loaded
   await page.waitForLoadState('networkidle');
@@ -54,7 +55,6 @@ test('FSO Login Test', async ({ page }) => {
 
   // Find and fill the Case Name or ID field using updated XPath
   const caseNameField = page.locator('xpath=//*[@id="root"]/div/div/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/div/div[1]/div[1]/div[2]/form/div/div/div[4]/div/input');
-  
   await expect(caseNameField).toBeVisible({ timeout: 10000 });
   console.log('Found Case Name or ID field, entering case ID...');
   await caseNameField.type(caseId);
@@ -98,14 +98,17 @@ test('FSO Login Test', async ({ page }) => {
   await expect(commentInput).toBeVisible({ timeout: 10000 });
   await commentInput.fill('FSO comments');
   console.log('Entered FSO comments');
-
+  await page.waitForTimeout(2000);
   // Click the 'Confirm' button in the popup
   const confirmButton = page.getByRole('button', { name: /Confirm/i }).or(
     page.locator('button:has-text("Confirm")')
   );
+  await page.waitForTimeout(2000);
+
   await expect(confirmButton).toBeVisible({ timeout: 10000 });
   await confirmButton.click();
   console.log('Clicked Confirm button in popup');
+  await page.waitForTimeout(2000);
 
   // Log completion
   console.log('Test completed');

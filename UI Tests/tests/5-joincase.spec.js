@@ -1,14 +1,16 @@
 import { test, expect } from '@playwright/test';
 import path from 'path';
+import fs from 'fs';
 
+const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+let globalVariables = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
+test('Join Case Test', async ({ page }) => {
 
-test('test', async ({ page }) => {
-
-  await page.goto('https://dristi-kerala-uat.pucar.org/ui/citizen/select-language');
+  await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
   await page.getByRole('button').click();
   await page.getByRole('textbox').click();
-  await page.getByRole('textbox').fill('8800000014');
+  await page.getByRole('textbox').fill(globalVariables.accusedADV);
   await page.waitForTimeout(1000);
   await page.getByRole('button').click();
   await page.locator('.input-otp').first().fill('1');
@@ -23,7 +25,7 @@ test('test', async ({ page }) => {
   await page.getByRole('button', { name: 'Join Case' }).click();
   await page.locator('input[name="caseNumber"]').click();
   await page.waitForTimeout(1000);
-  await page.locator('input[name="caseNumber"]').fill('KL-002131-2025');
+  await page.locator('input[name="caseNumber"]').fill(globalVariables.filingNumber);
   await page.waitForTimeout(1000);
   await page.getByRole('button', { name: 'Search' }).click();
   await page.waitForTimeout(1000);
@@ -34,7 +36,7 @@ test('test', async ({ page }) => {
   await page.locator('input[name="validationCode"]').click();
   await page.locator('input[name="validationCode"]').click();
   await page.waitForTimeout(1000);
-  await page.locator('input[name="validationCode"]').fill('737695');
+  await page.locator('input[name="validationCode"]').fill(globalVariables.accessCode);
   await page.waitForTimeout(1000);
   await page.getByRole('button', { name: 'Verify' }).click();
   await page.waitForTimeout(2000);
@@ -44,11 +46,11 @@ test('test', async ({ page }) => {
  await page.locator('div').filter({ hasText: /^Accused$/ }).getByRole('radio').check();
   await page.locator('div').filter({ hasText: /^No$/ }).getByRole('radio').check();
   await page.locator('div').filter({ hasText: /^Which litigant\(s\) are you representing\?$/ }).getByRole('textbox').click();
-  await page.locator('div').filter({ hasText: /^Accused One Automation Case$/ }).getByRole('checkbox').check();
+  await page.locator('div').filter({ hasText: new RegExp(`^${globalVariables.respondentFirstName}`) }).getByRole('checkbox').check();
   await page.locator('.select-user-join-case').click();
   await page.getByRole('button', { name: 'Proceed' }).click();
   await page.locator('input[name="mobileNumber"]').click();
-  await page.locator('input[name="mobileNumber"]').fill('7777777777');
+  await page.locator('input[name="mobileNumber"]').fill(globalVariables.accusedLitigant);  
   await page.locator('input[name="mobileNumber"]').press('Tab');
   await page.getByRole('button', { name: 'Verify Mobile Number' }).press('Enter');
   await page.getByRole('button', { name: 'Verify Mobile Number' }).click();
@@ -60,26 +62,12 @@ test('test', async ({ page }) => {
   await page.locator('input:nth-child(6)').fill('6');
   await page.getByRole('button', { name: 'Verify', exact: true }).click();
   await page.locator('input[name="noOfAdvocates"]').click();
-  await page.locator('input[name="noOfAdvocates"]').fill('1');
+  await page.locator('input[name="noOfAdvocates"]').fill(globalVariables.noOfAdvocates);
   await page.waitForTimeout(1000);
   await page.locator('input[type="file"]').setInputFiles("./Test.png");
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Proceed' }).click();
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(5000);
   
-  const page1Promise = page.waitForEvent('popup');
-  await page.getByRole('button', { name: 'Pay Online' }).click();
-  await page.waitForTimeout(1000);
-  const page1 = await page1Promise;
-  await page1.getByRole('link', { name: 'Payment Gateway 2 (UPI,Credit' }).click();
-
-  await page1.locator('#link2').click();
-
-  await page1.getByRole('button', { name: 'Proceed for Payment' }).click();
-  await page1.getByRole('button', { name: 'Ok' }).click();
-  await page1.locator('.mob-pay-ls-a').click({ timeout: 10000 });
-  await page1.getByRole('button', { name: 'Back Home' }).click();
-
-  await page1.getByRole('button', { name: 'Back Home' }).click();
 });
 

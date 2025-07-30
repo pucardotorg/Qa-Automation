@@ -1,23 +1,27 @@
 import { test, expect } from '@playwright/test';
+import globalVariables from '../global-variables.json';
+import fs from 'fs';
+import path from 'path';
+const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
 
 test('Register Case Test', async ({ page }) => {
   // Navigate to the employee login page
   console.log('Navigating to employee login page...');
-  await page.goto('https://dristi-kerala-uat.pucar.org/ui/employee/user/login');
+  await page.goto(`${globalVariables.baseURL}ui/employee/user/login`);
   await page.waitForLoadState('networkidle');
 
   // Enter username
   console.log('Entering username...');
   const usernameInput = page.locator('input[name="username"]');
   //await expect(usernameInput).toBeVisible({ timeout: 10000 });
-  await usernameInput.fill('michaelGeorgeJudge');
-  console.log('Entered username: michaelGeorgeJudge');
+  await usernameInput.fill(globalVariables.judgeUsername);
+  console.log(`Entered username: ${globalVariables.judgeUsername}`);
 
   // Enter password
   console.log('Entering password...');
   const passwordInput = page.locator('input[name="password"]');
   await expect(passwordInput).toBeVisible({ timeout: 10000 });
-  await passwordInput.fill('Beehyv@123');
+  await passwordInput.fill(globalVariables.judgePassword);
   console.log('Entered password');
 
   // Click Continue button
@@ -36,7 +40,7 @@ test('Register Case Test', async ({ page }) => {
   // click on "All Cases" button
   await page.getByRole('link', { name: 'All Cases' }).click();
   // Set the case ID to search for
-  const caseId = 'KL-002283-2025';
+  const caseId = globalVariables.filingNumber;
 
   // Wait for the page to be fully loaded
   await page.waitForLoadState('networkidle');
@@ -71,15 +75,52 @@ test('Register Case Test', async ({ page }) => {
   }
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(2000);
-
+  
   // Click on 'Register Case' button (update selector as needed)
   const registerCaseButton = page.getByRole('button', { name: /Register Case/i }).or(
     page.locator('button:has-text("Register Case")')
   );
   await expect(registerCaseButton).toBeVisible({ timeout: 10000 });
-  await registerCaseButton.click();
-  console.log('Clicked Register Case button');
+  await page.waitForTimeout(2000);
 
+  await registerCaseButton.click();
+  await page.waitForTimeout(2000);
+
+  console.log('Clicked Register Case button');
+  
+  await page.getByRole('button', { name: 'Schedule Hearing' }).click();
+  await page.getByText('Select Custom Date').click();
+  await page.getByRole('button').filter({ hasText: /^$/ }).click();
+  await page.getByRole('button', { name: '1', exact: true }).first().click();
+  await page.getByRole('button', { name: 'Confirm' }).click();
+  await page.getByRole('button').filter({ hasText: 'Generate Order' }).click();
+  await page.locator('div').filter({ hasText: /^Names Of Parties Required\*$/ }).getByRole('textbox').click();
+  await page.locator('div').filter({ hasText: /^AUTOMATION LIT \(Complainant\)$/ }).getByRole('checkbox').check();
+  await page.locator('div').filter({ hasText: new RegExp(`^${globalVariables.respondentFirstName} \\(Accused\\)$`) }).getByRole('checkbox').check();
+  await page.getByRole('textbox', { name: 'Type here' }).click();
+  await page.getByRole('textbox', { name: 'Type here' }).fill('TEST COMMENTS AUTOMATION');
+  await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
+  await page.getByRole('button', { name: 'Add Signature' }).click();
+  await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.locator('input[type="file"]').setInputFiles("./Test.png")
+  await page.getByRole('button', { name: 'Submit Signature' }).click();
+  await page.getByRole('button', { name: 'Issue Order' }).click();
+  await page.getByText('30/07/').click();
+  await page.locator('div:nth-child(5) > .popup-module > .header-wrap > .header-end > div > svg').click();
+
+  await page.waitForTimeout(1000);
+  const accessCodeElement = await page.locator('div.sub-details-text').filter({ hasText: 'Code: ' });
+  const accessCodeText = await accessCodeElement.textContent();
+  const accessCode = accessCodeText.match(/Code\s*:\s*(\d+)/)?.[1] || '';
+  console.log('Access Code:', accessCode);
+
+  const accessCodeElement2 = await page.locator('div.sub-details-text').filter({ hasText: 'CMP/' });
+  const cmpNumber = await accessCodeElement2.textContent();
+  console.log('CMP Number:', cmpNumber);
+  globalVariables.accessCode = accessCode;
+  globalVariables.cmpNumber = cmpNumber;
+  fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
+  
   // Wait for the new window with CMRNO and CMP NO fields
 //   const cmrNoField = page.locator('input[placeholder*="CMRNO" i], input[label*="CMRNO" i]');
 //   const cmpNoField = page.locator('input[placeholder*="CMP NO" i], input[label*="CMP NO" i]');
@@ -88,5 +129,5 @@ test('Register Case Test', async ({ page }) => {
 //   console.log('CMRNO and CMP NO fields are visible');
 
 //   // Log completion
-//   console.log('Register Case Test completed');
+  console.log('Register Case Test completed');
 }); 

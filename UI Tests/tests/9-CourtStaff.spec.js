@@ -1,17 +1,18 @@
 import { test, expect } from '@playwright/test';
+import globalVars from '../global-variables.json';
 
-test('test', async ({ page }) => {
-  await page.goto('https://dristi-kerala-uat.pucar.org/ui/employee/user/login');
+test('Court Staff Test', async ({ page }) => {
+  await page.goto(`${globalVars.baseURL}ui/employee/user/login`);
   await page.locator('input[name="username"]').click();
-  await page.locator('input[name="username"]').fill('michaelGeorgeCourt');
+  await page.locator('input[name="username"]').fill(globalVars.courtStaffUsername);
   await page.locator('input[name="password"]').click();
-  await page.locator('input[name="password"]').fill('Beehyv@123');
+  await page.locator('input[name="password"]').fill(globalVars.courtStaffPassword);
   await page.waitForTimeout(1000);
   await page.getByRole('button').click();
   await page.waitForTimeout(1000);
   await page.locator('.review-card-action-arrow > span > svg > path').click();
   await page.waitForTimeout(1000);
-  await page.getByRole('cell', { name: 'GURU TEST vs Test, CMP/2029/' }).first().click();
+  await page.getByRole('cell', { name: globalVars.cmpNumber }).first().click();
   await page.waitForTimeout(1000);
   await page.getByRole('button', { name: 'E-Sign' }).click();
   await page.waitForTimeout(1000);
@@ -24,6 +25,17 @@ test('test', async ({ page }) => {
   await page.getByRole('button', { name: 'Proceed to Send' }).click();
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Mark as sent' }).click();
+
+  await page.getByRole('button', { name: 'Sent', exact: true }).click();
+  await page.getByRole('cell', { name: globalVars.cmpNumber }).first().click();
+  await page.locator('input.employee-select-wrap--elipses.undefined').click();
+  await page.locator('#jk-dropdown-unique div').first().click();
   await page.waitForTimeout(2000);
+  await page.getByRole('button', { name: 'Update Status' }).click();
+  await page.waitForTimeout(2000);
+
+
+
+
   await page.close();
 });

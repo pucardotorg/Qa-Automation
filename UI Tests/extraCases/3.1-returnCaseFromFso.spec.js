@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
+import globalVars from '../../global-variables.json';
 
 test('Fso Login Test', async ({ page }) => {
   // Navigate to the employee login page
   console.log('Navigating to Fso login page...');
-  await page.goto('https://dristi-kerala-uat.pucar.org/ui/employee/user/login');
+  await page.goto(globalVars.baseURL + 'ui/employee/user/login');
   await page.waitForLoadState('networkidle');
 
   // Verify the page title
@@ -14,14 +15,14 @@ test('Fso Login Test', async ({ page }) => {
   console.log('Entering username...');
   const usernameInput = page.locator('input[name="username"]');
   await expect(usernameInput).toBeVisible({ timeout: 10000 });
-  await usernameInput.fill('michaelGeorgeFso');
-  console.log('Entered username: michaelGeorgeFso');
+  await usernameInput.fill(globalVars.fsoUsername);
+  console.log('Entered username:', globalVars.fsoUsername);
 
   // Enter password
   console.log('Entering password...');
   const passwordInput = page.locator('input[name="password"]');
   await expect(passwordInput).toBeVisible({ timeout: 10000 });
-  await passwordInput.fill('Beehyv@123');
+  await passwordInput.fill(globalVars.fsoPassword);
   console.log('Entered password');
 
   // Click Continue button
@@ -35,10 +36,10 @@ test('Fso Login Test', async ({ page }) => {
 
   // search case
   await page.locator('input[name="caseSearchText"]').click();
-  await page.locator('input[name="caseSearchText"]').fill('KL-002286-2025');
+  await page.locator('input[name="caseSearchText"]').fill(globalVars.filingNumber);
   await page.getByRole('button').filter({ hasText: 'Search' }).click();
   // name of the case
-  await page.getByRole('cell', { name: 'Iknoor vs Accused One' }).click();
+  await page.getByRole('cell', { name: `${globalVars.filingNumber}` }).click();
   await page.locator('div:nth-child(3) > .field > .accordion-wrapper > .accordion-item > .accordion-content > div > .item-body > div:nth-child(7) > .text > .flag > svg').click();
   await page.getByRole('textbox').click();
   await page.getByRole('textbox').fill('DEFECT1');
