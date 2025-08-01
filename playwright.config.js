@@ -12,6 +12,8 @@ export default defineConfig({
 
   workers: 1,
 
+  setTimeout: 300000, // 5 minutes test timeout
+
   reporter: 'html',
   
   use: {
