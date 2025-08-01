@@ -2,8 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 
-// Import global configuration
-const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+// Import global configurationconst globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 // Log the configuration values being used

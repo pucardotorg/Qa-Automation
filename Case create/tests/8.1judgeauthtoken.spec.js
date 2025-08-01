@@ -2,8 +2,7 @@ import { test, expect, request } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 require('dotenv').config();
-
-const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 const baseUrl = globalVars.baseURL;
 

@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// Read global variables
-const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+// Read global variablesconst globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 const { test, expect } = require('@playwright/test');

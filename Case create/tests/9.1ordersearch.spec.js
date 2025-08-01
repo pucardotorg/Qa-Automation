@@ -5,8 +5,7 @@ require('dotenv').config();
 
 test.describe('Order Search API', () => {
   let apiContext;
-let globalVars;
-const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+let globalVars;const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 
   // Import values from global config into variables
   let baseURL;

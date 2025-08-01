@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
-
-const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 // Import values from global config into variables

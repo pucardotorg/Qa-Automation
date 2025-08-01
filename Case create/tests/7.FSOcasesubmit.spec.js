@@ -2,8 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { test, expect } = require('@playwright/test');
 
-// Import global configuration
-const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+// Import global configurationconst globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 // Log the configuration values being used

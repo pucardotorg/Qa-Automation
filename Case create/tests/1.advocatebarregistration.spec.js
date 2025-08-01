@@ -2,8 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 
-// Load global variables
-const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
+// Load global variablesconst globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 // Set up dynamic values
