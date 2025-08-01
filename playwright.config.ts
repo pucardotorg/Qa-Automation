@@ -19,6 +19,7 @@ export default defineConfig({
     headless : false,
     launchOptions: {
       slowMo: 1000,  // Slow down execution by 1000ms
+      
     },
     trace: 'on-first-retry',
   },
@@ -28,6 +29,8 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      workers: 1
+
     },
 
   

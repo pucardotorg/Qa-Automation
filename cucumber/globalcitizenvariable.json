@@ -1,0 +1,276 @@
+{
+  "citizenAuthToken": "5fff054f-955d-446a-a86c-dc3b5facceeb",
+  "litigantUUID": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+  "litgantAuthToken": "d4d27970-65de-4ddc-b27a-55adf5ce92ed",
+  "baseURL": "https://dristi-kerala-uat.pucar.org/",
+  "citizenUserInfo": {
+    "id": 1181,
+    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+    "userName": "6303338642",
+    "name": "Maruthi  ch",
+    "mobileNumber": "6303338642",
+    "emailId": "marruthi@gmail.com",
+    "locale": null,
+    "type": "CITIZEN",
+    "roles": [
+      {
+        "name": "USER_REGISTER",
+        "code": "USER_REGISTER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_VIEWER",
+        "code": "CASE_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "HEARING_VIEWER",
+        "code": "HEARING_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "Citizen",
+        "code": "CITIZEN",
+        "tenantId": "kl"
+      },
+      {
+        "name": "BAIL_BOND_CREATOR",
+        "code": "BAIL_BOND_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_ROLE",
+        "code": "ADVOCATE_ROLE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "BAIL_BOND_VIEWER",
+        "code": "BAIL_BOND_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "APPLICATION_CREATOR",
+        "code": "APPLICATION_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "EVIDENCE_CREATOR",
+        "code": "EVIDENCE_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "EVIDENCE_EDITOR",
+        "code": "EVIDENCE_EDITOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "SUBMISSION_DELETE",
+        "code": "SUBMISSION_DELETE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "BAIL_BOND_EDITOR",
+        "code": "BAIL_BOND_EDITOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "HEARING_ACCEPTOR",
+        "code": "HEARING_ACCEPTOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ORDER_VIEWER",
+        "code": "ORDER_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "SUBMISSION_RESPONDER",
+        "code": "SUBMISSION_RESPONDER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_EDITOR",
+        "code": "CASE_EDITOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "EVIDENCE_VIEWER",
+        "code": "EVIDENCE_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_VIEWER",
+        "code": "ADVOCATE_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "APPLICATION_VIEWER",
+        "code": "APPLICATION_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "SUBMISSION_CREATOR",
+        "code": "SUBMISSION_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "TASK_VIEWER",
+        "code": "TASK_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "ADVOCATE_APPLICATION_VIEWER",
+        "code": "ADVOCATE_APPLICATION_VIEWER",
+        "tenantId": "kl"
+      },
+      {
+        "name": "CASE_CREATOR",
+        "code": "CASE_CREATOR",
+        "tenantId": "kl"
+      },
+      {
+        "name": "PENDING_TASK_CREATOR",
+        "code": "PENDING_TASK_CREATOR",
+        "tenantId": "kl"
+      }
+    ],
+    "active": true,
+    "tenantId": "kl",
+    "permanentCity": null
+  },
+  "litigentIndividualResponse": {
+    "access_token": "d4d27970-65de-4ddc-b27a-55adf5ce92ed",
+    "token_type": "bearer",
+    "refresh_token": "252328c7-ac96-4ce1-a873-8d730e294569",
+    "expires_in": 586310,
+    "scope": "read",
+    "ResponseInfo": {
+      "api_id": "",
+      "ver": "",
+      "ts": "",
+      "res_msg_id": "",
+      "msg_id": "",
+      "status": "Access Token generated successfully"
+    },
+    "UserRequest": {
+      "id": 868,
+      "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c",
+      "userName": "9032273758",
+      "name": "rajesh  ch",
+      "mobileNumber": "9032273758",
+      "emailId": null,
+      "locale": null,
+      "type": "CITIZEN",
+      "roles": [
+        {
+          "name": "CASE_VIEWER",
+          "code": "CASE_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_VIEWER",
+          "code": "HEARING_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "Citizen",
+          "code": "CITIZEN",
+          "tenantId": "kl"
+        },
+        {
+          "name": "BAIL_BOND_CREATOR",
+          "code": "BAIL_BOND_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "BAIL_BOND_VIEWER",
+          "code": "BAIL_BOND_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "APPLICATION_CREATOR",
+          "code": "APPLICATION_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "EVIDENCE_CREATOR",
+          "code": "EVIDENCE_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "EVIDENCE_EDITOR",
+          "code": "EVIDENCE_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SUBMISSION_DELETE",
+          "code": "SUBMISSION_DELETE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "BAIL_BOND_EDITOR",
+          "code": "BAIL_BOND_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_ACCEPTOR",
+          "code": "HEARING_ACCEPTOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_VIEWER",
+          "code": "ORDER_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SUBMISSION_RESPONDER",
+          "code": "SUBMISSION_RESPONDER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CASE_EDITOR",
+          "code": "CASE_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "EVIDENCE_VIEWER",
+          "code": "EVIDENCE_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ADVOCATE_VIEWER",
+          "code": "ADVOCATE_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "APPLICATION_VIEWER",
+          "code": "APPLICATION_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SUBMISSION_CREATOR",
+          "code": "SUBMISSION_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "TASK_VIEWER",
+          "code": "TASK_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CASE_CREATOR",
+          "code": "CASE_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "PENDING_TASK_CREATOR",
+          "code": "PENDING_TASK_CREATOR",
+          "tenantId": "kl"
+        }
+      ],
+      "active": true,
+      "tenantId": "kl",
+      "permanentCity": null
+    }
+  }
+}

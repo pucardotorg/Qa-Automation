@@ -992,14 +992,14 @@
   "advocateidproof": "faefafd2-24fc-4c63-8681-d9df33a9d253",
   "advocateusername": "AdvocateOne",
   "advocatebarregistration": "12345679999999999999",
-  "citizenAuthToken": "f3ca130a-324b-41dd-a4ea-d181c6629e5a",
+  "citizenAuthToken": "5fff054f-955d-446a-a86c-dc3b5facceeb",
   "citizenUserInfo": {
-    "id": 1979,
-    "uuid": "0e981cc9-1c0c-4409-9850-131f79128862",
-    "userName": "9628624655",
-    "name": "AdvocateOne  ",
-    "mobileNumber": "9628624655",
-    "emailId": "Adv@gmail.com",
+    "id": 1181,
+    "uuid": "5ba50f9a-56eb-4bee-8ae3-ee90dfb59c0f",
+    "userName": "6303338642",
+    "name": "Maruthi  ch",
+    "mobileNumber": "6303338642",
+    "emailId": "marruthi@gmail.com",
     "locale": null,
     "type": "CITIZEN",
     "roles": [
@@ -1024,8 +1024,18 @@
         "tenantId": "kl"
       },
       {
+        "name": "BAIL_BOND_CREATOR",
+        "code": "BAIL_BOND_CREATOR",
+        "tenantId": "kl"
+      },
+      {
         "name": "ADVOCATE_ROLE",
         "code": "ADVOCATE_ROLE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "BAIL_BOND_VIEWER",
+        "code": "BAIL_BOND_VIEWER",
         "tenantId": "kl"
       },
       {
@@ -1046,6 +1056,11 @@
       {
         "name": "SUBMISSION_DELETE",
         "code": "SUBMISSION_DELETE",
+        "tenantId": "kl"
+      },
+      {
+        "name": "BAIL_BOND_EDITOR",
+        "code": "BAIL_BOND_EDITOR",
         "tenantId": "kl"
       },
       {
