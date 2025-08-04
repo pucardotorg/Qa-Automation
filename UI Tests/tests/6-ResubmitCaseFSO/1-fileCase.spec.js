@@ -258,7 +258,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
   // review and sign
-
+await page.waitForTimeout(2000);
   await page.locator(".header-end > div > svg > path:nth-child(2)").click();
   await page.getByRole("button").filter({ hasText: "Confirm Details" }).click();
   await page.getByRole("checkbox").check();
@@ -291,5 +291,5 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .innerText();
   globalVariables.filingNumber = filingNumber;
   fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(3000);
 });
