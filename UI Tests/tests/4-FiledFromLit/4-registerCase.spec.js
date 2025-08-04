@@ -128,8 +128,11 @@ test("Register Case Test", async ({ page }) => {
   await page
     .getByRole("button", { name: "Upload Order Document with" })
     .click();
+    await page.waitForTimeout(2000);
   await page.locator('input[type="file"]').setInputFiles("./Test.png");
+  await page.waitForTimeout(2000);
   await page.getByRole("button", { name: "Submit Signature" }).click();
+  await page.waitForTimeout(2000);
   await page.getByRole("button", { name: "Issue Order" }).click();
 
   await page
