@@ -276,12 +276,11 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
 
   // Save the file to the defined path2
   await download.saveAs(projectDownloadPath);
-   console.log(`File downloaded and saved to: ${projectDownloadPath}`);
+  console.log(`File downloaded and saved to: ${projectDownloadPath}`);
   await page.getByRole("button", { name: "Upload Signed PDF" }).click();
-
-  // filePath = path.resolve(__dirname, './Test.png');
-
   await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+  
+  
   await page.getByRole("button", { name: "Submit Signature" }).click();
   await page.getByRole("button").filter({ hasText: "Submit Case" }).click();
   const filingNumber = await page

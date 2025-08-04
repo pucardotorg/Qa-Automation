@@ -424,17 +424,32 @@ test('Citizen Case Filing Test', async ({ page }) => {
   await uploadSignedButton.click();
   await page.waitForTimeout(2000);
 
-  // Click Upload Signed PDF
-  const uploadPDFButton = page.getByText('Upload Signed PDF');
-  await expect(uploadPDFButton).toBeVisible({ timeout: 15000 });
-  await uploadPDFButton.click();
-  await page.waitForTimeout(2000);
+  const downloadPromise = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+    //const download = await downloadPromise;
+    const [ download ] = await Promise.all([
+      page.waitForEvent('download'), // wait for the download trigger
+      page.click('text=Download PDF'), // replace with your selector
+    ]);
+    const projectDownloadPath = path.join(__dirname, 'downloads', await download.suggestedFilename());
+  
+    // Save the file to the defined path2
+    await download.saveAs(projectDownloadPath);
+    console.log(`File downloaded and saved to: ${projectDownloadPath}`);
+    await page.getByRole("button", { name: "Upload Signed PDF" }).click();
+    await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
 
-  // Upload signed PDF
-  const signedPDFInput = page.locator('input[type="file"]').first();
-  await expect(signedPDFInput).toBeVisible({ timeout: 15000 });
-  await signedPDFInput.setInputFiles(filePath);
-  await page.waitForTimeout(2000);
+  // Click Upload Signed PDF
+  // const uploadPDFButton = page.getByText('Upload Signed PDF');
+  // await expect(uploadPDFButton).toBeVisible({ timeout: 15000 });
+  // await uploadPDFButton.click();
+  // await page.waitForTimeout(2000);
+
+  // // Upload signed PDF
+  // const signedPDFInput = page.locator('input[type="file"]').first();
+  // await expect(signedPDFInput).toBeVisible({ timeout: 15000 });
+  // await signedPDFInput.setInputFiles(filePath);
+  // await page.waitForTimeout(2000);
 
   // Click Submit Signature
   const submitSignatureButton = page.getByRole('heading', { name: 'Submit Signature' });

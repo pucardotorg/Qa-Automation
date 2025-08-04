@@ -202,8 +202,26 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   await page.waitForTimeout(2000);
   await page.getByRole('checkbox').check();
   await page.getByRole('button', { name: 'Upload Signed copy' }).click();
-  await page.getByRole('button', { name: 'Upload Signed PDF' }).click();
-  await page.locator('input[type="file"]').first().setInputFiles(filePath);
+
+  const downloadPromise = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+    //const download = await downloadPromise;
+    const [ download ] = await Promise.all([
+      page.waitForEvent('download'), // wait for the download trigger
+      page.click('text=Download PDF'), // replace with your selector
+    ]);
+    const projectDownloadPath = path.join(__dirname, 'downloads', await download.suggestedFilename());
+  
+    // Save the file to the defined path2
+    await download.saveAs(projectDownloadPath);
+    console.log(`File downloaded and saved to: ${projectDownloadPath}`);
+    await page.getByRole("button", { name: "Upload Signed PDF" }).click();
+    await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+
+
+
+  // await page.getByRole('button', { name: 'Upload Signed PDF' }).click();
+  // await page.locator('input[type="file"]').first().setInputFiles(filePath);
   await page.getByRole('button', { name: 'Submit Signature' }).click();
   await page.getByRole('button').filter({ hasText: 'Submit Case' }).click();
     const filingNumber = await page
