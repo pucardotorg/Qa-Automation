@@ -101,7 +101,8 @@ test('Register Case Test', async ({ page }) => {
   await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
   await page.getByRole('button', { name: 'Add Signature' }).click();
   await page.getByRole('button', { name: 'Upload Order Document with' }).click();
-  await page.locator('input[type="file"]').setInputFiles("./Test.png")
+  await page.locator('input[type="file"]').setInputFiles("./Test.png");
+   await page.waitForTimeout(1000);
   await page.getByRole('button', { name: 'Submit Signature' }).click();
   await page.getByRole('button', { name: 'Issue Order' }).click();
   

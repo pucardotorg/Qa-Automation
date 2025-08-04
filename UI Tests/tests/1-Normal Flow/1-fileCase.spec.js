@@ -262,12 +262,26 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.locator(".header-end > div > svg > path:nth-child(2)").click();
   await page.getByRole("button").filter({ hasText: "Confirm Details" }).click();
   await page.getByRole("checkbox").check();
+
   await page.getByRole("button", { name: "Upload Signed copy" }).click();
+  
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Download PDF' }).click();
+  //const download = await downloadPromise;
+  const [ download ] = await Promise.all([
+    page.waitForEvent('download'), // wait for the download trigger
+    page.click('text=Download PDF'), // replace with your selector
+  ]);
+  const projectDownloadPath = path.join(__dirname, 'downloads', await download.suggestedFilename());
+
+  // Save the file to the defined path
+  await download.saveAs(projectDownloadPath);
+   console.log(`File downloaded and saved to: ${projectDownloadPath}`);
   await page.getByRole("button", { name: "Upload Signed PDF" }).click();
 
   // filePath = path.resolve(__dirname, './Test.png');
 
-  await page.locator('input[type="file"]').first().setInputFiles(filePath);
+  await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
   await page.getByRole("button", { name: "Submit Signature" }).click();
   await page.getByRole("button").filter({ hasText: "Submit Case" }).click();
   const filingNumber = await page
