@@ -274,7 +274,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   ]);
   const projectDownloadPath = path.join(__dirname, 'downloads', await download.suggestedFilename());
 
-  // Save the file to the defined path
+  // Save the file to the defined path2
   await download.saveAs(projectDownloadPath);
    console.log(`File downloaded and saved to: ${projectDownloadPath}`);
   await page.getByRole("button", { name: "Upload Signed PDF" }).click();
