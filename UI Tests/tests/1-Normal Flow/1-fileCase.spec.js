@@ -120,17 +120,24 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
 
   // cheque details
 
-  await page.locator('input[name="chequeSignatoryName"]').click();
-  await page
-    .locator('input[name="chequeSignatoryName"]')
-    .fill(globalVariables.chequeSignatoryName);
+ await page.locator('input[name="chequeSignatoryName"]').click();
+  //await page
+ //   .locator('input[name="chequeSignatoryName"]')
+   // .fill(globalVariables.chequeSignatoryName);
   // Assuming the file input exists (even if hidden)
-  const fileInput = await page.$('input[type="file"]');
-  // Path to the file you want to upload
+  //const fileInput = await page.$('input[type="file"]');
+  //Path to the file you want to upload
   const filePath = path.resolve(__dirname, "./Test.png");
-
+ // await page.locator('input[name="chequeSignatoryName"]').click();
+  await page
+   .locator('input[name="chequeSignatoryName"]')
+  .fill(globalVariables.chequeSignatoryName);
+  // Assuming the file input exists (even if hidden)
+ const fileInput = await page.$('input[type="file"]');
+  // Path to the file you want to upload
+  const chequeSignatoryName = path.resolve(__dirname, "./Testimages/1. Cheque - 15_09_2024.png"); // Updated file path // Updated file path
   // Upload the file
-  await fileInput.setInputFiles(filePath);
+  await fileInput.setInputFiles(chequeSignatoryName);
   //   await page.getByText('Browse in my files').first().click();
   //   await page.locator('input[type="file"]').setInputFiles('/home/beehyv/Pictures/Screenshots/automate_image.png');
   await page.locator('input[name="name"]').click();
@@ -185,7 +192,8 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .getByRole("textbox")
     .fill(globalVariables.reasonForReturnOfCheque);
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.locator('input[type="file"]').last().setInputFiles(filePath); // Change index as needed
+  const reasonForReturnOfCheque = path.resolve(__dirname, "./Testimages/1. Cheque - 15_09_2024.png");
+  await page.locator('input[type="file"]').last().setInputFiles(reasonForReturnOfCheque); // Change index as needed
 
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
@@ -208,8 +216,10 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page
     .locator('input[name="dateOfDispatch"]')
     .fill(globalVariables.dateOfDispatch);
-  await page.locator('input[type="file"]').first().setInputFiles(filePath);
-  await page.locator('input[type="file"]').nth(2).setInputFiles(filePath);
+    const dateOfDispatch = path.resolve(__dirname, "./Testimages/2.chequereturnmemeo.png");
+    await page.locator('input[type="file"]').first().setInputFiles(dateOfDispatch);
+    const Legalnotice = path.resolve(__dirname, "./Testimages/5.LegalNotice.pdf");
+  await page.locator('input[type="file"]').nth(2).setInputFiles(Legalnotice);
   await page
     .locator('input[name="dateOfService"]')
     .fill(globalVariables.dateOfService);
@@ -219,7 +229,8 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .getByRole("radio")
     .check();
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
-  await page.locator('input[type="file"]').last().setInputFiles(filePath);
+
+  await page.locator('input[type="file"]').last().setInputFiles(dateOfDispatch);
 
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
@@ -245,7 +256,8 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
 
   await page.getByRole("textbox", { name: "rdw-editor" }).click();
   await page.getByRole("textbox", { name: "rdw-editor" }).fill("test");
-  await page.locator('input[type="file"]').first().setInputFiles(filePath);
+  const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
+  await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
   await page.getByRole("textbox").nth(1).click();
   await page.getByRole("textbox").nth(1).fill("test");
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
@@ -254,7 +266,8 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
 
   await page.getByRole("textbox").first().click();
   await page.getByRole("textbox").first().fill(globalVariables.noOfAdvocates);
-  await page.locator('input[type="file"]').first().setInputFiles(filePath);
+  const vakalatnama = path.resolve(__dirname, "./Testimages/Vakalatnama.png");
+  await page.locator('input[type="file"]').first().setInputFiles(vakalatnama);
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
   // review and sign
@@ -262,27 +275,29 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.locator(".header-end > div > svg > path:nth-child(2)").click();
   await page.getByRole("button").filter({ hasText: "Confirm Details" }).click();
   await page.getByRole("checkbox").check();
-
+    
   await page.getByRole("button", { name: "Upload Signed copy" }).click();
-  
   const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Download PDF' }).click();
-  //const download = await downloadPromise;
-  const [ download ] = await Promise.all([
-    page.waitForEvent('download'), // wait for the download trigger
-    page.click('text=Download PDF'), // replace with your selector
-  ]);
-  const projectDownloadPath = path.join(__dirname, 'downloads', await download.suggestedFilename());
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+    //const download = await downloadPromise;
+    const [ download ] = await Promise.all([
+      page.waitForEvent('download'), // wait for the download trigger
+      page.click('text=Download PDF'), // replace with your selector
+    ]);
+    const projectDownloadPath = path.join(__dirname, 'downloads', await download.suggestedFilename());
+  
+    // Save the file to the defined path2
+    await download.saveAs(projectDownloadPath);
+    console.log(`File downloaded and saved to: ${projectDownloadPath}`);
+    await page.getByRole("button", { name: "Upload Signed PDF" }).click();
+    await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
 
-  // Save the file to the defined path2
-  await download.saveAs(projectDownloadPath);
-  console.log(`File downloaded and saved to: ${projectDownloadPath}`);
-  await page.getByRole("button", { name: "Upload Signed PDF" }).click();
-  await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
-  
-  
+  // await page.getByRole("button", { name: "Upload Signed PDF" }).click();
+  // await page.locator('input[type="file"]').first().setInputFiles(filePath);
   await page.getByRole("button", { name: "Submit Signature" }).click();
   await page.getByRole("button").filter({ hasText: "Submit Case" }).click();
+
+
   const filingNumber = await page
     .locator("span.e-filing-table-value-style")
     .innerText();

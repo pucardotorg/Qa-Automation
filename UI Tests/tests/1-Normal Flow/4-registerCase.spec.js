@@ -102,18 +102,17 @@ test('Register Case Test', async ({ page }) => {
   await page.getByRole('button', { name: 'Add Signature' }).click();
   await page.getByRole('button', { name: 'Upload Order Document with' }).click();
   await page.locator('input[type="file"]').setInputFiles("./Test.png");
-   await page.waitForTimeout(3000);
+  await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'Submit Signature' }).click();
+  await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'Issue Order' }).click();
-  
+  await page.waitForTimeout(3000);
   await page.locator('div:nth-child(5) > .popup-module > .header-wrap > .header-end > div > svg').click();
-
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(3000);
   const accessCodeElement = await page.locator('div.sub-details-text').filter({ hasText: 'Code: ' });
   const accessCodeText = await accessCodeElement.textContent();
   const accessCode = accessCodeText.match(/Code\s*:\s*(\d+)/)?.[1] || '';
   console.log('Access Code:', accessCode);
-
   const accessCodeElement2 = await page.locator('div.sub-details-text').filter({ hasText: 'CMP/' });
   const cmpNumber = await accessCodeElement2.textContent();
   console.log('CMP Number:', cmpNumber);
