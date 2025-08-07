@@ -22,14 +22,14 @@
   "advocateIndividualId": "IND-2025-07-15-000379",
   "demandId": "98b76520-8da1-415b-a3e8-e957030370ef",
   "billId": "370c9d9f-cc53-4c9c-a7bd-8fe89db655d2",
-  "epochTime": 1753164105885,
+  "epochTime": 1754578869091,
   "representingid": "a46487a1-7d4f-4e6c-b708-a7d0a789b69f",
   "litigantid": "c9a8c0d9-18da-4312-b2f4-1233ff4c45f2",
   "representingli": "70148a65-01fb-4fbe-9348-db5d9beae18f",
   "artifactId": "f6e1b510-8ed2-4058-94e1-537b4179f605",
   "artifactNumber": "KL-001822-2025-AR6",
   "advocateId": "c8a7ce2c-1870-453e-b7fd-88b2bd904d8a",
-    "UATfilestore": {
+  "UATfilestore": {
     "case.cheque": "a359d3d8-faf1-4501-b3e1-d5a6ff82d453",
     "case.cheque.returnmemo": "a359d3d8-faf1-4501-b3e1-d5a6ff82d453",
     "case.liabilityproof": "a359d3d8-faf1-4501-b3e1-d5a6ff82d453",
@@ -1007,7 +1007,7 @@
     "dob": null,
     "pwdExpiryDate": "13-10-2025 13:22:24"
   },
-  "citizenAuthToken": "e35a89f5-fe4c-4192-88c4-efe51c9164d2",
+  "citizenAuthToken": "06ed706a-7c9e-4076-b75a-ce53cfac80af",
   "citizenUserInfo": {
     "id": 2692,
     "uuid": "fc052323-d450-4549-aad5-2e7d7b944453",
