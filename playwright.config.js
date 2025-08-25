@@ -27,7 +27,7 @@ export default defineConfig({
         '--disable-features=VizDisplayCompositor'
       ]
     },
-    viewport: { width: 1920, height: 1080 },  // Set to common full HD resolution
+    viewport: { width: 1850, height: 980 },  // Set to common full HD resolution
     trace: 'on-first-retry',    
   },
 

@@ -21,7 +21,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.getByRole("button").click();
   // Enter mobile number
   await page.getByRole("textbox").fill(globalVariables.citizenUsername);
-
+test.setTimeout(180000);
   // Click on Sign In button
   await page.getByRole("button").click();
   // Enter OTP
@@ -212,10 +212,11 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
   // legal demand notice details
-
+//test.setTimeout(180000);
   await page
     .locator('input[name="dateOfDispatch"]')
     .fill(globalVariables.dateOfDispatch);
+  //  test.setTimeout(180000);
     const dateOfDispatch = path.resolve(__dirname, "./Testimages/2.chequereturnmemeo.png");
     await page.locator('input[type="file"]').first().setInputFiles(dateOfDispatch);
     const Legalnotice = path.resolve(__dirname, "./Testimages/5.LegalNotice.pdf");
@@ -237,33 +238,39 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   //? delay condonaation application
 
   // await page.locator('input[type="file"]').first().setInputFiles(filePath);
-  // test.setTimeout(120000);
+ // test.setTimeout(180000);
   // await page.getByRole('button').filter({ hasText: 'Continue' }).click();
 
   // witness details
 
   //await page.getByRole('button').filter({ hasText: 'Continue' }).click();
   // Click Continue twice
-  for (let i = 0; i < 2; i++) {
+  
+  
+  for (let i = 0; i < 3; i++) {
     const continueBtn = page
       .getByRole("button")
       .filter({ hasText: "Continue" });
     await expect(continueBtn).toBeVisible({ timeout: 10000 });
-    await continueBtn.click();
+    await continueBtn.click(); 
+    await page.waitForTimeout(15000);
+    
   }
 
   // complaint
-
-  await page.getByRole("textbox", { name: "rdw-editor" }).click();
-  await page.getByRole("textbox", { name: "rdw-editor" }).fill("test");
-  const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
+  //test.setTimeout(180000);
+ 
+   await page.getByRole("textbox").nth(0).click();
+  await page.getByRole("textbox").nth(0).fill("test");
+   const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
   await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
   await page.getByRole("textbox").nth(1).click();
   await page.getByRole("textbox").nth(1).fill("test");
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
+  
   // advocate details
-
+  await page.waitForTimeout(15000);
   await page.getByRole("textbox").first().click();
   await page.getByRole("textbox").first().fill(globalVariables.noOfAdvocates);
   const vakalatnama = path.resolve(__dirname, "./Testimages/Vakalatnama.png");
@@ -271,7 +278,6 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
   // review and sign
-
   await page.locator(".header-end > div > svg > path:nth-child(2)").click();
   await page.getByRole("button").filter({ hasText: "Confirm Details" }).click();
   await page.getByRole("checkbox").check();

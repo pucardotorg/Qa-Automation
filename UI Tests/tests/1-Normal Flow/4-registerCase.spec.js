@@ -35,7 +35,7 @@ test('Register Case Test', async ({ page }) => {
   // Wait for home page to load
   console.log('Waiting for home page to load...');
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(5000); // Additional wait to ensure page is fully loaded
+  await page.waitForTimeout(15000); // Additional wait to ensure page is fully loaded
   // click on "All Cases" button
   await page.getByRole('link', { name: 'All Cases' }).click();
   // Set the case ID to search for
@@ -72,21 +72,18 @@ test('Register Case Test', async ({ page }) => {
     await caseIdCell.click();
     console.log('Clicked case ID cell directly');
   }
-  await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(2000);
-  
+  //await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(20000);
   // Click on 'Register Case' button (update selector as needed)
   const registerCaseButton = page.getByRole('button', { name: /Register Case/i }).or(
     page.locator('button:has-text("Register Case")')
   );
   await expect(registerCaseButton).toBeVisible({ timeout: 10000 });
-  await page.waitForTimeout(2000);
-
+  await page.waitForTimeout(20000);
   await registerCaseButton.click();
   await page.waitForTimeout(2000);
-
   console.log('Clicked Register Case button');
-  
+   await page.waitForTimeout(5000);
   await page.getByRole('button', { name: 'Schedule Hearing' }).click();
   await page.getByText('Select Custom Date').click();
   await page.getByRole('button').filter({ hasText: /^$/ }).click();
