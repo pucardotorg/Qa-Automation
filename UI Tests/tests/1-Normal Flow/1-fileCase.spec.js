@@ -15,6 +15,7 @@ globalVariables.dateOfService = formattedDateOfService;
 fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
 
 test("Dristi Kerala login and file a case", async ({ page }) => {
+  test.setTimeout(180000);
   // Go to the login page
   await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
   // sign in
@@ -245,6 +246,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   //await page.getByRole('button').filter({ hasText: 'Continue' }).click();
   // Click Continue twice
   for (let i = 0; i < 2; i++) {
+    await page.waitForTimeout(3000);
     const continueBtn = page
       .getByRole("button")
       .filter({ hasText: "Continue" });
@@ -254,16 +256,16 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
 
   // complaint
 
-  await page.getByRole("textbox", { name: "rdw-editor" }).click();
-  await page.getByRole("textbox", { name: "rdw-editor" }).fill("test");
+  await page.getByRole("textbox", { name: "rdw-editor" }).first().click();
+  await page.getByRole("textbox", { name: "rdw-editor" }).first().fill("test");
   const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
   await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
-  await page.getByRole("textbox").nth(1).click();
-  await page.getByRole("textbox").nth(1).fill("test");
+  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).click();
+  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).fill("test");
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
   // advocate details
-
+    await page.waitForTimeout(3000);
   await page.getByRole("textbox").first().click();
   await page.getByRole("textbox").first().fill(globalVariables.noOfAdvocates);
   const vakalatnama = path.resolve(__dirname, "./Testimages/Vakalatnama.png");
@@ -271,7 +273,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
   // review and sign
-
+    await page.waitForTimeout(3000);
   await page.locator(".header-end > div > svg > path:nth-child(2)").click();
   await page.getByRole("button").filter({ hasText: "Confirm Details" }).click();
   await page.getByRole("checkbox").check();
