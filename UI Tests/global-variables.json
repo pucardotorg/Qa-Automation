@@ -1,6 +1,6 @@
 {
-  "baseURL": "https://dristi-kerala-dev.pucar.org/",
-  "filingNumber": "KL-001986-2025",
+  "baseURL": "https://dristi-kerala-qa.pucar.org/",
+  "filingNumber": "KL-001465-2025",
   "cmpNumber": "CMP/2121/2025",
   "citizenUsername": "8827000000",
   "citizenPassword": "123456",
@@ -27,7 +27,7 @@
   "reasonForReturnOfCheque": "reason",
   "liabilityNature": "Test",
   "dateOfDispatch": "2025-06-29",
-  "dateOfService": "2025-08-16",
+  "dateOfService": "2025-08-18",
   "noOfAdvocates": "1",
   "chequeSignatoryName": "Test",
   "issuanceDate": "2025-06-01",

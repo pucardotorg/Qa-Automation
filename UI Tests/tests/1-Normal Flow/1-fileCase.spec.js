@@ -245,8 +245,10 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
 
   //await page.getByRole('button').filter({ hasText: 'Continue' }).click();
   // Click Continue twice
+  await page.waitForLoadState("networkidle");
   for (let i = 0; i < 2; i++) {
     await page.waitForTimeout(3000);
+  await page.waitForLoadState("networkidle");
     const continueBtn = page
       .getByRole("button")
       .filter({ hasText: "Continue" });
