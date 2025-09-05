@@ -1,7 +1,14 @@
 import { test, expect } from '@playwright/test';
 import globalVars from '../../global-variables.json';
 
-test('FSO Login Test', async ({ page }) => {
+test('FSO Login Test', async ({ browser }) => {
+  test.setTimeout(180000); // Set timeout to 3 minutes
+  // Create a new context with HTTPS errors ignored
+  const context = await browser.newContext({
+    ignoreHTTPSErrors: true
+  });
+  const page = await context.newPage();
+  
   // Navigate to the employee login page
   console.log('Navigating to FSO login page...');
   await page.goto(globalVars.baseURL + 'ui/employee/user/login');
@@ -112,4 +119,7 @@ test('FSO Login Test', async ({ page }) => {
 
   // Log completion
   console.log('Test completed');
+  
+  // Close the context
+  await context.close();
 }); 

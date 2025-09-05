@@ -1,7 +1,13 @@
 import { test, expect } from '@playwright/test';
 import globalVars from '../../global-variables.json';
 
-test('Notice Payment Test', async ({ page }) => {
+test('Notice Payment Test', async ({ browser }) => {
+  // Create a new context with HTTPS errors ignored
+  const context = await browser.newContext({
+    ignoreHTTPSErrors: true
+  });
+  const page = await context.newPage();
+  
   await page.goto(`${globalVars.baseURL}ui/employee/user/login`);
   await page.waitForTimeout(1000);
   await page.locator('input[name="username"]').click();
@@ -20,5 +26,7 @@ test('Notice Payment Test', async ({ page }) => {
   await page.waitForTimeout(1000);
   await page.getByRole('button').click();
   await page.waitForTimeout(2000);
-  await page.close();
+  
+  // Close the context
+  await context.close();
 });

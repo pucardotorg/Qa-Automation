@@ -1,77 +1,50 @@
 import { defineConfig, devices } from '@playwright/test';
 
-
 export default defineConfig({
-  testDir: './UI Tests/tests',
- 
+  testDir: './tests',
   fullyParallel: true,
-  
   forbidOnly: !!process.env.CI,
-  
   retries: 1,
-
   workers: 1,
-
   timeout: 7 * 60 * 1000, // 7 minutes test timeout
-
   reporter: 'html',
   
   use: {
-    
-    headless : false,
+    headless: false,
     launchOptions: {
-      slowMo: 1000,  // Slow down execution by 1000ms
+      slowMo: 1000,
       args: [
         '--start-maximized',
         '--disable-web-security',
-        '--disable-features=VizDisplayCompositor'
+        '--disable-features=VizDisplayCompositor',
+        '--ignore-certificate-errors',
+        '--ignore-ssl-errors',
+        '--ignore-certificate-errors-spki-list',
+        '--allow-running-insecure-content'
       ]
     },
-    viewport: { width: 1850, height: 980 },  // Set to common full HD resolution
-    trace: 'on-first-retry',    
+    viewport: { width: 1850, height: 980 },
+    trace: 'on-first-retry',
+    ignoreHTTPSErrors: true,
   },
 
-  
- projects: [
+  projects: [
     {
       name: 'chromium',
       use: { 
-        viewport: null  // Use actual browser window size
+        viewport: null,
+        ignoreHTTPSErrors: true,
+        launchOptions: {
+          args: [
+            '--ignore-certificate-errors',
+            '--ignore-ssl-errors',
+            '--ignore-certificate-errors-spki-list',
+            '--disable-web-security',
+            '--allow-running-insecure-content'
+          ]
+        }
       },
       workers: 1
- 
     },
- 
- 
-
-
-  
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });

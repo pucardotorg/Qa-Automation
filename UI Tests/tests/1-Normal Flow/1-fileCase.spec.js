@@ -14,10 +14,17 @@ const formattedDateOfService = dateOfService.toISOString().split("T")[0]; // For
 globalVariables.dateOfService = formattedDateOfService;
 fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
 
-test("Dristi Kerala login and file a case", async ({ page }) => {
+test("Dristi Kerala login and file a case", async ({ browser }) => {
+  // Create a new context with HTTPS errors ignored
+  const context = await browser.newContext({
+    ignoreHTTPSErrors: true
+  });
+  const page = await context.newPage();
+  
   // Go to the login page
   await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
-  // sign in
+  test.setTimeout(180000);
+    // sign in
   await page.getByRole("button").click();
   // Enter mobile number
   await page.getByRole("textbox").fill(globalVariables.citizenUsername);
@@ -310,4 +317,7 @@ test.setTimeout(180000);
   globalVariables.filingNumber = filingNumber;
   fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
   await page.waitForTimeout(5000);
+  
+  // Close the context
+  await context.close();
 });

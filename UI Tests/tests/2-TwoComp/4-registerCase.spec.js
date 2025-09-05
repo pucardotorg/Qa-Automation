@@ -3,7 +3,14 @@ import globalVariables from '../../global-variables.json';
 import fs from 'fs';
 import path from 'path';const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 
-test('Register Case Test', async ({ page }) => {
+test('Register Case Test', async ({ browser }) => {
+  test.setTimeout(180000); // Set timeout to 3 minutes
+  // Create a new context with HTTPS errors ignored
+  const context = await browser.newContext({
+    ignoreHTTPSErrors: true
+  });
+  const page = await context.newPage();
+  
   // Navigate to the employee login page
   console.log('Navigating to employee login page...');
   await page.goto(`${globalVariables.baseURL}ui/employee/user/login`);
@@ -132,4 +139,7 @@ test('Register Case Test', async ({ page }) => {
 
 //   // Log completion
   console.log('Register Case Test completed');
+  
+  // Close the context
+  await context.close();
 }); 

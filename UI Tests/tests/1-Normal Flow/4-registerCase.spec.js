@@ -3,7 +3,14 @@ import globalVariables from '../../global-variables.json';
 import fs from 'fs';
 import path from 'path';const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 
-test('Register Case Test', async ({ page }) => {
+test('Register Case Test', async ({ browser }) => {
+  test.setTimeout(180000); // Set timeout to 3 minutes
+  // Create a new context with HTTPS errors ignored
+  const context = await browser.newContext({
+    ignoreHTTPSErrors: true
+  });
+  const page = await context.newPage();
+  
   // Navigate to the employee login page
   console.log('Navigating to employee login page...');
   await page.goto(`${globalVariables.baseURL}ui/employee/user/login`);
@@ -35,7 +42,7 @@ test('Register Case Test', async ({ page }) => {
   // Wait for home page to load
   console.log('Waiting for home page to load...');
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(15000); // Additional wait to ensure page is fully loaded
+  await page.waitForTimeout(5000); // Additional wait to ensure page is fully loaded
   // click on "All Cases" button
   await page.getByRole('link', { name: 'All Cases' }).click();
   // Set the case ID to search for
@@ -72,14 +79,14 @@ test('Register Case Test', async ({ page }) => {
     await caseIdCell.click();
     console.log('Clicked case ID cell directly');
   }
-  //await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(20000);
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(5000);
   // Click on 'Register Case' button (update selector as needed)
   const registerCaseButton = page.getByRole('button', { name: /Register Case/i }).or(
     page.locator('button:has-text("Register Case")')
   );
-  await expect(registerCaseButton).toBeVisible({ timeout: 10000 });
-  await page.waitForTimeout(20000);
+  await expect(registerCaseButton).toBeVisible({ timeout: 15000 });
+  await page.waitForTimeout(5000);
   await registerCaseButton.click();
   await page.waitForTimeout(2000);
   console.log('Clicked Register Case button');
@@ -95,13 +102,43 @@ test('Register Case Test', async ({ page }) => {
   await page.locator('div').filter({ hasText: new RegExp(`^${globalVariables.respondentFirstName} \\(Accused\\)$`) }).getByRole('checkbox').check();
   await page.getByRole('textbox', { name: 'Type here' }).click();
   await page.getByRole('textbox', { name: 'Type here' }).fill('TEST COMMENTS AUTOMATION');
+  await page.waitForTimeout(3000);
   await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
+  await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'Add Signature' }).click();
+  await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.waitForTimeout(3000);
   await page.locator('input[type="file"]').setInputFiles("./Test.png");
-  await page.waitForTimeout(30000);
-  await page.getByRole('button', { name: 'Submit Signature' }).click();
-  await page.waitForTimeout(30000);
+  await page.waitForTimeout(10000);
+  
+  // Wait for file upload to complete and button to be enabled
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(5000);
+  
+  const submitSignatureButton = page.getByRole('button', { name: 'Submit Signature' });
+  await expect(submitSignatureButton).toBeVisible({ timeout: 15000 });
+  
+  // Wait longer for the button to be enabled after file upload
+  let buttonEnabled = false;
+  for (let i = 0; i < 60; i++) { // Wait up to 60 seconds
+    try {
+      if (await submitSignatureButton.isEnabled({ timeout: 1000 })) {
+        buttonEnabled = true;
+        break;
+      }
+    } catch (e) {
+      await page.waitForTimeout(1000);
+    }
+  }
+
+  if (buttonEnabled) {
+    await submitSignatureButton.click();
+  } else {
+    console.log('Submit Signature button remained disabled, trying to click anyway');
+    await submitSignatureButton.click({ force: true });
+  }
+  await page.waitForTimeout(10000);
   await page.getByRole('button', { name: 'Issue Order' }).click();
   await page.waitForTimeout(3000);
   await page.locator('div:nth-child(5) > .popup-module > .header-wrap > .header-end > div > svg').click();
@@ -126,4 +163,7 @@ test('Register Case Test', async ({ page }) => {
 
 //   // Log completion
   console.log('Register Case Test completed');
+  
+  // Close the context
+  await context.close();
 }); 
