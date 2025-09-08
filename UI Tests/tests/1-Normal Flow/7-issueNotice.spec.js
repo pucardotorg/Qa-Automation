@@ -32,6 +32,12 @@ test('Issue Notice Test', async ({ page }) => {
   
   await page.waitForTimeout(2000);
 
+
+  await page.getByRole('textbox', { name: 'rdw-editor' }).click();
+  await page.getByRole('textbox', { name: 'rdw-editor' }).fill('AUTOMATION ORDER GENERATED');
+ 
+  await page.waitForTimeout(1000);
+
   await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
   await page.getByRole('button', { name: 'Add Signature' }).click();
 

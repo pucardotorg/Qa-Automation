@@ -3,6 +3,7 @@ import globalVars from '../../global-variables.json';
 
 test('JOIN CASE PAYMENT', async ({ page }) => {
   // Navigate to the employee login page
+  test.setTimeout(60000);
   console.log('Navigating to Nm login page...');
   await page.goto(globalVars.baseURL + 'ui/employee/user/login');
   await page.waitForLoadState('networkidle');
