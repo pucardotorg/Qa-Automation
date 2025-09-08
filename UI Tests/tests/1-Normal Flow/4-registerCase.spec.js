@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 import globalVariables from '../../global-variables.json';
 import fs from 'fs';
-import path from 'path';const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
+import path from 'path';
+const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 
 test('Register Case Test', async ({ page }) => {
   test.setTimeout(60000);
@@ -95,21 +96,12 @@ test('Register Case Test', async ({ page }) => {
   await page.getByRole('button', { name: 'Confirm' }).click();
   await page.getByRole('button').filter({ hasText: 'Generate Order' }).click();
 
-  await page.waitForNetworkIdle();
+  await page.waitForLoadState("networkidle");
 
   await page.getByRole('textbox', { name: 'rdw-editor' }).click();
   await page.getByRole('textbox', { name: 'rdw-editor' }).fill('AUTOMATION ORDER GENERATED');
-  await page.getByRole('button', { name: 'Edit' }).click();
-  await page.getByRole('button', { name: 'Confirm' }).click();
-  await page.locator('div').filter({ hasText: /^Names Of Parties Required\*$/ }).getByRole('textbox').click();
-  await page.locator('div').filter({ hasText: /^AUTOMATION LIT \(Complainant\)$/ }).getByRole('checkbox').check();
-  await page.locator('div').filter({ hasText: /^Automation Accused \(Accused\)$/ }).getByRole('checkbox').check();
-
+ 
   await page.waitForTimeout(1000);
-
-  await page.locator('form').getByRole('button').filter({ hasText: 'Confirm' }).click();
-
-  await page.waitForNetworkIdle();
 
   await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
   await page.getByRole('button', { name: 'Add Signature' }).click();
@@ -131,10 +123,13 @@ test('Register Case Test', async ({ page }) => {
   await page.getByRole('button', { name: 'Submit Signature' }).click();
   await page.getByRole('button', { name: 'Issue Order' }).click();
 
-  await page.waitForNetworkIdle();
   await page.waitForTimeout(2000);
-  await page.locator('div:nth-child(5) > .popup-module > .header-wrap > .header-end > div > svg').click();
-  await page.waitForTimeout(3000);
+ await page
+   .locator(
+     "div:nth-child(4) > .popup-module > .header-wrap > .header-end > div > svg"
+   )
+   .click();
+  await page.waitForLoadState("networkidle");
   const accessCodeElement = await page.locator('div.sub-details-text').filter({ hasText: 'Code: ' });
   const accessCodeText = await accessCodeElement.textContent();
   const accessCode = accessCodeText.match(/Code\s*:\s*(\d+)/)?.[1] || '';

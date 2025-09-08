@@ -45,5 +45,5 @@ test('JOIN CASE PAYMENT', async ({ page }) => {
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Stamp' }).click();
   await page.waitForTimeout(5000);
   await page.getByRole('button').click();
-  await page.waitForTimeout(5000);
+  await page.waitForLoadState('networkidle');
 });

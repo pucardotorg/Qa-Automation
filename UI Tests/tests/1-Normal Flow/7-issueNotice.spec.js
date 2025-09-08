@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import path from 'path';  
 import globalVars from '../../global-variables.json';
 
 test('Issue Notice Test', async ({ page }) => {
@@ -28,6 +29,9 @@ test('Issue Notice Test', async ({ page }) => {
   await page.getByText(globalVars.respondentFirstName + " (Accused)").click();
   await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
+  
+  await page.waitForTimeout(2000);
+
   await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
   await page.getByRole('button', { name: 'Add Signature' }).click();
 
@@ -44,12 +48,13 @@ test('Issue Notice Test', async ({ page }) => {
   console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
   await page.getByRole('button', { name: 'Upload Order Document with' }).click();
   await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+
   await page.getByRole('button', { name: 'Submit Signature' }).click();
   await page.getByRole('button', { name: 'Issue Order' }).click();
   await page.getByText('You have successfully issued').click();
   await page.getByRole('button', { name: 'Close' }).click();
   await page.getByRole('heading', { name: 'Order successfully issued!' }).click();
-  await page.waitForNetworkIdle();
+  await page.waitForLoadState("networkidle");
   await page.waitForTimeout(2000);
   await page.close();
 });

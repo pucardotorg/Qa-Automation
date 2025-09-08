@@ -70,6 +70,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
 
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
+
   // accused details
   await page
     .locator("div")
@@ -118,7 +119,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .fill(globalVariables.respondentAddress);
 
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
-
+  await page.waitForLoadState("networkidle");
   // cheque details
 
  await page.locator('input[name="chequeSignatoryName"]').click();
@@ -197,7 +198,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.locator('input[type="file"]').last().setInputFiles(reasonForReturnOfCheque); // Change index as needed
 
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
-
+  await page.waitForLoadState("networkidle");
   // debt/ liability details
 
   await page.locator('input[name="liabilityNature"]').click();
@@ -211,6 +212,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .click();
 
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
 
   // legal demand notice details
 
@@ -230,11 +232,11 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .getByRole("radio")
     .check();
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
 
   await page.locator('input[type="file"]').last().setInputFiles(dateOfDispatch);
 
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
-
   //? delay condonaation application
 
   // await page.locator('input[type="file"]').first().setInputFiles(filePath);
@@ -257,7 +259,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   }
 
   // complaint
-
+  await page.waitForLoadState("networkidle");
   await page.getByRole("textbox", { name: "rdw-editor" }).first().click();
   await page.getByRole("textbox", { name: "rdw-editor" }).first().fill("test");
   const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
@@ -265,14 +267,16 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).click();
   await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).fill("test");
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
 
   // advocate details
-    await page.waitForTimeout(3000);
+  await page.waitForTimeout(3000);
   await page.getByRole("textbox").first().click();
   await page.getByRole("textbox").first().fill(globalVariables.noOfAdvocates);
   const vakalatnama = path.resolve(__dirname, "./Testimages/Vakalatnama.png");
   await page.locator('input[type="file"]').first().setInputFiles(vakalatnama);
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
 
   // review and sign
     await page.waitForTimeout(3000);
@@ -300,7 +304,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   // await page.locator('input[type="file"]').first().setInputFiles(filePath);
   await page.getByRole("button", { name: "Submit Signature" }).click();
   await page.getByRole("button").filter({ hasText: "Submit Case" }).click();
-
+  await page.waitForLoadState("networkidle");
 
   const filingNumber = await page
     .locator("span.e-filing-table-value-style")
