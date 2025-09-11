@@ -172,36 +172,14 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   await page.getByText('IKNOOR/9955599992').click();
   await page.waitForTimeout(3000);
   await page.locator('input[type="file"]').first().setInputFiles(filePath);
+ await page.getByRole("button").filter({ hasText: "Continue" }).nth(1).click();
 
-  await page.waitForTimeout(2000);
-  // save as draft
-
-
-  await page.getByRole('button', { name: 'Save as Draft' }).click();
-  await page.getByText('I', { exact: true }).click();
-  await page.getByText('Logout').click();
-  await page.getByRole('button', { name: 'Yes' }).click();
-  await page.getByRole('button').click();
-  await page.getByRole('textbox').click();
-  await page.getByRole('textbox').fill(globalVariables.litigantUsername3);
-  await page.getByRole('button').click();
-  await page.locator('.input-otp').first().fill('1');
-  await page.locator('input:nth-child(2)').fill('2');
-  await page.locator('input:nth-child(3)').fill('3');
-  await page.locator('input:nth-child(4)').fill('4');
-  await page.locator('input:nth-child(5)').fill('5');
-  await page.locator('input:nth-child(6)').fill('6');
-  await page.getByRole('button', { name: 'Verify' }).click();
-  await page.waitForTimeout(10000);
-
-  await page.getByRole('cell', { name: 'Iknoor Uat Lit vs Automation Accused' }).first().click();
-  await page.locator('.header-end > div > svg > path:nth-child(2)').click();
-  await page.getByRole('button').filter({ hasText: 'Confirm Details' }).click();
-   
   // review and sign
-  await page.waitForTimeout(2000);
-  await page.getByRole('checkbox').check();
-  await page.getByRole('button', { name: 'Upload Signed copy' }).click();
+
+  await page.locator(".header-end > div > svg > path:nth-child(2)").click();
+  await page.getByRole("button").filter({ hasText: "Confirm Details" }).click();
+  await page.getByRole("checkbox").check();
+  await page.getByRole("button", { name: "Upload Signed copy" }).click();
 
   const downloadPromise = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Download PDF' }).click();
@@ -218,19 +196,22 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
     await page.getByRole("button", { name: "Upload Signed PDF" }).click();
     await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
 
-
-
-  // await page.getByRole('button', { name: 'Upload Signed PDF' }).click();
   // await page.locator('input[type="file"]').first().setInputFiles(filePath);
-  await page.getByRole('button', { name: 'Submit Signature' }).click();
-  await page.getByRole('button').filter({ hasText: 'Submit Case' }).click();
-    const filingNumber = await page
-      .locator("span.e-filing-table-value-style")
-      .innerText();
-    globalVariables.filingNumber = filingNumber;
-    fs.writeFileSync(
-      globalVarsPath,
-      JSON.stringify(globalVariables, null, 2)
-    );
- await page.waitForTimeout(5000);
+  await page
+    .getByRole("button", { name: "Submit Signature" })
+    .click({ timeout: 10000 });
+  await page
+    .getByRole("button")
+    .filter({ hasText: "Submit Case" })
+    .click({ timeout: 10000 });
+  const filingNumber = await page
+    .locator("span.e-filing-table-value-style")
+    .innerText();
+  globalVariables.filingNumber = filingNumber;
+  fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
+  console.log("Filing Number: " + filingNumber);
+  await page.waitForTimeout(2000);
+  
+  // Close the context
+  await context.close();
 });

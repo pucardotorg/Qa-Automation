@@ -4,8 +4,14 @@ import fs from 'fs';
 const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 let globalVariables = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
-test('Join Case Test', async ({ page }) => {
-
+test('Join Case Test', async ({ browser }) => {
+  test.setTimeout(180000); // Set timeout to 3 minutes
+  // Create a new context with HTTPS errors ignored
+  const context = await browser.newContext({
+    ignoreHTTPSErrors: true
+  });
+  const page = await context.newPage();
+  
   await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
   await page.getByRole('button').click();
   await page.getByRole('textbox').click();

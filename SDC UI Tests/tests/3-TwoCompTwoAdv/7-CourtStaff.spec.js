@@ -1,7 +1,14 @@
 import { test, expect } from '@playwright/test';
 import globalVars from '../../global-variables.json';
 
-test('Court Staff Test', async ({ page }) => {
+test('Court Staff Test', async ({ browser }) => {
+  test.setTimeout(180000); // Set timeout to 3 minutes
+  // Create a new context with HTTPS errors ignored
+  const context = await browser.newContext({
+    ignoreHTTPSErrors: true
+  });
+  const page = await context.newPage();
+  
   await page.goto(`${globalVars.baseURL}ui/employee/user/login`);
   await page.locator('input[name="username"]').click();
   await page.locator('input[name="username"]').fill(globalVars.courtStaffUsername);

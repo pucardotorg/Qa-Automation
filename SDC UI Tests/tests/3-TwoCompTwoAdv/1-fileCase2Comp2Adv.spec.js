@@ -15,8 +15,14 @@ globalVariables.dateOfService = formattedDateOfService;
 const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
 
-test("Dristi Kerala login and file a case", async ({ page }) => {
+test("Dristi Kerala login and file a case", async ({ browser }) => {
   test.setTimeout(120000); // Set timeout to 2 minutes
+  // Create a new context with HTTPS errors ignored
+  const context = await browser.newContext({
+    ignoreHTTPSErrors: true
+  });
+  const page = await context.newPage();
+  
   // Go to the login page
   await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
   // sign in
@@ -264,7 +270,8 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   //     // witness details
   //    await page.getByRole('button').filter({ hasText: 'Continue' }).click();
   // Click Continue twice
-  for (let i = 0; i < 2; i++) {
+ 
+  for (let i = 0; i < 3; i++) {
     const continueBtn = page
       .getByRole("button")
       .filter({ hasText: "Continue" });
@@ -273,32 +280,29 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     await page.waitForTimeout(2000);
   }
   // complaint
-  await page.waitForTimeout(2000);
-  await page.getByRole("textbox", { name: "rdw-editor" }).click();
-  await page
-    .getByRole("textbox", { name: "rdw-editor" })
-    .fill(globalVariables.complaintDetails);
+
+  await page.getByRole("textbox").nth(0).click();
+  await page.getByRole("textbox").nth(0).fill("test");
   await page.locator('input[type="file"]').first().setInputFiles(filePath);
   await page.getByRole("textbox").nth(1).click();
-  await page.getByRole("textbox").nth(1).fill(globalVariables.complaintDetails);
+  await page.getByRole("textbox").nth(1).fill("test");
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
-
   // advocate details
 
   await page.getByRole("textbox").first().click();
   await page.getByRole("textbox").first().fill(globalVariables.noOfAdvocates);
   await page.locator('input[type="file"]').first().setInputFiles(filePath);
-
+  
   await page
     .locator("form")
-    .filter({ hasText: "Complainant 2IknoorIs this" })
+    .filter({ hasText: "Complainant 2KituigengtIs" })
     .getByRole("textbox")
     .click();
   await page
     .locator("form")
-    .filter({ hasText: "Complainant 2IknoorIs this" })
+    .filter({ hasText: "Complainant 2KituigengtIs" })
     .getByRole("textbox")
-    .fill(globalVariables.noOfAdvocates);
+    .fill("1");
   await page.getByRole("button", { name: "Add Advocate" }).nth(1).click();
   await page
     .locator("div")
@@ -308,22 +312,18 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .click();
   await page
     .locator("form")
-    .filter({ hasText: "Complainant 2IknoorIs this" })
+    .filter({ hasText: "Complainant 2KituigengtIs" })
     .getByPlaceholder("Search BAR Registration Id")
-    .click({ timeout: 15000 });
+    .click();
   await page
     .locator("form")
-    .filter({ hasText: "Complainant 2IknoorIs this" })
+    .filter({ hasText: "Complainant 2KituigengtIs" })
     .getByPlaceholder("Search BAR Registration Id")
-    .fill(globalVariables.advocateBarId, { timeout: 10000 });
-  await page.getByText(globalVariables.advocateName).click({ timeout: 10000 });
-
-  await page.locator('input[type="file"]').first().setInputFiles(filePath);
-  
+    .fill(globalVariables.advocateBarId, { timeout: 15000 });
+  await page.getByText(globalVariables.advocateName).click({ timeout: 15000 });
   await page.waitForTimeout(2000);
   await page.locator('input[type="file"]').last().setInputFiles(filePath);
-  await page.getByRole("button").filter({ hasText: "Continue" }).nth(1).click();
-  // await page.waitForTimeout(3000);
+  await page.getByRole("button").filter({ hasText: "Continue" }).nth(1).click(); // await page.waitForTimeout(3000);
   // review and sign
 
   await page.locator(".header-end > div > svg > path:nth-child(2)").click();

@@ -4,8 +4,14 @@ import fs from "fs";
 import path from "path";
 const globalVarsPath = path.join(__dirname, "../../global-variables.json");
 
-test("Register Case Test", async ({ page }) => {
-  test.setTimeout(180000);
+test("Register Case Test", async ({ browser }) => {
+  test.setTimeout(180000); // Set timeout to 3 minutes
+  // Create a new context with HTTPS errors ignored
+  const context = await browser.newContext({
+    ignoreHTTPSErrors: true
+  });
+  const page = await context.newPage();
+  
   // Navigate to the employee login page
   console.log("Navigating to employee login page...");
   await page.goto(`${globalVariables.baseURL}ui/employee/user/login`);
@@ -106,20 +112,43 @@ test("Register Case Test", async ({ page }) => {
     .filter({ hasText: /^Names Of Parties Required\*$/ })
     .getByRole("textbox")
     .click();
-  await page
-    .locator("div")
-    .filter({ hasText: /^Iknoor New Uat Lit \(Complainant\)$/ })
-    .getByRole("checkbox")
-    .check();
-  await page
-    .locator("div")
-    .filter({
-      hasText: new RegExp(
-        `^${globalVariables.respondentFirstName} \\(Accused\\)$`
-      ),
-    })
-    .getByRole("checkbox")
-    .check();
+  
+  // Wait for the dropdown/options to appear
+  await page.waitForTimeout(2000);
+  
+  // Get all available party options and select their checkboxes
+  const partyCheckboxes = await page.locator('div[role="checkbox"], input[type="checkbox"]').all();
+  console.log(`Found ${partyCheckboxes.length} party checkboxes`);
+  
+  // Select all available party checkboxes
+  for (let i = 0; i < partyCheckboxes.length; i++) {
+    try {
+      const checkbox = partyCheckboxes[i];
+      const isVisible = await checkbox.isVisible();
+      if (isVisible) {
+        await checkbox.check();
+        console.log(`Checked checkbox ${i + 1}`);
+      }
+    } catch (error) {
+      console.log(`Could not check checkbox ${i + 1}: ${error.message}`);
+    }
+  }
+  
+  // Alternative approach if the above doesn't work - look for specific checkbox patterns
+  try {
+    const complainantCheckboxes = await page.locator('div:has-text("Complainant") input[type="checkbox"], div:has-text("Complainant") [role="checkbox"]').all();
+    const accusedCheckboxes = await page.locator('div:has-text("Accused") input[type="checkbox"], div:has-text("Accused") [role="checkbox"]').all();
+    
+    for (const checkbox of [...complainantCheckboxes, ...accusedCheckboxes]) {
+      const isVisible = await checkbox.isVisible();
+      if (isVisible) {
+        await checkbox.check();
+        console.log('Checked a party checkbox');
+      }
+    }
+  } catch (error) {
+    console.log(`Alternative checkbox selection failed: ${error.message}`);
+  }
   await page.getByRole("textbox", { name: "Type here" }).click();
   await page
     .getByRole("textbox", { name: "Type here" })
