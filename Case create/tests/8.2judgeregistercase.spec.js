@@ -882,6 +882,7 @@ test.describe('Judge Register Case API Tests', () => {
 
   test.beforeAll(async ({ playwright }) => {
     apiContext = await playwright.request.newContext({
+        ignoreHTTPSErrors: true
       // baseURL: 'https://dristi-kerala-uat.pucar.org',
       // Add any default headers or options here if needed
     });

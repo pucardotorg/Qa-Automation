@@ -12,7 +12,7 @@ test('citizenauthtoken', async () => {
     const globalVarsPath = path.join(__dirname, '..', 'global-variables.json');
     let globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
-    const apiContext = await request.newContext();
+    const apiContext = await request.newContext({ ignoreHTTPSErrors: true });
     const citizenresponse = await apiContext.post(`${globalVars.baseURL}user/oauth/token?`,
         {
         headers : headers,

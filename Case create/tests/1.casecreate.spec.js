@@ -109,16 +109,17 @@ test.describe('Case Creation API Tests', () => {
         // Further assertions can be added based on actual API response for empty token
     });
 
-    test.only('Create Case with Correct Auth Token', async ({ request }) => {
+    test.only('Create Case with Correct Auth Token', async ({ playwright }) => {
         const payload = { ...casePayload };
         const token = globalVars.citizenAuthToken;
-        payload.RequestInfo.authToken = token; // Use the token directly, not as a string template
+        payload.RequestInfo.authToken = token;
 
-        const response = await request.post(createUrl, {
+        // Create API request context with ignoreHTTPSErrors: true
+        const apiContext = await playwright.request.newContext({ ignoreHTTPSErrors: true });
+        const response = await apiContext.post(createUrl, {
             data: payload,
         });
 
-        // Based on previous successful command output
         expect(response.status()).toBe(200);
         const responseBody = await response.json();
         expect(responseBody.ResponseInfo.status).toBe('successful');

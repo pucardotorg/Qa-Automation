@@ -64,6 +64,7 @@ test.describe('Evidence Creation API Tests', () => {
             extraHTTPHeaders: {
                 'Content-Type': 'application/json',
             },
+            ignoreHTTPSErrors: true
         });
     });
 

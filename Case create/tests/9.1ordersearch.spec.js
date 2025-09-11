@@ -49,7 +49,8 @@ globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
       extraHTTPHeaders: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-      }
+      },
+      ignoreHTTPSErrors: true
     });
   });
 

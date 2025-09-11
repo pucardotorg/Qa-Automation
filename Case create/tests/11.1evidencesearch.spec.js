@@ -55,7 +55,7 @@ test.describe('API Tests for evidence search endpoint', () => {
     }
   };
 
-    apiContext = await playwright.request.newContext();
+    apiContext = await playwright.request.newContext({ ignoreHTTPSErrors: true });
   });
 
   test.afterAll(async () => {

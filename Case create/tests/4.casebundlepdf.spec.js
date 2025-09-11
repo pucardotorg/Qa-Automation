@@ -50,7 +50,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
   let apiContext;
 
   test.beforeAll(async ({ playwright }) => {
-    apiContext = await playwright.request.newContext();
+    apiContext = await playwright.request.newContext({ ignoreHTTPSErrors: true });
   });
 
   test.afterAll(async () => {
@@ -881,7 +881,7 @@ test.describe('Upload complainant PDF to filestore', () => {
   let apiContext;
 
   test.beforeAll(async ({ playwright }) => {
-    apiContext = await playwright.request.newContext();
+    apiContext = await playwright.request.newContext({ ignoreHTTPSErrors: true });
   });
 
   test.afterAll(async () => {

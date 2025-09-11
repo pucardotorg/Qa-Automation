@@ -40,7 +40,8 @@ test.describe('Litigent Individual User Search API Tests', () => {
         'Sec-Fetch-Mode': 'cors',
         'Sec-Fetch-Site': 'same-origin',
         'TE': 'trailers'
-      }
+      },
+      ignoreHTTPSErrors: true
     });
   });
 

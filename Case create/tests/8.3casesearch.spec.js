@@ -33,7 +33,8 @@ test.describe('Case Search API Tests', () => {
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
+            },
+            ignoreHTTPSErrors: true 
         });
     });
 

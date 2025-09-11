@@ -35,7 +35,8 @@ test.describe('Create Demand for Application API Tests', () => {
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
+            },
+            ignoreHTTPSErrors: true
         });
     });
 

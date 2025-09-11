@@ -363,16 +363,17 @@ test.describe('Case Creation API Tests', () => {
         // Further assertions can be added based on actual API response for empty token
     });
 
-    test.only('Create Case with Correct Auth Token', async ({ request }) => {
+    test.only('Create Case with Correct Auth Token', async ({ playwright }) => {
         const payload = { ...casePayload };
         const token = citizenAuthToken;
-        payload.RequestInfo.authToken = token; // Use the token directly, not as a string template
+        payload.RequestInfo.authToken = token;
 
-        const response = await request.post(updateUrl, {
+        // Create API request context with ignoreHTTPSErrors: true
+        const apiContext = await playwright.request.newContext({ ignoreHTTPSErrors: true });
+        const response = await apiContext.post(updateUrl, {
             data: payload,
         });
 
-        // Based on previous successful command output
         expect(response.status()).toBe(200);
         const responseBody = await response.json();
         expect(responseBody.ResponseInfo.status).toBe('successful');
@@ -382,14 +383,13 @@ test.describe('Case Creation API Tests', () => {
         // Extract filingNumber and caseId
         const filingNumber = responseBody.cases[0].filingNumber;
         const caseId = responseBody.cases[0].id;
-        //console.log(responseBody.cases[0]);
-        const litigantid=responseBody.cases[0].litigants[0].id;
+        const litigantid = responseBody.cases[0].litigants[0].id;
 
         // Update global-variables.json
         const updatedVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
         updatedVars.filingNumber = filingNumber;
         updatedVars.caseId = caseId;
-        updatedVars.litigantid=litigantid;
+        updatedVars.litigantid = litigantid;
         fs.writeFileSync(globalVarsPath, JSON.stringify(updatedVars, null, 2));
         console.log('Stored filingNumber and caseId in global-variables.json:', filingNumber, caseId);
     });

@@ -21,7 +21,7 @@ const headers = {
 };
 
 test('litigentauthtoken', async () => {
-  const apiContext = await request.newContext();
+  const apiContext = await request.newContext({ ignoreHTTPSErrors: true });
   // Step 1: Get token for litigant
   const tokenResponse = await apiContext.post(`${baseURL}user/oauth/token?`, {
     headers: headers,

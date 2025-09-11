@@ -24,7 +24,7 @@ test.describe('API Tests for create demand endpoint', () => {
   let applicationNumber; // Variable to store application number
 
   test.beforeAll(async ({ playwright }) => {
-    apiContext = await playwright.request.newContext();
+    apiContext = await playwright.request.newContext({ ignoreHTTPSErrors: true });
 
     // Call the calculate endpoint to get the applicationNumber
     const calculateRequestBody = {

@@ -803,7 +803,8 @@ test.describe('API Tests for /case/v1/_update', () => {
       headers: {
         'Content-Type': 'application/json',
         // Add other default headers if needed
-      }
+      },
+      ignoreHTTPSErrors: true
     });
   });
 
@@ -824,7 +825,10 @@ test.describe('API Tests for /case/v1/_update', () => {
      const response = await apiContext.post(baseUrl, { data: validRequestBody });
 
     // Assertions based on successful response scenario
-    expect(response.status()).toBe(200); // Asserting for 200 OK as per requirement
+        if (response.status() !== 200) {
+            console.error('API response error:', response.status(), await response.text());
+        }
+        expect(response.status()).toBe(200); // Asserting for 200 OK as per requirement
 
     const responseBody = await response.json();
 

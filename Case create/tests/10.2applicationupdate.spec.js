@@ -77,7 +77,8 @@ test.describe('Application Update API Tests', () => {
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
+            },
+            ignoreHTTPSErrors: true
         });
     });
 

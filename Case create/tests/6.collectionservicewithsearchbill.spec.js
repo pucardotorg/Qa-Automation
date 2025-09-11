@@ -35,7 +35,7 @@ test.describe('API Test for Fetch Bill and Create Payment Flow', () => {
   let apiContext;
 
   test.beforeAll(async ({ playwright }) => {
-    apiContext = await playwright.request.newContext();
+    apiContext = await playwright.request.newContext({ ignoreHTTPSErrors: true });
 
     // --- Step 1: Fetch the Bill to get the Bill ID and Amount ---
     const fetchBillRequestBody = {

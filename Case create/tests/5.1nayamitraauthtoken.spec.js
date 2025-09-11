@@ -23,7 +23,7 @@ test('nayamitraauthtoken', async() => {
     const baseURL = globalVars.baseURL;
     const tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
     
-    const apiContext = await request.newContext();
+    const apiContext = await request.newContext({ ignoreHTTPSErrors: true });
     const empresponse = await apiContext.post(`${baseURL}user/oauth/token?_=1748935894913`,
         {
             headers: headers,

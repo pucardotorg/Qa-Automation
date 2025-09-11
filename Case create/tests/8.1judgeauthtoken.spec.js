@@ -19,7 +19,7 @@ test('judgeauthtoken', async () => {
   const username = process.env.JUDGE_USERNAME;
   const password = process.env.JUDGE_PASSWORD;
 
-  const apiContext = await request.newContext();
+  const apiContext = await request.newContext({ ignoreHTTPSErrors: true });
   const empresponse = await apiContext.post(`${baseURL}user/oauth/token?_=1748935894913`,
         {
             headers: headers,

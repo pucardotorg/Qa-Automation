@@ -88,7 +88,8 @@ test.describe('Order Management API - Update Order (Publish)', () => {
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
+            },
+            ignoreHTTPSErrors: true
         });
     });
 

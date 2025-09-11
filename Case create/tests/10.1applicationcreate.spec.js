@@ -63,7 +63,8 @@ test.describe('Application Create API Tests', () => {
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
+            },
+            ignoreHTTPSErrors: true
         });
     });
 

@@ -47,7 +47,7 @@ test.describe('Collection Payment for Application API Tests', () => {
     console.log('Bill Amount:', billAmount);
     console.log('================================');
 
-    apiContext = await playwright.request.newContext();
+    apiContext = await playwright.request.newContext({ ignoreHTTPSErrors: true });
   });
 
   test.afterAll(async () => {

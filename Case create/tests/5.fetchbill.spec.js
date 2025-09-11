@@ -53,7 +53,7 @@ test.describe('API Tests for fetch bill endpoint', () => {
   let apiContext;
 
   test.beforeAll(async ({ playwright }) => {
-    apiContext = await playwright.request.newContext();
+    apiContext = await playwright.request.newContext({ ignoreHTTPSErrors: true });
   });
 
   test.afterAll(async () => {

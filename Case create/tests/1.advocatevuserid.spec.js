@@ -30,7 +30,8 @@ test.describe('Advocate ID API Tests', () => {
       extraHTTPHeaders: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json;charset=utf-8',
-      }
+      },
+      ignoreHTTPSErrors: true
     });
   });
 

@@ -35,7 +35,8 @@ test.describe('Order Management API - Create Order', () => {
             extraHTTPHeaders: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
+            },
+            ignoreHTTPSErrors: true
         });
     });
 
