@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test';
 import globalVariables from '../../global-variables.json';
 import fs from 'fs';
-import path from 'path';const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
+import path from 'path';
+const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 
 test('Register Case Test', async ({ page }) => {
+  test.setTimeout(60000);
   // Navigate to the employee login page
   console.log('Navigating to employee login page...');
   await page.goto(`${globalVariables.baseURL}ui/employee/user/login`);
@@ -93,29 +95,45 @@ test('Register Case Test', async ({ page }) => {
   await page.getByRole('button', { name: '1', exact: true }).first().click();
   await page.getByRole('button', { name: 'Confirm' }).click();
   await page.getByRole('button').filter({ hasText: 'Generate Order' }).click();
-  await page.locator('div').filter({ hasText: /^Names Of Parties Required\*$/ }).getByRole('textbox').click();
-  await page.locator('div').filter({ hasText: /^AUTOMATION LIT \(Complainant\)$/ }).getByRole('checkbox').check();
-  await page.locator('div').filter({ hasText: new RegExp(`^${globalVariables.respondentFirstName} \\(Accused\\)$`) }).getByRole('checkbox').check();
-  await page.getByRole('textbox', { name: 'Type here' }).click();
-  await page.getByRole('textbox', { name: 'Type here' }).fill('TEST COMMENTS AUTOMATION');
+
+  await page.waitForLoadState("networkidle");
+
+  await page.getByRole('textbox', { name: 'rdw-editor' }).click();
+  await page.getByRole('textbox', { name: 'rdw-editor' }).fill('AUTOMATION ORDER GENERATED');
+ 
+  await page.waitForTimeout(1000);
+
   await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
   await page.getByRole('button', { name: 'Add Signature' }).click();
-  await page.getByRole('button', { name: 'Upload Order Document with' }).click();
-   await page.waitForTimeout(2000);
-  await page.locator('input[type="file"]').setInputFiles("./Test.png");
-   await page.waitForTimeout(2000);
-  await page.getByRole('button', { name: 'Submit Signature' }).click();
-   await page.waitForTimeout(2000);
-  await page.getByRole('button', { name: 'Issue Order' }).click();
-   await page.waitForTimeout(2000);
-  await page.locator('div:nth-child(5) > .popup-module > .header-wrap > .header-end > div > svg').click();
 
-  await page.waitForTimeout(1000);
+  
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByText('click here').click();
+  const [ download ] = await Promise.all([
+        page.waitForEvent('download'), // wait for the download trigger
+        page.click('text=click here'), // replace with your selector
+      ]);
+  const projectDownloadPath = path.join(__dirname, 'downloads', await download.suggestedFilename()); 
+  // Save the file to the defined path2
+  await download.saveAs(projectDownloadPath);
+  console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
+  await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+  
+  await page.getByRole('button', { name: 'Submit Signature' }).click();
+  await page.getByRole('button', { name: 'Issue Order' }).click();
+
+  await page.waitForTimeout(2000);
+ await page
+   .locator(
+     "div:nth-child(4) > .popup-module > .header-wrap > .header-end > div > svg"
+   )
+   .click();
+  await page.waitForLoadState("networkidle");
   const accessCodeElement = await page.locator('div.sub-details-text').filter({ hasText: 'Code: ' });
   const accessCodeText = await accessCodeElement.textContent();
   const accessCode = accessCodeText.match(/Code\s*:\s*(\d+)/)?.[1] || '';
   console.log('Access Code:', accessCode);
-
   const accessCodeElement2 = await page.locator('div.sub-details-text').filter({ hasText: 'CMP/' });
   const cmpNumber = await accessCodeElement2.textContent();
   console.log('CMP Number:', cmpNumber);

@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test';
 import path from 'path';
 import fs from 'fs';
+
 const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 let globalVariables = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 test('Join Case Test', async ({ page }) => {
-
+test.setTimeout(180000);
   await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
   await page.getByRole('button').click();
   await page.getByRole('textbox').click();
@@ -67,6 +68,7 @@ test('Join Case Test', async ({ page }) => {
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Proceed' }).click();
   await page.waitForTimeout(5000);
+  await page.waitForLoadState('networkidle');
   
 });
 

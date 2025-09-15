@@ -42,24 +42,13 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.getByRole("button").filter({ hasText: "Search" }).click();
   await page.getByRole("cell", { name: globalVariables.filingNumber }).click();
   await page.waitForTimeout(2000);
-  await page.getByRole("button").filter({ hasText: "Next" }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole("button").filter({ hasText: "Next" }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole("button").filter({ hasText: "Next" }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole("button").filter({ hasText: "Next" }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole("button").filter({ hasText: "Next" }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole("button").filter({ hasText: "Next" }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole("button").filter({ hasText: "Next" }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole("button").filter({ hasText: "Next" }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole("button").filter({ hasText: "Next" }).click();
-  await page.waitForTimeout(1000);
+
+  for (let index = 0; index < 9; index++) {
+    await page.getByRole("button").filter({ hasText: "Next" }).click();
+    await page.waitForTimeout(1000);
+    await page.waitForLoadState("networkidle");
+  }
+  
   await page.getByRole("button").filter({ hasText: "Skip & Continue" }).click();
   await page.waitForTimeout(1000);
   await page.getByRole("button").filter({ hasText: "Next" }).click();

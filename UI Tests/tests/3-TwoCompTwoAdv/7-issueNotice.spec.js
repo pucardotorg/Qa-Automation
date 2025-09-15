@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import path from 'path';  
 import globalVars from '../../global-variables.json';
 
 test('Issue Notice Test', async ({ page }) => {
@@ -18,34 +19,48 @@ test('Issue Notice Test', async ({ page }) => {
   await page.waitForTimeout(1000);
   await page.getByText('Generate Order').click();
   await page.waitForTimeout(1000);
-  await page.getByText('+ Add Order').click();
-  await page.waitForTimeout(1000);
-  await page.getByRole('textbox').click();
-  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Order for Issue Notice' }).click();
-  await page.waitForTimeout(1000);
+
+
+  await page.locator('div').filter({ hasText: /^EditDelete$/ }).locator('div').nth(1).click();
+  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Notice' }).click();
   await page.locator('div').filter({ hasText: /^Notice Type\*$/ }).getByRole('textbox').click();
-  await page.waitForTimeout(1000);
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Section 223 Notice' }).click();
-  await page.waitForTimeout(1000);
-  await page.locator('div').filter({ hasText: /^Notice to the Party\*\+ Add new witness$/ }).getByRole('textbox').click();
-  await page.waitForTimeout(1000);
-  await page.locator('#jk-dropdown-unique div').click();
-  await page.waitForTimeout(1000);
-  await page.locator('[id="Registered\\ Post-0"]').check();
-  await page.waitForTimeout(1000);
-  await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole('button', { name: 'Add Signature' }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole('button', { name: 'Upload Order Document with' }).click();
-  await page.waitForTimeout(1000);
-  await page.locator('input[type="file"]').setInputFiles("./Test.png");
-  await page.waitForTimeout(1000);
-  await page.getByRole('button', { name: 'Submit Signature' }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole('button', { name: 'Issue Order' }).click();
+  await page.locator('div').filter({ hasText: /^Notice to the Party\*$/ }).getByRole('textbox').click();
+  await page.getByText(globalVars.respondentFirstName + " (Accused)").click();
+  await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
+  await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
+  
   await page.waitForTimeout(2000);
+
+
+  await page.getByRole('textbox', { name: 'rdw-editor' }).click();
+  await page.getByRole('textbox', { name: 'rdw-editor' }).fill('AUTOMATION ORDER GENERATED');
+ 
+  await page.waitForTimeout(1000);
+
+  await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
+  await page.getByRole('button', { name: 'Add Signature' }).click();
+
+  
+  const download1Promise = page.waitForEvent('download');
+  await page.getByText('click here').click();
+  const [ download ] = await Promise.all([
+        page.waitForEvent('download'), // wait for the download trigger
+        page.click('text=click here'), // replace with your selector
+      ]);
+  const projectDownloadPath = path.join(__dirname, 'downloads', await download.suggestedFilename()); 
+  // Save the file to the defined path2
+  await download.saveAs(projectDownloadPath);
+  console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
+  await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+
+  await page.getByRole('button', { name: 'Submit Signature' }).click();
+  await page.getByRole('button', { name: 'Issue Order' }).click();
+  await page.getByText('You have successfully issued').click();
   await page.getByRole('button', { name: 'Close' }).click();
+  await page.getByRole('heading', { name: 'Order successfully issued!' }).click();
+  await page.waitForLoadState("networkidle");
   await page.waitForTimeout(2000);
   await page.close();
 });

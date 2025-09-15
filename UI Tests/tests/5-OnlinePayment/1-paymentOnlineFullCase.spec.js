@@ -1,429 +1,292 @@
-import { test, expect } from '@playwright/test';
-const path = require('path');
-const fs = require('fs');
-
-// Import global variables
-const globalVariables = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '../../global-variables.json'), 'utf8')
-);
+import { test, expect } from "@playwright/test";
+import fs from "fs";
+import path from "path";
+const globalVarsPath = path.join(__dirname, "../../global-variables.json");
+let globalVariables = JSON.parse(fs.readFileSync(globalVarsPath, "utf8"));
 
 // Calculate dateOfService as 16 days before today
 const today = new Date();
 const dateOfService = new Date(today);
 dateOfService.setDate(today.getDate() - 16);
-const formattedDateOfService = dateOfService.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+const formattedDateOfService = dateOfService.toISOString().split("T")[0]; // Format as YYYY-MM-DD
 
 // Update globalVariables with the calculated date
 globalVariables.dateOfService = formattedDateOfService;
-const globalVarsPath = path.join(__dirname, '../../global-variables.json');
 fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
 
-test('Citizen Case Filing Test', async ({ page }) => {
-  test.setTimeout(180000); // Set timeout to 3 minutes for this comprehensive test
-  
-  // Define file path for uploads
-  const filePath = path.resolve(__dirname, './Test.png');
-  
-  // Navigate to the citizen login page
-  console.log('Navigating to citizen login page...');
-  await page.goto(`${globalVariables.baseURL}ui/citizen/dristi/home/login`);
-  await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(2000);   
+test("Dristi Kerala login and file a case", async ({ page }) => {
+  test.setTimeout(180000);
+  // Go to the login page
+  await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
+  // sign in
+  await page.getByRole("button").click();
+  // Enter mobile number
+  await page.getByRole("textbox").fill(globalVariables.citizenUsername);
 
-  // Enter mobile number and sign in
-  console.log('Entering mobile number...');
-  const mobileInput = page.locator('input[name="mobileNumber"]');
-  await expect(mobileInput).toBeVisible({ timeout: 15000 });
-  await mobileInput.fill(globalVariables.citizenUsername);
-  
-  // Click Sign In button
-  console.log('Clicking Sign In button...');
-  const signInButton = page.getByRole('button').filter({ hasText: 'Sign In' });
-  await expect(signInButton).toBeVisible({ timeout: 15000 });
-  await signInButton.click();
-  await page.waitForTimeout(2000);
-
+  // Click on Sign In button
+  await page.getByRole("button").click();
   // Enter OTP
-  console.log('Entering OTP...');
-  const otpInputs = await page.locator('input.input-otp').all();
-  const otp = '123456';
-  for (let i = 0; i < 6; i++) {
-    await otpInputs[i].fill(otp[i]);
-  }
-  await page.waitForTimeout(1000);
+  await page.locator(".input-otp").first().fill("1");
+  await page.locator("input:nth-child(2)").fill("2");
+  await page.locator("input:nth-child(3)").fill("3");
+  await page.locator("input:nth-child(4)").fill("4");
+  await page.locator("input:nth-child(5)").fill("5");
+  await page.locator("input:nth-child(6)").fill("6");
 
-  // Click Verify button
-  console.log('Clicking Verify button...');
-  const verifyButton = page.getByRole('button').filter({ hasText: 'Verify' });
-  await expect(verifyButton).toBeVisible({ timeout: 15000 });
-  await verifyButton.click();
+  // Click on Verify button
+  await page.getByRole("button", { name: "Verify" }).click();
+
+  // Click on "File a Case"
+  await page.getByRole("button", { name: "File Case" }).click();
+
+  // Click on "Proceed" button
+  await page.getByRole("button", { name: "Proceed" }).click();
+
+  // Click on "Start Filing"
+  await page.getByRole("button", { name: "Start Filing" }).click();
+
+  // complainant details
+  await page
+    .locator("div")
+    .filter({ hasText: /^Individual$/ })
+    .getByRole("radio")
+    .check();
+  await page.locator('input[name="mobileNumber"]').click();
+  await page
+    .locator('input[name="mobileNumber"]')
+    .fill(globalVariables.litigantUsername);
+  await page.getByRole("button", { name: "Verify Mobile Number" }).click();
+  await page.locator(".input-otp").first().fill("1");
+  await page.locator("input:nth-child(2)").fill("2");
+  await page.locator("input:nth-child(3)").fill("3");
+  await page.locator("input:nth-child(4)").fill("4");
+  await page.locator("input:nth-child(5)").fill("5");
+  await page.locator("input:nth-child(6)").fill("6");
+  await page.getByRole("button", { name: "Verify", exact: true }).click();
+  await page.locator('input[name="complainantAge"]').click();
+  await page
+    .locator('input[name="complainantAge"]')
+    .fill(globalVariables.complainantAge);
+
+  await page.getByRole("button").filter({ hasText: "Continue" }).click();
+
+
+  // accused details
+  await page
+    .locator("div")
+    .filter({ hasText: /^Individual$/ })
+    .locator('input[type="radio"]')
+    .first()
+    .click();
+  await page.locator('input[name="respondentFirstName"]').click();
+  await page
+    .locator('input[name="respondentFirstName"]')
+    .fill(globalVariables.respondentFirstName);
+
+  //   await page.locator('input[name="respondentFirstName"]').click();
+  await page
+    .locator("div")
+    .filter({ hasText: /^Pincode$/ })
+    .getByRole("textbox")
+    .click();
+  await page
+    .locator("div")
+    .filter({ hasText: /^Pincode$/ })
+    .getByRole("textbox")
+    .fill(globalVariables.respondentPincode);
+  //   await page.locator('div').filter({ hasText: /^Pincode$/ }).getByRole('textbox').press('Tab');
+  await page
+    .locator("div")
+    .filter({ hasText: /^State$/ })
+    .getByRole("textbox")
+    .fill(globalVariables.respondentState);
+  //   await page.locator('div').filter({ hasText: /^State$/ }).getByRole('textbox').press('Tab');
+  await page
+    .locator("div")
+    .filter({ hasText: /^District$/ })
+    .getByRole("textbox")
+    .fill(globalVariables.respondentDistrict);
+  await page
+    .locator("div")
+    .filter({ hasText: /^City \/ town$/ })
+    .getByRole("textbox")
+    .fill(globalVariables.respondentCity);
+  //   await page.locator('div').filter({ hasText: /^City \/ town$/ }).getByRole('textbox').press('Tab');
+  await page
+    .locator("div")
+    .filter({ hasText: /^Address$/ })
+    .getByRole("textbox")
+    .fill(globalVariables.respondentAddress);
+
+  await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
+  // cheque details
+
+ await page.locator('input[name="chequeSignatoryName"]').click();
+  //await page
+ //   .locator('input[name="chequeSignatoryName"]')
+   // .fill(globalVariables.chequeSignatoryName);
+  // Assuming the file input exists (even if hidden)
+  //const fileInput = await page.$('input[type="file"]');
+  //Path to the file you want to upload
+  const filePath = path.resolve(__dirname, "./Test.png");
+ // await page.locator('input[name="chequeSignatoryName"]').click();
+  await page
+   .locator('input[name="chequeSignatoryName"]')
+  .fill(globalVariables.chequeSignatoryName);
+  // Assuming the file input exists (even if hidden)
+ const fileInput = await page.$('input[type="file"]');
+  // Path to the file you want to upload
+  const chequeSignatoryName = path.resolve(__dirname, "./Testimages/1. Cheque - 15_09_2024.png"); // Updated file path // Updated file path
+  // Upload the file
+  await fileInput.setInputFiles(chequeSignatoryName);
+  //   await page.getByText('Browse in my files').first().click();
+  //   await page.locator('input[type="file"]').setInputFiles('/home/beehyv/Pictures/Screenshots/automate_image.png');
+  await page.locator('input[name="name"]').click();
+  await page.locator('input[name="name"]').fill("Name On Cheque");
+  //   await page.locator('input[name="name"]').press('Tab');
+  await page
+    .locator('input[name="payeeBankName"]')
+    .fill(globalVariables.payeeBankName);
+  await page.locator('input[name="payeeBranchName"]').click();
+  await page
+    .locator('input[name="payeeBranchName"]')
+    .fill(globalVariables.payeeBranchName);
+  await page.locator('input[name="chequeNumber"]').click();
+  await page
+    .locator('input[name="chequeNumber"]')
+    .fill(globalVariables.chequeNumber);
+  await page
+    .locator('input[name="issuanceDate"]')
+    .fill(globalVariables.issuanceDate);
+  await page.locator('input[name="payerBankName"]').click();
+  await page
+    .locator('input[name="payerBankName"]')
+    .fill(globalVariables.payerBankName);
+  await page.locator('input[name="payerBranchName"]').click();
+  await page
+    .locator('input[name="payerBranchName"]')
+    .fill(globalVariables.payerBranchName);
+  await page.locator('input[name="ifsc"]').click();
+  await page.locator('input[name="ifsc"]').fill(globalVariables.ifsc);
+  await page.locator("#validationCustom01").click();
+  await page.locator("#validationCustom01").fill(globalVariables.chequeAmount);
+  await page
+    .locator("div")
+    .filter({
+      hasText:
+        /^Police Station with Jurisdiction over the Cheque Deposit Bank\*$/,
+    })
+    .getByRole("textbox")
+    .click();
+  await page.getByText(globalVariables.policeStation).click();
+  await page
+    .locator('input[name="depositDate"]')
+    .fill(globalVariables.depositDate);
+  await page
+    .locator("div")
+    .filter({ hasText: /^\*Reason for the return of cheque$/ })
+    .getByRole("textbox")
+    .click();
+  await page
+    .locator("div")
+    .filter({ hasText: /^\*Reason for the return of cheque$/ })
+    .getByRole("textbox")
+    .fill(globalVariables.reasonForReturnOfCheque);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  const reasonForReturnOfCheque = path.resolve(__dirname, "./Testimages/1. Cheque - 15_09_2024.png");
+  await page.locator('input[type="file"]').last().setInputFiles(reasonForReturnOfCheque); // Change index as needed
+
+  await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
+  // debt/ liability details
+
+  await page.locator('input[name="liabilityNature"]').click();
+  await page
+    .locator('input[name="liabilityNature"]')
+    .fill(globalVariables.liabilityNature);
+  await page
+    .locator("div")
+    .filter({ hasText: /^Full Liability$/ })
+    .getByRole("radio")
+    .click();
+
+  await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
+
+  // legal demand notice details
+
+  await page
+    .locator('input[name="dateOfDispatch"]')
+    .fill(globalVariables.dateOfDispatch);
+    const dateOfDispatch = path.resolve(__dirname, "./Testimages/2.chequereturnmemeo.png");
+    await page.locator('input[type="file"]').first().setInputFiles(dateOfDispatch);
+    const Legalnotice = path.resolve(__dirname, "./Testimages/5.LegalNotice.pdf");
+  await page.locator('input[type="file"]').nth(2).setInputFiles(Legalnotice);
+  await page
+    .locator('input[name="dateOfService"]')
+    .fill(globalVariables.dateOfService);
+  await page
+    .locator("div")
+    .filter({ hasText: /^No$/ })
+    .getByRole("radio")
+    .check();
+  await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
+
+  await page.locator('input[type="file"]').last().setInputFiles(dateOfDispatch);
+
+  await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  //? delay condonaation application
+
+  // await page.locator('input[type="file"]').first().setInputFiles(filePath);
+  // test.setTimeout(120000);
+  // await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+
+  // witness details
+
+  //await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+  // Click Continue twice
+  await page.waitForLoadState("networkidle");
+  for (let i = 0; i < 2; i++) {
+    await page.waitForTimeout(3000);
+  await page.waitForLoadState("networkidle");
+    const continueBtn = page
+      .getByRole("button")
+      .filter({ hasText: "Continue" });
+    await expect(continueBtn).toBeVisible({ timeout: 10000 });
+    await continueBtn.click();
+  }
+  await page.waitForLoadState("networkidle");
   await page.waitForTimeout(3000);
 
-  // Wait for successful login
-  console.log('Waiting for successful login...');
-  await page.waitForSelector('span.search-component-table tbody tr', { timeout: 30000 });
-  console.log('Login successful.');
-
-  // Click File Case button
-  console.log('Clicking File Case button...');
-  const fileCaseButton = page.getByRole('button').filter({ hasText: 'File Case' });
-  await expect(fileCaseButton).toBeVisible({ timeout: 15000 });
-  await fileCaseButton.click();
-  await page.waitForTimeout(2000);
-
-  // Click Proceed button
-  console.log('Clicking Proceed button...');
-  const proceedButton = page.getByRole('button').filter({ hasText: 'Proceed' });
-  await expect(proceedButton).toBeVisible({ timeout: 15000 });
-  await proceedButton.click();
-  await page.waitForTimeout(2000);
-
-  // Click Start Filing button
-  console.log('Clicking Start Filing button...');
-  const startFilingButton = page.getByRole('button').filter({ hasText: 'Start Filing' });
-  await expect(startFilingButton).toBeVisible({ timeout: 15000 });
-  await startFilingButton.click();
- // await page.waitForTimeout(30000);
-
-  // Select Individual radio button
-  console.log('Selecting Individual option...');
-  const individualRadio = page.locator('body > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > form:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > input:nth-child(1)');
-  await expect(individualRadio).toBeVisible({ timeout: 15000 });
-  await individualRadio.click();
-  //await page.waitForTimeout(2000);
-
-  // Fill complainant details with new mobile number
-  console.log('Filling complainant details with new mobile number...');
-  const complainantMobileInput = page.locator("input[name='mobileNumber']");
-  await complainantMobileInput.fill(globalVariables.litigantUsername);
+  // complaint
   
-  // Click Verify Mobile Number button
-  const verifyMobileButton = page.getByRole('button').filter({ hasText: 'Verify Mobile Number' });
-  //await expect(verifyMobileButton).toBeVisible({ timeout: 15000 });
-  await verifyMobileButton.click();
-  //await page.waitForTimeout(10000);
-  console.log('Entering OTP...');
-  // Enter OTP for mobile verification (each digit in its own box)
-  await page.locator('.input-otp').first().fill('1');
-  await page.locator('input:nth-child(2)').fill('2');
-  await page.locator('input:nth-child(3)').fill('3');
-  await page.locator('input:nth-child(4)').fill('4');
-  await page.locator('input:nth-child(5)').fill('5');
-  await page.locator('input:nth-child(6)').fill('6');
+  await page.getByRole("textbox", { name: "rdw-editor" }).first().fill("test");
+  const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
+  await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
+  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).click();
+  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).fill("test");
+  await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForTimeout(3000);  
+  await page.waitForLoadState("networkidle");
 
-  await page.waitForTimeout(1000);
-
-  // Click second Verify button
-  const secondVerifyButton = page.getByRole('button').filter({ hasText: 'Verify' }).nth(1);
-  await expect(secondVerifyButton).toBeVisible({ timeout: 15000 });
-  await secondVerifyButton.click();
-  //await page.waitForTimeout(2000);
-
-  // Fill age
-  await page.locator('input[name="complainantAge"]').fill(globalVariables.complainantAge);
-
-  // Select Power of Attorney Details with No option using XPath
-  // console.log('Selecting Power of Attorney Details as No...');
-  // const poaNoRadio = page.locator('xpath=/html/body/div[1]/div/div/div/div[2]/div/div[1]/div/div/div/div[2]/div/div[2]/form/div[1]/div[12]/div/div/div[2]/span/input');
-  // await expect(poaNoRadio).toBeVisible({ timeout: 15000 });
-  // await poaNoRadio.click();
-  // await page.waitForTimeout(2000);
-
-  // Click Continue
-  await page.waitForTimeout(2000);
-
-  const continueButton = page.getByRole('button').filter({ hasText: 'Continue' });
-  await expect(continueButton).toBeVisible({ timeout: 15000 });
-  await continueButton.click();
-  await page.waitForTimeout(2000);
-
-  // Select Individual for accused using CSS selector
-  console.log('Selecting Individual for accused...');
-  const accusedIndividualRadio = page.locator('.card > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > input:nth-child(1)');
-  await expect(accusedIndividualRadio).toBeVisible({ timeout: 15000 });
-  await accusedIndividualRadio.click();
-  await page.waitForTimeout(2000);
-
-  // Fill accused details
-  console.log('Filling accused details...');
-  const accusedFields = {
-    'respondentFirstName': globalVariables.respondentFirstName,
-    'Pincode': globalVariables.respondentPincode,
-    'State': globalVariables.respondentState,
-    'District': globalVariables.respondentDistrict,
-    'City / town': globalVariables.respondentCity,
-    'Address': globalVariables.respondentAddress
-  };
-
-  for (const [label, value] of Object.entries(accusedFields)) {
-    if (label === 'respondentFirstName') {
-      await page.locator('input[name="respondentFirstName"]').fill(value);
-    } else if (label === 'Address') {
-      const addressInput = page.locator('xpath=/html/body/div[1]/div/div/div/div[2]/div/div[1]/div/div/div/div[2]/div/div[2]/form/div[1]/div[11]/div/div/div/div[2]/div[6]/div/div/input');
-      await expect(addressInput).toBeVisible({ timeout: 15000 });
-      await addressInput.fill(value);
-    } else {
-      const input = page.locator(`//h2[contains(text(), '${label}')]/following-sibling::div//input`);
-      await expect(input).toBeVisible({ timeout: 15000 });
-      await input.fill(value);
-    }
-    await page.waitForTimeout(1000);
-  }
-
-  // Click Continue
-  const accusedContinueButton = page.getByRole('button').filter({ hasText: 'Continue' });
-  await expect(accusedContinueButton).toBeVisible({ timeout: 15000 });
-  await accusedContinueButton.click();
-  await page.waitForTimeout(2000);
-
-  // Enter cheque value before uploading Dishonored Cheque
-    // Handle file uploads
-  console.log('Handling file uploads...');
-  // Using the filePath defined at the top of the test function
-
-  // Upload the file using the first file input for Dishonored Cheque
-  const dishonoredChequeInput = page.locator('input[type="file"]').first();
-  await expect(dishonoredChequeInput).toBeVisible({ timeout: 15000 });
-  await dishonoredChequeInput.setInputFiles(filePath);
-  await page.waitForTimeout(2000);
-
-  // Upload Cheque Return Memo using the second file input
- 
-
-  // Select Police Station using the provided XPath
-  console.log('Selecting Police Station...');
-  const policeStationInput = page.locator('xpath=/html/body/div[1]/div/div/div/div[2]/div/div[1]/div/div/div/div[2]/div/div[2]/form/div[1]/div[24]/div/div/div/input');
-  await expect(policeStationInput).toBeVisible({ timeout: 15000 });
-  await policeStationInput.click();
-  await policeStationInput.fill(globalVariables.policeStation);
-  await page.waitForTimeout(1000);
-  await page.keyboard.press('ArrowDown');
-  await page.keyboard.press('Enter');
-  await page.waitForTimeout(1000);
-
-  // Upload the file (assuming the next upload step is for the required document)
-  const fileUploadInput = page.locator('input[type="file"]').nth(2)
-  await expect(fileUploadInput).toBeVisible({ timeout: 15000 });
-  await fileUploadInput.setInputFiles(filePath);
-  await page.waitForTimeout(2000);
-
-  // Fill cheque details
-  console.log('Filling cheque details...');
-  const chequeFields = {
-    'Name of Signatory of Dishonoured Cheque': globalVariables.chequeSignatoryName,
-    'Payee Name on Cheque': globalVariables.chequeSignatoryName,
-    'Payee Bank Name': globalVariables.payeeBankName,
-    'Payee Bank Branch Name': globalVariables.payeeBranchName,
-    'Cheque Number': globalVariables.chequeNumber,
-    'Date of Cheque': globalVariables.issuanceDate,
-    'Payer Bank Name': globalVariables.payerBankName,
-    'Payer Bank Branch Name': globalVariables.payerBranchName,
-    'IFSC Code': globalVariables.ifsc,
-    'Cheque Amount': globalVariables.chequeAmount,
-    'Date of Return of Cheque as per Cheque Return Memo': globalVariables.depositDate,
-  };
-
-  for (const [label, value] of Object.entries(chequeFields)) {
-    let input;
-    if (label.includes('Date')) {
-      // Try input[type="date"] first, then fallback to input
-      input = page.locator(`//h2[contains(text(), "${label}")]/following-sibling::div//input[@type="date"]`);
-      if (!(await input.count())) {
-        input = page.locator(`//h2[contains(text(), "${label}")]/following-sibling::div//input`);
-      }
-      console.log(`Filling date field "${label}" with value "${value}"`);
-      await expect(input).toBeVisible({ timeout: 15000 });
-      await input.fill(value);
-      await page.waitForTimeout(1000); // Wait 1 second after filling date field
-      console.log(`Filled date field "${label}"`);
-    } else {
-      input = page.locator(`//h2[contains(text(), "${label}")]/following-sibling::div//input`);
-    }
-    await expect(input).toBeVisible({ timeout: 15000 });
-    await input.fill(value);
-    await page.waitForTimeout(1000);
-  }
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  const chequeReturnMemoInput = page.locator('input[type="file"]').last()
-  await expect(chequeReturnMemoInput).toBeVisible({ timeout: 15000 });
-  await chequeReturnMemoInput.setInputFiles(filePath);
-  await page.waitForTimeout(2000);
-  // Scroll to the bottom of the page before filling reason for return
-  //ait page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  const reasonTextarea = page.locator('xpath=/html/body/div[1]/div/div/div/div[2]/div/div[1]/div/div/div/div[2]/div/div[2]/form/div[1]/div[30]/div/div/textarea');
-  //ait expect(reasonTextarea).toBeVisible({ timeout: 2000});
-  //ait reasonTextarea.click();
-  await reasonTextarea.fill(globalVariables.reasonForReturnOfCheque);
-  // Click out of the field (click the body)
-  await page.locator('body').click();
-  // Click Continue
-  console.log('Clicking Continue Button..');
-  const chequeDetailsContinueButton = page.getByRole('button').filter({ hasText: 'Continue' });
-  await expect(chequeDetailsContinueButton).toBeVisible({ timeout: 15000 });
-  await chequeDetailsContinueButton.click();
-  await page.waitForTimeout(10000);
-  // Select Full Liability
-  console.log('Selecting Full Liability...');
-  const fullLiabilityRadio = page.locator('xpath=/html/body/div[1]/div/div/div/div[2]/div/div[1]/div/div/div/div[2]/div/div[2]/form/div[1]/div[4]/div/div/div[1]/span/input');
-  await expect(fullLiabilityRadio).toBeVisible({ timeout: 15000 });
-  await fullLiabilityRadio.click();
-  await page.waitForTimeout(2000);
-
-  // Fill debt/liability details
-  console.log('Filling debt/liability details...');
-  const natureInput = page.locator('//h2[contains(text(), "Nature of debt / liability for which cheque(s) was/were received")]/following-sibling::div//input');
-  await expect(natureInput).toBeVisible({ timeout: 15000 });
-  await natureInput.fill(globalVariables.liabilityNature);
-  
-  // Click Continue
-  const liabilityContinueButton = page.getByRole('button').filter({ hasText: 'Continue' });
-  await expect(liabilityContinueButton).toBeVisible({ timeout: 15000 });
-  await liabilityContinueButton.click();
-  await page.waitForTimeout(2000);
-
-  // Upload Legal Demand Notice and related documents
-  console.log('Uploading Legal Demand Notice and related documents...');
-  
-  // Upload Legal Demand Notice
-  const legalDemandNoticeInput = page.locator('input[type="file"]').first();
-  await legalDemandNoticeInput.setInputFiles(filePath);
-  await page.waitForTimeout(2000);
-  const proofOfDispatchInput1 = page.locator('input[type="file"]').nth(2);
-  await proofOfDispatchInput1.setInputFiles(filePath);
-  await page.waitForTimeout(2000);
-  const proofOfDispatchInput2 = page.locator('input[type="file"]').last();
-  await proofOfDispatchInput2.setInputFiles(filePath);
-  await page.waitForTimeout(2000);
-  // Select No for first question
-  console.log('Selecting No for first question...');
-  const firstNoRadio = page.locator('xpath=/html/body/div[1]/div/div/div/div[2]/div/div[1]/div/div/div/div[2]/div/div[2]/form/div[1]/div[12]/div/div/div[2]/span/input');
-  await expect(firstNoRadio).toBeVisible({ timeout: 15000 });
-  await firstNoRadio.click({ force: true });
-  await page.waitForTimeout(2000);
-
-  // Upload Proof of dispatch
-  console.log('Uploading Proof of dispatch...');
-  const proofOfDispatchInput = page.locator('input[type="file"]').nth(1);
-  await expect(proofOfDispatchInput).toBeVisible({ timeout: 15000 });
-  await proofOfDispatchInput.setInputFiles(filePath);
-  await page.waitForTimeout(2000);
-
-  // Select No for second question
- // const secondNoRadio = page.locator('label').filter({ hasText: 'No' }).locator('span').nth(2);
- // await secondNoRadio.click();
- // await page.waitForTimeout(1000);
-
-  // Fill dispatch dates
-  const dispatchDates = {
-    'Date of Dispatch of Legal': globalVariables.dateOfDispatch,
-    'Date of Service or Deemed Service': globalVariables.dateOfService
-  };
-
-  for (const [label, value] of Object.entries(dispatchDates)) {
-    const input = page.locator(`//h2[contains(text(), "${label}")]/following-sibling::div//input`);
-    await expect(input).toBeVisible({ timeout: 15000 });
-    await input.fill(value);
-    await page.waitForTimeout(1000);
-  }
-
-  // Upload Delay Condonation Application
-  const continueBtn1 = page.getByRole('button').filter({ hasText: 'Continue' });
-    await expect(continueBtn1).toBeVisible({ timeout: 15000 });
-    await continueBtn1.click();
-    await page.waitForTimeout(2000);
-  //   console.log('Uploading Delay Condonation Application...');
-  // const delayCondonationInput = page.locator('input[type="file"]').first();
-  // await expect(delayCondonationInput).toBeVisible({ timeout: 15000 });
-  // await delayCondonationInput.setInputFiles(filePath);
-  // await page.waitForTimeout(2000);
-  
-  
-  // Click Continue twice
-  for (let i = 0; i < 2; i++) {
-    const continueBtn = page.getByRole('button').filter({ hasText: 'Continue' });
-    await expect(continueBtn).toBeVisible({ timeout: 15000 });
-    await continueBtn.click();
-    await page.waitForTimeout(2000);
-  }
-
-  // Upload Affidavit
-  const affidavitInput = page.locator('input[type="file"]').first();
-  await affidavitInput.setInputFiles(filePath);
-  await page.waitForTimeout(2000);
-
-  // Fill complaint and prayer
-  const complaintTextarea = page.getByRole('textbox', { name: 'rdw-editor' });
-  await expect(complaintTextarea).toBeVisible({ timeout: 15000 });
-  await complaintTextarea.fill(globalVariables.complaintDetails);
-
-  const prayerTextarea = page.getByRole('textbox').nth(1);
-  await expect(prayerTextarea).toBeVisible({ timeout: 15000 });
-  await prayerTextarea.fill(globalVariables.prayerDetails);
-
-  // Click Continue
-  const complaintContinueButton = page.getByRole('button').filter({ hasText: 'Continue' });
-  await expect(complaintContinueButton).toBeVisible({ timeout: 15000 });
-  await complaintContinueButton.click();
-  await page.waitForTimeout(2000);
-
-  // Add Advocate
-  // console.log('Adding Advocate details...');
-  // const addAdvocateButton = page.getByRole('heading', { name: 'Add Advocate' });
-  // await expect(addAdvocateButton).toBeVisible({ timeout: 15000 });
-  // await addAdvocateButton.click();
-  // await page.waitForTimeout(2000);
-
-  // // Search and select advocate
-  // const barSearchInput = page.locator('input[placeholder="Search BAR Registration Id"]').nth(1);
-  // await expect(barSearchInput).toBeVisible({ timeout: 15000 });
-  // await barSearchInput.fill('IN/1001');
-  // await page.waitForTimeout(1000);
-
-  // const advocateResult = page.locator('input[placeholder="Search BAR Registration Id"]').nth(1).locator('following::li');
-  // await expect(advocateResult).toBeVisible({ timeout: 15000 });
-  // await advocateResult.click();
-  // await page.waitForTimeout(2000);
-
+  // advocate details
+  await page.waitForTimeout(3000);
   await page.getByRole("textbox").first().click();
   await page.getByRole("textbox").first().fill(globalVariables.noOfAdvocates);
-  await page.waitForTimeout(2000);
+  const vakalatnama = path.resolve(__dirname, "./Testimages/Vakalatnama.png");
+  await page.locator('input[type="file"]').first().setInputFiles(vakalatnama);
+  await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
 
-  // Upload Vakalatnama
-  const vakalatnameInput = page.locator('input[type="file"]').first();
-  await vakalatnameInput.setInputFiles(filePath);
-  await page.waitForTimeout(2000);
-
-  // Click Continue
-  const advocateContinueButton = page.getByRole('button').filter({ hasText: 'Continue' });
-  await expect(advocateContinueButton).toBeVisible({ timeout: 15000 });
-  await advocateContinueButton.click();
-  await page.waitForTimeout(2000);
-
-  // Click Skip & Continue
-  console.log('Clicking Skip & Continue...');
-  const skipButton = page.getByRole('heading', { name: 'Skip & Continue' });
-  await expect(skipButton).toBeVisible({ timeout: 15000 });
-  await skipButton.click();
-  await page.waitForTimeout(2000);
-
-  // Click Confirm Details
-  const confirmButton = page.getByRole('button').filter({ hasText: 'Confirm Details' });
-  await expect(confirmButton).toBeVisible({ timeout: 15000 });
-  await confirmButton.click();
-  await page.waitForTimeout(2000);
-
-  // Check the checkbox
-  const checkbox = page.locator('input[type="checkbox"]');
-  await expect(checkbox).toBeVisible({ timeout: 15000 });
-  await checkbox.check();
-  await page.waitForTimeout(1000);
-
-  // Click Upload Signed copy
-  const uploadSignedButton = page.getByRole('heading', { name: 'Upload Signed copy' });
-  await expect(uploadSignedButton).toBeVisible({ timeout: 15000 });
-  await uploadSignedButton.click();
-  await page.waitForTimeout(2000);
-
+  // review and sign
+    await page.waitForTimeout(3000);
+  await page.locator(".header-end > div > svg > path:nth-child(2)").click();
+  await page.getByRole("button").filter({ hasText: "Confirm Details" }).click();
+  await page.getByRole("checkbox").check();
+    
+  await page.getByRole("button", { name: "Upload Signed copy" }).click();
   const downloadPromise = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Download PDF' }).click();
     //const download = await downloadPromise;
@@ -439,76 +302,67 @@ test('Citizen Case Filing Test', async ({ page }) => {
     await page.getByRole("button", { name: "Upload Signed PDF" }).click();
     await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
 
-  // Click Upload Signed PDF
-  // const uploadPDFButton = page.getByText('Upload Signed PDF');
-  // await expect(uploadPDFButton).toBeVisible({ timeout: 15000 });
-  // await uploadPDFButton.click();
-  // await page.waitForTimeout(2000);
+  // await page.getByRole("button", { name: "Upload Signed PDF" }).click();
+  // await page.locator('input[type="file"]').first().setInputFiles(filePath);
+  await page.getByRole("button", { name: "Submit Signature" }).click();
+  await page.getByRole("button").filter({ hasText: "Submit Case" }).click();
+  await page.waitForLoadState("networkidle");
 
-  // // Upload signed PDF
-  // const signedPDFInput = page.locator('input[type="file"]').first();
-  // await expect(signedPDFInput).toBeVisible({ timeout: 15000 });
-  // await signedPDFInput.setInputFiles(filePath);
-  // await page.waitForTimeout(2000);
-
-  // Click Submit Signature
-  const submitSignatureButton = page.getByRole('heading', { name: 'Submit Signature' });
-  await expect(submitSignatureButton).toBeVisible({ timeout: 15000 });
-  await submitSignatureButton.click();
-  await page.waitForTimeout(2000);
-
-  // Click Submit Case
-  const submitCaseButton = page.getByText('Submit Case');
-  await expect(submitCaseButton).toBeVisible({ timeout: 15000 });
-  await submitCaseButton.click();
-  await page.waitForTimeout(2000);
-      const filingNumber = await page
-        .locator("span.e-filing-table-value-style")
-        .innerText();
-      globalVariables.filingNumber = filingNumber;
-      fs.writeFileSync(
-        globalVarsPath,
-        JSON.stringify(globalVariables, null, 2)
-      );
 
   
     // Click Make Payment button using XPath
     console.log('Looking for Make Payment button...');
     const makePaymentButton = page.locator('button:has-text("Make Payment")').first();
+
     await expect(makePaymentButton).toBeVisible({ timeout: 30000 });
     await makePaymentButton.click();
-    await page.waitForTimeout(3000);
 
-    // Click Pay Online button
-    console.log('Looking for Pay Online button...');
-    const payOnlineButton = page.locator('button:has-text("Pay Online")').first();
-    await expect(payOnlineButton).toBeVisible({ timeout: 30000 });
-    await payOnlineButton.click();
-    // await page.waitForTimeout(3000);
-    const page1Promise = page.waitForEvent('popup');
-    const page1 = await page1Promise;
-    
-    await page1.getByRole('link', { name: 'Payment Gateway 2 (UPI,Credit' }).click();
-    await page1.locator('#link2').click();
-    await page1.getByRole('button', { name: 'Proceed for Payment' }).click();
-    await page1.waitForLoadState('networkidle');
-    await page1.waitForTimeout(5000);
-    await page1.getByRole('button', { name: 'Ok' }).click();
-    
-    await page1.getByText('UPI').click();
-    await page1.waitForTimeout(5000);
-    
-    await page1.getByRole('textbox', { name: 'Enter your UPI virtual id' }).click();
-    await page1.getByRole('textbox', { name: 'Enter your UPI virtual id' }).fill('test@test');
-    await page1.waitForTimeout(5000);
-    await page1.locator('a').filter({ hasText: 'Continue' }).click();
-    await page1.waitForTimeout(5000);
-    await page1.getByRole('link', { name: 'Continue' }).click();
-    await page1.waitForTimeout(5000);
-    await page1.goto('https://dristi-kerala-uat.pucar.org/ui/citizen/home/home-pending-task/e-filing-payment-response');
-    await page1.close();
-    await page.getByText('Payment Successful').click();
+    await page.getByRole("button", { name: "Pay Online" }).click();
+
+    await page.waitForLoadState("networkidle");
     await page.waitForTimeout(5000);
+
+    const filingNumber = await page
+      .locator("span.e-filing-table-value-style")
+      .innerText();
+    globalVariables.filingNumber = filingNumber;
+    console.log("Filing Number : "+ filingNumber);
+    fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
+    await page.waitForTimeout(5000);
+
+
+    // await expect(makePaymentButton).toBeVisible({ timeout: 30000 });
+    // await makePaymentButton.click();
+    // await page.waitForTimeout(3000);
+
+    // // Click Pay Online button
+    // console.log('Looking for Pay Online button...');
+    // const payOnlineButton = page.locator('button:has-text("Pay Online")').first();
+    // await expect(payOnlineButton).toBeVisible({ timeout: 30000 });
+    // await payOnlineButton.click();
+    // // await page.waitForTimeout(3000);
+    // const page1Promise = page.waitForEvent('popup');
+    // const page1 = await page1Promise;
+    
+    // await page1.getByRole('link', { name: 'Payment Gateway 2 (UPI,Credit' }).click();
+    // await page1.locator('#link2').click();
+    // await page1.getByRole('button', { name: 'Proceed for Payment' }).click();
+    // await page1.waitForLoadState('networkidle');
+    // await page1.waitForTimeout(5000);
+    // await page1.getByRole('button', { name: 'Ok' }).click();
+    
+    // await page1.getByText('UPI').click();
+    // await page1.waitForTimeout(5000);
+    
+    // await page1.getByRole('textbox', { name: 'Enter your UPI virtual id' }).click();
+    // await page1.getByRole('textbox', { name: 'Enter your UPI virtual id' }).fill('test@test');
+    // await page1.waitForTimeout(5000);
+    // await page1.locator('a').filter({ hasText: 'Continue' }).click();
+    // await page1.waitForTimeout(5000);
+    // await page1.getByRole('link', { name: 'Continue' }).click();
+    // await page1.waitForTimeout(5000);
+    // await page1.goto('https://dristi-kerala-uat.pucar.org/ui/citizen/home/home-pending-task/e-filing-payment-response');
+    // await page1.close();
 
 
   

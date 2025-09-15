@@ -78,4 +78,6 @@ test('Register Case Test', async ({ page }) => {
   await page.getByRole('textbox').click();
   await page.getByRole('textbox').fill('TEST');
   await page.getByRole('button').filter({ hasText: 'Send' }).click();
+  await page.waitForTimeout(5000);
+  await page.waitForLoadState('networkidle');
 }); 

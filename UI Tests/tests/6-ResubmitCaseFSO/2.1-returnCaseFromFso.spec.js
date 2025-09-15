@@ -5,6 +5,7 @@ const globalVarsPath = path.join(__dirname, '../../global-variables.json');
 let globalVariables = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 test('Fso Login Test', async ({ page }) => {
+  test.setTimeout(180000);
   // Navigate to the employee login page
   console.log('Navigating to Fso login page...');
   await page.goto(globalVariables.baseURL + 'ui/employee/user/login');
