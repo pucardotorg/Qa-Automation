@@ -321,12 +321,15 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
 
 
   // complaint
+
   await page.getByRole("textbox", { name: "rdw-editor" }).first().click();
   await page.getByRole("textbox", { name: "rdw-editor" }).first().fill("test");
   const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
   await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
+  await page.waitForTimeout(2000);
   await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).click();
   await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).fill("test");
+  await page.waitForTimeout(2000);
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
   await page.waitForTimeout(3000);
   await page.waitForLoadState("networkidle");
@@ -336,9 +339,11 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.waitForTimeout(3000);
   await page.getByRole("textbox").first().click();
   await page.getByRole("textbox").first().fill(globalVariables.noOfAdvocates);
+  await page.waitForTimeout(2000);
   const vakalatnama = path.resolve(__dirname, "./Testimages/Vakalatnama.png");
   await page.locator('input[type="file"]').first().setInputFiles(vakalatnama);
 
+  await page.waitForTimeout(2000);
   await page
     .locator("form")
     .filter({ hasText: "Complainant 2IknoorIs this" })
