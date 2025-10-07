@@ -19,13 +19,20 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install Node dependencies
         run: |
           npm ci
 
-      - name: Install Playwright browsers
+      - name: Install Playwright (core + browsers)
         run: |
+          npm install @playwright/test
+          npm install @types/node
+          npm install dot-env
           npx playwright install --with-deps
+
+      - name: Verify Playwright installation
+        run: |
+          npx playwright --version
 
       - name: Run Playwright tests
         run: |
