@@ -29,7 +29,7 @@ jobs:
 
       - name: Run Playwright tests
         run: |
-          npx playwright test --headed --workers=1
+          npx playwright test --workers=1
 
       - name: Upload Playwright Report (optional)
         if: always()
