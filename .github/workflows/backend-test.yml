@@ -1,10 +1,10 @@
-name: Playwright Tests
+name: Back-End Playwright Tests
 
 on:
   push:
-    branches: [ main, frontend, sdcuat ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, frontend, sdcuat ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -35,10 +35,10 @@ jobs:
         run: |
           npx playwright --version
 
-      - name: Run Playwright tests
+      - name: Run Back-End Playwright tests
         run: |
-          npx playwright test --workers=1
-
+          cd Case\ create/
+          bash run-all-tests.sh
       - name: Upload Playwright Report (optional)
         if: always()
         uses: actions/upload-artifact@v4
