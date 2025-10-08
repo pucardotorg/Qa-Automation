@@ -1,5 +1,5 @@
 {
-  "baseURL": "https://oncourts-staging.kerala.gov.in/",
+  "baseURL": "https://dristi-kerala-qa.pucar.org/",
   "caseId": "67c8bd11-faf3-4550-8fc9-89f6cb0efda9",
   "filingNumber": "KL-000267-2025",
   "nayamitraAuthToken": "815b22cc-008d-4320-8e79-3b320f41e387",
@@ -22,7 +22,7 @@
   "advocateIndividualId": "IND-2025-08-12-000030",
   "demandId": "0f27842e-58d8-4e87-9461-d83d009aae30",
   "billId": "2d0e5bdf-1948-4a00-a021-99e9160b9d11",
-  "epochTime": 1759900371350,
+  "epochTime": 1759904513045,
   "representingid": "e93675d4-db36-48f9-bf5b-c21afbc25f4b",
   "litigantid": "2504c0e9-6496-4028-9c36-cb4813995edb",
   "representingli": "5ca62651-9859-4fa2-979b-dac5280f7dd3",
@@ -532,25 +532,25 @@
     "permanentCity": null
   },
   "fsouuid": "fa95bc6e-f34e-4c25-8d98-00728d619f45",
-  "litigentAuthToken": "dd5dca48-df92-4580-9834-d049b77dffc0",
-  "litigentuuid": "8fbefb5d-c4d4-447f-a507-4ca819c51587",
+  "litigentAuthToken": "0f2066ad-1245-4e18-a6d9-be2099c03d75",
+  "litigentuuid": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
   "litigentIndividualResponse": {
     "ResponseInfo": {
       "apiId": "Rainmaker",
       "ver": null,
-      "ts": 1759899870262,
-      "resMsgId": "1759899869800|en_IN",
-      "msgId": "1759899869800|en_IN",
+      "ts": 1759904519178,
+      "resMsgId": "1759904518037|en_IN",
+      "msgId": "1759904518037|en_IN",
       "status": "successful"
     },
     "Individual": [
       {
-        "id": "8fdbd48c-9272-4718-90f8-187cf61993f5",
-        "individualId": "IND-2025-08-12-000032",
+        "id": "34b5d2e3-7d31-4a14-8837-8ec7ff2a8c70",
+        "individualId": "IND-2025-07-18-000175",
         "tenantId": "kl",
         "clientReferenceId": null,
-        "userId": "145",
-        "userUuid": "8fbefb5d-c4d4-447f-a507-4ca819c51587",
+        "userId": "393",
+        "userUuid": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
         "name": {
           "givenName": "GURU LIT",
           "familyName": null,
@@ -564,11 +564,11 @@
         "email": null,
         "address": [
           {
-            "id": "565b0af0-c557-42c5-a749-501a7705203c",
+            "id": "223120d0-8004-4be7-a937-643a2afaf583",
             "clientReferenceId": null,
-            "individualId": "8fdbd48c-9272-4718-90f8-187cf61993f5",
+            "individualId": "34b5d2e3-7d31-4a14-8837-8ec7ff2a8c70",
             "tenantId": "kl",
-            "doorNo": null,
+            "doorNo": "tset",
             "latitude": 0,
             "longitude": 0,
             "locationAccuracy": 0,
@@ -578,16 +578,16 @@
             "landmark": null,
             "city": "test",
             "pincode": "686002",
-            "buildingName": null,
+            "buildingName": "test",
             "street": "test",
             "locality": null,
             "ward": null,
             "isDeleted": false,
             "auditDetails": {
-              "createdBy": "8fbefb5d-c4d4-447f-a507-4ca819c51587",
-              "lastModifiedBy": "8fbefb5d-c4d4-447f-a507-4ca819c51587",
-              "createdTime": 1754982023558,
-              "lastModifiedTime": 1754982023558
+              "createdBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+              "lastModifiedBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+              "createdTime": 1752841739528,
+              "lastModifiedTime": 1752841739528
             }
           }
         ],
@@ -596,17 +596,17 @@
         "relationship": null,
         "identifiers": [
           {
-            "id": "2f71477d-2944-4e34-9c31-68934a425891",
+            "id": "6b4cc966-f2a5-4d48-a967-9676687dc665",
             "clientReferenceId": null,
-            "individualId": "8fdbd48c-9272-4718-90f8-187cf61993f5",
+            "individualId": "34b5d2e3-7d31-4a14-8837-8ec7ff2a8c70",
             "identifierType": "AADHAR",
-            "identifierId": "********************************b481",
+            "identifierId": "********************************a8eb",
             "isDeleted": false,
             "auditDetails": {
-              "createdBy": "8fbefb5d-c4d4-447f-a507-4ca819c51587",
-              "lastModifiedBy": "8fbefb5d-c4d4-447f-a507-4ca819c51587",
-              "createdTime": 1754982023558,
-              "lastModifiedTime": 1754982023558
+              "createdBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+              "lastModifiedBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+              "createdTime": 1752841739528,
+              "lastModifiedTime": 1752841739528
             }
           }
         ],
@@ -630,17 +630,17 @@
             },
             {
               "key": "identifierIdDetails",
-              "value": "{\"fileStoreId\":\"fdb93c49-8949-4f19-a76a-bcdff447b481\",\"filename\":\"React.png\"}"
+              "value": "{\"fileStoreId\":\"8e0538e2-be9c-4c8c-964a-4b6b14dea8eb\",\"filename\":\"bg logo.png\"}"
             }
           ]
         },
         "isDeleted": false,
         "rowVersion": 1,
         "auditDetails": {
-          "createdBy": "8fbefb5d-c4d4-447f-a507-4ca819c51587",
-          "lastModifiedBy": "8fbefb5d-c4d4-447f-a507-4ca819c51587",
-          "createdTime": 1754982023558,
-          "lastModifiedTime": 1754982023558
+          "createdBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+          "lastModifiedBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+          "createdTime": 1752841739528,
+          "lastModifiedTime": 1752841739528
         },
         "clientAuditDetails": {
           "createdBy": null,
@@ -787,9 +787,9 @@
       }
     ]
   },
-  "litigentIndividualId": "IND-2025-08-12-000032",
+  "litigentIndividualId": "IND-2025-07-18-000175",
   "litigentuserinfo": {
-    "id": 145,
+    "id": 393,
     "userName": "9914600000",
     "salutation": null,
     "name": "GURU LIT  ",
@@ -818,7 +818,7 @@
     "photo": null,
     "identificationMark": null,
     "createdBy": 0,
-    "lastModifiedBy": 145,
+    "lastModifiedBy": 393,
     "tenantId": "kl",
     "roles": [
       {
@@ -927,16 +927,16 @@
         "tenantId": "kl"
       }
     ],
-    "uuid": "8fbefb5d-c4d4-447f-a507-4ca819c51587",
-    "createdDate": "12-08-2025 12:29:26",
-    "lastModifiedDate": "12-08-2025 12:30:23",
+    "uuid": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+    "createdDate": "18-07-2025 17:58:18",
+    "lastModifiedDate": "18-07-2025 17:58:59",
     "dob": null,
-    "pwdExpiryDate": "10-11-2025 12:29:26"
+    "pwdExpiryDate": "16-10-2025 17:58:17"
   },
-  "citizenAuthToken": "dd1b7f89-22e8-479d-bbc8-05629094eacc",
+  "citizenAuthToken": "9837c896-f351-4fe6-8b9c-440b52d193b4",
   "citizenUserInfo": {
-    "id": 143,
-    "uuid": "641fc524-99ad-4d85-b2ee-85247d25b9f4",
+    "id": 394,
+    "uuid": "c3c91064-fa82-4138-a254-fa85cce72c83",
     "userName": "8827000000",
     "name": "ADV TEST  ",
     "mobileNumber": "8827000000",
