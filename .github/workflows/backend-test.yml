@@ -35,6 +35,12 @@ jobs:
         run: |
           npx playwright --version
 
+      - name: Debug environment variables
+        run: |
+          echo "Checking CI variables..."
+          echo "CITIZEN_USERNAME=${{ secrets.CITIZEN_USERNAME }}"
+          echo "JUDGE_USERNAME=${{ secrets.JUDGE_USERNAME }}"
+
       - name: Run Back-End Playwright tests
         env:
           CITIZEN_USERNAME: ${{ secrets.CITIZEN_USERNAME }}
@@ -48,10 +54,10 @@ jobs:
           JUDGE_USERNAME: ${{ secrets.JUDGE_USERNAME }}
           JUDGE_PASSWORD: ${{ secrets.JUDGE_PASSWORD }}
           CI: true
-
         run: |
-          cd Case\ create/
+          cd "Case create/"
           bash run-all-tests.sh
+
       - name: Upload Playwright Report (optional)
         if: always()
         uses: actions/upload-artifact@v4
