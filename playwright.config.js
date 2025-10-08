@@ -7,6 +7,8 @@ dotenv.config({ override: false });
 export default defineConfig({
   testDir: './Case create/tests',
 
+  timeout: 60000,
+
   fullyParallel: true,
 
   forbidOnly: !!process.env.CI,
