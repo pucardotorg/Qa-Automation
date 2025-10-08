@@ -36,6 +36,19 @@ jobs:
           npx playwright --version
 
       - name: Run Back-End Playwright tests
+        env:
+          CITIZEN_USERNAME: ${{ secrets.CITIZEN_USERNAME }}
+          CITIZEN_PASSWORD: ${{ secrets.CITIZEN_PASSWORD }}
+          LITIGENT_USERNAME: ${{ secrets.LITIGENT_USERNAME }}
+          LITIGENT_PASSWORD: ${{ secrets.LITIGENT_PASSWORD }}
+          NAYAMITRA_USERNAME: ${{ secrets.NAYAMITRA_USERNAME }}
+          NAYAMITRA_PASSWORD: ${{ secrets.NAYAMITRA_PASSWORD }}
+          FSO_USERNAME: ${{ secrets.FSO_USERNAME }}
+          FSO_PASSWORD: ${{ secrets.FSO_PASSWORD }}
+          JUDGE_USERNAME: ${{ secrets.JUDGE_USERNAME }}
+          JUDGE_PASSWORD: ${{ secrets.JUDGE_PASSWORD }}
+          CI: true
+
         run: |
           cd Case\ create/
           bash run-all-tests.sh
