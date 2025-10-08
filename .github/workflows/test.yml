@@ -5,6 +5,7 @@ on:
     branches: [ main, frontend, sdcuat ]
   pull_request:
     branches: [ main, frontend, sdcuat ]
+  workflow_dispatch:
 
 jobs:
   test:
