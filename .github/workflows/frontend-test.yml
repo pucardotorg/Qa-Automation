@@ -1,10 +1,11 @@
-name: Playwright Tests
+name: Playwright Tests (Frontend)
 
 on:
   push:
     branches: [ main, frontend, sdcuat ]
   pull_request:
     branches: [ main, frontend, sdcuat ]
+  workflow_dispatch:
 
 jobs:
   test:
