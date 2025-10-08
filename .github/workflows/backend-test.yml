@@ -28,7 +28,7 @@ jobs:
         run: |
           npm install @playwright/test
           npm install @types/node
-          npm install dot-env
+          npm install dotenv
           npx playwright install --with-deps
 
       - name: Verify Playwright installation
