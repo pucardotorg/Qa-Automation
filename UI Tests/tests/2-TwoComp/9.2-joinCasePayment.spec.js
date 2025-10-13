@@ -1,9 +1,8 @@
 import { test, expect } from '@playwright/test';
 import globalVars from '../../global-variables.json';
 
-test('JOIN CASE PAYMENT', async ({ page }) => {
+test('Join Case Payment Test', async ({ page }) => {
   // Navigate to the employee login page
-  test.setTimeout(60000);
   console.log('Navigating to Nm login page...');
   await page.goto(globalVars.baseURL + 'ui/employee/user/login');
   await page.waitForLoadState('networkidle');
@@ -35,16 +34,18 @@ test('JOIN CASE PAYMENT', async ({ page }) => {
   await continueButton.click();
   console.log('Clicked Continue button');
 
-  // 
-  await page.getByRole('button').filter({ hasText: 'View Pending Payments' }).click();
+  // Click on "Collect Offline Payments"
+  await page.getByText('Collect Offline Payments').click();
+
+  // Fill in the case title filing number
   await page.locator('input[name="caseTitleFilingNumber"]').click();
   await page.locator('input[name="caseTitleFilingNumber"]').fill(globalVars.cmpNumber);
   await page.getByRole('button').filter({ hasText: 'Search' }).click();
   await page.waitForTimeout(2000);
-  await page.getByRole('link', { name: `${globalVars.cmpNumber}` }).click();
+  await page.getByRole('link', { name: 'Record Payment' }).first().click();
   await page.locator('div').filter({ hasText: /^Mode of Payment$/ }).locator('path').nth(1).click();
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Stamp' }).click();
   await page.waitForTimeout(5000);
   await page.getByRole('button').click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(5000);
 });

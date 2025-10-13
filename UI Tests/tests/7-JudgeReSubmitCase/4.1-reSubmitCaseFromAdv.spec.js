@@ -45,7 +45,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
 
   for (let index = 0; index < 9; index++) {
     await page.getByRole("button").filter({ hasText: "Next" }).click();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await page.waitForLoadState("networkidle");
   }
   

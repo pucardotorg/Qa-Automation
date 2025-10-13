@@ -10,7 +10,7 @@ test('Court Staff Test', async ({ page }) => {
   await page.waitForTimeout(1000);
   await page.getByRole('button').click();
   await page.waitForTimeout(1000);
-  await page.getByRole("link", { name: "Process" }).click();
+  await page.getByText ('Sign Process').click();
   await page.waitForTimeout(1000);
   await page.getByRole('cell', { name: globalVars.cmpNumber }).first().click();
   await page.waitForTimeout(1000);
@@ -29,16 +29,16 @@ test('Court Staff Test', async ({ page }) => {
   await page.getByRole('button', { name: 'Upload Order Document with' }).click();
   await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
 
-  await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Submit Signature' }).click();
   await page.waitForTimeout(2000);
-  await page.getByRole('button', { name: 'Proceed to Send' }).click();
+  await page.getByRole('button', { name: 'Confirm Sign' }).click();
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Mark as sent' }).click();
 
   await page.getByRole('button', { name: 'Sent', exact: true }).click();
   await page.getByRole('cell', { name: globalVars.cmpNumber }).first().click();
-  await page.locator('input.employee-select-wrap--elipses.undefined').click();
+  await page.waitForTimeout(2000);
+  await page.locator('input.employee-select-wrap--elipses.undefined').nth(1).click();
   await page.locator('#jk-dropdown-unique div').first().click();
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Update Status' }).click();

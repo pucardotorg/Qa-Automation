@@ -205,7 +205,7 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   const vakalatnama = path.resolve(__dirname, "./Testimages/Vakalatnama.png");
   await page.locator('input[type="file"]').first().setInputFiles(vakalatnama);
 
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(5000);
   // save as draft
 
 
@@ -213,6 +213,9 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   await page.getByText('I', { exact: true }).click();
   await page.getByText('Logout').click();
   await page.getByRole('button', { name: 'Yes' }).click();
+
+  await page.waitForTimeout(2000);
+
   await page.getByRole('button').click();
   await page.getByRole('textbox').click();
   await page.getByRole("textbox").fill(globalVariables.citizenUsername);
@@ -227,7 +230,9 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   await page.waitForTimeout(10000);
 
   await page.getByRole('cell', { name: 'Iknoor Lit vs Automation Accused' }).first().click();
+  
   await page.locator('.header-end > div > svg > path:nth-child(2)').click();
+  
   await page.getByRole('button').filter({ hasText: 'Confirm Details' }).click();
    
   // review and sign

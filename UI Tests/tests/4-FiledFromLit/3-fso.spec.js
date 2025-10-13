@@ -43,6 +43,8 @@ test('FSO Login Test', async ({ page }) => {
   const currentUrl = page.url();
   console.log('Current URL:', currentUrl);
 
+  await page.getByText('Scrutinise Cases').click();
+
   // Log completion
   console.log('Searching for case...');
   
@@ -54,33 +56,13 @@ test('FSO Login Test', async ({ page }) => {
   await page.waitForTimeout(2000);
 
   // Find and fill the Case Name or ID field using updated XPath
-  const caseNameField = page.locator('xpath=//*[@id="root"]/div/div/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/div/div[1]/div[1]/div[2]/form/div/div/div[4]/div/input');
-  await expect(caseNameField).toBeVisible({ timeout: 10000 });
-  console.log('Found Case Name or ID field, entering case ID...');
-  await caseNameField.type(caseId);
-  await caseNameField.press('Enter');
+  await page.locator('input[name="caseSearchText"]').click();
+  await page.locator('input[name="caseSearchText"]').fill(globalVars.filingNumber);
+  await page.getByRole('button').filter({ hasText: 'Search' }).click();
 
-  // Click the search button after entering the case ID
-  const searchButton = page.locator('xpath=//*[@id="root"]/div/div/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/div/div[1]/div[1]/div[2]/form/div/div/div[5]/button/header');
-  await expect(searchButton).toBeVisible({ timeout: 10000 });
-  await searchButton.click();
-  
-  // Wait for the record to be displayed after search
-  const resultRow = page.locator('tr'); // Adjust selector if needed for your result row
-  await expect(resultRow.first()).toBeVisible({ timeout: 10000 });
-  
-  // Click on the case ID after search using the provided XPath
-  const caseIdCell = page.locator('xpath=//*[@id="root"]/div/div/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/div/div[1]/div[2]/div/span/table/tbody/tr[1]/td[1]');
-  await expect(caseIdCell).toBeVisible({ timeout: 10000 });
-  // Try to click a child <a> or <button> if present, otherwise click the cell
-  const clickableLink = caseIdCell.locator('a,button');
-  if (await clickableLink.count() > 0) {
-    await clickableLink.first().click();
-    console.log('Clicked child link/button in case ID cell');
-  } else {
-    await caseIdCell.click();
-    console.log('Clicked case ID cell directly');
-  }
+
+  await page.getByText(`vs`).click();
+
   // Wait for the page to load after clicking the case ID
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(2000); // Add some wait before proceeding

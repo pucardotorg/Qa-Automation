@@ -68,7 +68,9 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .locator('input[name="complainantAge"]')
     .fill(globalVariables.complainantAge);
 
+  await page.waitForTimeout(2000);
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForTimeout(2000);
 
   // accused details
   await page
@@ -273,12 +275,14 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
   await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).click();
   await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).fill("test");
+  await page.waitForTimeout(3000);
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
   await page.waitForTimeout(5000);
   await page.waitForLoadState("networkidle");
   // advocate details
 
+  await page.waitForTimeout(3000);
   await page.getByRole("textbox").first().click();
   await page.getByRole("textbox").first().fill(globalVariables.noOfAdvocates);
   const vakalatnama = path.resolve(__dirname, "./Testimages/Vakalatnama.png");
