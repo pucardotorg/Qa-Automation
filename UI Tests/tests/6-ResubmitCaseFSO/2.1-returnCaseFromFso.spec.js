@@ -67,7 +67,7 @@ test('Fso Login Test', async ({ page }) => {
 
 
 
-  await page.getByText(`vs`).click();
+  await page.getByText(`vs`).first().click();
 
   // Wait for the page to load after clicking the case ID
   await page.waitForLoadState('networkidle');

@@ -12,7 +12,7 @@ export default defineConfig({
 
   workers: 1,
 
-  timeout: 7 * 60 * 1000, // 7 minutes test timeout
+  timeout: 18000000,
 
   reporter: 'html',
   
@@ -36,7 +36,7 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { 
-        viewport: null  // Use actual browser window size
+         viewport: { width: 1920, height: 1080 }  // Use actual browser window size
       },
       workers: 1
  

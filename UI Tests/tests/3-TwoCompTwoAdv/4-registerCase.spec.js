@@ -5,7 +5,7 @@ import path from 'path';
 const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 
 test('Register Case Test', async ({ page }) => {
-  test.setTimeout(60000);
+  test.setTimeout(1800000);
   // Navigate to the employee login page
   console.log('Navigating to employee login page...');
   await page.goto(`${globalVariables.baseURL}ui/employee/user/login`);

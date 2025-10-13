@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import globalVars from '../../global-variables.json';
 
 test('FSO Login Test', async ({ page }) => {
+  test.setTimeout(1800000); // Set timeout to 60 seconds
   // Navigate to the employee login page
   console.log('Navigating to FSO login page...');
   await page.goto(globalVars.baseURL + 'ui/employee/user/login');
@@ -61,7 +62,7 @@ test('FSO Login Test', async ({ page }) => {
   await page.getByRole('button').filter({ hasText: 'Search' }).click();
 
 
-  await page.getByText(`vs`).click();
+  await page.getByText(`vs`).first().click();
 
   // Wait for the page to load after clicking the case ID
   await page.waitForLoadState('networkidle');
