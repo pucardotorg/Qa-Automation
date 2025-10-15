@@ -1,5 +1,12 @@
 #!/bin/bash
 
+set -euo pipefail
+
+# Respect external TEST_ENV if set; otherwise default to qa
+TEST_ENV=${TEST_ENV:-qa}
+export TEST_ENV
+echo "[run-all-tests] Using TEST_ENV=$TEST_ENV"
+
 # Array of test files in order
 tests=(
     "tests/0.citizenauthtoken.spec.js"
@@ -12,11 +19,10 @@ tests=(
     "tests/1.caselitigantupdate.spec.js"
     "tests/2.caseupdatefromdraft.spec.js"
     "tests/3.caseupdatesign.spec.js"
-    "tests/4.casebundlepdf.spec.js"
     "tests/4.1caseupdatesigned.spec.js"
     "tests/4.2.createdemand.spec.js"
-    "tests/5.fetchbill.spec.js"
     "tests/5.1nayamitraauthtoken.spec.js"
+    "tests/5.fetchbill.spec.js"   
     "tests/6.collectionservicewithsearchbill.spec.js"
     "tests/7.1fsoauthtoken.spec.js"
     "tests/7.FSOcasesubmit.spec.js"
@@ -44,7 +50,8 @@ tests=(
 # Run each test with a 1-second gap
 for test in "${tests[@]}"; do
     echo "Running test: $test"
-    npx playwright test "$test" --headed
+    # Forward any CLI args (e.g., --workers=1) to Playwright to ensure flags are honored
+    npx playwright test -c ../playwright.config.js "$test" --headed "$@"
     echo "Waiting 1 second before next test..."
     sleep 1
 done

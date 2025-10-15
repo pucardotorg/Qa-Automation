@@ -116,7 +116,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                 "document": [
                                     {
                                         "documentType": "case.cheque",
-                                           "fileStore": globalVars.UATfilestore["case.cheque"],
+                                           "fileStore": globalVars.filestore["case.cheque"],
                                         "documentName": "1.Judge Issue summons.png",
                                         "fileName": "CS_BOUNCED_CHEQUE"
                                     }
@@ -146,7 +146,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                 "document": [
                                     {
                                         "documentType": "case.cheque.returnmemo",
-                                         "fileStore": globalVars.UATfilestore["case.cheque.returnmemo"],
+                                         "fileStore": globalVars.filestore["case.cheque.returnmemo"],
                                         "documentName": "2. Cheque Return Memo - 27_09_2024.png",
                                         "fileName": "CS_CHEQUE_RETURN_MEMO"
                                     }
@@ -187,7 +187,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                 "document": [
                                     {
                                         "documentType": "case.liabilityproof",
-                                        "fileStore": globalVars.UATfilestore["case.liabilityproof"],
+                                        "fileStore": globalVars.filestore["case.liabilityproof"],
                                         "documentName": "2. Cheque Return Memo - 27_09_2024.png",
                                         "fileName": "CS_PROOF_DEBT"
                                     }
@@ -213,7 +213,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                 "document": [
                                     {
                                         "documentType": "case.demandnotice",
-                                         "fileStore": globalVars.UATfilestore["case.demandnotice"],
+                                         "fileStore": globalVars.filestore["case.demandnotice"],
                                         "documentName": "5. Legal Notice - 07_10_2024.pdf",
                                         "fileName": "LEGAL_DEMAND_NOTICE"
                                     }
@@ -223,7 +223,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                 "document": [
                                     {
                                         "documentType": "case.demandnotice.proof",
-                                        "fileStore": globalVars.UATfilestore["case.demandnotice.proof"],
+                                        "fileStore": globalVars.filestore["case.demandnotice.proof"],
                                         "documentName": "4. Lease Agreement - 17_06_2024.pdf",
                                         "fileName": "PROOF_OF_DISPATCH_FILE_NAME"
                                     }
@@ -234,7 +234,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                 "document": [
                                     {
                                         "documentType": "case.demandnotice.serviceproof",
-                                        "fileStore": globalVars.UATfilestore["case.demandnotice.serviceproof"],
+                                        "fileStore": globalVars.filestore["case.demandnotice.serviceproof"],
                                         "documentName": "3. Power of Attorney - 01_04_2024.pdf",
                                         "fileName": "PROOF_LEGAL_DEMAND_NOTICE_FILE_NAME"
                                     }
@@ -383,7 +383,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                             {
                                 "id": "93a640c6-957c-4bfc-b964-a5a807480fad",
                                 "documentType": "VAKALATNAMA_DOC",
-                                "fileStore": globalVars.UATfilestore["VAKALATNAMA_DOC"],
+                                "fileStore": globalVars.filestore["VAKALATNAMA_DOC"],
                                 "documentUid": "93a640c6-957c-4bfc-b964-a5a807480fad",
                                 "isActive": true,
                                 "additionalDetails": null
@@ -423,7 +423,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
             {
                 "id": "6f9d37ea-8199-4dbe-ac96-87cc32dfbc88",
                 "documentType": "case.liabilityproof",
-                "fileStore": globalVars.UATfilestore["case.liabilityproof"],
+                "fileStore": globalVars.filestore["case.liabilityproof"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -431,7 +431,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
             {
                 "id": "6db0e58d-6a69-4a08-8501-088a23a17c0b",
                 "documentType": "case.affidavit.223bnss",
-                "fileStore": globalVars.UATfilestore["case.affidavit.223bnss"],
+                "fileStore": globalVars.filestore["case.affidavit.223bnss"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -439,7 +439,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
             {
                 "id": "3f98d19b-9253-4536-9bfb-4a427bb1b75c",
                 "documentType": "COMPLAINANT_ID_PROOF",
-                "fileStore": globalVars.UATfilestore["COMPLAINANT_ID_PROOF"],
+                "fileStore": globalVars.filestore["COMPLAINANT_ID_PROOF"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -447,7 +447,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
             {
                 "id": "a4a15821-af8b-4799-b6bf-03f427de4bd0",
                 "documentType": "case.affidavit.225bnss",
-                "fileStore": globalVars.UATfilestore["case.affidavit.225bnss"],
+                "fileStore": globalVars.filestore["case.affidavit.225bnss"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -455,7 +455,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
             {
                 "id": "2922c675-2fab-4990-88be-b76297dc72c3",
                 "documentType": "case.cheque",
-                 "fileStore": globalVars.UATfilestore["case.cheque"],
+                 "fileStore": globalVars.filestore["case.cheque"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -463,7 +463,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
             {
                 "id": "61dd9404-442b-4cf1-b23b-4f2f1feb9682",
                 "documentType": "case.cheque.returnmemo",
-                "fileStore": globalVars.UATfilestore["case.cheque.returnmemo"],
+                "fileStore": globalVars.filestore["case.cheque.returnmemo"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -471,7 +471,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
             {
                 "id": "80d9f0dc-c87e-4def-8d6f-c45012eef096",
                 "documentType": "case.demandnotice",
-               "fileStore": globalVars.UATfilestore["case.demandnotice"],
+               "fileStore": globalVars.filestore["case.demandnotice"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -479,7 +479,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
             {
                 "id": "0d64728f-a9a6-4c97-ac2a-df57a5985e9f",
                 "documentType": "case.demandnotice.proof",
-                "fileStore": globalVars.UATfilestore["case.demandnotice.proof"],
+                "fileStore": globalVars.filestore["case.demandnotice.proof"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
@@ -487,14 +487,14 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
             {
                 "id": "95cb58fc-acee-4d88-97ed-81f6fb78903f",
                 "documentType": "case.demandnotice.serviceproof",
-                "fileStore": globalVars.UATfilestore["case.demandnotice.serviceproof"],
+                "fileStore": globalVars.filestore["case.demandnotice.serviceproof"],
                 "documentUid": null,
                 "isActive": true,
                 "additionalDetails": null
             },
             {
                 "documentType": "VAKALATNAMA_DOC",
-                "fileStore": globalVars.UATfilestore["VAKALATNAMA_DOC"],
+                "fileStore": globalVars.filestore["VAKALATNAMA_DOC"],
                 "documentName": "7 Proof of Delivery of Legal Notice - 9_10_2024 (1).png",
                 "fileName": "VAKALATNAMA",
                 "id": "91dd7501-0962-4848-99fa-65aecf8469b9"
@@ -562,7 +562,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                     "document": [
                                         {
                                             "fileName": "VAKALATNAMA",
-                                             "fileStore": globalVars.UATfilestore["VAKALATNAMA_DOC"],
+                                             "fileStore": globalVars.filestore["VAKALATNAMA_DOC"],
                                             "documentName": "7 Proof of Delivery of Legal Notice - 9_10_2024 (1).png",
                                             "documentType": "VAKALATNAMA_DOC"
                                         }
@@ -627,7 +627,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                 "document": [
                                     {
                                         "fileName": "Affidavit under section 225 of BNSS",
-                                        "fileStore": globalVars.UATfilestore["case.affidavit.225bnss"],
+                                        "fileStore": globalVars.filestore["case.affidavit.225bnss"],
                                         "documentName": "1.Judge Issue summons.png",
                                         "documentType": "case.affidavit.225bnss"
                                     }
@@ -812,7 +812,7 @@ test.describe('API Test for fetchCaseComplaintPdf endpoint', () => {
                                 "document": [
                                     {
                                         "fileName": "CS_SWORN_STATEMENT_HEADER",
-                                        "fileStore": globalVars.UATfilestore["COMPLAINANT_ID_PROOF"],
+                                        "fileStore": globalVars.filestore["COMPLAINANT_ID_PROOF"],
                                         "documentName": "Affidavit.pdf",
                                         "documentType": "case.affidavit.223bnss"
                                     }
@@ -939,11 +939,11 @@ test.describe('Upload complainant PDF to filestore', () => {
     expect(filestoreId).toBeTruthy();
     console.log('Filestore ID:', filestoreId);
 
-    // Store the filestoreId in globalVars.UATfilestore["case.complaint.signed"]
-    if (!globalVars.UATfilestore) {
-      globalVars.UATfilestore = {};
+    // Store the filestoreId in globalVars.filestore["case.complaint.signed"]
+    if (!globalVars.filestore) {
+      globalVars.filestore = {};
     }
-    globalVars.UATfilestore["case.complaint.signed"] = filestoreId;
+    globalVars.filestore["case.complaint.signed"] = filestoreId;
     fs.writeFileSync(globalVarsPath, JSON.stringify(globalVars, null, 2), 'utf8');
   });
 });

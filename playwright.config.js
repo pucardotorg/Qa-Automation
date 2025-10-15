@@ -1,8 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
+import path from 'path';
 
 // ✅ Load environment variables before exporting config
-dotenv.config({ override: false });
+const TEST_ENV = (process.env.TEST_ENV || 'qa').toLowerCase();
+const envFilePath = path.resolve(__dirname, 'Case create', `.env.${TEST_ENV}`);
+dotenv.config({ path: envFilePath, override: true });
 
 export default defineConfig({
   testDir: './Case create/tests',
@@ -33,6 +36,9 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
+
+  // Ensure env-specific global variables are prepared before tests
+  globalSetup: './Case create/global-setup.js',
 
   // Optional: Start a local dev server before running tests
   // webServer: {

@@ -134,7 +134,7 @@ test.describe('Application Create API Tests', () => {
                 "documents": [
                     {
                         "documentType": "application/pdf",
-                        "fileStore": globalVars.UATfilestore["application"],
+                        "fileStore": globalVars.filestore["application"],
                         "documentOrder": 0,
                         "additionalDetails": {
                             "name": "10.Scrutiny.Checklist.Update (3).pdf"
