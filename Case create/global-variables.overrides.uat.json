@@ -1,0 +1,19 @@
+{
+  "baseURL": "https://oncourts-staging.kerala.gov.in/",
+  "UATfilestore": {
+    "case.cheque": "88674014-94b5-436e-bb56-b612f664958a",
+    "case.cheque.returnmemo": "88674014-94b5-436e-bb56-b612f664958a",
+    "case.liabilityproof": "88674014-94b5-436e-bb56-b612f664958a",
+    "case.demandnotice": "88674014-94b5-436e-bb56-b612f664958a",
+    "case.demandnotice.proof": "88674014-94b5-436e-bb56-b612f664958a",
+    "case.demandnotice.serviceproof": "88674014-94b5-436e-bb56-b612f664958a",
+    "VAKALATNAMA_DOC": "88674014-94b5-436e-bb56-b612f664958a",
+    "case.affidavit.223bnss": "88674014-94b5-436e-bb56-b612f664958a",
+    "COMPLAINANT_ID_PROOF": "88674014-94b5-436e-bb56-b612f664958a",
+    "case.affidavit.225bnss": "88674014-94b5-436e-bb56-b612f664958a",
+    "image/png": "88674014-94b5-436e-bb56-b612f664958a",
+    "orderTitle": "88674014-94b5-436e-bb56-b612f664958a",
+    "application": "88674014-94b5-436e-bb56-b612f664958a",
+    "case.complaint.signed": "88674014-94b5-436e-bb56-b612f664958a"
+  }
+}
