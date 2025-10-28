@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 import globalVars from '../../global-variables.json';
 
-test('Case Payment Test', async ({ page }) => {
+test('Join Case Payment Test', async ({ page }) => {
   // Navigate to the employee login page
-  console.log('Navigating to Nm login page...');
+console.log('Navigating to Nm login page...');
+  test.setTimeout(180000);
   await page.goto(globalVars.baseURL + 'ui/employee/user/login');
   await page.waitForLoadState('networkidle');
 
@@ -39,7 +40,7 @@ test('Case Payment Test', async ({ page }) => {
 
   // Fill in the case title filing number
   await page.locator('input[name="caseTitleFilingNumber"]').click();
-  await page.locator('input[name="caseTitleFilingNumber"]').fill(globalVars.filingNumber);
+  await page.locator('input[name="caseTitleFilingNumber"]').fill(globalVars.cmpNumber);
   await page.getByRole('button').filter({ hasText: 'Search' }).click();
   await page.waitForTimeout(2000);
   await page.getByRole('link', { name: 'Record Payment' }).first().click();

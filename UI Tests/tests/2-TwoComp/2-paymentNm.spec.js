@@ -3,8 +3,8 @@ import globalVars from '../../global-variables.json';
 
 test('Case Payment Test', async ({ page }) => {
   // Navigate to the employee login page
-  console.log('Navigating to Nm login page...');
-  await page.goto(globalVars.baseURL + 'ui/employee/user/login');
+console.log('Navigating to Nm login page...');
+await page.goto(globalVars.baseURL + 'ui/employee/user/login');
   await page.waitForLoadState('networkidle');
 
   // Verify the page title

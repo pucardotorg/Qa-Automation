@@ -3,7 +3,9 @@ import path from 'path';
 import globalVars from '../../global-variables.json';
 
 test('Issue Notice Test', async ({ page }) => {
-  await page.goto(`${globalVars.baseURL}ui/employee/user/login`);
+  test.setTimeout(180000);
+  await page.goto(globalVars.baseURL + 'ui/employee/user/login');
+  await page.waitForLoadState('networkidle');
   await page.locator('input[name="username"]').click();
   await page.locator('input[name="username"]').fill(globalVars.judgeUsername);
   await page.locator('input[name="password"]').click();

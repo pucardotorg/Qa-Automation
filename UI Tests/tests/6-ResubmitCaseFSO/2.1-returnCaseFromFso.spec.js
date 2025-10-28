@@ -8,6 +8,7 @@ test('Fso Login Test', async ({ page }) => {
   test.setTimeout(180000);
   // Navigate to the employee login page
    console.log('Navigating to FSO login page...');
+    test.setTimeout(180000);
   await page.goto(globalVars.baseURL + 'ui/employee/user/login');
   await page.waitForLoadState('networkidle');
 

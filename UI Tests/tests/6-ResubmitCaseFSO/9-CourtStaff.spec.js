@@ -2,7 +2,9 @@ import { test, expect } from '@playwright/test';
 import globalVars from '../../global-variables.json';
 import path from 'path';
 test('Court Staff Test', async ({ page }) => {
+test.setTimeout(180000);
   await page.goto(`${globalVars.baseURL}ui/employee/user/login`);
+  
   await page.locator('input[name="username"]').click();
   await page.locator('input[name="username"]').fill(globalVars.courtStaffUsername);
   await page.locator('input[name="password"]').click();
@@ -12,8 +14,14 @@ test('Court Staff Test', async ({ page }) => {
   await page.waitForTimeout(1000);
   await page.getByText ('Sign Process').click();
   await page.waitForTimeout(1000);
-  await page.getByRole('cell', { name: globalVars.cmpNumber }).first().click();
-  await page.waitForTimeout(1000);
+  const searchInput = page.locator('input[name="searchText"]');
+  await expect(searchInput).toBeVisible({ timeout: 10000 });
+  await searchInput.fill(globalVars.cmpNumber);
+  await page.getByText("Search").first().click({ timeout: 2000 });
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(3000);
+  await page.getByRole('button', { name: 'vs' }).first().click();
+  await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'E-Sign' }).click();
   await page.waitForTimeout(1000);
  const download1Promise = page.waitForEvent('download');
@@ -36,7 +44,16 @@ test('Court Staff Test', async ({ page }) => {
   await page.getByRole('button', { name: 'Mark as sent' }).click();
 
   await page.getByRole('button', { name: 'Sent', exact: true }).click();
-  await page.getByRole('cell', { name: globalVars.cmpNumber }).first().click();
+  await page.waitForTimeout(1000);
+  // const searchInput = page.locator('input[name="searchText"]');
+  await expect(searchInput).toBeVisible({ timeout: 10000 });
+  await searchInput.fill(globalVars.cmpNumber);
+  await page.getByText("Search").first().click({ timeout: 2000 });
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(3000);
+  await page.getByRole('button', { name: 'vs' }).first().click();
+  await page.waitForTimeout(3000);
+  
   await page.waitForTimeout(2000);
   await page.locator('input.employee-select-wrap--elipses.undefined').nth(1).click();
   await page.locator('#jk-dropdown-unique div').first().click();
