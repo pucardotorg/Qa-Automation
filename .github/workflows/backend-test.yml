@@ -1,6 +1,8 @@
-name: Back-End Playwright Testsn
+name: Back-End Playwright Tests
 
 on:
+  schedule:
+    - cron: "30 3 * * 1-5"  # 9:00 AM IST (3:30 AM UTC), Monday to Friday
   push:
     branches: [ main ]
   pull_request:
