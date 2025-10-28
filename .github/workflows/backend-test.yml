@@ -6,11 +6,32 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs: 
+      environment: 
+        required: true
+        type: choice
+        options:
+          - dev
+          - qa
+          - uat
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    environment:
+      name: ${{ inputs.environment }}
+    env:
+        CITIZEN_USERNAME: ${{ vars.CITIZEN_USERNAME }}
+        CITIZEN_PASSWORD: ${{ vars.CITIZEN_PASSWORD }}
+        LITIGENT_USERNAME: ${{ vars.LITIGENT_USERNAME }}
+        LITIGENT_PASSWORD: ${{ vars.LITIGENT_PASSWORD }}
+        NAYAMITRA_USERNAME: ${{ vars.NAYAMITRA_USERNAME }}
+        NAYAMITRA_PASSWORD: ${{ vars.NAYAMITRA_PASSWORD }}
+        FSO_USERNAME: ${{ vars.FSO_USERNAME }}
+        FSO_PASSWORD: ${{ vars.FSO_PASSWORD }}
+        JUDGE_USERNAME: ${{ vars.JUDGE_USERNAME }}
+        JUDGE_PASSWORD: ${{ vars.JUDGE_PASSWORD }}
+        CI: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,28 +56,11 @@ jobs:
         run: |
           npx playwright --version
 
-      - name: Debug environment variables
-        run: |
-          echo "Checking CI variables..."
-          echo "CITIZEN_USERNAME=${{ secrets.CITIZEN_USERNAME }}"
-          echo "JUDGE_USERNAME=${{ secrets.JUDGE_USERNAME }}"
 
       - name: Run Back-End Playwright tests
-        env:
-          CITIZEN_USERNAME: ${{ secrets.CITIZEN_USERNAME }}
-          CITIZEN_PASSWORD: ${{ secrets.CITIZEN_PASSWORD }}
-          LITIGENT_USERNAME: ${{ secrets.LITIGENT_USERNAME }}
-          LITIGENT_PASSWORD: ${{ secrets.LITIGENT_PASSWORD }}
-          NAYAMITRA_USERNAME: ${{ secrets.NAYAMITRA_USERNAME }}
-          NAYAMITRA_PASSWORD: ${{ secrets.NAYAMITRA_PASSWORD }}
-          FSO_USERNAME: ${{ secrets.FSO_USERNAME }}
-          FSO_PASSWORD: ${{ secrets.FSO_PASSWORD }}
-          JUDGE_USERNAME: ${{ secrets.JUDGE_USERNAME }}
-          JUDGE_PASSWORD: ${{ secrets.JUDGE_PASSWORD }}
-          CI: true
         run: |
           cd "Case create/"
-          bash run-all-tests.sh
+          TEST_ENV=${{ inputs.environment }} ./run-all-tests.sh --workers=1
 
       - name: Upload Playwright Report (optional)
         if: always()
