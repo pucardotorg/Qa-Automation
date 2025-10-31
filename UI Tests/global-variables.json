@@ -1,7 +1,7 @@
 {
   "baseURL": "https://dristi-kerala-qa.pucar.org/",
-  "filingNumber": "KL-002062-2025",
-  "cmpNumber": "CMP/2167/2025",
+  "filingNumber": "KL-002094-2025",
+  "cmpNumber": "CMP/2185/2025",
   "citizenUsername": "8827000000",
   "citizenPassword": "123456",
   "litigantUsername2": "9955599999",
@@ -40,12 +40,12 @@
   "judgePassword": "Beehyv@123",
   "courtStaffUsername": "gCmo",
   "courtStaffPassword": "Beehyv@123",
-  "accessCode": "164652",
+  "accessCode": "560259",
   "accusedLitigant": "7777777777",
   "respondentCompanyName": "Automate Company",
   "advocateName": "ADV//",
   "advocateBarId": "ADV//",
   "complaintDetails": "Complaint Details",
   "prayerDetails": "Details of the complaint",
-  "stNumber": "ST/127/2025"
+  "stNumber": "ST/137/2025"
 }

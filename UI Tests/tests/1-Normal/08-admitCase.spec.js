@@ -61,4 +61,5 @@ test('Issue Admit Case', async ({ page }) => {
   globalVariables.stNumber = stNumber;
   fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
   console.log('ST Number saved to global variables:', globalVariables.stNumber);
+  await page.close();
 });

@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
-import globalVars from '../../global-variables.json';
+const fs = require('fs');
+const path = require('path');
+const globalVarsPath = path.join(__dirname, '../../global-variables.json');
+const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 test('Notice Payment Test', async ({ page }) => {
   // Navigate to the employee login page

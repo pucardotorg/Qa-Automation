@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
-import path from 'path';  
-import globalVars from '../../global-variables.json';
+const fs = require('fs');
+const path = require('path');
+const globalVarsPath = path.join(__dirname, '../../global-variables.json');
+const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 test('Issue Attachment', async ({ page }) => {
   test.setTimeout(180000);
