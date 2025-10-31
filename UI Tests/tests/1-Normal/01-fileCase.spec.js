@@ -108,9 +108,10 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .fill(globalVariables.respondentDistrict);
   await page
     .locator("div")
-    .filter({ hasText: /^City \/ town$/ })
+    .filter({ hasText: /^City\/Town$/ })
     .getByRole("textbox")
     .fill(globalVariables.respondentCity);
+    
   //   await page.locator('div').filter({ hasText: /^City \/ town$/ }).getByRole('textbox').press('Tab');
   await page
     .locator("div")

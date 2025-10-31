@@ -1,7 +1,7 @@
 {
   "baseURL": "https://dristi-kerala-qa.pucar.org/",
-  "filingNumber": "KL-001982-2025",
-  "cmpNumber": "CMP/2104/2025",
+  "filingNumber": "KL-002062-2025",
+  "cmpNumber": "CMP/2167/2025",
   "citizenUsername": "8827000000",
   "citizenPassword": "123456",
   "litigantUsername2": "9955599999",
@@ -27,7 +27,7 @@
   "reasonForReturnOfCheque": "reason",
   "liabilityNature": "Test",
   "dateOfDispatch": "2025-06-29",
-  "dateOfService": "2025-10-12",
+  "dateOfService": "2025-10-15",
   "noOfAdvocates": "1",
   "chequeSignatoryName": "Test",
   "issuanceDate": "2025-06-01",
@@ -40,11 +40,12 @@
   "judgePassword": "Beehyv@123",
   "courtStaffUsername": "gCmo",
   "courtStaffPassword": "Beehyv@123",
-  "accessCode": "196821",
+  "accessCode": "164652",
   "accusedLitigant": "7777777777",
   "respondentCompanyName": "Automate Company",
   "advocateName": "ADV//",
   "advocateBarId": "ADV//",
   "complaintDetails": "Complaint Details",
-  "prayerDetails": "Details of the complaint"
+  "prayerDetails": "Details of the complaint",
+  "stNumber": "ST/127/2025"
 }
