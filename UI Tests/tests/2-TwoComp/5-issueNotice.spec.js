@@ -29,7 +29,8 @@ test('Issue Notice Test', async ({ page }) => {
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Section 223 Notice' }).click();
   await page.locator('div').filter({ hasText: /^Notice to the Party\*$/ }).getByRole('textbox').click();
   await page.getByText(globalVars.respondentFirstName + " (Accused)").click();
-  await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
+  // Disambiguate checkbox selection: target e-Post explicitly to avoid strict mode violation
+  await page.locator('#e-Post-0').check();
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
   
   await page.waitForTimeout(2000);
