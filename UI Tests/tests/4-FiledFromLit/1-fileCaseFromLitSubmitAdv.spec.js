@@ -69,7 +69,7 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   await page.locator('div').filter({ hasText: /^State$/ }).getByRole('textbox').fill(globalVariables.respondentState);
 //   await page.locator('div').filter({ hasText: /^State$/ }).getByRole('textbox').press('Tab');
   await page.locator('div').filter({ hasText: /^District$/ }).getByRole('textbox').fill(globalVariables.respondentDistrict);
-  await page.locator('div').filter({ hasText: /^City \/ town$/ }).getByRole('textbox').fill(globalVariables.respondentCity);
+  await page.locator('div').filter({ hasText: /^City\/Town$/ }).getByRole('textbox').fill(globalVariables.respondentCity);
 //   await page.locator('div').filter({ hasText: /^City \/ town$/ }).getByRole('textbox').press('Tab');
   await page.locator('div').filter({ hasText: /^Address$/ }).getByRole('textbox').fill(globalVariables.respondentAddress);
   await page.getByRole('button').filter({ hasText: 'Continue' }).click();
