@@ -1,7 +1,6 @@
 import { test, expect, request } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
-import globalVariables from '../utils/global-variables';
 
 test.describe('API Tests for evidence search endpoint', () => {
   let apiContext;
