@@ -281,6 +281,11 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
   await page.waitForLoadState("networkidle");
 
+  // process delivery - courier services
+  await page.waitForTimeout(3000);
+  await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+  await page.waitForLoadState("networkidle");
+
   // review and sign
     await page.waitForTimeout(3000);
   await page.locator(".header-end > div > svg > path:nth-child(2)").click();

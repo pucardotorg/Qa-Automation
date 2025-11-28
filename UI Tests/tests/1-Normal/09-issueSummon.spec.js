@@ -29,11 +29,6 @@ test('Issue Summons', async ({ page }) => {
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Summons' }).click();
   await page.locator('form path').nth(4).click();
   await page.getByText('Automation Accused (Accused)').click();
-  // await page.getByRole('checkbox', { name: 'Add, city, district,' }).first().check();
-  // await page.locator('[id="Registered Post-0"]').check();
-  await page.getByRole('checkbox', { name: 'Add, city, district,' }).nth(2).check();
-  await page.locator('form').filter({ hasText: 'Order Type*Date for Hearing*' }).getByRole('img').nth(3).click();
-  await page.getByText('MEDICAL COLLEGE PS').click();
   test.setTimeout(180000);
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
   await page.waitForTimeout(2000);

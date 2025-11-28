@@ -27,7 +27,7 @@ test('Issue Proclamation', async ({ page }) => {
   await page.locator('div').filter({ hasText: /^EditDelete$/ }).getByRole('img').first().click();
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Proclamation' }).click();
    await page.locator('div').filter({ hasText: /^Proclamation for Party\*\+ Add new witness$/ }).getByRole('img').click();
-  await page.locator('#jk-dropdown-unique div').click();
+  //await page.locator('#jk-dropdown-unique div').click();
   await page.getByText('Automation Accused (Accused)').click();
   await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
   await page.locator('form').getByRole('img').nth(3).click();

@@ -27,19 +27,20 @@ test('Issue Notice Test', async ({ page }) => {
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Notice' }).click();
   await page.locator('div').filter({ hasText: /^Notice Type\*$/ }).getByRole('textbox').click();
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Section 223 Notice' }).click();
-  await page.locator('div').filter({ hasText: /^Notice to the Party\*$/ }).getByRole('textbox').click();
+  await page.locator('div').filter({ hasText: /^Notice to the Party\*$/ }).locator('svg').click();
   await page.getByText(globalVars.respondentFirstName + " (Accused)").click();
   // Disambiguate checkbox selection: target e-Post explicitly to avoid strict mode violation
-  await page.locator('#e-Post-0').check();
+  //await page.locator('#e-Post-0').check();
+  await page.pause();
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
   
   await page.waitForTimeout(2000);
 
 
-  await page.getByRole('textbox', { name: 'rdw-editor' }).click();
-  await page.getByRole('textbox', { name: 'rdw-editor' }).fill('AUTOMATION ORDER GENERATED');
+  // await page.getByRole('textbox', { name: 'rdw-editor' }).click();
+  // await page.getByRole('textbox', { name: 'rdw-editor' }).fill('AUTOMATION ORDER GENERATED');
  
-  await page.waitForTimeout(1000);
+  // await page.waitForTimeout(1000);
 
   await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
   await page.getByRole('button', { name: 'Add Signature' }).click();
