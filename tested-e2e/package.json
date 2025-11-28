@@ -1,0 +1,15 @@
+{
+  "name": "tested-e2e-suite",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Local scripts to run the tested-e2e Playwright suite",
+  "scripts": {
+    "test": "playwright test -c ./playwright.config.js",
+    "normal": "playwright test -c ./playwright.config.js tests/normal",
+    "normal:cycle": "playwright test -c ./playwright.config.js tests/normal/00-normal-cycle.spec.js",
+    "normal:qa": "TEST_ENV=qa playwright test -c ./playwright.config.js tests/normal",
+    "normal:cycle:qa": "TEST_ENV=qa playwright test -c ./playwright.config.js tests/normal/00-normal-cycle.spec.js",
+    "normal:dev": "TEST_ENV=dev playwright test -c ./playwright.config.js tests/normal",
+    "normal:uat": "TEST_ENV=uat playwright test -c ./playwright.config.js tests/normal"
+  }
+}
