@@ -31,14 +31,14 @@ test('Issue Notice Test', async ({ page }) => {
   await page.getByText(globalVars.respondentFirstName + " (Accused)").click();
   // Disambiguate checkbox selection: target e-Post explicitly to avoid strict mode violation
   //await page.locator('#e-Post-0').check();
-  await page.pause();
+   
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
   
   await page.waitForTimeout(2000);
 
 
-  // await page.getByRole('textbox', { name: 'rdw-editor' }).click();
-  // await page.getByRole('textbox', { name: 'rdw-editor' }).fill('AUTOMATION ORDER GENERATED');
+  // await page.locator('.ql-editor').click();
+  // await page.locator('.ql-editor').fill('AUTOMATION ORDER GENERATED');
  
   // await page.waitForTimeout(1000);
 
@@ -55,8 +55,9 @@ test('Issue Notice Test', async ({ page }) => {
   const projectDownloadPath = path.join(__dirname, 'downloads', await download.suggestedFilename()); 
   // Save the file to the defined path2
   await download.saveAs(projectDownloadPath);
-  console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
-  await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  console.log(`File downloaded and saved to: ${projectDownloadPath}`);
+ await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.waitForTimeout(2000);  
   await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
 
   await page.getByRole('button', { name: 'Submit Signature' }).click();

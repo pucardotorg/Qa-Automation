@@ -297,12 +297,12 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   // complaint
 
   await page.waitForTimeout(3000);
-  await page.getByRole("textbox", { name: "rdw-editor" }).first().click();
-  await page.getByRole("textbox", { name: "rdw-editor" }).first().fill("test");
+  await page.locator('.ql-editor').first().click();
+  await page.locator('.ql-editor').first().fill("test");
   const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
   await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
-  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).click();
-  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).fill("test");
+  await page.locator('.ql-editor').nth(1).click();
+  await page.locator('.ql-editor').nth(1).fill("test");
   await page.waitForTimeout(3000);
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
   await page.waitForLoadState("networkidle");
@@ -368,7 +368,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   // await page.waitForTimeout(3000);
   await page.getByRole("checkbox").check();
 
-  // await page.pause();
+  //  
 
   await page.waitForTimeout(3000);
   await page.getByRole("button", { name: "Upload Signed copy" }).click();

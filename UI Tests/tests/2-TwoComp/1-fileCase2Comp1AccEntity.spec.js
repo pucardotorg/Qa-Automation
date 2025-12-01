@@ -322,13 +322,13 @@ await page
 
   // complaint
 
-  await page.getByRole("textbox", { name: "rdw-editor" }).first().click();
-  await page.getByRole("textbox", { name: "rdw-editor" }).first().fill("test");
+  await page.locator('.ql-editor').first().click();
+  await page.locator('.ql-editor').first().fill("test");
   const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
   await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
   await page.waitForTimeout(2000);
-  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).click();
-  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).fill("test");
+  await page.locator('.ql-editor').nth(1).click();
+  await page.locator('.ql-editor').nth(1).fill("test");
   await page.waitForTimeout(2000);
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
   await page.waitForTimeout(3000);

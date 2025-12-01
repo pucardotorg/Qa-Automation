@@ -1,7 +1,7 @@
 {
   "baseURL": "https://dristi-kerala-qa.pucar.org/",
-  "filingNumber": "KL-002309-2025",
-  "cmpNumber": "CMP/2528/2025",
+  "filingNumber": "KL-002439-2025",
+  "cmpNumber": "CMP/2565/2025",
   "citizenUsername": "8827000000",
   "citizenPassword": "123456",
   "litigantUsername2": "9955599999",
@@ -9,7 +9,7 @@
   "accusedADV": "8800000014",
   "accusedADV2": "7700000000",
   "accusedADV3": "9856666666",
-  "litigantUsername": "9914900000",
+  "litigantUsername": "9914590000",
   "litigantPassword": "123456",
   "complainantAge": "22",
   "respondentFirstName": "Automation Accused",
@@ -29,7 +29,7 @@
   "reasonForReturnOfCheque": "reason",
   "liabilityNature": "Test",
   "dateOfDispatch": "2025-06-29",
-  "dateOfService": "2025-11-12",
+  "dateOfService": "2025-11-15",
   "dateOfServiceDCA": "2025-07-10",
   "noOfAdvocates": "1",
   "chequeSignatoryName": "Test",
@@ -43,12 +43,12 @@
   "judgePassword": "Beehyv@123",
   "courtStaffUsername": "gCmo",
   "courtStaffPassword": "Beehyv@123",
-  "accessCode": "996840",
+  "accessCode": "520419",
   "accusedLitigant": "7777777777",
   "respondentCompanyName": "Automate Company",
   "advocateName": "ADV//",
   "advocateBarId": "ADV//",
   "complaintDetails": "Complaint Details",
   "prayerDetails": "Details of the complaint",
-  "stNumber": "ST/149/2025"
+  "stNumber": "ST/151/2025"
 }

@@ -98,8 +98,8 @@ test('Register Case Test', async ({ page }) => {
 
   await page.waitForLoadState("networkidle");
 
-  await page.getByRole('textbox', { name: 'rdw-editor' }).click();
-  await page.getByRole('textbox', { name: 'rdw-editor' }).fill('AUTOMATION ORDER GENERATED');
+  await page.locator('.ql-editor').click();
+  await page.locator('.ql-editor').fill('AUTOMATION ORDER GENERATED');
  
   await page.waitForTimeout(1000);
 
@@ -117,7 +117,11 @@ test('Register Case Test', async ({ page }) => {
   // Save the file to the defined path2
   await download.saveAs(projectDownloadPath);
   console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
-  await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  
+   await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.waitForTimeout(2000);  
+  await page.waitForTimeout(2000);
+
   await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
   
   await page.getByRole('button', { name: 'Submit Signature' }).click();
