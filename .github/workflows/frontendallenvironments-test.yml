@@ -1,4 +1,4 @@
-name: Playwright Tests (Frontend)
+name: Playwright Tests for all environments (Frontend)
 
 on:
   schedule:
