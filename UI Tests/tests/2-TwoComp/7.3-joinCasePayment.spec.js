@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import globalVars from '../../global-variables.json';
 
-test('Notice Payment Test', async ({ page }) => {
+test('Join Case Payment Test', async ({ page }) => {
   // Navigate to the employee login page
 console.log('Navigating to Nm login page...');
   test.setTimeout(180000);
