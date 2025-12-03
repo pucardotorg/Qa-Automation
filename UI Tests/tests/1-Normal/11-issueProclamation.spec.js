@@ -27,7 +27,7 @@ test('Issue Proclamation', async ({ page }) => {
   await page.locator('div').filter({ hasText: /^EditDelete$/ }).getByRole('img').first().click();
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Proclamation' }).click();
    await page.locator('div').filter({ hasText: /^Proclamation for Party\*\+ Add new witness$/ }).getByRole('img').click();
-  await page.locator('#jk-dropdown-unique div').click();
+  //await page.locator('#jk-dropdown-unique div').click();
   await page.getByText('Automation Accused (Accused)').click();
   await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
   await page.locator('form').getByRole('img').nth(3).click();
@@ -49,7 +49,8 @@ test('Issue Proclamation', async ({ page }) => {
     // Save the file to the defined path2
     await download.saveAs(projectDownloadPath);
     console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
-    await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+     await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.waitForTimeout(2000);  
     await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
   
     await page.getByRole('button', { name: 'Submit Signature' }).click();

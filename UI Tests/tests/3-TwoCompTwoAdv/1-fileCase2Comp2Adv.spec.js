@@ -142,7 +142,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .fill(globalVariables.respondentDistrict);
   await page
     .locator("div")
-    .filter({ hasText: /^City \/ town$/ })
+    .filter({ hasText: /^City\/Town$/ })
     .getByRole("textbox")
     .fill(globalVariables.respondentCity);
   //   await page.locator('div').filter({ hasText: /^City \/ town$/ }).getByRole('textbox').press('Tab');
@@ -297,12 +297,12 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   // complaint
 
   await page.waitForTimeout(3000);
-  await page.getByRole("textbox", { name: "rdw-editor" }).first().click();
-  await page.getByRole("textbox", { name: "rdw-editor" }).first().fill("test");
+  await page.locator('.ql-editor').first().click();
+  await page.locator('.ql-editor').first().fill("test");
   const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
   await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
-  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).click();
-  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).fill("test");
+  await page.locator('.ql-editor').nth(1).click();
+  await page.locator('.ql-editor').nth(1).fill("test");
   await page.waitForTimeout(3000);
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
   await page.waitForLoadState("networkidle");
@@ -353,6 +353,14 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.locator('input[type="file"]').last().setInputFiles(vakalatnama);
   await page.getByRole("button").filter({ hasText: "Continue" }).nth(1).click();
   // await page.waitForTimeout(3000);
+
+  // process delivery - courier services
+  await page.waitForTimeout(3000);
+  // await page.getByText('Select Courier Services').click();
+  // await page.getByRole('checkbox', { name: 'Registered Post (INR 1) • 10-' }).check();
+  await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+  await page.waitForLoadState("networkidle");
+
   // review and sign
 
   await page.locator(".header-end > div > svg > path:nth-child(2)").click();
@@ -360,7 +368,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   // await page.waitForTimeout(3000);
   await page.getByRole("checkbox").check();
 
-  // await page.pause();
+  //  
 
   await page.waitForTimeout(3000);
   await page.getByRole("button", { name: "Upload Signed copy" }).click();

@@ -29,11 +29,6 @@ test('Issue Summons', async ({ page }) => {
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Summons' }).click();
   await page.locator('form path').nth(4).click();
   await page.getByText('Automation Accused (Accused)').click();
-  // await page.getByRole('checkbox', { name: 'Add, city, district,' }).first().check();
-  // await page.locator('[id="Registered Post-0"]').check();
-  await page.getByRole('checkbox', { name: 'Add, city, district,' }).nth(2).check();
-  await page.locator('form').filter({ hasText: 'Order Type*Date for Hearing*' }).getByRole('img').nth(3).click();
-  await page.getByText('MEDICAL COLLEGE PS').click();
   test.setTimeout(180000);
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
   await page.waitForTimeout(2000);
@@ -51,7 +46,8 @@ test('Issue Summons', async ({ page }) => {
     // Save the file to the defined path2
     await download.saveAs(projectDownloadPath);
     console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
-    await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+     await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.waitForTimeout(2000);  
     await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
   
     await page.getByRole('button', { name: 'Submit Signature' }).click();

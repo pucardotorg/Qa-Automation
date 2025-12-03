@@ -104,9 +104,9 @@ test("Register Case Test", async ({ page }) => {
 
   await page.waitForLoadState("networkidle");
 
-  await page.getByRole("textbox", { name: "rdw-editor" }).click();
+  await page.locator('.ql-editor').click();
   await page
-    .getByRole("textbox", { name: "rdw-editor" })
+    .locator('.ql-editor')
     .fill("AUTOMATION ORDER GENERATED");
 
   await page.waitForTimeout(1000);
