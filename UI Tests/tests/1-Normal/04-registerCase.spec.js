@@ -134,12 +134,14 @@ test('Register Case Test', async ({ page }) => {
    )
    .click();
   await page.waitForLoadState("networkidle");
-  const accessCodeElement = await page.locator('div.sub-details-text').filter({ hasText: 'Code: ' });
-  const accessCodeText = await accessCodeElement.textContent();
+  const accessCodeElement = page.locator('div.sub-details-text').filter({ hasText: 'Code:' });
+  await expect(accessCodeElement.first()).toBeVisible({ timeout: 30000 });
+  const accessCodeText = (await accessCodeElement.first().textContent()) || '';
   const accessCode = accessCodeText.match(/Code\s*:\s*(\d+)/)?.[1] || '';
   console.log('Access Code:', accessCode);
-  const accessCodeElement2 = await page.locator('div.sub-details-text').filter({ hasText: 'CMP/' });
-  const cmpNumber = await accessCodeElement2.textContent();
+  const accessCodeElement2 = page.locator('div.sub-details-text').filter({ hasText: 'CMP/' });
+  await expect(accessCodeElement2.first()).toBeVisible({ timeout: 30000 });
+  const cmpNumber = (await accessCodeElement2.first().textContent()) || '';
   console.log('CMP Number:', cmpNumber);
   globalVariables.accessCode = accessCode;
   globalVariables.cmpNumber = cmpNumber;

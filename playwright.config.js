@@ -1,74 +1,58 @@
-import { defineConfig, devices } from '@playwright/test';
+ import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
 
+// Load environment variables for Case Create suite (safe even if UI Tests run)
+const TEST_ENV = (process.env.TEST_ENV || 'qa').toLowerCase();
+const envFilePath = path.resolve(__dirname, 'Case create', `.env.${TEST_ENV}`);
+dotenv.config({ path: envFilePath, override: true });
 
 export default defineConfig({
-  testDir: './UI Tests/tests',
- 
   fullyParallel: true,
-  
-  forbidOnly: !!process.env.CI,
-  
-  retries: 1,
-
-  workers: 1,
-
+  // Keep generous timeout from UI Tests to accommodate long flows
   timeout: 18000000,
-
+  // Keep a single worker by default to reduce flakiness; override via CLI if needed
+  workers: 1,
+  // Keep a single retry similar to UI Tests
+  retries: 1,
   reporter: 'html',
-  
+
   use: {
-    
-    headless : true,
+    headless: true,
     launchOptions: {
-      slowMo: 1000,  // Slow down execution by 1000ms
+      slowMo: 1000,
       args: [
         '--start-maximized',
         '--disable-web-security',
         '--disable-features=VizDisplayCompositor'
       ]
     },
-    viewport: { width: 1920, height: 1080 },  // Set to common full HD resolution
-    trace: 'on-first-retry',    
+    viewport: { width: 1920, height: 1080 },
+    trace: 'on-first-retry',
   },
 
-  
- projects: [
+  // Run both suites as separate projects so you can execute one or both:
+  // - npx playwright test -p case-create
+  // - npx playwright test -p ui-tests
+  projects: [
     {
-      name: 'chromium',
-      use: { 
-         viewport: { width: 1920, height: 1080 }  // Use actual browser window size
-      },
-      workers: 1
- 
+      name: 'case-create',
+      testDir: './Case create/tests',
+      use: { ...devices['Desktop Chrome'] },
     },
- 
- 
-
-
-  
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+    {
+      name: 'ui-tests',
+      testDir: './UI Tests/tests',
+      use: {
+        viewport: { width: 1920, height: 1080 },
+      },
+      workers: 1,
+    },
   ],
 
-  /* Run your local dev server before starting the tests */
+  // Ensure env-specific global variables are prepared before tests (both suites)
+  globalSetup: './combined-global-setup.js',
+
   // webServer: {
   //   command: 'npm run start',
   //   url: 'http://127.0.0.1:3000',

@@ -2,12 +2,11 @@
 #set -euo pipefail
 
 # Usage examples:
-#   ./run-all-ui.sh                                  # uses UI_ENV if set, else TEST_ENV, else qa; runs all flows 1..7
-#   UI_ENV=DEV ./run-all-ui.sh --headed --workers=1  # merges from global-variablesdev.json then runs all flows
-#   TEST_ENV=qa ./run-all-ui.sh --workers=1          # forwards Playwright flags
+#   ./run-all-ui.sh                                  # uses TEST_ENV if set, else qa; runs all flows 1..7
+#   TEST_ENV=dev ./run-all-ui.sh --headed --workers=1  # merges from global-variablesdev.json then runs all flows
 
-# Resolve environment (case-insensitive)
-ENV_RAW=${UI_ENV:-${TEST_ENV:-qa}}
+# Resolve environment (case-insensitive) from TEST_ENV only
+ENV_RAW=${TEST_ENV:-qa}
 ENV_LC=$(echo "$ENV_RAW" | tr '[:upper:]' '[:lower:]')
 
 # Defaults
@@ -16,7 +15,10 @@ PLAYWRIGHT_FLAGS=("$@")
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 cd "$SCRIPT_DIR"
 
-echo "[run-all-ui] Using ENV=$ENV_RAW (resolved: $ENV_LC)"
+echo "[run-all-ui] Using TEST_ENV=$ENV_RAW (resolved: $ENV_LC)"
+
+# Export normalized TEST_ENV for child processes (ui-global-setup and Playwright)
+export TEST_ENV="$ENV_LC"
 
 # Merge env-specific overrides into global-variables.json
 node ui-global-setup.js || { echo "[run-all-ui] ui-global-setup failed"; exit 1; }

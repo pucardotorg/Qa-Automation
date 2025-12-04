@@ -2,7 +2,11 @@
   "name": "gitproject",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test",
+    "test:qa": "TEST_ENV=qa npx playwright test",
+    "test:uat": "TEST_ENV=uat npx playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -1,0 +1,79 @@
+name: Playwright Tests for all environments (Frontend)
+
+on:
+  schedule:
+    - cron: "30 3 * * 1-5"   # Runs 9:00 AM IST, Monday to Friday
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Choose environment to run"
+        required: true
+        type: choice
+        options:
+          - dev
+          - qa
+          - uat
+
+jobs:
+  test:
+    # If triggered manually → run only the selected environment
+    # Else → use matrix for dev/qa/uat
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env: ${{ github.event_name == 'workflow_dispatch' && fromJson('["${{ inputs.environment }}"]') || fromJson('["dev","qa","uat"]') }}
+
+    environment:
+      name: ${{ matrix.env }}
+
+    env:
+      CITIZEN_USERNAME: ${{ vars.CITIZEN_USERNAME }}
+      CITIZEN_PASSWORD: ${{ vars.CITIZEN_PASSWORD }}
+      LITIGENT_USERNAME: ${{ vars.LITIGENT_USERNAME }}
+      LITIGENT_PASSWORD: ${{ vars.LITIGENT_PASSWORD }}
+      NAYAMITRA_USERNAME: ${{ vars.NAYAMITRA_USERNAME }}
+      NAYAMITRA_PASSWORD: ${{ vars.NAYAMITRA_PASSWORD }}
+      FSO_USERNAME: ${{ vars.FSO_USERNAME }}
+      FSO_PASSWORD: ${{ vars.FSO_PASSWORD }}
+      JUDGE_USERNAME: ${{ vars.JUDGE_USERNAME }}
+      JUDGE_PASSWORD: ${{ vars.JUDGE_PASSWORD }}
+      CI: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Install Playwright (core + browsers)
+        run: |
+          npm install @playwright/test
+          npm install @types/node
+          npm install dotenv
+          npx playwright install --with-deps
+
+      - name: Verify Playwright installation
+        run: npx playwright --version
+
+      - name: Run Front-End Playwright Tests
+        run: |
+          cd "./UI Tests/"
+          UI_ENV=${{ matrix.env }} ./run-all-ui.sh --workers=1
+
+      - name: Upload Playwright Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.env }}
+          path: playwright-report/

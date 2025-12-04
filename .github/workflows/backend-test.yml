@@ -1,4 +1,4 @@
-name: Playwright Tests (Frontend)
+name: Back-End Playwright Tests
 
 on:
   schedule:
@@ -59,10 +59,10 @@ jobs:
           npx playwright --version
 
 
-      - name: Run Front-End Playwright tests
+      - name: Run Back-End Playwright tests
         run: |
-          cd ./UI\ Tests/
-          UI_ENV=${{ inputs.environment }} ./run-all-ui.sh --workers=1
+          cd "Case create/"
+          TEST_ENV=${{ inputs.environment }} ./run-all-tests.sh --workers=1
 
       - name: Upload Playwright Report (optional)
         if: always()

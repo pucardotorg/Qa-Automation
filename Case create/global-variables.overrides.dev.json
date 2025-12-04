@@ -1,0 +1,19 @@
+{
+  "baseURL": "https://dristi-kerala-dev.pucar.org/",
+  "DEVfilestore": {
+    "case.cheque": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "case.cheque.returnmemo": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "case.liabilityproof": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "case.demandnotice": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "case.demandnotice.proof": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "case.demandnotice.serviceproof": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "VAKALATNAMA_DOC": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "case.affidavit.223bnss": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "COMPLAINANT_ID_PROOF": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "case.affidavit.225bnss": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "image/png": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "orderTitle": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "application": "fdc30a87-c550-4561-ad8a-f6d19035d626",
+    "case.complaint.signed": "fdc30a87-c550-4561-ad8a-f6d19035d626"
+  }
+}
