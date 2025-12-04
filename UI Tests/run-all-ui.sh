@@ -41,10 +41,21 @@ for folder in "${FOLDERS[@]}"; do
     echo "[run-all-ui] Skipping missing folder: $folder"
     continue
   fi
-  echo "[run-all-ui] Running folder: $folder"
-  npx playwright test "$folder" "${PLAYWRIGHT_FLAGS[@]}" --workers=1
-  echo "[run-all-ui] Waiting 1 second before next folder..."
-  sleep 1
+   echo "[run-all-ui] Running folder: $folder"
+npx playwright test "$folder" "${PLAYWRIGHT_FLAGS[@]}" --workers=1 --max-failures=1
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+  echo "[run-all-ui] ❌ Tests failed in folder: $folder"
+  echo "[run-all-ui] ➜ Stopping further tests inside this folder"
+  echo "[run-all-ui] ➜ Moving to next folder"
+  continue
+fi
+
+echo "[run-all-ui] ✅ Completed folder: $folder"
+echo "[run-all-ui] Waiting 1 second before next folder..."
+sleep 1
+
 done
 
 echo "[run-all-ui] All UI test folders completed."
