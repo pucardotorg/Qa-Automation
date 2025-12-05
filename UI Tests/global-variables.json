@@ -1,7 +1,7 @@
 {
   "baseURL": "https://demo.pucar.org/",
-  "filingNumber": "KL-000169-2025",
-  "cmpNumber": "CMP/328/2025",
+  "filingNumber": "KL-000182-2025",
+  "cmpNumber": "CMP/333/2025",
   "citizenUsername": "8827000000",
   "citizenPassword": "123456",
   "litigantUsername2": "9955599999",
@@ -43,7 +43,7 @@
   "judgePassword": "Beehyv@123",
   "courtStaffUsername": "gCmo",
   "courtStaffPassword": "Beehyv@123",
-  "accessCode": "676235",
+  "accessCode": "165880",
   "accusedLitigant": "7777777777",
   "respondentCompanyName": "Automate Company",
   "advocateName": "ADV//",
