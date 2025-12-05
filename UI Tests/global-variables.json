@@ -1,14 +1,14 @@
 {
   "baseURL": "https://demo.pucar.org/",
-  "filingNumber": "KL-001927-2025",
-  "cmpNumber": "CMP/2131/2025",
+  "filingNumber": "KL-000182-2025",
+  "cmpNumber": "CMP/333/2025",
   "citizenUsername": "8827000000",
   "citizenPassword": "123456",
   "litigantUsername2": "9955599999",
   "litigantUsername3": "9955599992",
   "accusedADV": "8800000014",
   "accusedADV2": "7700000000",
-  "accusedADV3": "9856666666",
+  "accusedADV3": "8829000000",
   "litigantUsername": "9032273758",
   "litigantPassword": "123456",
   "complainantAge": "22",
@@ -43,12 +43,12 @@
   "judgePassword": "Beehyv@123",
   "courtStaffUsername": "gCmo",
   "courtStaffPassword": "Beehyv@123",
-  "accessCode": "691250",
+  "accessCode": "165880",
   "accusedLitigant": "7777777777",
   "respondentCompanyName": "Automate Company",
   "advocateName": "ADV//",
   "advocateBarId": "ADV//",
   "complaintDetails": "Complaint Details",
   "prayerDetails": "Details of the complaint",
-  "stNumber": "ST/21/2025"
+  "stNumber": "ST/22/2025"
 }
