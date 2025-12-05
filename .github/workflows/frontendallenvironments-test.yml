@@ -17,6 +17,7 @@ on:
           - dev
           - qa
           - uat
+          - demo
 
 jobs:
   test:
@@ -25,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        env: ${{ github.event_name == 'workflow_dispatch' && fromJson('["${{ inputs.environment }}"]') || fromJson('["dev","qa","uat"]') }}
+        env: ${{ github.event_name == 'workflow_dispatch' && fromJson('["${{ inputs.environment }}"]') || fromJson('["dev","qa","uat","demo"]') }}
 
     environment:
       name: ${{ matrix.env }}
