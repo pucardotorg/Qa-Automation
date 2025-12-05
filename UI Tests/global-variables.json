@@ -1,5 +1,5 @@
 {
-  "baseURL": "https://dristi-kerala-qa.pucar.org/",
+  "baseURL": "https://demo.pucar.org/",
   "filingNumber": "KL-001927-2025",
   "cmpNumber": "CMP/2131/2025",
   "citizenUsername": "8827000000",
@@ -9,7 +9,7 @@
   "accusedADV": "8800000014",
   "accusedADV2": "7700000000",
   "accusedADV3": "9856666666",
-  "litigantUsername": "9914590000",
+  "litigantUsername": "9032273758",
   "litigantPassword": "123456",
   "complainantAge": "22",
   "respondentFirstName": "Automation Accused",
@@ -29,7 +29,7 @@
   "reasonForReturnOfCheque": "reason",
   "liabilityNature": "Test",
   "dateOfDispatch": "2025-06-29",
-  "dateOfService": "2025-11-18",
+  "dateOfService": "2025-11-19",
   "dateOfServiceDCA": "2025-07-10",
   "noOfAdvocates": "1",
   "chequeSignatoryName": "Test",
@@ -39,7 +39,7 @@
   "nayamitraPassword": "Beehyv@123",
   "fsoUsername": "gCmo",
   "fsoPassword": "Beehyv@123",
-  "judgeUsername": "michaelGeorgeJudge",
+  "judgeUsername": "gJudge",
   "judgePassword": "Beehyv@123",
   "courtStaffUsername": "gCmo",
   "courtStaffPassword": "Beehyv@123",
@@ -50,5 +50,5 @@
   "advocateBarId": "ADV//",
   "complaintDetails": "Complaint Details",
   "prayerDetails": "Details of the complaint",
-  "stNumber": "ST/151/2025"
+  "stNumber": "ST/21/2025"
 }
