@@ -16,6 +16,7 @@ on:
           - dev
           - qa
           - uat
+          - demo
 
 jobs:
   test:
