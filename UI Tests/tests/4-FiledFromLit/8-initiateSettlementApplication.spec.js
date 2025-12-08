@@ -31,40 +31,35 @@ test("Dristi Kerala login and selecting notice address and payment method", asyn
   await page.getByRole('cell', { name: globalVariables.cmpNumber }).click();
   await page.waitForTimeout(1000);
 
-  // Initiating Transfer Application
-  console.log('Initiating Transfer Application...');
+  console.log('Initiating Settlement Application...');
   await page.getByRole('button', { name: 'Make Filings' }).click();
-  await page.locator('div').filter({ hasText: /^Raise Application$/ }).click();
-  await page.locator('path').nth(4).click();
-  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Transfer' }).click();
-  await page.locator('input[name="requestedCourt"]').click();
-  await page.locator('input[name="requestedCourt"]').fill('test');
-  await page.locator('input[name="groundsForTransfer"]').click();
-  await page.locator('input[name="groundsForTransfer"]').fill('test');
+  await page.getByText('Raise Application').click();
+  await page.locator('div').filter({ hasText: /^Application Type\*$/ }).getByRole('img').click();
+  await page.getByText('Settlement').click();
   await page.getByRole('textbox', { name: 'Type here' }).click();
   await page.getByRole('textbox', { name: 'Type here' }).fill('test');
   await page.getByRole('button').filter({ hasText: 'Generate Application' }).click();
   console.log('Adding Signature...');
   await page.getByRole('button', { name: 'Add Signature' }).click();
   const [download] = await Promise.all([
-    page.waitForEvent("download"), // wait for the download trigger
-    page.click("text=click here"), // replace with your selector
-  ]);
-  const projectDownloadPath = path.join(
-    __dirname,
-    "downloads",
-    await download.suggestedFilename()
-  );
-
-  // Save the file to the defined path2
-  await download.saveAs(projectDownloadPath);
-  console.log(`File downloaded and saved to: ${projectDownloadPath}`);
-  await page.getByRole("button", { name: "Upload document with Signature" }).click();
-  await page
-    .locator('input[type="file"]')
-    .first()
-    .setInputFiles(projectDownloadPath);
-  await page.getByRole('button', { name: 'Submit Signature' }).click();
-  await page.getByRole('button', { name: 'Proceed' }).click();
-  await page.locator('.popup-module.submission-payment-modal > .header-wrap > .header-end > div > svg').click();
+      page.waitForEvent("download"), // wait for the download trigger
+      page.click("text=click here"), // replace with your selector
+    ]);
+    const projectDownloadPath = path.join(
+      __dirname,
+      "downloads",
+      await download.suggestedFilename()
+    );
+  
+    // Save the file to the defined path2
+    await download.saveAs(projectDownloadPath);
+    console.log(`File downloaded and saved to: ${projectDownloadPath}`);
+    await page.getByRole("button", { name: "Upload document with Signature" }).click();
+    await page
+      .locator('input[type="file"]')
+      .first()
+      .setInputFiles(projectDownloadPath);
+    await page.getByRole('button', { name: 'Submit Signature' }).click();
+    await page.getByRole('button', { name: 'Proceed' }).click();
+    await page.locator('.popup-module.submission-payment-modal > .header-wrap > .header-end > div > svg').click();
 });

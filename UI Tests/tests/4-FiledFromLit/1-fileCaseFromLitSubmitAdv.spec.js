@@ -166,19 +166,19 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
     await page.getByRole('button').filter({ hasText: 'Continue' }).click();
 
     // witness details
-   await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+   //await page.getByRole('button').filter({ hasText: 'Continue' }).click();
     
-  // // continue twice
-  // await page.waitForLoadState("networkidle");
-  //  for (let i = 0; i < 2; i++) {
-  //    await page.waitForTimeout(3000);
-  //    await page.waitForLoadState("networkidle");
-  //    const continueBtn = page
-  //      .getByRole("button")
-  //      .filter({ hasText: "Continue" });
-  //    await expect(continueBtn).toBeVisible({ timeout: 10000 });
-  //    await continueBtn.click();
-  //  }
+  // continue twice
+  await page.waitForLoadState("networkidle");
+   for (let i = 0; i < 2; i++) {
+     await page.waitForTimeout(3000);
+     await page.waitForLoadState("networkidle");
+     const continueBtn = page
+       .getByRole("button")
+       .filter({ hasText: "Continue" });
+     await expect(continueBtn).toBeVisible({ timeout: 10000 });
+     await continueBtn.click();
+   }
  
    // complaint
  
@@ -201,8 +201,10 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Search BAR Registration Id' }).click();
   await page
     .getByRole("textbox", { name: "Search BAR Registration Id" })
-    .fill("ADV/88270000");
-  await page.getByText("ADV/88270000").first().click();
+    .fill("88270000");
+    test.setTimeout(1000000);
+    await page.waitForTimeout(9000);
+  await page.getByText("ADV/").click();
   await page.waitForTimeout(3000);
   const vakalatnama = path.resolve(__dirname, "./Testimages/Vakalatnama.png");
   await page.locator('input[type="file"]').first().setInputFiles(vakalatnama);
@@ -219,14 +221,31 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
 
 
   await page.getByRole('button', { name: 'Save as Draft' }).click();
+  console.log("Case saved as draft successfully.");
+  //test.setTimeout(20000);
+  await page.getByRole('img', { name: 'mSeva' }).first().click();
+  // test.setTimeout(20000);
+  const filingNumber = await page
+      .locator('tr').locator('td').nth(2)
+      // .locator("span.e-filing-table-value-style")
+      .innerText();
+    globalVariables.filingNumber = filingNumber;
+    fs.writeFileSync(
+      globalVarsPath,
+      JSON.stringify(globalVariables, null, 2)
+    );
+  console.log('Filing Number:', globalVariables.filingNumber);
   await page.getByText('I', { exact: true }).click();
+  console.log('Logging out as Litigant...');
   await page.getByText('Logout').click();
+  //await page.pause();
   await page.getByRole('button', { name: 'Yes' }).click();
 
   await page.waitForTimeout(2000);
-
+  
   await page.getByRole('button').click();
   await page.getByRole('textbox').click();
+  console.log('Logging in as Advocate to submit the case...');
   await page.getByRole("textbox").fill(globalVariables.citizenUsername);
   await page.getByRole('button').click();
   await page.locator('.input-otp').first().fill('1');
@@ -236,10 +255,7 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   await page.locator('input:nth-child(5)').fill('5');
   await page.locator('input:nth-child(6)').fill('6');
   await page.getByRole('button', { name: 'Verify' }).click();
-  await page.waitForTimeout(10000);
-
-  await page.getByRole('cell', { name: 'Iknoor Lit vs Automation Accused' }).first().click();
-  
+  await page.getByRole('row', { name: `Iknoor vs Automation Accused Draft ${globalVariables.filingNumber} NIA S138` }).locator('span').first().click();
   await page.locator('.header-end > div > svg > path:nth-child(2)').click();
   
   await page.getByRole('button').filter({ hasText: 'Confirm Details' }).click();
@@ -247,6 +263,7 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   // review and sign
   await page.waitForTimeout(2000);
   await page.getByRole('checkbox').check();
+
   await page.getByRole('button', { name: 'Upload Signed copy' }).click();
 
   const downloadPromise = page.waitForEvent('download');
@@ -270,13 +287,13 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   // await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
   await page.getByRole('button', { name: 'Submit Signature' }).click();
   await page.getByRole('button').filter({ hasText: 'Submit Case' }).click();
-    const filingNumber = await page
-      .locator("span.e-filing-table-value-style")
-      .innerText();
-    globalVariables.filingNumber = filingNumber;
-    fs.writeFileSync(
-      globalVarsPath,
-      JSON.stringify(globalVariables, null, 2)
-    );
+    // const filingNumber = await page
+    //   .locator("span.e-filing-table-value-style")
+    //   .innerText();
+    // globalVariables.filingNumber = filingNumber;
+    // fs.writeFileSync(
+    //   globalVarsPath,
+    //   JSON.stringify(globalVariables, null, 2)
+    // );
  await page.waitForTimeout(5000);
 });
