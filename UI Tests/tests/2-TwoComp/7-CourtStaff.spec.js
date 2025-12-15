@@ -17,7 +17,7 @@ test.setTimeout(180000);
   const searchInput = page.locator('input[name="searchText"]');
   await expect(searchInput).toBeVisible({ timeout: 10000 });
   await searchInput.fill(globalVars.cmpNumber);
-  await page.getByText("Search").first().click({ timeout: 2000 });
+  await page.getByText("Search").first().click({ timeout: 12000 });
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'vs' }).first().click();

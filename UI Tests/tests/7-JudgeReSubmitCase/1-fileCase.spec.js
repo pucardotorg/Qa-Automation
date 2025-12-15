@@ -107,9 +107,9 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .filter({ hasText: /^District$/ })
     .getByRole("textbox")
     .fill(globalVariables.respondentDistrict);
-  await page
+   await page
     .locator("div")
-    .filter({ hasText: /^City \/ town$/ })
+    .filter({ hasText: /^City\/Town$/ })
     .getByRole("textbox")
     .fill(globalVariables.respondentCity);
   //   await page.locator('div').filter({ hasText: /^City \/ town$/ }).getByRole('textbox').press('Tab');
@@ -289,7 +289,10 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.locator('input[type="file"]').first().setInputFiles(vakalatnama);
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
   await page.waitForLoadState("networkidle");
-
+// process delivery - courier services
+  await page.waitForTimeout(12000);
+  await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+  await page.waitForLoadState("networkidle");
   // review and sign
   await page.waitForTimeout(3000);
   await page.locator(".header-end > div > svg > path:nth-child(2)").click();

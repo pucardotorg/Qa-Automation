@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { PassThrough } from "stream";
 const path = require("path");
 const fs = require("fs");
 
@@ -60,12 +61,12 @@ test("Dristi Kerala login and resubmit a case", async ({ page }) => {
       console.log(`File downloaded and saved to: ${projectDownloadPath}`);
       await page.getByRole("button", { name: "Upload Signed PDF" }).click();
       await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
-
-
-  // await page.getByRole("button", { name: "Upload Signed PDF" }).click();
-  // await page.locator('input[type="file"]').first().setInputFiles(filePath);
-  await page.getByRole("button", { name: "Submit Signature" }).click();
-  await page.waitForTimeout(10000);
-  await page.getByRole("button").filter({ hasText: "Submit Case" }).click();
-  await page.waitForTimeout(5000);
+      await page.waitForTimeout(12000); 
+      console.log("tested");
+     // await page.getByRole("button", { name: "Upload Signed PDF" }).click();
+     // await page.locator('input[type="file"]').first().setInputFiles(filePath);
+      await page.getByRole("button", { name: "Submit Signature" }).click();
+      console.log("tested for download");
+      console.log("tested for download2");
+      await page.getByRole("button").filter({ hasText: "Submit Case" }).click();
 });

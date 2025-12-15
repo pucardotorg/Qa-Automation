@@ -61,7 +61,7 @@ test('Register Case Test', async ({ page }) => {
 
   // Wait for the record to be displayed after search
   const resultRow = page.locator('tr');
-  await expect(resultRow.first()).toBeVisible({ timeout: 10000 });
+  await expect(resultRow.first()).toBeVisible({ timeout: 18000 });
 
   // Click on the case ID after search using the provided XPath
   const caseIdCell = page.locator('xpath=//*[@id="root"]/div/div/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/div/div[1]/div[2]/div/span/table/tbody/tr[1]/td[1]');

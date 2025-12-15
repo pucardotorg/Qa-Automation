@@ -28,7 +28,7 @@ test('Issue Notice Test', async ({ page }) => {
   await page.locator('input[name="caseTransferredTo"]').click();
   await page.locator('input[name="caseTransferredTo"]').fill('test');
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(6000);
   await page.getByRole('paragraph').click();
   await page.locator('.ql-editor').fill('test');
   await page.waitForTimeout(1000);

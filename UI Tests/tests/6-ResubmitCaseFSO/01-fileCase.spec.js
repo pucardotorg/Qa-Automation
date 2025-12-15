@@ -215,61 +215,63 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
   await page.waitForLoadState("networkidle");
 
-  // legal demand notice details
-
-  await page
-    .locator('input[name="dateOfDispatch"]')
-    .fill(globalVariables.dateOfDispatch);
-    const dateOfDispatch = path.resolve(__dirname, "./Testimages/2.chequereturnmemeo.png");
-    await page.locator('input[type="file"]').first().setInputFiles(dateOfDispatch);
-    const Legalnotice = path.resolve(__dirname, "./Testimages/5.LegalNotice.pdf");
-  await page.locator('input[type="file"]').nth(2).setInputFiles(Legalnotice);
-  await page
-    .locator('input[name="dateOfService"]')
-    .fill(globalVariables.dateOfService);
-  await page
-    .locator("div")
-    .filter({ hasText: /^No$/ })
-    .getByRole("radio")
-    .check();
-  await page.getByRole("button").filter({ hasText: "Continue" }).click();
-  await page.waitForLoadState("networkidle");
-
-  await page.locator('input[type="file"]').last().setInputFiles(dateOfDispatch);
-
-  await page.getByRole("button").filter({ hasText: "Continue" }).click();
-  //? delay condonaation application
-
-  // await page.locator('input[type="file"]').first().setInputFiles(filePath);
-  // test.setTimeout(120000);
-  // await page.getByRole('button').filter({ hasText: 'Continue' }).click();
-
-  // witness details
-
-  //await page.getByRole('button').filter({ hasText: 'Continue' }).click();
-  // Click Continue twice
-  await page.waitForLoadState("networkidle");
-  for (let i = 0; i < 2; i++) {
-    await page.waitForTimeout(3000);
-  await page.waitForLoadState("networkidle");
-    const continueBtn = page
-      .getByRole("button")
-      .filter({ hasText: "Continue" });
-    await expect(continueBtn).toBeVisible({ timeout: 10000 });
-    await continueBtn.click();
-  }
-
-  // complaint
-  await page.waitForLoadState("networkidle");
-  await page.locator('.ql-editor').first().click();
-  await page.locator('.ql-editor').first().fill("test");
-  const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
-  await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
-  await page.locator('.ql-editor').nth(1).click();
-  await page.locator('.ql-editor').nth(1).fill("test");
-  await page.waitForTimeout(3000);
-  await page.getByRole("button").filter({ hasText: "Continue" }).click();
-  await page.waitForLoadState("networkidle");
+ // legal demand notice details
+ 
+   await page
+     .locator('input[name="dateOfDispatch"]')
+     .fill(globalVariables.dateOfDispatch);
+     const dateOfDispatch = path.resolve(__dirname, "./Testimages/2.chequereturnmemeo.png");
+     await page.locator('input[type="file"]').first().setInputFiles(dateOfDispatch);
+     const Legalnotice = path.resolve(__dirname, "./Testimages/5.LegalNotice.pdf");
+   await page.locator('input[type="file"]').nth(2).setInputFiles(Legalnotice);
+   await page
+     .locator('input[name="dateOfService"]')
+     .fill(globalVariables.dateOfService);
+   await page
+     .locator("div")
+     .filter({ hasText: /^No$/ })
+     .getByRole("radio")
+     .check();
+   await page.getByRole("button").filter({ hasText: "Continue" }).click();
+   await page.waitForLoadState("networkidle");
+ 
+   await page.locator('input[type="file"]').last().setInputFiles(dateOfDispatch);
+ 
+   await page.getByRole("button").filter({ hasText: "Continue" }).click();
+   await page.waitForTimeout(3000);
+   //? delay condonaation application
+ 
+   // await page.locator('input[type="file"]').first().setInputFiles(filePath);
+   // test.setTimeout(120000);
+   // await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+ 
+   // witness details
+ 
+   //await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+   // Click Continue twice
+   await page.waitForLoadState("networkidle");
+   for (let i = 0; i < 2; i++) {
+   await page.waitForTimeout(6000);
+   await page.waitForLoadState("networkidle");
+     const continueBtn = page
+       .getByRole("button")
+       .filter({ hasText: "Continue" });
+     await expect(continueBtn).toBeVisible({ timeout: 10000 });
+     await continueBtn.click();
+   }
+     // complaint
+ 
+   await page.waitForTimeout(3000);
+   await page.locator('.ql-editor').first().click();
+   await page.locator('.ql-editor').first().fill("test");
+   const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
+   await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
+   await page.locator('.ql-editor').nth(1).click();
+   await page.locator('.ql-editor').nth(1).fill("test");
+   await page.waitForTimeout(3000);
+   await page.getByRole("button").filter({ hasText: "Continue" }).click();
+   await page.waitForLoadState("networkidle");
+ 
 
   // advocate details
   await page.waitForTimeout(3000);
@@ -282,10 +284,11 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.waitForLoadState("networkidle");
 
   // process delivery - courier services
-  await page.waitForTimeout(3000);
+  await page.waitForTimeout(12000);
+  // await page.getByText('Select Courier Services').click();
+  // await page.getByRole('checkbox', { name: 'Registered Post (INR 1) • 10-' }).check();
   await page.getByRole('button').filter({ hasText: 'Continue' }).click();
   await page.waitForLoadState("networkidle");
-
   // review and sign
     await page.waitForTimeout(3000);
   await page.locator(".header-end > div > svg > path:nth-child(2)").click();
@@ -319,5 +322,5 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .innerText();
   globalVariables.filingNumber = filingNumber;
   fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(12000);
 });

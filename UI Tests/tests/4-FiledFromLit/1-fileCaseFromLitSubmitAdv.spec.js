@@ -180,18 +180,17 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
      await continueBtn.click();
    }
  
-   // complaint
- 
-   await page.waitForTimeout(3000);
-   await page.locator('.ql-editor').first().click();
-   await page.locator('.ql-editor').first().fill("test");
-   const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
-   await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
-   await page.locator('.ql-editor').nth(1).click();
-   await page.locator('.ql-editor').nth(1).fill("test");
-   await page.waitForTimeout(3000);
-   await page.getByRole("button").filter({ hasText: "Continue" }).click();
-   await page.waitForLoadState("networkidle");
+   // complaint 
+    await page.waitForTimeout(3000);
+    await page.locator('.ql-editor').first().click();
+    await page.locator('.ql-editor').first().fill("test");
+    const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
+    await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
+    await page.locator('.ql-editor').nth(1).click();
+    await page.locator('.ql-editor').nth(1).fill("test");
+    await page.waitForTimeout(3000);
+    await page.getByRole("button").filter({ hasText: "Continue" }).click();
+    await page.waitForLoadState("networkidle");
  
     // advocate details
   await page.getByRole('textbox').first().click();
@@ -202,10 +201,9 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   await page
     .getByRole("textbox", { name: "Search BAR Registration Id" })
     .fill("88270000");
-    test.setTimeout(1000000);
-    await page.waitForTimeout(9000);
-  await page.getByText("ADV/").click();
-  await page.waitForTimeout(3000);
+    //await page.waitForTimeout(9000);
+  await page.getByText("ADV//8827000000").click();
+  await page.waitForTimeout(12000);
   const vakalatnama = path.resolve(__dirname, "./Testimages/Vakalatnama.png");
   await page.locator('input[type="file"]').first().setInputFiles(vakalatnama);
   await page.getByRole('button').filter({ hasText: 'Continue' }).click();
@@ -213,7 +211,7 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
   await page.waitForTimeout(5000);
 
   // process delivery - courier services
-  await page.waitForTimeout(3000);
+  await page.waitForTimeout(5000);
   // await page.getByText('Select Courier Services').first().click();
   // await page.getByRole('checkbox', { name: 'Registered Post (INR 1) • 10-' }).check();
 
@@ -295,5 +293,5 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
     //   globalVarsPath,
     //   JSON.stringify(globalVariables, null, 2)
     // );
- await page.waitForTimeout(5000);
+ await page.waitForTimeout(10000);
 });

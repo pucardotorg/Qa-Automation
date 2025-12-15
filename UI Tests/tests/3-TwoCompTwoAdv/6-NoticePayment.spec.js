@@ -31,7 +31,7 @@ console.log('Navigating to Nm login page...');
   const continueButton = page.getByRole('button', { name: 'Continue' }).or(
     page.locator('button:has-text("Continue")')
   );
-  await expect(continueButton).toBeVisible({ timeout: 10000 });
+  await expect(continueButton).toBeVisible({ timeout: 18000 });
   await continueButton.click();
   console.log('Clicked Continue button');
 

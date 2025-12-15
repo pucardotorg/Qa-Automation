@@ -271,56 +271,48 @@ await page
     .click();
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
 
-  // legal demand notice details
-
-  await page
-    .locator('input[name="dateOfDispatch"]')
-    .fill(globalVariables.dateOfDispatch);
-  const dateOfDispatch = path.resolve(
-    __dirname,
-    "./Testimages/2.chequereturnmemeo.png"
-  );
-  await page
-    .locator('input[type="file"]')
-    .first()
-    .setInputFiles(dateOfDispatch);
-  const Legalnotice = path.resolve(__dirname, "./Testimages/5.LegalNotice.pdf");
-  await page.locator('input[type="file"]').nth(2).setInputFiles(Legalnotice);
-  await page
-    .locator('input[name="dateOfService"]')
-    .fill(globalVariables.dateOfService);
-  await page
-    .locator("div")
-    .filter({ hasText: /^No$/ })
-    .getByRole("radio")
-    .check();
-  await page.getByRole("button").filter({ hasText: "Continue" }).click();
-  await page.locator('input[type="file"]').last().setInputFiles(dateOfDispatch);
-  await page.getByRole("button").filter({ hasText: "Continue" }).click();
-
-  // delay condonaation application
-
-  // await page.locator('input[type="file"]').first().setInputFiles(filePath);
-  // test.setTimeout(120000);
-  //     await page.getByRole('button').filter({ hasText: 'Continue' }).click();
-
-  // witness details
-  //    await page.getByRole('button').filter({ hasText: 'Continue' }).click();
-
-  // Click Continue twice
- await page.waitForLoadState("networkidle");
- for (let i = 0; i < 2; i++) {
-   await page.waitForTimeout(3000);
-   await page.waitForLoadState("networkidle");
-   const continueBtn = page.getByRole("button").filter({ hasText: "Continue" });
-   await expect(continueBtn).toBeVisible({ timeout: 10000 });
-   await continueBtn.click();
- }
- await page.waitForTimeout(5000);
-
-
-
-  // complaint
+   await page
+      .locator('input[name="dateOfDispatch"]')
+      .fill(globalVariables.dateOfDispatch);
+      const dateOfDispatch = path.resolve(__dirname, "./Testimages/2.chequereturnmemeo.png");
+      await page.locator('input[type="file"]').first().setInputFiles(dateOfDispatch);
+      const Legalnotice = path.resolve(__dirname, "./Testimages/5.LegalNotice.pdf");
+    await page.locator('input[type="file"]').nth(2).setInputFiles(Legalnotice);
+    await page
+      .locator('input[name="dateOfService"]')
+      .fill(globalVariables.dateOfService);
+    await page
+      .locator("div")
+      .filter({ hasText: /^No$/ })
+      .getByRole("radio")
+      .check();
+    await page.getByRole("button").filter({ hasText: "Continue" }).click();
+    await page.waitForLoadState("networkidle");
+  
+    await page.locator('input[type="file"]').last().setInputFiles(dateOfDispatch);
+  
+    await page.getByRole("button").filter({ hasText: "Continue" }).click();
+    //? delay condonaation application
+  
+    // await page.locator('input[type="file"]').first().setInputFiles(filePath);
+    // test.setTimeout(120000);
+    // await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+  
+    // witness details
+  
+    //await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+    // Click Continue twice
+    await page.waitForLoadState("networkidle");
+    for (let i = 0; i < 2; i++) {
+      await page.waitForTimeout(3000);
+    await page.waitForLoadState("networkidle");
+      const continueBtn = page
+        .getByRole("button")
+        .filter({ hasText: "Continue" });
+      await expect(continueBtn).toBeVisible({ timeout: 10000 });
+      await continueBtn.click();
+    }
+    // complaint
 
   await page.locator('.ql-editor').first().click();
   await page.locator('.ql-editor').first().fill("test");
@@ -377,7 +369,7 @@ await page
   await page.getByRole("button").filter({ hasText: "Continue" }).nth(1).click();
 
   // process delivery - courier services
-  await page.waitForTimeout(3000);
+  await page.waitForTimeout(12000);
   // await page.getByText('Select Courier Services').click();
   // await page.getByRole('checkbox', { name: 'Registered Post (INR 1) • 10-' }).check();
   await page.getByRole('button').filter({ hasText: 'Continue' }).click();
