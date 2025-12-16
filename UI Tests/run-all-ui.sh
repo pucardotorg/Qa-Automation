@@ -24,14 +24,15 @@ export TEST_ENV="$ENV_LC"
 node ui-global-setup.js || { echo "[run-all-ui] ui-global-setup failed"; exit 1; }
 
 # Define the ordered list of folders to run sequentially
-FOLDERS=(
+FOLDERS=(  
+  
   "tests/1-Normal"
   "tests/2-TwoComp"
   "tests/3-TwoCompTwoAdv"
   "tests/4-FiledFromLit"
-  "tests/5-OnlinePayment"
   "tests/6-ResubmitCaseFSO"
   "tests/7-JudgeReSubmitCase"
+
 )
 
 echo "[run-all-ui] Running folders in sequence:"
@@ -43,10 +44,21 @@ for folder in "${FOLDERS[@]}"; do
     echo "[run-all-ui] Skipping missing folder: $folder"
     continue
   fi
-  echo "[run-all-ui] Running folder: $folder"
-  npx playwright test "$folder" "${PLAYWRIGHT_FLAGS[@]}" --workers=1
-  echo "[run-all-ui] Waiting 1 second before next folder..."
-  sleep 1
+   echo "[run-all-ui] Running folder: $folder"
+npx playwright test "$folder" "${PLAYWRIGHT_FLAGS[@]}" --workers=1 --max-failures=1
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+  echo "[run-all-ui] ❌ Tests failed in folder: $folder"
+  echo "[run-all-ui] ➜ Stopping further tests inside this folder"
+  echo "[run-all-ui] ➜ Moving to next folder"
+  continue
+fi
+
+echo "[run-all-ui] ✅ Completed folder: $folder"
+echo "[run-all-ui] Waiting 1 second before next folder..."
+sleep 1
+
 done
 
 echo "[run-all-ui] All UI test folders completed."

@@ -33,9 +33,10 @@ test('Issue Warrant', async ({ page }) => {
   await page.locator('div').filter({ hasText: /^Warrant Type\*$/ }).getByRole('img').click();
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Witness' }).click();
   await page.locator('#warrantSubType svg').click();
-  await page.getByRole('option', { name: 'Other' }).click();
-  await page.getByRole('textbox', { name: 'Type here' }).click();
-  await page.getByRole('textbox', { name: 'Type here' }).fill('test');
+
+  await page.getByText('138').click();
+  await page.locator('input.radio-btn').nth(1).click();
+  
   test.setTimeout(180000);
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
   await page.waitForTimeout(2000);
@@ -53,7 +54,8 @@ test('Issue Warrant', async ({ page }) => {
     // Save the file to the defined path2
     await download.saveAs(projectDownloadPath);
     console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
-    await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+     await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.waitForTimeout(2000);  
     await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
   
     await page.getByRole('button', { name: 'Submit Signature' }).click();

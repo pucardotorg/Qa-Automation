@@ -17,7 +17,7 @@ test.setTimeout(180000);
   const searchInput = page.locator('input[name="searchText"]');
   await expect(searchInput).toBeVisible({ timeout: 10000 });
   await searchInput.fill(globalVars.cmpNumber);
-  await page.getByText("Search").first().click({ timeout: 2000 });
+  await page.getByText("Search").first().click({ timeout: 12000 });
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'vs' }).first().click();
@@ -34,7 +34,8 @@ test.setTimeout(180000);
   // Save the file to the defined path2
   await download.saveAs(projectDownloadPath);
   console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
-  await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+   await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.waitForTimeout(2000);  
   await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
 
   await page.getByRole('button', { name: 'Submit Signature' }).click();

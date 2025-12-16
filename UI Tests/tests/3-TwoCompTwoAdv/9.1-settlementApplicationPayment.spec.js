@@ -1,8 +1,5 @@
 import { test, expect } from '@playwright/test';
-const fs = require('fs');
-const path = require('path');
-const globalVarsPath = path.join(__dirname, '../../global-variables.json');
-const globalVars = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
+import globalVars from '../../global-variables.json';
 
 test('Notice Payment Test', async ({ page }) => {
   // Navigate to the employee login page
@@ -43,10 +40,9 @@ console.log('Navigating to Nm login page...');
 
   // Fill in the case title filing number
   await page.locator('input[name="caseTitleFilingNumber"]').click();
-  await page.locator('input[name="caseTitleFilingNumber"]').fill(globalVars.stNumber);
+  await page.locator('input[name="caseTitleFilingNumber"]').fill(globalVars.cmpNumber);
   await page.getByRole('button').filter({ hasText: 'Search' }).click();
-  // Wait for search results and the Record Payment link to be visible before clicking
-  await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
+  await page.waitForTimeout(2000);
   await page.getByRole('link', { name: 'Record Payment' }).first().click();
   await page.locator('div').filter({ hasText: /^Mode of Payment$/ }).locator('path').nth(1).click();
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Stamp' }).click();

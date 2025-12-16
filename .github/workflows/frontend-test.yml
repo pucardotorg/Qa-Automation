@@ -1,16 +1,39 @@
 name: Playwright Tests (Frontend)
 
 on:
+  schedule:
+    - cron: "30 3 * * 1-5"  # 9:00 AM IST (3:30 AM UTC), Monday to Friday
   push:
-    branches: [ main, frontend, sdcuat ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, frontend, sdcuat ]
+    branches: [ main ]
   workflow_dispatch:
+    inputs: 
+      environment: 
+        required: true
+        type: choice
+        options:
+          - dev
+          - qa
+          - uat
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    environment:
+      name: ${{ inputs.environment }}
+    env:
+        CITIZEN_USERNAME: ${{ vars.CITIZEN_USERNAME }}
+        CITIZEN_PASSWORD: ${{ vars.CITIZEN_PASSWORD }}
+        LITIGENT_USERNAME: ${{ vars.LITIGENT_USERNAME }}
+        LITIGENT_PASSWORD: ${{ vars.LITIGENT_PASSWORD }}
+        NAYAMITRA_USERNAME: ${{ vars.NAYAMITRA_USERNAME }}
+        NAYAMITRA_PASSWORD: ${{ vars.NAYAMITRA_PASSWORD }}
+        FSO_USERNAME: ${{ vars.FSO_USERNAME }}
+        FSO_PASSWORD: ${{ vars.FSO_PASSWORD }}
+        JUDGE_USERNAME: ${{ vars.JUDGE_USERNAME }}
+        JUDGE_PASSWORD: ${{ vars.JUDGE_PASSWORD }}
+        CI: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,16 +51,18 @@ jobs:
         run: |
           npm install @playwright/test
           npm install @types/node
-          npm install dot-env
+          npm install dotenv
           npx playwright install --with-deps
 
       - name: Verify Playwright installation
         run: |
           npx playwright --version
 
-      - name: Run Playwright tests
+
+      - name: Run Front-End Playwright tests
         run: |
-          npx playwright test --workers=1
+          cd ./UI\ Tests/
+          UI_ENV=${{ inputs.environment }} ./run-all-ui.sh --workers=1
 
       - name: Upload Playwright Report (optional)
         if: always()

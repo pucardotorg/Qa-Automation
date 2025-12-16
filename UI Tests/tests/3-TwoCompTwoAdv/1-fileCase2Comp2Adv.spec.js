@@ -142,7 +142,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .fill(globalVariables.respondentDistrict);
   await page
     .locator("div")
-    .filter({ hasText: /^City \/ town$/ })
+    .filter({ hasText: /^City\/Town$/ })
     .getByRole("textbox")
     .fill(globalVariables.respondentCity);
   //   await page.locator('div').filter({ hasText: /^City \/ town$/ }).getByRole('textbox').press('Tab');
@@ -245,22 +245,18 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .filter({ hasText: /^Full Liability$/ })
     .getByRole("radio")
     .click();
+
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
 
   // legal demand notice details
 
   await page
     .locator('input[name="dateOfDispatch"]')
     .fill(globalVariables.dateOfDispatch);
-  const dateOfDispatch = path.resolve(
-    __dirname,
-    "./Testimages/2.chequereturnmemeo.png"
-  );
-  await page
-    .locator('input[type="file"]')
-    .first()
-    .setInputFiles(dateOfDispatch);
-  const Legalnotice = path.resolve(__dirname, "./Testimages/5.LegalNotice.pdf");
+    const dateOfDispatch = path.resolve(__dirname, "./Testimages/2.chequereturnmemeo.png");
+    await page.locator('input[type="file"]').first().setInputFiles(dateOfDispatch);
+    const Legalnotice = path.resolve(__dirname, "./Testimages/5.LegalNotice.pdf");
   await page.locator('input[type="file"]').nth(2).setInputFiles(Legalnotice);
   await page
     .locator('input[name="dateOfService"]')
@@ -271,38 +267,41 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
     .getByRole("radio")
     .check();
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
-  await page.locator('input[type="file"]').last().setInputFiles(dateOfDispatch);
-  await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForLoadState("networkidle");
 
-  // delay condonaation application
+  await page.locator('input[type="file"]').last().setInputFiles(dateOfDispatch);
+
+  await page.getByRole("button").filter({ hasText: "Continue" }).click();
+  await page.waitForTimeout(3000);
+  //? delay condonaation application
 
   // await page.locator('input[type="file"]').first().setInputFiles(filePath);
   // test.setTimeout(120000);
-  //     await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+  // await page.getByRole('button').filter({ hasText: 'Continue' }).click();
 
-  //     // witness details
-  //    await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+  // witness details
+
+  //await page.getByRole('button').filter({ hasText: 'Continue' }).click();
   // Click Continue twice
   await page.waitForLoadState("networkidle");
   for (let i = 0; i < 2; i++) {
-    await page.waitForTimeout(3000);
-    await page.waitForLoadState("networkidle");
+  await page.waitForTimeout(6000);
+  await page.waitForLoadState("networkidle");
     const continueBtn = page
       .getByRole("button")
       .filter({ hasText: "Continue" });
     await expect(continueBtn).toBeVisible({ timeout: 10000 });
     await continueBtn.click();
   }
-
-  // complaint
+    // complaint
 
   await page.waitForTimeout(3000);
-  await page.getByRole("textbox", { name: "rdw-editor" }).first().click();
-  await page.getByRole("textbox", { name: "rdw-editor" }).first().fill("test");
+  await page.locator('.ql-editor').first().click();
+  await page.locator('.ql-editor').first().fill("test");
   const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
   await page.locator('input[type="file"]').first().setInputFiles(Affidavit);
-  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).click();
-  await page.getByRole("textbox", { name: "rdw-editor" }).nth(1).fill("test");
+  await page.locator('.ql-editor').nth(1).click();
+  await page.locator('.ql-editor').nth(1).fill("test");
   await page.waitForTimeout(3000);
   await page.getByRole("button").filter({ hasText: "Continue" }).click();
   await page.waitForLoadState("networkidle");
@@ -353,47 +352,57 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.locator('input[type="file"]').last().setInputFiles(vakalatnama);
   await page.getByRole("button").filter({ hasText: "Continue" }).nth(1).click();
   // await page.waitForTimeout(3000);
+
+  // process delivery - courier services
+  await page.waitForTimeout(12000);
+  // await page.getByText('Select Courier Services').click();
+  // await page.getByRole('checkbox', { name: 'Registered Post (INR 1) • 10-' }).check();
+  await page.getByRole('button').filter({ hasText: 'Continue' }).click();
+  await page.waitForLoadState("networkidle");
+
   // review and sign
 
-  await page.locator(".header-end > div > svg > path:nth-child(2)").click();
-  await page.getByRole("button").filter({ hasText: "Confirm Details" }).click();
-  // await page.waitForTimeout(3000);
-  await page.getByRole("checkbox").check();
-
-  // await page.pause();
-
-  await page.waitForTimeout(3000);
-  await page.getByRole("button", { name: "Upload Signed copy" }).click();
-  const downloadPromise = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Download PDF" }).click();
-  //const download = await downloadPromise;
-  const [download] = await Promise.all([
-    page.waitForEvent("download"), // wait for the download trigger
-    page.click("text=Download PDF"), // replace with your selector
-  ]);
-  const projectDownloadPath = path.join(
-    __dirname,
-    "downloads",
-    await download.suggestedFilename()
-  );
-
-  // Save the file to the defined path2
-  await download.saveAs(projectDownloadPath);
-  console.log(`File downloaded and saved to: ${projectDownloadPath}`);
-  await page.getByRole("button", { name: "Upload Signed PDF" }).click();
-  await page
-    .locator('input[type="file"]')
-    .first()
-    .setInputFiles(projectDownloadPath);
-
-  // await page.getByRole("button", { name: "Upload Signed PDF" }).click();
-  // await page.locator('input[type="file"]').first().setInputFiles(filePath);
-  await page.getByRole("button", { name: "Submit Signature" }).click();
-  await page.getByRole("button").filter({ hasText: "Submit Case" }).click();
-  const filingNumber = await page
-    .locator("span.e-filing-table-value-style")
-    .innerText();
-  globalVariables.filingNumber = filingNumber;
-  fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
-  await page.waitForTimeout(5000);
-});
+   await page.locator(".header-end > div > svg > path:nth-child(2)").click();
+    await page.getByRole("button").filter({ hasText: "Confirm Details" }).click();
+    await page.getByRole("checkbox").check();
+    await page.getByRole("button", { name: "Upload Signed copy" }).click();
+  
+    const downloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Download PDF" }).click();
+    //const download = await downloadPromise;
+    const [download] = await Promise.all([
+      page.waitForEvent("download"), // wait for the download trigger
+      page.click("text=Download PDF"), // replace with your selector
+    ]);
+    const projectDownloadPath = path.join(
+      __dirname,
+      "downloads",
+      await download.suggestedFilename()
+    );
+  
+    // Save the file to the defined path2
+    await download.saveAs(projectDownloadPath);
+    console.log(`File downloaded and saved to: ${projectDownloadPath}`);
+    await page.getByRole("button", { name: "Upload Signed PDF" }).click();
+    await page
+      .locator('input[type="file"]')
+      .first()
+      .setInputFiles(projectDownloadPath);
+  
+    // await page.locator('input[type="file"]').first().setInputFiles(filePath);
+    await page
+      .getByRole("button", { name: "Submit Signature" })
+      .click({ timeout: 10000 });
+    await page
+      .getByRole("button")
+      .filter({ hasText: "Submit Case" })
+      .click({ timeout: 10000 });
+    const filingNumber = await page
+      .locator("span.e-filing-table-value-style")
+      .innerText();
+    globalVariables.filingNumber = filingNumber;
+    fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
+    console.log("Filing Number: " + filingNumber);
+    await page.waitForTimeout(2000);
+  });
+  

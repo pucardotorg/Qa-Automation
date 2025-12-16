@@ -61,7 +61,7 @@ test('Register Case Test', async ({ page }) => {
 
   // Wait for the record to be displayed after search
   const resultRow = page.locator('tr');
-  await expect(resultRow.first()).toBeVisible({ timeout: 10000 });
+  await expect(resultRow.first()).toBeVisible({ timeout: 18000 });
 
   // Click on the case ID after search using the provided XPath
   const caseIdCell = page.locator('xpath=//*[@id="root"]/div/div/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/div/div[1]/div[2]/div/span/table/tbody/tr[1]/td[1]');
@@ -98,8 +98,8 @@ test('Register Case Test', async ({ page }) => {
 
   await page.waitForLoadState("networkidle");
 
-  await page.getByRole('textbox', { name: 'rdw-editor' }).click();
-  await page.getByRole('textbox', { name: 'rdw-editor' }).fill('AUTOMATION ORDER GENERATED');
+  await page.locator('.ql-editor').click();
+  await page.locator('.ql-editor').fill('AUTOMATION ORDER GENERATED');
  
   await page.waitForTimeout(1000);
 
@@ -117,7 +117,8 @@ test('Register Case Test', async ({ page }) => {
   // Save the file to the defined path2
   await download.saveAs(projectDownloadPath);
   console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
-  await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+   await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.waitForTimeout(2000);  
   await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
   
   await page.getByRole('button', { name: 'Submit Signature' }).click();

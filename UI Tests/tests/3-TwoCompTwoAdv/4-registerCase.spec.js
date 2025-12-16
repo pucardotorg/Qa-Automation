@@ -98,8 +98,8 @@ test('Register Case Test', async ({ page }) => {
 
   await page.waitForLoadState("networkidle");
 
-  await page.getByRole('textbox', { name: 'rdw-editor' }).click();
-  await page.getByRole('textbox', { name: 'rdw-editor' }).fill('AUTOMATION ORDER GENERATED');
+  await page.locator('.ql-editor').click();
+  await page.locator('.ql-editor').fill('AUTOMATION ORDER GENERATED');
  
   await page.waitForTimeout(1000);
 
@@ -117,7 +117,11 @@ test('Register Case Test', async ({ page }) => {
   // Save the file to the defined path2
   await download.saveAs(projectDownloadPath);
   console.log(`File downloaded and saved to: ${projectDownloadPath}`);    
-  await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  
+   await page.getByRole('button', { name: 'Upload Order Document with' }).click();
+  await page.waitForTimeout(2000);  
+  await page.waitForTimeout(2000);
+
   await page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
   
   await page.getByRole('button', { name: 'Submit Signature' }).click();
@@ -130,12 +134,14 @@ test('Register Case Test', async ({ page }) => {
    )
    .click();
   await page.waitForLoadState("networkidle");
-  const accessCodeElement = await page.locator('div.sub-details-text').filter({ hasText: 'Code: ' });
-  const accessCodeText = await accessCodeElement.textContent();
+  const accessCodeElement = page.locator('div.sub-details-text').filter({ hasText: 'Code:' });
+  await expect(accessCodeElement.first()).toBeVisible({ timeout: 30000 });
+  const accessCodeText = (await accessCodeElement.first().textContent()) || '';
   const accessCode = accessCodeText.match(/Code\s*:\s*(\d+)/)?.[1] || '';
   console.log('Access Code:', accessCode);
-  const accessCodeElement2 = await page.locator('div.sub-details-text').filter({ hasText: 'CMP/' });
-  const cmpNumber = await accessCodeElement2.textContent();
+  const accessCodeElement2 = page.locator('div.sub-details-text').filter({ hasText: 'CMP/' });
+  await expect(accessCodeElement2.first()).toBeVisible({ timeout: 30000 });
+  const cmpNumber = (await accessCodeElement2.first().textContent()) || '';
   console.log('CMP Number:', cmpNumber);
   globalVariables.accessCode = accessCode;
   globalVariables.cmpNumber = cmpNumber;
