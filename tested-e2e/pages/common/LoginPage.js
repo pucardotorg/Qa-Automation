@@ -10,6 +10,8 @@ class LoginPage extends BasePage {
 
   async open() {
     await this.goto('ui/citizen/select-language');
+    // Ensure the initial screen is interactive
+    await this.signInBtn.first().waitFor({ state: 'visible', timeout: 20000 });
   }
 
   async loginWithMobileOtp(mobileNumber) {

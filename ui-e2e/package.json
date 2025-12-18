@@ -1,0 +1,14 @@
+{
+  "name": "ui-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standalone Playwright UI E2E suite using POM architecture",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.2"
+  }
+}

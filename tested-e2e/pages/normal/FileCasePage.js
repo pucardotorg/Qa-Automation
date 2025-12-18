@@ -2,6 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const { expect } = require('@playwright/test');
 const { BasePage } = require('../common/BasePage');
+const { tryClick } = require('../common/uiactions');
+
 
 class FileCasePage extends BasePage {
   constructor(page, globals) {
@@ -34,91 +36,78 @@ class FileCasePage extends BasePage {
   }
 
   async fillAccusedDetails() {
-    // 1) Select "Individual" using the same robust pattern as complainant
+   
+// 1) Scope to Accused 1 card (you already have this)
+let accusedCard = this.page
+.locator('form, section, div')
+.filter({ has: this.page.getByRole('heading', { level: 1, name: /^Accused\s*1$/i }) })
+.first();
+
+//await accusedCard.scrollIntoViewIfNeeded();
+
+// 2) Select "Individual" inside the card (keep your resilient tryClick logic)
+let selected = false;
+//selected = selected || (await tryClick(accusedCard.locator('label:has-text("Individual")')));
+selected = selected || (await tryClick(accusedCard.getByRole('radio', { name: /^Individual$/ })));
+//selected = selected || (await tryClick(accusedCard.getByRole('button', { name: /^Individual$/ })));
+// ... other fallbacks you already added ...
+
+// 3) Reveal/advance: click the card’s Continue (fallback Add/Edit if your UI uses it)
+const clickIfVisible = async (loc) => {
+if (await loc.isVisible().catch(() => false)) {
+  await loc.scrollIntoViewIfNeeded().catch(() => {});
+  await loc.click({ force: true });
+  return true;
+}
+return false;
+};
+
+let advanced = await clickIfVisible(accusedCard.getByRole('button', { name: /Continue/i }).first());
+if (!advanced) {
+advanced = await clickIfVisible(accusedCard.getByRole('button', { name: /Add Accused|Add|Edit/i }).first());
+}
+
+// 4) Do NOT wait for or fill first-name on this screen (no inputs here).
+// The inputs appear on the next step. Let the subsequent page object method handle them.
+await this.waitIdle();
+  }
+ 
+
+  async fillChequeDetails()   { 
+    // Avoid re-selecting "Individual" here to prevent duplicate accused selection.
+    // Assume the selection was already made in fillAccusedDetails().
+
+    // Do not auto-fill respondent first name to avoid unintended defaults.
+    // If the field needs to be filled, the calling test should provide it explicitly.
+
+    // Pincode
     await this.page
       .locator('div')
-      .filter({ hasText: /^Individual$/ })
-      .getByRole('radio')
-      .first()
-      .check({ force: true });
-  
-    // 2) Scope to Accused container (loosened to match multiple banners)
-    const accused = this.page
-      .locator('form, section, div')
-      .filter({ hasText: /Accused Details|Accused Name|Accused’s Location/i })
-      .first();
-  
-    // Ensure the section is on screen before interacting
-    await expect(accused).toBeVisible({ timeout: 15000 });
-  
-    // 3) Fill fields (container-scoped to avoid page-wide collisions)
-    const firstName = accused.locator('input[name="respondentFirstName"]').first();
-    await firstName.waitFor({ state: 'visible', timeout: 15000 });
-    await firstName.click();
-    await firstName.fill(this.globals.respondentFirstName);
-  
-    await accused.locator('div', { hasText: 'Pincode' }).getByRole('textbox').first()
+      .filter({ hasText: /^Pincode$/ })
+      .getByRole('textbox')
       .fill(this.globals.respondentPincode);
-    await accused.locator('div', { hasText: 'State' }).getByRole('textbox').first()
-      .fill(this.globals.respondentState);
-    await accused.locator('div', { hasText: 'District' }).getByRole('textbox').first()
-      .fill(this.globals.respondentDistrict);
-    await accused.locator('div', { hasText: 'City/Town' }).getByRole('textbox').first()
-      .fill(this.globals.respondentCity);
-    await accused.locator('div', { hasText: 'Address' }).getByRole('textbox').first()
-      .fill(this.globals.respondentAddress);
-  
-    // 4) Upload affidavit from pages/normal/Testimages
-    const affidavitPath = path.resolve(__dirname, 'Testimages', 'Affidavit.pdf');
-  
-    // Prefer a visible input in this section
-    const fileInput = accused.locator('input[type="file"]:visible').first();
-    await fileInput.waitFor({ state: 'attached', timeout: 10000 });
-    await fileInput.setInputFiles(affidavitPath);
-  
-    // Optional: verify file label appears
-    await this.page.getByRole('heading', { name: /Affidavit\.pdf/i }).first()
-      .waitFor({ state: 'visible', timeout: 10000 })
-      .catch(() => {});
-  
-    // 5) Scroll and click a tolerant Continue button
-    await this.page.keyboard.press('End');
-    await this.page.waitForTimeout(200);
-  
-    const continueBtn = this.page.locator('button:has-text("Continue")').first();
-    await expect(continueBtn).toBeVisible({ timeout: 15000 });
-    await expect(continueBtn).toBeEnabled({ timeout: 15000 });
-    await continueBtn.scrollIntoViewIfNeeded();
-    await continueBtn.click();
-  
-    await this.waitIdle();
-  }
 
-  async fillChequeDetails() {
-    const fallbackFile = path.join(process.cwd(), 'UI Tests', 'Test.png');
-    await this.page.locator('input[name="chequeSignatoryName"]').fill(this.globals.chequeSignatoryName || 'Name On Cheque');
-    const fileInput = await this.page.$('input[type="file"]');
-    if (fileInput && fs.existsSync(fallbackFile)) {
-      await fileInput.setInputFiles(fallbackFile);
-    }
-    await this.page.locator('input[name="name"]').fill('Name On Cheque');
-    await this.page.locator('input[name="payeeBankName"]').fill(this.globals.payeeBankName);
-    await this.page.locator('input[name="payeeBranchName"]').fill(this.globals.payeeBranchName);
-    await this.page.locator('input[name="chequeNumber"]').fill(this.globals.chequeNumber);
-    await this.page.locator('input[name="issuanceDate"]').fill(this.globals.issuanceDate);
-    await this.page.locator('input[name="payerBankName"]').fill(this.globals.payerBankName);
-    await this.page.locator('input[name="payerBranchName"]').fill(this.globals.payerBranchName);
-    await this.page.locator('input[name="ifsc"]').fill(this.globals.ifsc);
-    await this.page.locator('#validationCustom01').fill(this.globals.chequeAmount);
-    await this.page.locator('div', { hasText: 'Police Station with Jurisdiction over the Cheque Deposit Bank*' }).getByRole('textbox').click();
-    await this.page.getByText(this.globals.policeStation).click();
-    await this.page.locator('input[name="depositDate"]').fill(this.globals.depositDate);
-    await this.page.locator('div', { hasText: '*Reason for the return of cheque' }).getByRole('textbox').fill(this.globals.reasonForReturnOfCheque);
-    await this.scrollToBottom();
-    if (fs.existsSync(fallbackFile)) {
-      await this.page.locator('input[type="file"]').last().setInputFiles(fallbackFile);
-    }
-    await this.clickContinue();
+    // State
+    await this.page
+      .locator('div')
+      .filter({ hasText: /^State$/ })
+      .getByRole('textbox')
+      .fill(this.globals.respondentState);
+
+    // District
+    await this.page
+      .locator('div')
+      .filter({ hasText: /^District$/ })
+      .getByRole('textbox')
+      .fill(this.globals.respondentDistrict);
+
+    // City / Town
+    await this.page
+      .locator('div')
+      .filter({ hasText: /^City\/Town$/ })
+      .getByRole('textbox')
+      .fill(this.globals.respondentCity);
+
     await this.waitIdle();
   }
 

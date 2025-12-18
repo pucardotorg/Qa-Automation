@@ -5,8 +5,12 @@ class BasePage {
   }
 
   async goto(path = '') {
-    const base = this.globals.baseURL || '';
-    await this.page.goto(`${base}${path}`);
+    const base = (this.globals.baseURL || '').replace(/\/+$/, '');
+    const rel = String(path || '').replace(/^\/+/, '');
+    const target = rel ? `${base}/${rel}` : base;
+    await this.page.goto(target, { waitUntil: 'domcontentloaded' });
+    // Give the page time to settle network activity
+    await this.page.waitForLoadState('networkidle', { timeout: 30000 });
   }
 
   async waitIdle() {

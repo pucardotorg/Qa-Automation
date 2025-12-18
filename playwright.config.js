@@ -31,9 +31,10 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
-  // Run both suites as separate projects so you can execute one or both:
+  // Run suites as separate projects so you can execute one or more:
   // - npx playwright test -p case-create
   // - npx playwright test -p ui-tests
+  // - npx playwright test -p tested-e2e
   projects: [
     {
       name: 'case-create',
@@ -48,9 +49,15 @@ export default defineConfig({
       },
       workers: 1,
     },
+    {
+      name: 'tested-e2e',
+      testDir: './tested-e2e/tests',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1920, height: 1080 } },
+      workers: 1,
+    },
   ],
 
-  // Ensure env-specific global variables are prepared before tests (both suites)
+  // Ensure env-specific global variables are prepared before tests (all suites)
   globalSetup: './combined-global-setup.js',
 
   // webServer: {
