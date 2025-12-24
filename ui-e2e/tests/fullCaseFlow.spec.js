@@ -217,7 +217,7 @@ test.describe.serial('Full Case Flow - End to End', () => {
 
     await judgeOrders.issueSummon(
       globals.stNumber,
-      'Automation Accused (Accused)'
+      `${globals.respondentFirstName} (Accused)`
     );
   });
 
@@ -244,7 +244,7 @@ test.describe.serial('Full Case Flow - End to End', () => {
 
     await judgeOrders.issueAttachment(
       globals.stNumber,
-      'Automation Accused (Accused)'
+      `${globals.respondentFirstName} (Accused)`
     );
   });
 
@@ -288,7 +288,7 @@ test.describe.serial('Full Case Flow - End to End', () => {
 
     await judgeOrders.issueWarrant(
       globals.stNumber,
-      'Automation Accused (Accused)'
+      `${globals.respondentFirstName} (Accused)`
     );
   });
 
@@ -322,7 +322,7 @@ test.describe.serial('Full Case Flow - End to End', () => {
 
     await judgeOrders.issueProclamation(
       globals.stNumber,
-      'Automation Accused (Accused)'
+      `${globals.respondentFirstName} (Accused)`
     );
   });
 

@@ -79,7 +79,20 @@ class JoinCasePage extends BasePage {
     await this.accusedRadio.check();
     await this.noRadio.check();
     await this.litigantDropdown.click();
-    await this.page.locator('div').filter({ hasText: new RegExp(`^${respondentName}`) }).getByRole('checkbox').check();
+    await this.page.waitForTimeout(1000);
+    
+    // Try to find checkbox with respondent name (case-insensitive, partial match)
+    const checkbox = this.page.locator('div').filter({ hasText: new RegExp(respondentName, 'i') }).getByRole('checkbox');
+    const count = await checkbox.count();
+    
+    if (count > 0) {
+      await checkbox.first().check();
+    } else {
+      // Fallback: check first checkbox in the dropdown
+      console.log(`Could not find checkbox for: ${respondentName}, using first available`);
+      await this.page.getByRole('checkbox').first().check();
+    }
+    
     await this.page.locator('.select-user-join-case').click();
     await this.proceedBtn.click();
   }

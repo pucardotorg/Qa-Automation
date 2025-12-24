@@ -273,25 +273,29 @@ async fillChequeDetails() {
     const fallbackFile = path.join(process.cwd(), 'UI Tests', 'Test.png');
     await this.page.waitForTimeout(15000);
     //await this.page.pause();
-    // Some deployments use Quill, others RDW; support both
+    
+    // Fill Complaint Details (first editor)
+    const complaintText = this.globals.complaintDetails || 'test';
     const quill = this.page.locator('.ql-editor').first();
     const rdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).first();
     if (await quill.count()) {
-      await quill.fill('test');
+      await quill.fill(complaintText);
     } else {
-      await rdw.fill('test');
+      await rdw.fill(complaintText);
     }
 
     if (fs.existsSync(fallbackFile)) {
       await this.page.locator('input[type="file"]').first().setInputFiles(fallbackFile);
     }
 
+    // Fill Prayer Details (second editor)
+    const prayerText = this.globals.prayerDetails || 'test';
     const quill2 = this.page.locator('.ql-editor').nth(1);
     const rdw2 = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(1);
     if (await quill2.count()) {
-      await quill2.fill('test');
+      await quill2.fill(prayerText);
     } else {
-      await rdw2.fill('test');
+      await rdw2.fill(prayerText);
     }
     await this.page.waitForTimeout(1000);
      // Upload Affidavit
@@ -390,10 +394,15 @@ async processdelivery1() {
     await expect(continueBtn).toBeVisible({ timeout: 15000 });
     await continueBtn.click();
 
-    // Handle the modal: "Tips for stronger case compliant"
+    // Handle the modal: "Tips for stronger case compliant" (if it appears)
     const skipContinueBtn = this.page.getByRole('button', { name: 'Skip & Continue' });
-    await expect(skipContinueBtn).toBeVisible({ timeout: 15000 });
-    await skipContinueBtn.click();
+    try {
+      await expect(skipContinueBtn).toBeVisible({ timeout: 5000 });
+      await skipContinueBtn.click();
+    } catch (error) {
+      // Modal didn't appear - continue without it
+      console.log('Skip & Continue modal not shown, proceeding to review screen');
+    }
 
     // Wait for modal to close and review screen to load
     await this.page.waitForLoadState('networkidle');

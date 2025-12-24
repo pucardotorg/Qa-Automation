@@ -17,6 +17,6 @@ test('Judge issues warrant', async ({ page }) => {
   // Issue warrant
   await judgeOrders.issueWarrant(
     globals.stNumber,
-    'Automation Accused (Accused)'
+    `${globals.respondentFirstName} (Accused)`
   );
 });

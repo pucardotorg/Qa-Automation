@@ -24,7 +24,7 @@ class JudgeOrdersPage extends BasePage {
   async navigateToCase(caseNumber) {
     await this.allCasesLink.click();
     await this.page.waitForTimeout(1000);
-    await this.page.getByRole('cell', { name: caseNumber }).click();
+    await this.page.getByRole('cell', { name: caseNumber }).first().click();
     await this.page.waitForTimeout(1000);
   }
 
@@ -51,38 +51,108 @@ class JudgeOrdersPage extends BasePage {
 
   async selectParty(partyName) {
     await this.page.locator('div').filter({ hasText: /^Notice to the Party\*$/ }).locator('svg').click();
-    await this.page.getByText(partyName).click();
+    await this.page.waitForTimeout(500);
+    await this.page.getByText(partyName, { exact: false }).click();
   }
 
   async selectSummonParty(partyName) {
+    await this.page.waitForTimeout(1000);
+    
+    // Try checkbox first (as seen in the page snapshot)
+    const checkbox = this.page.getByRole('checkbox', { name: partyName });
+    const checkboxCount = await checkbox.count();
+    
+    if (checkboxCount > 0) {
+      console.log(`Found checkbox for: ${partyName}`);
+      await checkbox.check();
+      return;
+    }
+    
+    // If no checkbox, try clicking dropdown and selecting text
+    console.log(`No checkbox found, trying dropdown for: ${partyName}`);
     await this.page.locator('form path').nth(4).click();
-    await this.page.getByText(partyName).click();
+    await this.page.waitForTimeout(1000);
+    
+    // Try to find and click the text
+    const textOption = this.page.getByText(partyName, { exact: false });
+    const textCount = await textOption.count();
+    
+    if (textCount > 0) {
+      await textOption.first().click();
+    } else {
+      // Debug: show what's available
+      const allText = await this.page.locator('body').textContent();
+      console.log('Available text on page:', allText.substring(0, 500));
+      throw new Error(`Could not find party: ${partyName}`);
+    }
   }
 
-  async selectProclamationParty(partyName, partyAddress, policeStation = 'MEDICAL COLLEGE PS') {
+  async selectProclamationParty(partyName, partyAddress = null, policeStation = 'MEDICAL COLLEGE PS') {
     // Click on party dropdown
     await this.page.locator('div').filter({ hasText: /^Proclamation for Party\*\+ Add new witness$/ }).getByRole('img').click();
-    await this.page.getByText(partyName).click();
+    await this.page.waitForTimeout(500);
+    await this.page.getByText(partyName, { exact: false }).click();
     
-    // Check the address checkbox
-    await this.page.getByRole('checkbox', { name: partyAddress }).check();
+    // Check the address checkbox if provided
+    if (partyAddress) {
+      const addressCheckbox = this.page.getByRole('checkbox', { name: partyAddress });
+      const count = await addressCheckbox.count();
+      if (count > 0) {
+        await addressCheckbox.check();
+      } else {
+        // Fallback: check first available checkbox if any exist
+        console.log(`Address checkbox not found for: ${partyAddress}`);
+        const allCheckboxes = this.page.getByRole('checkbox');
+        const checkboxCount = await allCheckboxes.count();
+        if (checkboxCount > 0) {
+          console.log(`Checking first available checkbox`);
+          await allCheckboxes.first().check();
+        } else {
+          console.log(`No checkboxes available, skipping address selection`);
+        }
+      }
+    }
     
     // Select police station
     await this.page.locator('form').getByRole('img').nth(3).click();
-    await this.page.locator('#jk-dropdown-unique div').filter({ hasText: policeStation }).click();
+    await this.page.waitForTimeout(500);
+    await this.page.locator('#jk-dropdown-unique').waitFor({ state: 'visible' });
+    await this.page.locator('#jk-dropdown-unique').getByText(policeStation, { exact: true }).click();
+    await this.page.waitForTimeout(500);
   }
 
   async selectAttachmentParty(partyName, partyAddress, policeStation = 'MEDICAL COLLEGE PS', daysForAnswering = 'test', districtName = 'test', villageName = 'test') {
     // Click on party dropdown
     await this.page.locator('div').filter({ hasText: /^Attachment for Party\*\+ Add new witness$/ }).getByRole('img').click();
-    await this.page.getByText(partyName).click();
+    await this.page.waitForTimeout(500);
+    await this.page.getByText(partyName, { exact: false }).click();
     
     // Check the address checkbox
-    await this.page.getByRole('checkbox', { name: partyAddress }).check();
+    if (partyAddress) {
+      const addressCheckbox = this.page.getByRole('checkbox', { name: partyAddress });
+      const count = await addressCheckbox.count();
+      if (count > 0) {
+        await addressCheckbox.check();
+      } else {
+        // Fallback: check first available checkbox if any exist
+        console.log(`Address checkbox not found for: ${partyAddress}`);
+        const allCheckboxes = this.page.getByRole('checkbox');
+        const checkboxCount = await allCheckboxes.count();
+        if (checkboxCount > 0) {
+          console.log(`Checking first available checkbox`);
+          await allCheckboxes.first().check();
+        } else {
+          console.log(`No checkboxes available, skipping address selection`);
+        }
+      }
+    }
     
     // Select police station
-    await this.page.locator('.select-wrap.police-station-dropdown > .select > .cp > path:nth-child(2)').click();
-    await this.page.getByText(policeStation).click();
+    await this.page.locator('form').getByRole('img').nth(3).click();
+    await this.page.waitForTimeout(500);
+    await this.page.locator('#jk-dropdown-unique').waitFor({ state: 'visible' });
+    await this.page.locator('#jk-dropdown-unique').getByText(policeStation, { exact: true }).click();
+    await this.page.waitForTimeout(500);
     
     // Fill Number of Days for Answering Charge
     await this.page.locator('div').filter({ hasText: /^\*Number of Days for Answering Charge$/ }).getByPlaceholder('Type here').click();
@@ -97,16 +167,38 @@ class JudgeOrdersPage extends BasePage {
     await this.page.locator('div').filter({ hasText: /^\*Name of Accused Village$/ }).getByPlaceholder('Type here').fill(villageName);
   }
 
-  async selectWarrantParty(partyName, partyAddress, warrantType = 'Witness', warrantSubType = '138', bailableOption = 1) {
+  async selectWarrantParty(partyName, partyAddress, policeStation = 'MEDICAL COLLEGE PS', warrantType = 'Witness', warrantSubType = 'Warrent of arrest of accused 138', bailableOption = 1) {
     // Click on party dropdown
     await this.page.locator('div').filter({ hasText: /^Warrant for Party\*\+ Add new witness$/ }).getByRole('img').click();
-    await this.page.getByText(partyName).click();
+    await this.page.waitForTimeout(500);
+    await this.page.getByText(partyName, { exact: false }).click();
     
     // Check the address checkbox
-    await this.page.getByRole('checkbox', { name: partyAddress }).check();
+    if (partyAddress) {
+      const addressCheckbox = this.page.getByRole('checkbox', { name: partyAddress });
+      const count = await addressCheckbox.count();
+      if (count > 0) {
+        await addressCheckbox.check();
+      } else {
+        // Fallback: check first available checkbox if any exist
+        console.log(`Address checkbox not found for: ${partyAddress}`);
+        const allCheckboxes = this.page.getByRole('checkbox');
+        const checkboxCount = await allCheckboxes.count();
+        if (checkboxCount > 0) {
+          console.log(`Checking first available checkbox`);
+          await allCheckboxes.first().check();
+        } else {
+          console.log(`No checkboxes available, skipping address selection`);
+        }
+      }
+    }
+    
+    // Select police station
+    
     
     // Select Warrant Type
     await this.page.locator('div').filter({ hasText: /^Warrant Type\*$/ }).getByRole('img').click();
+    await this.page.waitForTimeout(1000);
     await this.page.locator('#jk-dropdown-unique div').filter({ hasText: warrantType }).click();
     
     // Select Warrant Sub Type

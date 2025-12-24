@@ -24,8 +24,11 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
 
   test.beforeAll(() => {
     globals = loadGlobalVariables();
+    console.log('DEBUG: globals after load:', JSON.stringify(globals, null, 2));
+    console.log('DEBUG: baseURL =', globals.baseURL);
     const dateOfService = computeDateOfService(16);
-    globals = saveGlobalVariables({ dateOfService });
+    globals.dateOfService = dateOfService;
+    saveGlobalVariables({ dateOfService });
   });
 
   test('01 - File a case successfully', async ({ page }) => {
@@ -50,7 +53,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     await fileCase.processdelivery1();
 
     const filingNumber = await fileCase.captureFilingNumber();
-    saveGlobalVariables({ filingNumber });
+    saveGlobalVariables({ ...globals, filingNumber });
     console.log('Filing Number:', filingNumber);
     globals.filingNumber = filingNumber;
   });
@@ -91,7 +94,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
       'AUTOMATION ORDER GENERATED'
     );
 
-    saveGlobalVariables({ accessCode, cmpNumber });
+    saveGlobalVariables({ ...globals, accessCode, cmpNumber });
     console.log('Access Code:', accessCode);
     console.log('CMP Number:', cmpNumber);
     globals.accessCode = accessCode;
@@ -202,7 +205,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
 
     const stNumber = await judgeOrders.admitCase(globals.cmpNumber);
     
-    saveGlobalVariables({ stNumber });
+    saveGlobalVariables({ ...globals, stNumber });
     console.log('ST Number:', stNumber);
     globals.stNumber = stNumber;
   });
@@ -218,7 +221,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
 
     await judgeOrders.issueSummon(
       globals.stNumber,
-      'Automation Accused (Accused)'
+      `${globals.respondentFirstName} (Accused)`
     );
   });
 
@@ -244,7 +247,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
 
     await judgeOrders.issueProclamation(
       globals.stNumber,
-      'Automation Accused (Accused)'
+      `${globals.respondentFirstName} (Accused)`
     );
   });
 
@@ -289,7 +292,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
 
     await judgeOrders.issueAttachment(
       globals.stNumber,
-      'Automation Accused (Accused)'
+      `${globals.respondentFirstName} (Accused)`
     );
   });
 
@@ -334,7 +337,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
 
     await judgeOrders.issueWarrant(
       globals.stNumber,
-      'Automation Accused (Accused)'
+      `${globals.respondentFirstName} (Accused)`
     );
   });
 

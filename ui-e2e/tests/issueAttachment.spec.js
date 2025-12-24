@@ -17,6 +17,6 @@ test('Judge issues attachment order', async ({ page }) => {
   // Issue attachment
   await judgeOrders.issueAttachment(
     globals.stNumber,
-    'Automation Accused (Accused)'
+    `${globals.respondentFirstName} (Accused)`
   );
 });

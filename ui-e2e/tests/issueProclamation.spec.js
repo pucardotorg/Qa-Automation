@@ -17,6 +17,6 @@ test('Judge issues proclamation to accused', async ({ page }) => {
   // Issue proclamation
   await judgeOrders.issueProclamation(
     globals.stNumber,
-    'Automation Accused (Accused)'
+    `${globals.respondentFirstName} (Accused)`
   );
 });

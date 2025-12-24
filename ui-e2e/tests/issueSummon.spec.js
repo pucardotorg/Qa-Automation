@@ -17,6 +17,7 @@ test('Judge issues summons to accused', async ({ page }) => {
   // Issue summon
   await judgeOrders.issueSummon(
     globals.stNumber,
-    'Automation Accused (Accused)'
-  );
+    `${globals.respondentFirstName} (Accused)`
+    );
+  
 });
