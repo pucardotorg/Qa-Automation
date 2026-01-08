@@ -22,7 +22,7 @@ test.setTimeout(180000);
   await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'vs' }).first().click();
   await page.waitForTimeout(3000);
-  await page.getByRole('button', { name: 'E-Sign' }).click();
+  await page.getByRole('button', { name: 'Proceed To Sign' }).click();
   await page.waitForTimeout(1000);
  const download1Promise = page.waitForEvent('download');
   await page.getByText('click here').click();
@@ -40,7 +40,7 @@ test.setTimeout(180000);
 
   await page.getByRole('button', { name: 'Submit Signature' }).click();
   await page.waitForTimeout(2000);
-  await page.getByRole('button', { name: 'Confirm Sign' }).click();
+  await page.getByRole('button', { name: 'Proceed to Send' }).click();
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Mark as sent' }).click();
 
