@@ -45,7 +45,7 @@ console.log('Navigating to Nm login page...');
   await page.waitForTimeout(2000);
   await page.getByRole('link', { name: 'Record Payment' }).first().click();
   await page.locator('div').filter({ hasText: /^Mode of Payment$/ }).locator('path').nth(1).click();
-  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Stamp' }).click();
+  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Cash' }).click();
   await page.waitForTimeout(5000);
   await page.getByRole('button').click();
   await page.waitForTimeout(5000);
