@@ -15,8 +15,8 @@ const cnrNumber = globalVars.cnrNumber;
 const citizenAuthToken = globalVars.citizenAuthToken;
 
 // If you want to make sourceID and fileStore dynamic, you can import them from globalVars as well
-const sourceID = 'IND-2024-11-19-000893'; // Replace with globalVars value if available
-const fileStore = '5cce560c-49d8-4e90-bc8f-ef363fa14680'; // Replace with globalVars value if available
+const sourceID = globalVars.litigentIndividualId;
+const fileStore = globalVars.filestore['case.cheque.returnmemo'];
 
 const getValidRequestBody = () => ({
     "artifact": {

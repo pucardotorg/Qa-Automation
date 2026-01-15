@@ -201,7 +201,7 @@ test.describe('Application Update API Tests', () => {
                     "documents": [
                         {}
                     ],
-                    "action": "ESIGN"
+                    "action": "ESIGN",
                 }
             },
             "RequestInfo": {

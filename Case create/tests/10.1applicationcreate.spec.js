@@ -21,6 +21,7 @@ test.describe('Application Create API Tests', () => {
     let litigentIndividual;
     let litigentIndividualId;
     let litigentuuid;
+    let advocateIndividualId;
     
     const ENDPOINT_PATH = '/application/v1/create'; 
 
@@ -41,8 +42,9 @@ test.describe('Application Create API Tests', () => {
         litigentIndividual = globalVars.litigentIndividualResponse?.Individual?.[0];
         firstName = litigentIndividual?.name?.givenName;
         lastName = litigentIndividual?.name?.familyName || '';
-        litigentIndividualId = globalVars.litigentIndividualId;
+        litigentIndividualId = litigentIndividual?.userUuid;
         litigentuuid = globalVars.litigentuuid;
+        advocateIndividualId = globalVars.advocateIndividualId;
 
         // Log configuration values being used
         console.log('=== Configuration Values Used ===');
@@ -56,6 +58,7 @@ test.describe('Application Create API Tests', () => {
         console.log('Litigant Name:', `${firstName} ${lastName}`);
         console.log('Litigant Individual ID:', litigentIndividualId);
         console.log('Litigant UUID:', litigentuuid);
+        console.log('Advocate Individual ID:', advocateIndividualId);
         console.log('================================');
 
         apiContext = await playwright.request.newContext({
@@ -81,12 +84,12 @@ test.describe('Application Create API Tests', () => {
                     "applicationTitle": "Application for Others",
                     "prayer": "faf",
                     "reasonForApplication": "afaf",
-                    "advocateIndividualId": "IND-2024-11-19-000893"
+                    "advocateIndividualId": advocateIndividualId
                 },
                 "tenantId": tenantId,
                 "filingNumber": filingNumber,
                 "cnrNumber": cnrNumber,
-                "cmpNumber": "CMP/1167/2025", 
+                "cmpNumber": "CMP/1/2026", 
                 "caseId": caseId,
                 "referenceId": null,
                 "createdDate": timestamp,
@@ -111,7 +114,7 @@ test.describe('Application Create API Tests', () => {
                         "selectComplainant": {
                             "code": `${firstName} ${lastName}`,
                             "name": `${firstName} ${lastName}`,
-                            "uuid": "f562d86f-57b2-472d-a159-cba6bcbd3e5c"
+                            "uuid": litigentuuid
                         },
                         "applicationTitle": "Application for Others",
                         "othersDocument": {
@@ -142,17 +145,16 @@ test.describe('Application Create API Tests', () => {
                     }
                 ],
                 "onBehalfOf": [
-                    "f562d86f-57b2-472d-a159-cba6bcbd3e5c"
+                    litigentuuid
                 ],
                 "comment": [],
                 "workflow": {
-                    "id": "workflow123",
-                    "action": "CREATE",
+                    "action": "SUBMIT",
                     "status": "in_progress",
                     "comments": "Workflow comments",
                     "documents": [
                         {}
-                    ]
+                    ]   
                 }
             },
             "RequestInfo": {
@@ -225,7 +227,7 @@ test.describe('Application Create API Tests', () => {
             "application": {
                 "filingNumber": filingNumber,
                 "cnrNumber": cnrNumber,
-                "cmpNumber": "CMP/1167/2025",
+                "cmpNumber": "CMP/1/2026",
                 "caseId": caseId,
                 "createdDate": timestamp,
                 "applicationType": "OTHERS",
@@ -253,7 +255,7 @@ test.describe('Application Create API Tests', () => {
             "application": {
                 "filingNumber": filingNumber,
                 "cnrNumber": cnrNumber,
-                "cmpNumber": "CMP/1167/2025",
+                "cmpNumber": "CMP/1/2026",
                 "caseId": caseId,
                 "createdDate": timestamp,
                 "applicationType": "OTHERS",

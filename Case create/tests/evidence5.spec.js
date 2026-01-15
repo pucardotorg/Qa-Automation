@@ -16,6 +16,8 @@ const tenantId = globalVars.citizenUserInfo?.tenantId || "kl";
 const advocateId = globalVars.advocateId;
 const litigantid = globalVars.litigantid;
 const representingid = globalVars.representingid;
+const sourceID = globalVars.litigentIndividualId;
+const fileStore = globalVars.filestore['case.demandnotice.proof'];
 
 console.log('Using config values:', {
     baseURL: BASE_URL,
@@ -41,7 +43,7 @@ const getValidRequestBody = () => ({
         "comments": [],
         "file": {
             "documentType": "case.demandnotice.serviceproof",
-            "fileStore": "b5234556-8315-4bf5-be0d-01ccf53fbffc", // This may need to be dynamic
+            "fileStore": fileStore, // This may need to be dynamic
             "fileName": "PROOF_LEGAL_DEMAND_NOTICE_FILE_NAME",
             "documentName": "4. Lease Agreement - 17_06_2024.pdf"
         },
@@ -53,7 +55,7 @@ const getValidRequestBody = () => ({
                     "documentType": "case.demandnotice.serviceproof",
                     "fileName": "PROOF_LEGAL_DEMAND_NOTICE_FILE_NAME",
                     "documentName": "4. Lease Agreement - 17_06_2024.pdf",
-                    "fileStoreId": "b5234556-8315-4bf5-be0d-01ccf53fbffc"
+                    "fileStoreId": fileStore
                 }
             ]
         }

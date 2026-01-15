@@ -1,19 +1,19 @@
 {
   "baseURL": "https://dristi-kerala-qa.pucar.org/",
   "QAfilestore": {
-    "case.cheque": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "case.cheque.returnmemo": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "case.liabilityproof": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "case.demandnotice": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "case.demandnotice.proof": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "case.demandnotice.serviceproof": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "VAKALATNAMA_DOC": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "case.affidavit.223bnss": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "COMPLAINANT_ID_PROOF": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "case.affidavit.225bnss": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "image/png": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "orderTitle": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "application": "7892d197-3762-4b0e-ae9b-db13b36b4b03",
-    "case.complaint.signed": "eecdb3af-0faa-4690-a6e2-27c80ecfc5e5"
+    "case.cheque": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "case.cheque.returnmemo": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "case.liabilityproof": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "case.demandnotice": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "case.demandnotice.proof": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "case.demandnotice.serviceproof": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "VAKALATNAMA_DOC": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "case.affidavit.223bnss": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "COMPLAINANT_ID_PROOF": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "case.affidavit.225bnss": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "image/png": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "orderTitle": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "application": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
+    "case.complaint.signed": "8d0f66ab-e219-4c55-a3af-1d953d9e9027"
   }
 }

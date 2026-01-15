@@ -13,10 +13,9 @@ const caseId = globalVars.caseId;
 const filingNumber = globalVars.filingNumber;
 const cnrNumber = globalVars.cnrNumber;
 const citizenAuthToken = globalVars.citizenAuthToken;
-
-// If you want to make sourceID and fileStore dynamic, you can import them from globalVars as well
-const sourceID = 'IND-2024-11-19-000893'; // Replace with globalVars value if available
-const fileStore = 'e15ebf03-fe7f-4c69-8c7f-3df146a6e3d1'; // Replace with globalVars value if available
+const litigentIndividualId = globalVars.litigentIndividualId;
+const sourceID = litigentIndividualId;
+const fileStore = globalVars.filestore['case.cheque'];
 
 const getValidRequestBody = () => ({
     "artifact": {
@@ -80,6 +79,8 @@ test.describe('Evidence Creation API Tests', () => {
         console.log('Using CNR Number:', cnrNumber);
         console.log('Using Tenant ID:', tenantId);
         console.log('Using Citizen Auth Token:', citizenAuthToken);
+        console.log('Using Source ID:', sourceID);
+        console.log('Using File Store:', fileStore);
         
         const response = await apiContext.post(endpoint, {
             data: requestBody,
