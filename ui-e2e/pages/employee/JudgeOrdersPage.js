@@ -114,7 +114,7 @@ class JudgeOrdersPage extends BasePage {
     }
     
     // Select police station
-    await this.page.locator('form').getByRole('img').nth(3).click();
+    await this.page.locator('div').filter({ hasText: /^Police Station/ }).getByRole('img').click();
     await this.page.waitForTimeout(500);
     await this.page.locator('#jk-dropdown-unique').waitFor({ state: 'visible' });
     await this.page.locator('#jk-dropdown-unique').getByText(policeStation, { exact: true }).click();
@@ -148,7 +148,7 @@ class JudgeOrdersPage extends BasePage {
     }
     
     // Select police station
-    await this.page.locator('form').getByRole('img').nth(3).click();
+    await this.page.locator('div').filter({ hasText: /^Police Station/ }).getByRole('img').click();
     await this.page.waitForTimeout(500);
     await this.page.locator('#jk-dropdown-unique').waitFor({ state: 'visible' });
     await this.page.locator('#jk-dropdown-unique').getByText(policeStation, { exact: true }).click();
@@ -194,7 +194,11 @@ class JudgeOrdersPage extends BasePage {
     }
     
     // Select police station
-    
+    await this.page.locator('div').filter({ hasText: /^Police Station/ }).getByRole('img').click();
+    await this.page.waitForTimeout(500);
+    await this.page.locator('#jk-dropdown-unique').waitFor({ state: 'visible' });
+    await this.page.locator('#jk-dropdown-unique').getByText(policeStation, { exact: true }).click();
+    await this.page.waitForTimeout(500);
     
     // Select Warrant Type
     await this.page.locator('div').filter({ hasText: /^Warrant Type\*$/ }).getByRole('img').click();

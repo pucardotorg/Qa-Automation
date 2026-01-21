@@ -11,6 +11,9 @@ class CourtStaffPage extends BasePage {
     this.searchInput = page.locator('input[name="searchText"]');
     this.searchBtn = page.getByText('Search').first();
     this.eSignBtn = page.getByRole('button', { name: 'E-Sign' });
+    this.proceedToSignBtn = page.getByRole('button', { name: 'Proceed To Sign' });
+    this.sendForSignBtn = page.getByRole('button', { name: 'Send for Sign' });
+    this.proceedToSendBtn = page.getByRole('button', { name: 'Proceed to Send' });
     this.uploadOrderBtn = page.getByRole('button', { name: 'Upload Order Document with' });
     this.submitSignatureBtn = page.getByRole('button', { name: 'Submit Signature' });
     this.confirmSignBtn = page.getByRole('button', { name: 'Confirm Sign' });
@@ -38,12 +41,27 @@ class CourtStaffPage extends BasePage {
   }
 
   async eSignDocument() {
-    await this.eSignBtn.click();
-    await this.page.waitForTimeout(1000);
+    // Wait for E-Sign button or Proceed To Sign button to be visible
+    await Promise.race([
+      expect(this.eSignBtn).toBeVisible({ timeout: 30000 }).catch(() => {}),
+      expect(this.proceedToSignBtn).toBeVisible({ timeout: 30000 }).catch(() => {})
+    ]);
     
-    // Download PDF
+    // Check which button is available and click it (Review Document popup)
+    if (await this.proceedToSignBtn.isVisible()) {
+      console.log('Clicking Proceed To Sign button');
+      await this.proceedToSignBtn.click();
+    } else if (await this.eSignBtn.isVisible()) {
+      console.log('Clicking E-Sign button');
+      await this.eSignBtn.click();
+    }
+    
+    await this.page.waitForTimeout(2000);
+    
+    // Download PDF directly (skip E-Sign button, just download)
+    console.log('Waiting for download');
     const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
+      this.page.waitForEvent('download', { timeout: 30000 }),
       this.page.getByText('click here').click(),
     ]);
     
@@ -59,14 +77,19 @@ class CourtStaffPage extends BasePage {
     await this.submitSignatureBtn.click();
     await this.page.waitForTimeout(2000);
     
+    // Click "Proceed to Send" button after uploading
+    await expect(this.proceedToSendBtn).toBeVisible({ timeout: 10000 });
+    await this.proceedToSendBtn.click();
+    await this.page.waitForTimeout(2000);
+    
     return projectDownloadPath;
   }
 
   async confirmAndMarkAsSent() {
-    await this.confirmSignBtn.click();
-    await this.page.waitForTimeout(2000);
+    // After "Proceed to Send", success popup appears with "Mark as Sent" button
+    await expect(this.markAsSentBtn).toBeVisible({ timeout: 10000 });
     await this.markAsSentBtn.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(2000);
   }
 
   async updateDeliveryStatus(caseNumber) {

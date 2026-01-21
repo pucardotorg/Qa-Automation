@@ -147,7 +147,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
     
     await payment.recordPaymentForCase();
-    await payment.selectPaymentMode('Stamp');
+    await payment.selectPaymentMode('Cash');
     await payment.submitPayment();
   });
 
@@ -190,7 +190,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     await payment.navigateToCollectPayments();
     await payment.searchCaseByFilingNumber(globals.cmpNumber);
     await payment.recordPaymentForCase();
-    await payment.selectPaymentMode('Stamp');
+    await payment.selectPaymentMode('Cash');
     await payment.submitPayment();
   });
 
@@ -266,7 +266,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
     
     await payment.recordPaymentForCase();
-    await payment.selectPaymentMode('Stamp');
+    await payment.selectPaymentMode('Cash');
     await payment.submitPayment();
   });
 
@@ -311,7 +311,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
     
     await payment.recordPaymentForCase();
-    await payment.selectPaymentMode('Stamp');
+    await payment.selectPaymentMode('Cash');
     await payment.submitPayment();
   });
 
@@ -356,7 +356,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
     
     await payment.recordPaymentForCase();
-    await payment.selectPaymentMode('Stamp');
+    await payment.selectPaymentMode('Cash');
     await payment.submitPayment();
   });
 

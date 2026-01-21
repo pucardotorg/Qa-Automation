@@ -1,7 +1,7 @@
 {
   "baseURL": "https://demo.pucar.org/",
-  "filingNumber": "KL-000629-2025",
-  "cmpNumber": "CMP/488/2025",
+  "filingNumber": "KL-000186-2026",
+  "cmpNumber": "CMP/58/2026",
   "citizenUsername": "8827000000",
   "citizenPassword": "123456",
   "litigantUsername2": "9955599999",
@@ -27,7 +27,7 @@
   "reasonForReturnOfCheque": "reason",
   "liabilityNature": "Test",
   "dateOfDispatch": "2025-06-29",
-  "dateOfService": "2025-12-02",
+  "dateOfService": "2026-01-05",
   "noOfAdvocates": "1",
   "chequeSignatoryName": "Test",
   "issuanceDate": "2025-06-01",
@@ -40,7 +40,7 @@
   "judgePassword": "Beehyv@123",
   "courtStaffUsername": "gCmo",
   "courtStaffPassword": "Beehyv@123",
-  "accessCode": "522137",
+  "accessCode": "631654",
   "accusedLitigant": "7777777777",
   "respondentCompanyName": "Automate Company",
   "advocateName": "ADV//",
@@ -52,5 +52,5 @@
   "legaldemandPath": "documents/legaldemand.pdf",
   "postalreceiptsPath": "documents/postalreceipts.png",
   "AffidavitPath": "documents/Affidavit.pdf",
-  "stNumber": "ST/47/2025"
+  "stNumber": "ST/11/2026"
 }

@@ -66,12 +66,55 @@ class JudgePage extends BasePage {
     await this.page.waitForTimeout(2000);
   }
 
+  calculateWorkingDaysFromNow(workingDays = 10) {
+    let date = new Date();
+    let addedDays = 0;
+    
+    while (addedDays < workingDays) {
+      date.setDate(date.getDate() + 1);
+      const dayOfWeek = date.getDay();
+      // Skip Saturday (6) and Sunday (0)
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        addedDays++;
+      }
+    }
+    
+    return date;
+  }
+
   async scheduleHearing() {
     await this.scheduleHearingBtn.click();
+    await this.page.waitForTimeout(1000);
+    
     await this.selectCustomDateBtn.click();
-    await this.page.getByRole('button').filter({ hasText: /^$/ }).click();
-    await this.page.getByRole('button', { name: '1', exact: true }).first().click();
+    await this.page.waitForTimeout(1000);
+    
+    // Wait for the calendar popup to be visible
+    await this.page.waitForSelector('text=Select Custom Date', { state: 'visible', timeout: 10000 });
+    
+    // Calculate target date (10 working days from now)
+    const targetDate = this.calculateWorkingDaysFromNow(10);
+    const currentDate = new Date();
+    
+    // Navigate to the correct month if needed
+    const monthsToNavigate = (targetDate.getFullYear() - currentDate.getFullYear()) * 12 + 
+                             (targetDate.getMonth() - currentDate.getMonth());
+    
+    for (let i = 0; i < monthsToNavigate; i++) {
+      const nextMonthBtn = this.page.getByRole('button').filter({ hasText: /^$/ }).last();
+      await nextMonthBtn.click();
+      await this.page.waitForTimeout(500);
+    }
+    
+    // Select the target day
+    const dayToSelect = targetDate.getDate().toString();
+    // Use getByRole to find button with the day number, which works even if it has "Hearings" text
+    const dateButton = this.page.getByRole('button', { name: new RegExp(`^${dayToSelect}`) });
+    await dateButton.waitFor({ state: 'visible', timeout: 10000 });
+    await dateButton.click();
+    
     await this.confirmBtn.click();
+    await this.page.waitForTimeout(1000);
   }
 
   async generateOrder(orderText = 'AUTOMATION ORDER GENERATED') {

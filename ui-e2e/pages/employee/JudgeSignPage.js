@@ -11,8 +11,11 @@ class JudgeSignPage extends BasePage {
     this.searchInput = page.locator('input[name="searchText"]');
     this.searchBtn = page.getByText('Search').first();
     this.eSignBtn = page.getByRole('button', { name: 'E-Sign' });
+    this.proceedToSignBtn = page.getByRole('button', { name: 'Proceed To Sign' });
+    this.proceedToSendBtn = page.getByRole('button', { name: 'Proceed to Send' });
     this.uploadOrderBtn = page.getByRole('button', { name: 'Upload Order Document with' });
     this.submitSignatureBtn = page.getByRole('button', { name: 'Submit Signature' });
+    this.markAsSentBtn = page.getByRole('button', { name: 'Mark as sent' });
     this.sendBtn = page.getByRole('button', { name: 'Close' });
   }
 
@@ -35,12 +38,27 @@ class JudgeSignPage extends BasePage {
   }
 
   async eSignDocument() {
-    await this.eSignBtn.click();
-    await this.page.waitForTimeout(1000);
+    // Wait for E-Sign button or Proceed To Sign button to be visible
+    await Promise.race([
+      expect(this.eSignBtn).toBeVisible({ timeout: 30000 }).catch(() => {}),
+      expect(this.proceedToSignBtn).toBeVisible({ timeout: 30000 }).catch(() => {})
+    ]);
     
-    // Download PDF
+    // Check which button is available and click it (Review Document popup)
+    if (await this.proceedToSignBtn.isVisible()) {
+      console.log('Clicking Proceed To Sign button');
+      await this.proceedToSignBtn.click();
+    } else if (await this.eSignBtn.isVisible()) {
+      console.log('Clicking E-Sign button');
+      await this.eSignBtn.click();
+    }
+    
+    await this.page.waitForTimeout(2000);
+    
+    // Download PDF directly (skip E-Sign button, just download)
+    console.log('Waiting for download');
     const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
+      this.page.waitForEvent('download', { timeout: 30000 }),
       this.page.getByText('click here').click(),
     ]);
     
@@ -56,59 +74,18 @@ class JudgeSignPage extends BasePage {
     await this.submitSignatureBtn.click();
     await this.page.waitForTimeout(2000);
     
+    // Click "Proceed to Send" button after uploading
+    await expect(this.proceedToSendBtn).toBeVisible({ timeout: 10000 });
+    await this.proceedToSendBtn.click();
+    await this.page.waitForTimeout(2000);
+    
     return projectDownloadPath;
   }
 
   async confirmAndSend() {
-    // Wait longer for the page to process the signature
-    await this.page.waitForTimeout(3000);
-    await this.page.waitForLoadState('networkidle');
-    
-    // Try to find confirm button with multiple strategies
-    let confirmBtn = this.page.getByRole('button', { name: /Confirm Sign|Confirm/i });
-    
-    // If not found, try looking for any button containing 'confirm' (case insensitive)
-    const isVisible = await confirmBtn.isVisible().catch(() => false);
-    if (!isVisible) {
-      confirmBtn = this.page.locator('button:has-text("Send")').first();
-    }
-    
-    await expect(confirmBtn).toBeVisible({ timeout: 15000 });
-    await confirmBtn.click();
-    
-    await this.page.waitForTimeout(10000);
-    await this.page.waitForLoadState('networkidle');
-    
-    // Try multiple strategies to find the close/dismiss button
-    const closeButtonSelectors = [
-      this.page.getByRole('button', { name: 'Close' }),
-      this.page.getByRole('button', { name: /close/i }),
-      this.page.getByRole('button', { name: 'OK' }),
-      this.page.getByRole('button', { name: /ok/i }),
-      this.page.locator('button:has-text("Close")'),
-      this.page.locator('button:has-text("OK")'),
-      this.page.locator('[aria-label="Close"]'),
-      this.page.locator('.modal button').last(), // Last button in modal
-    ];
-    
-    let closeButtonFound = false;
-    for (const selector of closeButtonSelectors) {
-      const visible = await selector.isVisible().catch(() => false);
-      if (visible) {
-        await selector.click();
-        closeButtonFound = true;
-        console.log('Close button clicked successfully');
-        break;
-      }
-    }
-    
-    // If no close button found, check if we're already on the next page
-    if (!closeButtonFound) {
-      console.log('No close button found - checking if already proceeded to next page');
-      // Wait a bit and check if the page has moved on
-      await this.page.waitForTimeout(2000);
-    }
-    
+    // After "Proceed to Send", success popup appears with "Mark as Sent" button
+    await expect(this.markAsSentBtn).toBeVisible({ timeout: 10000 });
+    await this.markAsSentBtn.click();
     await this.page.waitForTimeout(2000);
   }
 
