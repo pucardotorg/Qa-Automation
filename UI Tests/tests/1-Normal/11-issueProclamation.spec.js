@@ -30,8 +30,8 @@ test('Issue Proclamation', async ({ page }) => {
   //await page.locator('#jk-dropdown-unique div').click();
   await page.getByText('Automation Accused (Accused)').click();
   await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
-  await page.locator('form').getByRole('img').nth(3).click();
-  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'MEDICAL COLLEGE PS' }).click();
+  await page.locator('form').getByRole('img').nth(2).click();
+  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'ADHUR' }).click();
   test.setTimeout(180000);
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
   await page.waitForTimeout(2000);

@@ -30,7 +30,7 @@ test('Issue Attachment', async ({ page }) => {
    await page.getByText('Automation Accused (Accused)').click();
   await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
   await page.locator('.select-wrap.police-station-dropdown > .select > .cp > path:nth-child(2)').click();
-  await page.getByText('MEDICAL COLLEGE PS').click();
+  await page.getByText('ADHUR').click();
   await page.locator('div').filter({ hasText: /^\*Number of Days for Answering Charge$/ }).getByPlaceholder('Type here').click();
   await page.locator('div').filter({ hasText: /^\*Number of Days for Answering Charge$/ }).getByPlaceholder('Type here').fill('test');
   await page.locator('div').filter({ hasText: /^\*Name of Accused District$/ }).getByPlaceholder('Type here').click();
