@@ -2,7 +2,7 @@ name: Playwright Tests for all environments (Frontend)
 
 on:
   schedule:
-    - cron: "30 3 * * 1-5"   # Runs 9:00 AM IST, Monday to Friday
+    - cron: "30 3 * * 1-5"   # 9:00 AM IST, Monday to Friday
   push:
     branches: [ main ]
   pull_request:
@@ -14,19 +14,17 @@ on:
         required: true
         type: choice
         options:
-          
           - qa
-         
           - demo
 
 jobs:
   test:
-    # If triggered manually → run only the selected environment
-    # Else → use matrix for dev/qa/uat
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        env: ${{ github.event_name == 'workflow_dispatch' && fromJson('["${{ inputs.environment }}"]') || fromJson('["dev","qa","uat","demo"]') }}
+        env: ${{ github.event_name == 'workflow_dispatch'
+          && fromJson(format('["{0}"]', inputs.environment))
+          || fromJson('["dev","qa","uat","demo"]') }}
 
     environment:
       name: ${{ matrix.env }}
@@ -54,8 +52,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: |
-          npm ci
+        run: npm ci
 
       - name: Install Playwright (core + browsers)
         run: |
