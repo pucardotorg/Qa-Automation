@@ -24,7 +24,7 @@ jobs:
       matrix:
         env: ${{ github.event_name == 'workflow_dispatch'
           && fromJson(format('["{0}"]', inputs.environment))
-          || fromJson('["dev","qa","uat","demo"]') }}
+          || fromJson('["qa","demo"]') }}
 
     environment:
       name: ${{ matrix.env }}
