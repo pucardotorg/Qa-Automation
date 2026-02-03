@@ -48,14 +48,12 @@ EXIT_CODE=$?
 
 if [ $EXIT_CODE -ne 0 ]; then
   echo "[run-all-ui] ❌ Tests failed in folder: $folder"
-  echo "[run-all-ui] ➜ Stopping further tests inside this folder"
-  echo "[run-all-ui] ➜ Moving to next folder"
-  continue
+else
+  echo "[run-all-ui] ✅ Completed folder: $folder"
 fi
 
-echo "[run-all-ui] ✅ Completed folder: $folder"
-echo "[run-all-ui] Waiting 1 second before next folder..."
-sleep 1
+echo "[run-all-ui] Waiting 1 minute before next folder..."
+sleep 60
 
 done
 
