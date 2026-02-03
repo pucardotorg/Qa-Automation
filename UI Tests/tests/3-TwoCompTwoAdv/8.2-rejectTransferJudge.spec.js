@@ -17,29 +17,20 @@ test('Issue Notice Test', async ({ page }) => {
   await page.waitForTimeout(1000);
   await page.getByRole('cell', { name: globalVars.cmpNumber }).click();
   await page.waitForTimeout(1000);
-  await page.getByRole('button', { name: 'Take Action' }).click();
-  await page.waitForTimeout(1000);
-  await page.getByText('Generate Order').click();
-  await page.waitForTimeout(1000);
-
-
   
-  
-  await page.locator('div').filter({ hasText: /^EditDelete$/ }).locator('div').nth(1).click();
-  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Notice' }).click();
-  await page.locator('div').filter({ hasText: /^Notice Type\*$/ }).getByRole('textbox').click();
-  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Section 223 Notice' }).click();
-  await page.locator('div').filter({ hasText: /^Notice to the Party\*$/ }).locator('svg').click();
-  await page.getByText(globalVars.respondentFirstName + " (Accused)").click();
-  //await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
+  await page.getByRole('button', { name: 'Applications' }).click();
+  await page.getByRole('table').getByText('Transfer').click();
+  await page.getByRole('button', { name: 'Reject' }).click();
+  await page.locator('input[name="transferSeekedTo"]').click();
+  await page.locator('input[name="transferSeekedTo"]').fill('test');
+  await page.getByRole('textbox', { name: 'Type here' }).click();
+  await page.getByRole('textbox', { name: 'Type here' }).fill('test');
+  await page.locator('input[name="caseTransferredTo"]').click();
+  await page.locator('input[name="caseTransferredTo"]').fill('test');
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
-  
-  await page.waitForTimeout(2000);
-
-
-  await page.locator('.ql-editor').click();
-  await page.locator('.ql-editor').fill('AUTOMATION ORDER GENERATED');
- 
+  await page.waitForTimeout(6000);
+  await page.getByRole('paragraph').click();
+  await page.locator('.ql-editor').fill('test');
   await page.waitForTimeout(1000);
 
   await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();

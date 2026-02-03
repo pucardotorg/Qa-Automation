@@ -23,13 +23,14 @@ test('Issue Notice Test', async ({ page }) => {
   await page.waitForTimeout(1000);
 
 
+  
   await page.locator('div').filter({ hasText: /^EditDelete$/ }).locator('div').nth(1).click();
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Notice' }).click();
   await page.locator('div').filter({ hasText: /^Notice Type\*$/ }).getByRole('textbox').click();
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Section 223 Notice' }).click();
-  await page.locator('div').filter({ hasText: /^Notice to the Party\*$/ }).getByRole('textbox').click();
+  await page.locator('div').filter({ hasText: /^Notice to the Party\*$/ }).locator('svg').click();
   await page.getByText(globalVars.respondentFirstName + " (Accused)").click();
-  await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
+  //await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
   
   await page.waitForTimeout(2000);

@@ -43,7 +43,7 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   await page.getByRole("cell", { name: globalVariables.filingNumber }).click();
   await page.waitForTimeout(2000);
 
-  for (let index = 0; index < 9; index++) {
+  for (let index = 0; index < 10; index++) {
     await page.getByRole("button").filter({ hasText: "Next" }).click();
     await page.waitForTimeout(2000);
     await page.waitForLoadState("networkidle");

@@ -17,29 +17,19 @@ test('Issue Notice Test', async ({ page }) => {
   await page.waitForTimeout(1000);
   await page.getByRole('cell', { name: globalVars.cmpNumber }).click();
   await page.waitForTimeout(1000);
-  await page.getByRole('button', { name: 'Take Action' }).click();
-  await page.waitForTimeout(1000);
-  await page.getByText('Generate Order').click();
-  await page.waitForTimeout(1000);
-
-
   
-  
-  await page.locator('div').filter({ hasText: /^EditDelete$/ }).locator('div').nth(1).click();
-  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Notice' }).click();
-  await page.locator('div').filter({ hasText: /^Notice Type\*$/ }).getByRole('textbox').click();
-  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Section 223 Notice' }).click();
-  await page.locator('div').filter({ hasText: /^Notice to the Party\*$/ }).locator('svg').click();
-  await page.getByText(globalVars.respondentFirstName + " (Accused)").click();
-  //await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
+  await page.getByRole('button', { name: 'Applications' }).click();
+  await page.getByRole('table').getByText('Settlement').click();
+  await page.getByRole('button', { name: 'Approve' }).click();
+  await page.locator('input[name="settlementAgreementDate"]').fill(globalVars.settleAgreementDate);
+  await page.locator('div').filter({ hasText: /^Settlement Mechanism\*$/ }).getByRole('img').click();
+  await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Conciliation' }).click();
+  await page.locator('div').filter({ hasText: /^No$/ }).getByRole('radio').check();
+  await page.locator('div').filter({ hasText: /^Nature of Disposal\*$/ }).getByRole('img').click();
+  await page.locator('#jk-dropdown-unique div').nth(1).click();
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();
-  
-  await page.waitForTimeout(2000);
-
-
-  await page.locator('.ql-editor').click();
-  await page.locator('.ql-editor').fill('AUTOMATION ORDER GENERATED');
- 
+  await page.getByRole('paragraph').click();
+  await page.locator('.ql-editor').fill('test');
   await page.waitForTimeout(1000);
 
   await page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
