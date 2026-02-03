@@ -80,12 +80,13 @@ test("Dristi Kerala login and selecting bail bond application", async ({ page })
         page.waitForEvent("download"), // wait for the download trigger
         page.click("text=click here"), // replace with your selector
       ]);
+      await page.waitForTimeout(1000);
       const projectDownloadPath = path.join(
         __dirname,
         "downloads",
         await download.suggestedFilename()
       );
-    
+    await page.waitForTimeout(1000);
       // Save the file to the defined path2
       await download.saveAs(projectDownloadPath);
       console.log(`File downloaded and saved to: ${projectDownloadPath}`);

@@ -329,4 +329,5 @@ test("Dristi Kerala login and file a case", async ({ page }) => {
   globalVariables.filingNumber = filingNumber;
   fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
   await page.waitForTimeout(5000);
+  console.log("Filing Number:", filingNumber);
 });

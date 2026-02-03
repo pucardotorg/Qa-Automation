@@ -1,7 +1,7 @@
 {
   "baseURL": "https://dristi-kerala-qa.pucar.org/",
-  "filingNumber": "KL-000643-2026",
-  "cmpNumber": "CMP/148/2026",
+  "filingNumber": "KL-000665-2026",
+  "cmpNumber": "CMP/159/2026",
   "citizenUsername": "8827000000",
   "citizenPassword": "123456",
   "litigantUsername2": "9955599999",
@@ -51,5 +51,5 @@
   "prayerDetails": "Details of the complaint",
   "stNumber": "ST/40/2026",
   "settleAgreementDate": "2026-12-15",
-  "accessCode": "339219"
+  "accessCode": "586058"
 }

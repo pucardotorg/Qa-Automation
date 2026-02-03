@@ -182,7 +182,7 @@ test('Dristi Kerala login and file a case', async ({ page }) => {
  
    // complaint
  
-   await page.waitForTimeout(3000);
+   await page.waitForTimeout(6000);
    await page.locator('.ql-editor').first().click();
    await page.locator('.ql-editor').first().fill("test");
    const Affidavit = path.resolve(__dirname, "./Testimages/Affidavit.pdf");
