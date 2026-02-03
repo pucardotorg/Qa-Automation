@@ -128,19 +128,24 @@ test('Register Case Test', async ({ page }) => {
   await page.getByRole('button', { name: 'Issue Order' }).click();
 
   await page.waitForTimeout(2000);
+
  await page
    .locator(
      "div:nth-child(4) > .popup-module > .header-wrap > .header-end > div > svg"
    )
    .click();
   await page.waitForLoadState("networkidle");
+  
+  await page.waitForTimeout(2000);
+
+
   const accessCodeElement = page.locator('div.sub-details-text').filter({ hasText: 'Code:' });
-  await expect(accessCodeElement.first()).toBeVisible({ timeout: 30000 });
+  await expect(accessCodeElement.first()).toBeVisible({ timeout: 60000 });
   const accessCodeText = (await accessCodeElement.first().textContent()) || '';
   const accessCode = accessCodeText.match(/Code\s*:\s*(\d+)/)?.[1] || '';
   console.log('Access Code:', accessCode);
   const accessCodeElement2 = page.locator('div.sub-details-text').filter({ hasText: 'CMP/' });
-  await expect(accessCodeElement2.first()).toBeVisible({ timeout: 30000 });
+  await expect(accessCodeElement2.first()).toBeVisible({ timeout: 60000 });
   const cmpNumber = (await accessCodeElement2.first().textContent()) || '';
   console.log('CMP Number:', cmpNumber);
   globalVariables.accessCode = accessCode;

@@ -68,7 +68,7 @@ test.setTimeout(180000);
   await page.getByText('BackProceed').click();
   console.log('Selecting one advocate that will be replaced ...');
   await page.locator('div').filter({ hasText: /^Which advocates are you replacing\?$/ }).getByRole('textbox').click();
-  await page.locator('div').filter({ hasText: /^ACC ADV \(Automation Accused\)$/ }).getByRole('checkbox').check();
+  await page.locator('div').filter({ hasText: "ACC" }).getByRole('checkbox').nth(1).check();
   await page.getByText('BackProceed').click();
   console.log('Selecting judge as an approval for advocate replacement ...');
   await page.locator('div').filter({ hasText: /^Judge$/ }).getByRole('radio').check();

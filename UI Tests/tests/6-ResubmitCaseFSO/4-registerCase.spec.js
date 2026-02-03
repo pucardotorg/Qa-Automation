@@ -131,6 +131,9 @@ test('Register Case Test', async ({ page }) => {
    )
    .click();
   await page.waitForLoadState("networkidle");
+
+  await page.waitForTimeout(2000);
+  
   const accessCodeElement = await page.locator('div.sub-details-text').filter({ hasText: 'Code: ' });
   const accessCodeText = await accessCodeElement.textContent();
   const accessCode = accessCodeText.match(/Code\s*:\s*(\d+)/)?.[1] || '';

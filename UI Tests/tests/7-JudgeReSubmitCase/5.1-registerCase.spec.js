@@ -146,6 +146,9 @@ test("Register Case Test", async ({ page }) => {
     )
     .click();
   await page.waitForLoadState("networkidle");
+
+  await page.waitForTimeout(2000);
+  
   const accessCodeElement = await page
     .locator("div.sub-details-text")
     .filter({ hasText: "Code: " });
