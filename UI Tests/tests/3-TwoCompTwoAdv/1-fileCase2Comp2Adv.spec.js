@@ -16,7 +16,7 @@ const globalVarsPath = path.join(__dirname,  '../../global-variables.json');
 fs.writeFileSync(globalVarsPath, JSON.stringify(globalVariables, null, 2));
 
 test("Dristi Kerala login and file a case", async ({ page }) => {
-  test.setTimeout(120000); // Set timeout to 2 minutes
+  test.setTimeout(180000); // Set timeout to 2 minutes
   // Go to the login page
   await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
   // sign in

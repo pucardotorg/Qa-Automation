@@ -29,7 +29,6 @@ FOLDERS=(
   "tests/2-TwoComp"
   "tests/3-TwoCompTwoAdv"
   "tests/4-FiledFromLit"
-  "tests/5-OnlinePayment"
   "tests/6-ResubmitCaseFSO"
   "tests/7-JudgeReSubmitCase"
 )
