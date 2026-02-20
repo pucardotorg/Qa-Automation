@@ -35,7 +35,9 @@ test("Dristi Kerala login and selecting notice address and payment method", asyn
   console.log('Initiating Transfer Application...');
   await page.getByRole('button', { name: 'Make Filings' }).click();
   await page.locator('div').filter({ hasText: /^Raise Application$/ }).click();
-  await page.locator('path').nth(4).click();
+
+  await page.locator('div').filter({ hasText: /^Application Type\*$/ }).getByRole('img').click();
+
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Transfer' }).click();
   await page.locator('input[name="requestedCourt"]').click();
   await page.locator('input[name="requestedCourt"]').fill('test');

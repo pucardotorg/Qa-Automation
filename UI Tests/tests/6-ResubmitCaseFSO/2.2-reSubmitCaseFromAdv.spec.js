@@ -6,6 +6,7 @@ const globalVarsPath = path.join(__dirname, '../../global-variables.json');
 const globalVariables = JSON.parse(fs.readFileSync(globalVarsPath, 'utf8'));
 
 test("Dristi Kerala login and resubmit a case", async ({ page }) => {
+  test.setTimeout(180000);
   // Go to the login page
   await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
   // sign in

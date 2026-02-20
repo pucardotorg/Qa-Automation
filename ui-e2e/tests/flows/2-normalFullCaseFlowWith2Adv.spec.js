@@ -32,7 +32,7 @@ test.describe.serial('Normal Full Case Flow with 2 Advocates - End to End', () =
   });
 
   test('01 - File a case with 2 advocates successfully', async ({ page }) => {
-    test.setTimeout(300000);
+    test.setTimeout(180000);
     
     const login = new LoginPage(page, globals);
     const fileCase = new FileCasePage(page, globals);

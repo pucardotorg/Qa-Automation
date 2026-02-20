@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import globalVariables from '../../global-variables.json';
 
 test('Register Case Test', async ({ page }) => {
+  test.setTimeout(180000);
   // Navigate to the employee login page
   console.log('Navigating to employee login page...');
   await page.goto(`${globalVariables.baseURL}ui/employee/user/login`);

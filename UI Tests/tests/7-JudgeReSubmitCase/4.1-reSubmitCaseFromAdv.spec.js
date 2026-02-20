@@ -9,7 +9,8 @@ const globalVariables = JSON.parse(
 );
 test("Dristi Kerala login and file a case", async ({ page }) => {
   // Go to the login page
-  test.setTimeout(300000);
+  test.setTimeout(180000);
+
   await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
   // sign in
   await page.getByRole("button").click();

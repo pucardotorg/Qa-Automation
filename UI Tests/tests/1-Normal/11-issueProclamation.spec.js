@@ -29,8 +29,11 @@ test('Issue Proclamation', async ({ page }) => {
    await page.locator('div').filter({ hasText: /^Proclamation for Party\*\+ Add new witness$/ }).getByRole('img').click();
   //await page.locator('#jk-dropdown-unique div').click();
   await page.getByText('Automation Accused (Accused)').click();
+
   await page.getByRole('checkbox', { name: 'Add, city, district,' }).check();
-  await page.locator('form').getByRole('img').nth(2).click();
+
+  await page.locator('form').getByRole('img').nth(1).click();
+  
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'ADHUR' }).click();
   test.setTimeout(180000);
   await page.getByRole('button').filter({ hasText: 'Confirm' }).click();

@@ -43,7 +43,9 @@ test("Dristi Kerala login and selecting bail bond application", async ({ page })
   await page.locator('.ql-editor').first().fill('test grounds and reasons ');
   await page.getByRole('paragraph').filter({ hasText: /^$/ }).click();
   await page.locator('.ql-editor.ql-blank').fill('test prayer');
-  await page.locator('div > button').first().click();
+
+  await page.locator('div > button').nth(2).click();
+  
   await page.locator('input[name="name"]').click();
   await page.locator('input[name="name"]').fill('test surety name');
   await page.locator('input[name="fatherName"]').click();
@@ -90,11 +92,16 @@ test("Dristi Kerala login and selecting bail bond application", async ({ page })
       // Save the file to the defined path2
       await download.saveAs(projectDownloadPath);
       console.log(`File downloaded and saved to: ${projectDownloadPath}`);
+
       await page.getByRole("button", { name: "Upload document with Signature" }).click();
+      
+      await page.waitForTimeout(1000);
+
       await page
         .locator('input[type="file"]')
-        .first()
+        .nth(5)
         .setInputFiles(projectDownloadPath);
+
       await page.getByRole('button', { name: 'Submit Signature' }).click();
       await page.getByRole('button', { name: 'Proceed' }).click();
       await page.locator('.popup-module.submission-payment-modal > .header-wrap > .header-end > div > svg').click();

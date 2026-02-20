@@ -38,7 +38,9 @@ test("Dristi Kerala login and selecting bail bond", async ({ page }) => {
   await page.locator('input[name="litigantFatherName"]').fill('test father name');
   await page.locator('#validationCustom01').click();
   await page.locator('#validationCustom01').fill('9000');
-  await page.locator('path').nth(4).click();
+
+  await page.locator('form path').nth(3).click();
+  
   await page.getByText('Personal').click();
   console.log('Submitting Bail Bond Application...');
   await page.getByRole('button').filter({ hasText: 'Review Bail Bond' }).click();

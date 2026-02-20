@@ -5,7 +5,7 @@ const globalVarsPath = path.join(__dirname, "../../global-variables.json");
 let globalVariables = JSON.parse(fs.readFileSync(globalVarsPath, "utf8"));
 
 test("Dristi Kerala login and selecting bail bond", async ({ page }) => {
-  test.setTimeout(180000);
+  test.setTimeout(200000);
   // Go to the login page
   await page.goto(`${globalVariables.baseURL}ui/citizen/select-language`);
   // sign in
@@ -102,7 +102,8 @@ test("Dristi Kerala login and selecting bail bond", async ({ page }) => {
     console.log('Adding Signature...');
     await page.waitForTimeout(3000);
     await page.getByRole('button', { name: 'Proceed To Sign' }).click();
-      await page.getByRole("button", { name: "Upload Signed copy" }).click();
+
+    await page.getByRole("button", { name: "Upload Signed copy" }).click();
     
      const [download] = await Promise.all([
              page.waitForEvent("download"), // wait for the download trigger

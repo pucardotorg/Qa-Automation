@@ -31,10 +31,13 @@ test("Dristi Kerala login and selecting production application", async ({ page }
   await page.getByRole('cell', { name: globalVariables.cmpNumber }).click();
   await page.waitForTimeout(1000);
 
-  console.log('Initiating Bail Application...');
+  console.log('Initiating Production of Documents...');
   await page.getByRole('button', { name: 'Make Filings' }).click();
   await page.getByText('Raise Application').click();
-  await page.locator('path').nth(4).click();
+
+
+  await page.locator('form path').nth(3).click();
+  
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Production of Documents' }).click();
   await page.locator('div').filter({ hasText: /^Document Type$/ }).getByRole('img').click();
   await page.locator('#jk-dropdown-unique div').filter({ hasText: 'Others' }).click();
