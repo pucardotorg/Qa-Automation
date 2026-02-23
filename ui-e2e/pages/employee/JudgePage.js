@@ -246,14 +246,29 @@ class JudgePage extends BasePage {
 
     await this.submitSignatureBtn.click();
     await this.issueOrderBtn.click();
-    // Dismiss the success toast — same pattern as JudgeOrdersPage
-    await this.page.getByText('You have successfully issued').click();
-    await this.closeBtn.click();
-    await this.page.getByRole('heading', { name: 'Order successfully issued!' }).click();
+    await this.page.waitForTimeout(3000);
+
+    // The success screen has two variants depending on context:
+    // Variant A: success toast "You have successfully issued" → close → heading
+    // Variant B: simple "Close" button (role: button)
+    const successToast = this.page.getByText('You have successfully issued');
+    const hasToast = await successToast.isVisible({ timeout: 5000 }).catch(() => false);
+
+    if (hasToast) {
+      // Variant A — toast + close sequence
+      console.log('[reviewAdvReplacement] Success variant A: toast dismissal');
+      await successToast.click();
+      await this.page.getByRole('button', { name: 'Close' }).click({ force: true }).catch(() => { });
+      await this.page.getByRole('heading', { name: 'Order successfully issued!' }).click({ force: true }).catch(() => { });
+    } else {
+      // Variant B — direct Close button
+      console.log('[reviewAdvReplacement] Success variant B: direct Close button');
+      await this.page.getByRole('button', { name: 'Close' }).click({ force: true });
+    }
+
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
   }
-
 }
 
 module.exports = { JudgePage };

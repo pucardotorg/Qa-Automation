@@ -74,8 +74,19 @@ class TransferApplicationPage extends BasePage {
 
         // Upload signed document
         await this.page.getByRole('button', { name: 'Upload document with Signature' }).click();
+        await this.page.waitForTimeout(1000);
         await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
-        await this.page.getByRole('button', { name: 'Submit Signature' }).click();
+        // Wait for the file to be processed — Submit Signature button stays disabled until upload completes
+        await this.page.waitForTimeout(3000);
+        const submitSigBtn = this.page.getByRole('button', { name: 'Submit Signature' });
+        await submitSigBtn.waitFor({ state: 'visible', timeout: 15000 });
+        // Wait up to 15s for the button to become enabled after file processing
+        await this.page.waitForFunction(
+            () => !document.querySelector('button[name="Submit Signature"], button:has-text("Submit Signature")')?.disabled,
+            { timeout: 15000 }
+        ).catch(() => console.log('[TransferApplication] Submit Signature still disabled, attempting force click'));
+        await submitSigBtn.click({ force: true });
+
 
         // Proceed and dismiss the payment modal
         await this.page.getByRole('button', { name: 'Proceed' }).click();

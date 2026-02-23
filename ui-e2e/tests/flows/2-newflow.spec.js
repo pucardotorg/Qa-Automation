@@ -11,7 +11,7 @@ const { JoinCasePage } = require('../../pages/normal/JoinCasePage');
 const { NoticePaymentPage } = require('../../pages/normal/NoticePaymentPage');
 const { loadGlobalVariables, saveGlobalVariables } = require('../../helpers/env');
 const { JudgeSignPage } = require('../../pages/employee/JudgeSignPage');
-
+const { TransferApplicationPage } = require('../../pages/normal/TransferApplicationPage');
 function computeDateOfService(daysBefore = 16) {
     const today = new Date();
     const d = new Date(today);
@@ -29,15 +29,47 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
         saveGlobalVariables({ dateOfService });
     });
 
+    test('23 - Citizen initiates Transfer Application', async ({ page }) => {
+        test.setTimeout(180000);
 
-    test('18 - Judge reviews and approves advocate replacement request (second time)', async ({ page }) => {
+        const login = new LoginPage(page, globals);
+        const transfer = new TransferApplicationPage(page, globals);
+
+        await login.open();
+        await login.loginWithMobileOtp(globals.citizenUsername);
+
+        await transfer.initiateTransferApplication(globals.stNumber);
+    });
+    test('24 - Naya Mitra collects payment for Transfer Application', async ({ page }) => {
         test.setTimeout(180000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
-        const judge = new JudgePage(page, globals);
+        const payment = new PaymentPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsNayaMitra();
+
+        await payment.navigateToCollectPayments();
+        await payment.searchCaseByFilingNumber(globals.stNumber);
+
+        await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
+
+        await payment.recordPaymentForCase();
+        await payment.selectPaymentMode('Cash');
+        await payment.submitPayment();
+    });
+
+    test('25 - Judge rejects Transfer Application and issues order', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const judgeOrders = new JudgeOrdersPage(page, globals);
 
         await employeeLogin.open();
         await employeeLogin.loginAsJudge();
-        await judge.reviewAdvReplacement(globals.stNumber);
+
+        await judgeOrders.rejectTransferApplication(globals.stNumber);
     });
+
+
 });
