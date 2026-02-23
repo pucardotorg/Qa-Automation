@@ -5,13 +5,18 @@
   "description": "Standalone Playwright UI E2E suite using POM architecture",
   "scripts": {
     "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "report": "playwright show-report",
-    "test:excel": "USE_EXCEL_DATA=true playwright test",
-    "test:excel:headed": "USE_EXCEL_DATA=true playwright test --headed",
-    "excel:create": "node helpers/jsonToExcel.js template",
-    "excel:reset": "rm -f data/.excel-state.json && echo 'Excel row pointer reset to start'",
-    "excel:verify": "node helpers/verifyExcel.js"
+    "test:headed": "playwright test --headed --workers=1",
+    "test:qa": "TEST_ENV=qa playwright test --workers=1",
+    "test:qa:headed": "TEST_ENV=qa playwright test --headed --workers=1",
+    "test:demo": "TEST_ENV=demo playwright test --workers=1",
+    "test:demo:headed": "TEST_ENV=demo playwright test --headed --workers=1",
+    "test:flow1": "TEST_ENV=qa playwright test tests/flows/1-normalFullCaseFlow.spec.js --headed --workers=1",
+    "test:flow2": "TEST_ENV=qa playwright test tests/flows/2-normalFullCaseFlowwith2acc.spec.js --headed --workers=1",
+    "test:flow3": "TEST_ENV=qa playwright test tests/flows/3-litigentfilecase.spec.js --headed --workers=1",
+    "test:flow1:demo": "TEST_ENV=demo playwright test tests/flows/1-normalFullCaseFlow.spec.js --headed --workers=1",
+    "test:flow2:demo": "TEST_ENV=demo playwright test tests/flows/2-normalFullCaseFlowwith2acc.spec.js --headed --workers=1",
+    "test:flow3:demo": "TEST_ENV=demo playwright test tests/flows/3-litigentfilecase.spec.js --headed --workers=1",
+    "report": "playwright show-report"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.2"

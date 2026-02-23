@@ -1,19 +1,45 @@
+/**
+ * env.js — Environment-based global variable loader
+ *
+ * How it works:
+ *   Set the TEST_ENV environment variable before running tests:
+ *
+ *     TEST_ENV=qa    npx playwright test   → loads data/global-variablesqa.json
+ *     TEST_ENV=demo  npx playwright test   → loads data/global-variablesdemo.json
+ *     (no TEST_ENV)  npx playwright test   → loads data/global-variables.json
+ *
+ * Example (Linux / Mac):
+ *     TEST_ENV=demo npx playwright test --headed --workers=1
+ *
+ * Example (Windows CMD):
+ *     set TEST_ENV=demo && npx playwright test --headed --workers=1
+ *
+ * Example (Windows PowerShell):
+ *     $env:TEST_ENV="demo"; npx playwright test --headed --workers=1
+ */
+
 const fs = require('fs');
 const path = require('path');
-const { loadTestDataFromExcel, loadAndMoveToNextRow } = require('./excelHelper');
 
-function loadJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-}
-
-function getEnvName() {
-  return process.env.TEST_ENV || '';
-}
+// ─── Internal helpers ──────────────────────────────────────────────────────────
 
 function getDataDir() {
   return path.join(__dirname, '..', 'data');
 }
 
+/**
+ * Returns the raw environment name from TEST_ENV (e.g. "qa", "demo", "").
+ */
+function getEnvName() {
+  return (process.env.TEST_ENV || '').trim().toLowerCase();
+}
+
+/**
+ * Resolves the absolute path to the correct globals JSON for the current env.
+ *   ""     → global-variables.json
+ *   "qa"   → global-variablesqa.json
+ *   "demo" → global-variablesdemo.json
+ */
 function resolveGlobalsPath() {
   const env = getEnvName();
   const dataDir = getDataDir();
@@ -22,87 +48,59 @@ function resolveGlobalsPath() {
     : path.join(dataDir, 'global-variables.json');
 }
 
+function readJson(filePath) {
+  if (!fs.existsSync(filePath)) {
+    throw new Error(
+      `[env.js] Config file not found: ${filePath}\n` +
+      `  Set TEST_ENV to a valid environment name or create the file.\n` +
+      `  Available envs: qa, demo (or leave TEST_ENV empty for default).`
+    );
+  }
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+}
+
+// ─── Public API ────────────────────────────────────────────────────────────────
+
+/**
+ * Loads global variables from the environment-specific JSON file.
+ * Logs which file is being used so runs are easy to trace.
+ *
+ * @returns {Object} Merged globals object
+ */
 function loadGlobalVariables() {
-  const env = getEnvName();
-  const dataDir = getDataDir();
+  const filePath = resolveGlobalsPath();
+  const env = getEnvName() || 'default';
 
-  // Check if Excel mode is enabled
-  const useExcel = process.env.USE_EXCEL_DATA === 'true';
-  const excelFile = process.env.EXCEL_FILE_PATH || path.join(dataDir, 'test-data.xlsx');
-  const excelSheet = process.env.EXCEL_SHEET_NAME || null;
+  console.log(`[env] Environment : ${env}`);
+  console.log(`[env] Config file : ${filePath}`);
 
-  console.log('DEBUG: useExcel =', useExcel);
-  console.log('DEBUG: excelFile =', excelFile);
-  console.log('DEBUG: file exists =', fs.existsSync(excelFile));
-  console.log('DEBUG: absolute path =', path.resolve(excelFile));
+  const globals = readJson(filePath);
 
-  if (useExcel && fs.existsSync(excelFile)) {
-    console.log(`Loading test data from Excel: ${excelFile}`);
-    
-    // Load from Excel and automatically move to next row
-    const excelData = loadAndMoveToNextRow(excelFile, excelSheet);
-    console.log('DEBUG: Excel data loaded:', JSON.stringify(excelData, null, 2));
-    
-    // Merge with JSON if it exists (Excel data takes precedence)
-    const baseFile = path.join(dataDir, 'global-variables.json');
-    let globals = {};
-    if (fs.existsSync(baseFile)) {
-      globals = loadJson(baseFile);
-      console.log('DEBUG: JSON data loaded:', JSON.stringify(globals, null, 2));
-    }
-
-    if (env) {
-      const envFile = path.join(dataDir, `global-variables${env}.json`);
-      if (fs.existsSync(envFile)) {
-        const overrides = loadJson(envFile);
-        globals = { ...globals, ...overrides };
-      }
-    }
-
-    // Excel data overrides JSON data
-    const result = { ...globals, ...excelData };
-    console.log('DEBUG: Final merged result:', JSON.stringify(result, null, 2));
-    return result;
-  }
-
-  // Default JSON loading
-  const baseFile = path.join(dataDir, 'global-variables.json');
-  let globals = {};
-  if (fs.existsSync(baseFile)) {
-    globals = loadJson(baseFile);
-  }
-
-  if (env) {
-    const envFile = path.join(dataDir, `global-variables${env}.json`);
-    if (fs.existsSync(envFile)) {
-      const overrides = loadJson(envFile);
-      globals = { ...globals, ...overrides };
-    }
-  }
-
+  console.log(`[env] Loaded ${Object.keys(globals).length} variables`);
   return globals;
 }
 
+/**
+ * Persists updated variables back to the active environment's JSON file.
+ * Only the keys present in `updated` are merged/overwritten; all other
+ * existing keys are preserved.
+ *
+ * @param {Object} updated - Key/value pairs to save
+ * @returns {Object} The merged globals after saving
+ */
 function saveGlobalVariables(updated) {
-  // When using Excel data, don't write to JSON file
-  // Just return the merged data for in-memory use
-  const useExcel = process.env.USE_EXCEL_DATA === 'true';
-  
-  if (useExcel) {
-    console.log('Excel mode: Skipping JSON file write, updating in-memory only');
-    return updated;
-  }
-  
-  // Normal JSON mode: write to file
   const filePath = resolveGlobalsPath();
-  const current = fs.existsSync(filePath) ? loadJson(filePath) : {};
+  const current = fs.existsSync(filePath) ? readJson(filePath) : {};
   const merged = { ...current, ...updated };
   fs.writeFileSync(filePath, JSON.stringify(merged, null, 2));
   return merged;
 }
 
+// ─── Exports ───────────────────────────────────────────────────────────────────
+
 module.exports = {
   loadGlobalVariables,
   saveGlobalVariables,
   getEnvName,
+  resolveGlobalsPath,
 };

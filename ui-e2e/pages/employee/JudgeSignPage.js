@@ -3,10 +3,12 @@ const fs = require('fs');
 const { expect } = require('@playwright/test');
 const { BasePage } = require('../common/BasePage');
 
+const resolveFromUiE2E = (...parts) => path.join(__dirname, '..', '..', ...parts);
+
 class JudgeSignPage extends BasePage {
   constructor(page, globals) {
     super(page, globals);
-    
+
     this.signProcessLink = page.getByText('Sign Process');
     this.searchInput = page.locator('input[name="searchText"]');
     this.searchBtn = page.getByText('Search').first();
@@ -40,10 +42,10 @@ class JudgeSignPage extends BasePage {
   async eSignDocument() {
     // Wait for E-Sign button or Proceed To Sign button to be visible
     await Promise.race([
-      expect(this.eSignBtn).toBeVisible({ timeout: 30000 }).catch(() => {}),
-      expect(this.proceedToSignBtn).toBeVisible({ timeout: 30000 }).catch(() => {})
+      expect(this.eSignBtn).toBeVisible({ timeout: 30000 }).catch(() => { }),
+      expect(this.proceedToSignBtn).toBeVisible({ timeout: 30000 }).catch(() => { })
     ]);
-    
+
     // Check which button is available and click it (Review Document popup)
     if (await this.proceedToSignBtn.isVisible()) {
       console.log('Clicking Proceed To Sign button');
@@ -52,33 +54,33 @@ class JudgeSignPage extends BasePage {
       console.log('Clicking E-Sign button');
       await this.eSignBtn.click();
     }
-    
+
     await this.page.waitForTimeout(2000);
-    
+
     // Download PDF directly (skip E-Sign button, just download)
     console.log('Waiting for download');
     const [download] = await Promise.all([
       this.page.waitForEvent('download', { timeout: 30000 }),
       this.page.getByText('click here').click(),
     ]);
-    
-    const projectDownloadPath = path.join(process.cwd(), 'ui-e2e', 'downloads', await download.suggestedFilename());
+
+    const projectDownloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
     fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
     await download.saveAs(projectDownloadPath);
-    
+
     // Upload signed PDF
     await this.uploadOrderBtn.click();
     await this.page.waitForTimeout(2000);
     await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
-    
+
     await this.submitSignatureBtn.click();
     await this.page.waitForTimeout(2000);
-    
+
     // Click "Proceed to Send" button after uploading
     await expect(this.proceedToSendBtn).toBeVisible({ timeout: 10000 });
     await this.proceedToSendBtn.click();
     await this.page.waitForTimeout(2000);
-    
+
     return projectDownloadPath;
   }
 

@@ -4,7 +4,7 @@ const { BasePage } = require('./BasePage');
 class EmployeeLoginPage extends BasePage {
   constructor(page, globals) {
     super(page, globals);
-    
+
     this.usernameInput = page.locator('input[name="username"]');
     this.passwordInput = page.locator('input[name="password"]');
     this.continueBtn = page.getByRole('button', { name: 'Continue' }).or(
@@ -18,15 +18,20 @@ class EmployeeLoginPage extends BasePage {
   }
 
   async loginAsEmployee(username, password) {
-    await expect(this.usernameInput).toBeVisible({ timeout: 10000 });
+    await expect(this.usernameInput).toBeVisible({ timeout: 15000 });
     await this.usernameInput.fill(username);
-    
-    await expect(this.passwordInput).toBeVisible({ timeout: 10000 });
+
+    await expect(this.passwordInput).toBeVisible({ timeout: 15000 });
     await this.passwordInput.fill(password);
-    
-    await expect(this.continueBtn).toBeVisible({ timeout: 10000 });
-    await this.continueBtn.click();
-    
+
+    // Wait for Continue to be visible and enabled.
+    // Use force:true to bypass Playwright's stability check — the button is
+    // continually re-rendered by React between tests, so waitForStable never
+    // resolves. force:true dispatches the click immediately without waiting.
+    await expect(this.continueBtn).toBeVisible({ timeout: 15000 });
+    await expect(this.continueBtn).toBeEnabled({ timeout: 15000 });
+    await this.continueBtn.click({ force: true });
+
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
   }

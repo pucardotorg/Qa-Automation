@@ -19,6 +19,9 @@ class LoginPage extends BasePage {
     await this.signInBtn.click();
     await this.fillOtpSixOnes();
     await this.verifyBtn.click();
+    // Wait for the citizen home page / cases list to fully load
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
   }
 }
 

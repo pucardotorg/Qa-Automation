@@ -4,7 +4,7 @@ const { BasePage } = require('../common/BasePage');
 class PaymentPage extends BasePage {
   constructor(page, globals) {
     super(page, globals);
-    
+
     this.collectOfflinePaymentsLink = page.getByText('Collect Offline Payments');
     this.caseFilingNumberInput = page.locator('input[name="caseTitleFilingNumber"]');
     this.searchBtn = page.getByRole('button').filter({ hasText: 'Search' });
