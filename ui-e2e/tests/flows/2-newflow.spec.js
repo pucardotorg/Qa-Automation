@@ -11,6 +11,7 @@ const { JoinCasePage } = require('../../pages/normal/JoinCasePage');
 const { NoticePaymentPage } = require('../../pages/normal/NoticePaymentPage');
 const { loadGlobalVariables, saveGlobalVariables } = require('../../helpers/env');
 const { JudgeSignPage } = require('../../pages/employee/JudgeSignPage');
+const { SettlementApplicationPage } = require('../../pages/normal/SettlementApplicationPage');
 const { TransferApplicationPage } = require('../../pages/normal/TransferApplicationPage');
 function computeDateOfService(daysBefore = 16) {
     const today = new Date();
@@ -29,18 +30,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
         saveGlobalVariables({ dateOfService });
     });
 
-    test('23 - Citizen initiates Transfer Application', async ({ page }) => {
-        test.setTimeout(180000);
-
-        const login = new LoginPage(page, globals);
-        const transfer = new TransferApplicationPage(page, globals);
-
-        await login.open();
-        await login.loginWithMobileOtp(globals.citizenUsername);
-
-        await transfer.initiateTransferApplication(globals.stNumber);
-    });
-    test('24 - Naya Mitra collects payment for Transfer Application', async ({ page }) => {
+    test('27 - Naya Mitra collects payment for Settlement Application', async ({ page }) => {
         test.setTimeout(180000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
@@ -59,16 +49,16 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
         await payment.submitPayment();
     });
 
-    test('25 - Judge rejects Transfer Application and issues order', async ({ page }) => {
+    test('28 - Judge approves Settlement Application and issues order', async ({ page }) => {
         test.setTimeout(180000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
-        const judgeOrders = new JudgeOrdersPage(page, globals);
+        const settlement = new SettlementApplicationPage(page, globals);
 
         await employeeLogin.open();
         await employeeLogin.loginAsJudge();
 
-        await judgeOrders.rejectTransferApplication(globals.stNumber);
+        await settlement.approveSettlementApplication(globals.stNumber);
     });
 
 

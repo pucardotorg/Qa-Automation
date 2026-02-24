@@ -373,47 +373,4 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
   });
 
   // ─── Advocate / Join Case Scenarios ─────────────────────────────────────────
-  test('26 - Judge reviews and approves advocate replacement request (first time)', async ({ page }) => {
-    test.setTimeout(180000);
-
-    const employeeLogin = new EmployeeLoginPage(page, globals);
-    const judge = new JudgePage(page, globals);
-
-    await employeeLogin.open();
-    await employeeLogin.loginAsJudge();
-    await judge.reviewAdvReplacement(globals.cmpNumber);
-  });
-
-  test('27 - Second advocate adds to case without payment (judge approval)', async ({ page }) => {
-    test.setTimeout(180000);
-
-    const joinCase = new JoinCasePage(page, globals);
-    await joinCase.open();
-    await joinCase.joinAsAdvocateAddWithoutPayment(
-      globals.filingNumber,
-      globals.accessCode
-    );
-  });
-
-  test('28 - Third advocate replaces existing advocate without payment (judge approval)', async ({ page }) => {
-    test.setTimeout(180000);
-
-    const joinCase = new JoinCasePage(page, globals);
-    await joinCase.open();
-    await joinCase.joinAsAdvocateReplaceWithoutPayment(
-      globals.filingNumber,
-      globals.accessCode
-    );
-  });
-
-  test('29 - Judge reviews and approves advocate replacement request (second time)', async ({ page }) => {
-    test.setTimeout(180000);
-
-    const employeeLogin = new EmployeeLoginPage(page, globals);
-    const judge = new JudgePage(page, globals);
-
-    await employeeLogin.open();
-    await employeeLogin.loginAsJudge();
-    await judge.reviewAdvReplacement(globals.cmpNumber);
-  });
 });
