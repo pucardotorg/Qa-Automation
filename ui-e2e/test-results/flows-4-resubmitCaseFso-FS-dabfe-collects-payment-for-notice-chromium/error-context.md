@@ -1,0 +1,44 @@
+# Page snapshot
+
+```yaml
+- img "mSeva"
+- img "mSeva"
+- img
+- text: EN
+- img
+- text: G
+- img
+- text: Good Afternoon, gCmo
+- link "Dashboards":
+  - /url: /ui/employee/home/dashboard
+  - img
+  - text: Dashboards
+  - img
+- link "All Cases":
+  - /url: /ui/employee/home/home-pending-task
+  - img
+  - text: All Cases
+  - img
+- img
+- text: Templates/Configuration Hearings
+- img
+- text: Today’s Hearings Schedule Hearing Bulk Reschedule Hearing Actions
+- img
+- text: Register Users 17 Scrutinise Cases 62 Review Bail Bond 9 Notice and Summon Service 64 Collect Offline Payments 179 Sign
+- img
+- text: Sign Forms Sign Process Sign A-Diary Collect Offline Payments
+- button "Pending (179)"
+- button "Paid (1672)"
+- heading "Payment type" [level=2]
+- textbox
+- img
+- heading "Case Name or Number" [level=2]
+- textbox: CMP/144/2026
+- text: Clear Search
+- button:
+  - banner: Search
+- img
+- text: No Results Found
+- img
+- img
+```

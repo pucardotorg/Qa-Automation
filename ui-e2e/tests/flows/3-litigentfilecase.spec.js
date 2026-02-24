@@ -13,6 +13,7 @@ const { NoticePaymentPage } = require('../../pages/normal/NoticePaymentPage');
 const { loadGlobalVariables, saveGlobalVariables } = require('../../helpers/env');
 const { JudgeSignPage } = require('../../pages/employee/JudgeSignPage');
 const { SettlementApplicationPage } = require('../../pages/normal/SettlementApplicationPage');
+const { WithdrawalApplicationPage } = require('../../pages/normal/WithdrawalApplicationPage');
 
 /**
  * Full Case Flow — 2 Complainants (litigantUsername3 + litigantUsername2) + 2 Advocates
@@ -505,5 +506,57 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
         await employeeLogin.loginAsJudge();
 
         await settlement.approveSettlementApplication(globals.stNumber);
+    });
+
+    // ─── Withdrawal Application Scenarios ────────────────────────────────────
+    // Source: UI Tests/tests/4-FiledFromLit/9-initiateWithdrawalApplication.spec.js
+    //         UI Tests/tests/4-FiledFromLit/9.1-withdrawalApplicationPayment.spec.js
+    //         UI Tests/tests/4-FiledFromLit/9.2-approveWithdrawalJudge.spec.js
+    // ─────────────────────────────────────────────────────────────────────────
+
+    test('29 - Citizen initiates Withdrawal Application', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const login = new LoginPage(page, globals);
+        const withdrawal = new WithdrawalApplicationPage(page, globals);
+
+        await login.open();
+        await login.loginWithMobileOtp(globals.citizenUsername);
+
+        await page.waitForLoadState('networkidle');
+        await page.waitForTimeout(2000);
+
+        await withdrawal.initiateWithdrawalApplication(globals.stNumber);
+    });
+
+    test('30 - Naya Mitra collects payment for Withdrawal Application', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const payment = new PaymentPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsNayaMitra();
+
+        await payment.navigateToCollectPayments();
+        await payment.searchCaseByFilingNumber(globals.stNumber);
+
+        await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
+
+        await payment.recordPaymentForCase();
+        await payment.selectPaymentMode('Cash');
+        await payment.submitPayment();
+    });
+
+    test('31 - Judge approves Withdrawal Application and issues order', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const withdrawal = new WithdrawalApplicationPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsJudge();
+
+        await withdrawal.approveWithdrawalApplication(globals.stNumber);
     });
 });
