@@ -530,6 +530,226 @@
           "tenantId": "kl"
         },
         {
+          "name": "ALLOW_SEND_FOR_SIGN_LATER",
+          "code": "ALLOW_SEND_FOR_SIGN_LATER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "PLEA_VIEWER",
+          "code": "PLEA_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "NOTIFICATION_CREATOR",
+          "code": "NOTIFICATION_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_CREATOR",
+          "code": "HEARING_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "EXAMINATION_APPROVER",
+          "code": "EXAMINATION_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "JUDGE_ROLE",
+          "code": "JUDGE_ROLE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_SIGN_EVIDENCE",
+          "code": "VIEW_SIGN_EVIDENCE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "DIGITALIZED_DOCUMENT_ESIGN",
+          "code": "DIGITALIZED_DOCUMENT_ESIGN",
+          "tenantId": "kl"
+        },
+        {
+          "name": "PENDING_TASK_CONFIRM_BOND_SUBMISSION",
+          "code": "PENDING_TASK_CONFIRM_BOND_SUBMISSION",
+          "tenantId": "kl"
+        },
+        {
+          "name": "TASK_VIEWER",
+          "code": "TASK_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SIGN_DIGITALIZED_DOCUMENT_MEDIATION",
+          "code": "SIGN_DIGITALIZED_DOCUMENT_MEDIATION",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_WITNESS_DEPOSITION",
+          "code": "VIEW_WITNESS_DEPOSITION",
+          "tenantId": "kl"
+        },
+        {
+          "name": "MEDIATION_VIEWER",
+          "code": "MEDIATION_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_ESIGN",
+          "code": "ORDER_ESIGN",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SIGN_PROCESS_NOTICE",
+          "code": "SIGN_PROCESS_NOTICE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "EXAMINATION_CREATOR",
+          "code": "EXAMINATION_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_API_MONITOR",
+          "code": "VIEW_API_MONITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "HEARING_APPROVER",
+          "code": "HEARING_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_REGISTER_CASES",
+          "code": "VIEW_REGISTER_CASES",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_VIEWER",
+          "code": "ORDER_VIEWER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_SIGN_ORDERS",
+          "code": "VIEW_SIGN_ORDERS",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_BULK_RESCHEDULE_HEARINGS",
+          "code": "VIEW_BULK_RESCHEDULE_HEARINGS",
+          "tenantId": "kl"
+        },
+        {
+          "name": "APPLICATION_APPROVER",
+          "code": "APPLICATION_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_PROCESS_ATTACHMENT",
+          "code": "VIEW_PROCESS_ATTACHMENT",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_PROCESS_SUMMONS",
+          "code": "VIEW_PROCESS_SUMMONS",
+          "tenantId": "kl"
+        },
+        {
+          "name": "COURT_ASSIGNED_ROLE",
+          "code": "COURT_ASSIGNED_ROLE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ALLOW_ADD_WITNESS",
+          "code": "ALLOW_ADD_WITNESS",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_SCHEDULE_HEARING_HOME",
+          "code": "VIEW_SCHEDULE_HEARING_HOME",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_PROCESS_WARRANT",
+          "code": "VIEW_PROCESS_WARRANT",
+          "tenantId": "kl"
+        },
+        {
+          "name": "EVIDENCE_CREATOR",
+          "code": "EVIDENCE_CREATOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SIGN_PROCESS_ATTACHMENT",
+          "code": "SIGN_PROCESS_ATTACHMENT",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SIGN_PROCESS_PROCLAMATION",
+          "code": "SIGN_PROCESS_PROCLAMATION",
+          "tenantId": "kl"
+        },
+        {
+          "name": "BAIL_BOND_APPROVER",
+          "code": "BAIL_BOND_APPROVER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "PLEA_EDITOR",
+          "code": "PLEA_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "EVIDENCE_ESIGN",
+          "code": "EVIDENCE_ESIGN",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_TODAYS_HEARINGS",
+          "code": "VIEW_TODAYS_HEARINGS",
+          "tenantId": "kl"
+        },
+        {
+          "name": "Workflow Admin",
+          "code": "WORKFLOW_ADMIN",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SIGN_PROCESS_WARRANT",
+          "code": "SIGN_PROCESS_WARRANT",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CASE_EDITOR",
+          "code": "CASE_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "PENDING_TASK_ORDER",
+          "code": "PENDING_TASK_ORDER",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_DELAY_CONDONATION_APPLICATION",
+          "code": "VIEW_DELAY_CONDONATION_APPLICATION",
+          "tenantId": "kl"
+        },
+        {
+          "name": "ORDER_DELETE",
+          "code": "ORDER_DELETE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "PENDING_TASK_SHOW_NOTICE_STATUS",
+          "code": "PENDING_TASK_SHOW_NOTICE_STATUS",
+          "tenantId": "kl"
+        },
+        {
+          "name": "SIGN_DIGITALIZED_DOCUMENT_EXAMINATION",
+          "code": "SIGN_DIGITALIZED_DOCUMENT_EXAMINATION",
+          "tenantId": "kl"
+        },
+        {
           "name": "TASK_EDITOR",
           "code": "TASK_EDITOR",
           "tenantId": "kl"
