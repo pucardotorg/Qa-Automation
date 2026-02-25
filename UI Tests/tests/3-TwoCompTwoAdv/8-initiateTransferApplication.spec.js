@@ -28,7 +28,8 @@ test("Dristi Kerala login and selecting notice address and payment method", asyn
 
   // Search for the case using filing number
   await page.waitForTimeout(1000);
-  await page.getByRole('cell', { name: globalVariables.cmpNumber }).click();
+  //await page.getByRole('cell', { name: globalVariables.cmpNumber }).click();
+  await page.getByRole('cell', { name: 'CMP/158/2026' }).click();
   await page.waitForTimeout(1000);
 
   // Initiating Transfer Application
@@ -48,9 +49,9 @@ test("Dristi Kerala login and selecting notice address and payment method", asyn
   await page.getByRole('button', { name: 'Add Signature' }).click();
   //
   //await page.getByText('click here').click();
-//   await page.getByRole('button', { name: 'Upload document with Signature' }).click();
-//   await page.locator('div').filter({ hasText: /^Drag and drop your file or Browse in my files$/ }).click();
-//   await page.locator('body').setInputFiles('downloadedFile - 2025-11-27T183557.058.pdf');
+  //   await page.getByRole('button', { name: 'Upload document with Signature' }).click();
+  //   await page.locator('div').filter({ hasText: /^Drag and drop your file or Browse in my files$/ }).click();
+  //   await page.locator('body').setInputFiles('downloadedFile - 2025-11-27T183557.058.pdf');
   //const download = await downloadPromise;
   const [download] = await Promise.all([
     page.waitForEvent("download"), // wait for the download trigger

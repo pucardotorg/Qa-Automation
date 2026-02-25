@@ -352,6 +352,144 @@ class JudgeOrdersPage extends BasePage {
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
   }
+
+  /**
+   * Judge rejects a Production of Documents application and issues the rejection order.
+   * Converted from: UI Tests/tests/6-ResubmitCaseFSO/9-rejectProductionDocApp.spec.js
+   * @param {string} caseNumber - CMP number to navigate to
+   */
+  async rejectProductionOfDocuments(caseNumber) {
+    await this.navigateToCase(caseNumber);
+
+    // Open Applications tab and click Production of Documents
+    await this.page.getByRole('button', { name: 'Applications' }).click();
+    await this.page.getByRole('table').getByText('Production of Documents').click();
+
+    // Reject the application
+    await this.page.getByRole('button', { name: 'Reject' }).click();
+    await this.page.getByRole('button').filter({ hasText: 'Confirm' }).click();
+
+    // Preview, sign, and issue the rejection order
+    await this.page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
+    await this.page.getByRole('button', { name: 'Add Signature' }).click();
+
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.page.getByText('click here').click(),
+    ]);
+
+    const projectDownloadPath = path.join(
+      resolveFromUiE2E('downloads'),
+      await download.suggestedFilename()
+    );
+    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
+    await download.saveAs(projectDownloadPath);
+    console.log(`Production rejection order downloaded: ${projectDownloadPath}`);
+
+    await this.page.getByRole('button', { name: 'Upload Order Document with' }).click();
+    await this.page.waitForTimeout(2000);
+    await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+
+    await this.submitSignatureBtn.click();
+    await this.issueOrderBtn.click();
+
+    // Dismiss success screen
+    const successToast = this.page.getByText('You have successfully issued');
+    const hasToast = await successToast.isVisible({ timeout: 5000 }).catch(() => false);
+    if (hasToast) {
+      await successToast.click();
+      await this.closeBtn.click({ force: true }).catch(() => { });
+      await this.page.getByRole('heading', { name: 'Order successfully issued!' }).click({ force: true }).catch(() => { });
+    } else {
+      await this.closeBtn.click({ force: true });
+    }
+
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+  }
+
+  /**
+   * Generic helper: navigate to a case, open Applications tab, click an
+   * application row by type name, then approve or reject it and issue the order.
+   *
+   * @param {string} caseNumber       - CMP number to navigate to
+   * @param {string} applicationType  - Visible text of the application type in the table
+   *                                    e.g. 'Production of Documents', 'Others', 'Condonation of delay'
+   * @param {'Approve'|'Reject'} action - Button label to click after opening the application
+   */
+  async reviewApplication(caseNumber, applicationType, action) {
+    await this.navigateToCase(caseNumber);
+
+    // Open Applications tab
+    await this.page.getByRole('button', { name: 'Applications' }).click();
+
+    // Click the application row — prefer cell locator for precision
+    await this.page.getByRole('cell', { name: applicationType }).first().click();
+
+    // Approve or Reject
+    await this.page.getByRole('button', { name: action }).click();
+    await this.page.getByRole('button').filter({ hasText: 'Confirm' }).click();
+
+    // Sign and issue the order (Preview → Signature → Download → Upload → Submit → Issue)
+    await this.page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
+    await this.page.getByRole('button', { name: 'Add Signature' }).click();
+
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.page.getByText('click here').click(),
+    ]);
+
+    const projectDownloadPath = path.join(
+      resolveFromUiE2E('downloads'),
+      await download.suggestedFilename()
+    );
+    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
+    await download.saveAs(projectDownloadPath);
+    console.log(`[JudgeOrdersPage] Order downloaded: ${projectDownloadPath}`);
+
+    await this.page.getByRole('button', { name: 'Upload Order Document with' }).click();
+    await this.page.waitForTimeout(2000);
+    await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+
+    await this.submitSignatureBtn.click();
+    await this.issueOrderBtn.click();
+
+    // Dismiss success screen (toast or heading or close button)
+    const successToast = this.page.getByText('You have successfully issued');
+    const hasToast = await successToast.isVisible({ timeout: 5000 }).catch(() => false);
+    if (hasToast) {
+      await successToast.click();
+      await this.closeBtn.click({ force: true }).catch(() => { });
+      await this.page.getByRole('heading', { name: 'Order successfully issued!' }).click({ force: true }).catch(() => { });
+    } else {
+      await this.closeBtn.click({ force: true });
+    }
+
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+  }
+
+  /** Judge approves a Production of Documents application. Source: 10-approveProductionDocApp.spec.js */
+  async approveProductionOfDocuments(caseNumber) {
+    await this.reviewApplication(caseNumber, 'Production of Documents', 'Approve');
+  }
+
+  /** Judge approves an Others application. Source: 13-approveOthersApp.spec.js */
+  async approveOthersApplication(caseNumber) {
+    await this.reviewApplication(caseNumber, 'Others', 'Approve');
+  }
+
+  /** Judge rejects a Condonation of Delay application. Source: 16-rejectCondOfDelayApp.spec.js */
+  async rejectCondonationOfDelay(caseNumber) {
+    await this.reviewApplication(caseNumber, 'Condonation of delay', 'Reject');
+  }
+
+  /** Judge approves a Condonation of Delay application. Source: 19-approveCondOfDelayApp.spec.js */
+  async approveCondonationOfDelay(caseNumber) {
+    await this.reviewApplication(caseNumber, 'Condonation of delay', 'Approve');
+  }
 }
 
 module.exports = { JudgeOrdersPage };
+
+

@@ -7,7 +7,11 @@ const { FSOPage } = require('../../pages/employee/FSOPage');
 const { ReSubmitCasePage } = require('../../pages/normal/ReSubmitCasePage');
 const { JudgePage } = require('../../pages/employee/JudgePage');
 const { JudgeOrdersPage } = require('../../pages/employee/JudgeOrdersPage');
+const { NoticePaymentPage } = require('../../pages/normal/NoticePaymentPage');
 const { CourtStaffPage } = require('../../pages/employee/CourtStaffPage');
+const { ProductionOfDocumentsPage } = require('../../pages/normal/ProductionOfDocumentsPage');
+const { OthersApplicationPage } = require('../../pages/normal/OthersApplicationPage');
+const { CondonationOfDelayPage } = require('../../pages/normal/CondonationOfDelayPage');
 const { loadGlobalVariables, saveGlobalVariables } = require('../../helpers/env');
 
 /**
@@ -23,6 +27,9 @@ const { loadGlobalVariables, saveGlobalVariables } = require('../../helpers/env'
  *   UI Tests/tests/6-ResubmitCaseFSO/5-issueNotice.spec.js
  *   UI Tests/tests/6-ResubmitCaseFSO/6-NoticePayment.spec.js
  *   UI Tests/tests/6-ResubmitCaseFSO/7-CourtStaff.spec.js
+ *   UI Tests/tests/6-ResubmitCaseFSO/8-initiateProductionDocApp.spec.js
+ *   UI Tests/tests/6-ResubmitCaseFSO/8-productionDocAppPayment.spec.js
+ *   UI Tests/tests/6-ResubmitCaseFSO/9-rejectProductionDocApp.spec.js
  *
  * Flow:
  *   01 — Citizen files a case
@@ -34,6 +41,9 @@ const { loadGlobalVariables, saveGlobalVariables } = require('../../helpers/env'
  *   07 — Judge issues notice to accused
  *   08 — Naya Mitra collects payment for notice (Stamp)
  *   09 — Court staff e-signs and sends the notice
+ *   10 — Citizen initiates Production of Documents application
+ *   11 — Naya Mitra collects payment for Production of Documents (Cash)
+ *   12 — Judge rejects Production of Documents application and issues order
  *
  * Global variables required:
  *   citizenUsername, litigantUsername, complainantAge,
@@ -221,11 +231,26 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
         );
     });
 
+    test('08 - Citizen selects notice address and payment method', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const login = new LoginPage(page, globals);
+        const noticePayment = new NoticePaymentPage(page, globals);
+
+        await login.open();
+        await login.loginWithMobileOtp(globals.citizenUsername);
+
+        await page.waitForLoadState('networkidle');
+        await page.waitForTimeout(2000);
+
+        await noticePayment.completeNoticePaymentFlow(globals.cmpNumber);
+    });
+
     // ─────────────────────────────────────────────────────────────────────────────
-    // 08 — Naya Mitra collects payment for notice
+    // 09 — Naya Mitra collects payment for notice
     // Source: UI Tests/tests/6-ResubmitCaseFSO/6-NoticePayment.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
-    test('08 - Naya Mitra collects payment for notice', async ({ page }) => {
+    test('09 - Naya Mitra collects payment for notice', async ({ page }) => {
         test.setTimeout(180000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
@@ -240,15 +265,15 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
         await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
 
         await payment.recordPaymentForCase();
-        await payment.selectPaymentMode('Stamp');
+        await payment.selectPaymentMode('Cash');
         await payment.submitPayment();
     });
 
     // ─────────────────────────────────────────────────────────────────────────────
-    // 09 — Court staff e-signs and sends the notice
+    // 10 — Court staff e-signs and sends the notice
     // Source: UI Tests/tests/6-ResubmitCaseFSO/7-CourtStaff.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
-    test('09 - Court staff e-signs and sends notice', async ({ page }) => {
+    test('10 - Court staff e-signs and sends notice', async ({ page }) => {
         test.setTimeout(180000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
@@ -257,5 +282,291 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
         await employeeLogin.open();
         await employeeLogin.loginAsEmployee(globals.courtStaffUsername, globals.courtStaffPassword);
         await courtStaff.processESignAndSend(globals.cmpNumber);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 11 — Citizen initiates Production of Documents application
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/8-initiateProductionDocApp.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('11 - Citizen initiates Production of Documents application', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const login = new LoginPage(page, globals);
+        const productionDocs = new ProductionOfDocumentsPage(page, globals);
+
+        await login.open();
+        await login.loginWithMobileOtp(globals.citizenUsername);
+
+        await page.waitForLoadState('networkidle');
+        await page.waitForTimeout(2000);
+
+        await productionDocs.initiateProductionOfDocuments(globals.cmpNumber);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 12 — Naya Mitra collects payment for Production of Documents application
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/8-productionDocAppPayment.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('12 - Naya Mitra collects payment for Production of Documents', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const payment = new PaymentPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsNayaMitra();
+
+        await payment.navigateToCollectPayments();
+        await payment.searchCaseByFilingNumber(globals.cmpNumber);
+
+        await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
+
+        await payment.recordPaymentForCase();
+        await payment.selectPaymentMode('Cash');
+        await payment.submitPayment();
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 13 — Judge rejects Production of Documents application and issues order
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/9-rejectProductionDocApp.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('13 - Judge rejects Production of Documents application and issues order', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const judgeOrders = new JudgeOrdersPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsJudge();
+
+        await judgeOrders.rejectProductionOfDocuments(globals.cmpNumber);
+    });
+
+    test('14 - Citizen initiates Production of Documents application', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const login = new LoginPage(page, globals);
+        const productionDocs = new ProductionOfDocumentsPage(page, globals);
+
+        await login.open();
+        await login.loginWithMobileOtp(globals.citizenUsername);
+
+        await page.waitForLoadState('networkidle');
+        await page.waitForTimeout(2000);
+
+        await productionDocs.initiateProductionOfDocuments(globals.cmpNumber);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 15 — Naya Mitra collects payment for Production of Documents application
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/8-productionDocAppPayment.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('15 - Naya Mitra collects payment for Production of Documents', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const payment = new PaymentPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsNayaMitra();
+
+        await payment.navigateToCollectPayments();
+        await payment.searchCaseByFilingNumber(globals.cmpNumber);
+
+        await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
+
+        await payment.recordPaymentForCase();
+        await payment.selectPaymentMode('Cash');
+        await payment.submitPayment();
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 16 — Judge approves Production of Documents application
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/10-approveProductionDocApp.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('16 - Judge approves Production of Documents application', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const judgeOrders = new JudgeOrdersPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsJudge();
+
+        await judgeOrders.approveProductionOfDocuments(globals.cmpNumber);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 17 — Citizen initiates Others application
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/11-initiateOthersApp.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('17 - Citizen initiates Others application', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const login = new LoginPage(page, globals);
+        const othersApp = new OthersApplicationPage(page, globals);
+
+        await login.open();
+        await login.loginWithMobileOtp(globals.citizenUsername);
+
+        await page.waitForLoadState('networkidle');
+        await page.waitForTimeout(2000);
+
+        await othersApp.initiateOthersApplication(globals.cmpNumber);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 18 — Naya Mitra collects payment for Others application
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/12-othersAppPayment.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('18 - Naya Mitra collects payment for Others application', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const payment = new PaymentPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsNayaMitra();
+
+        await payment.navigateToCollectPayments();
+        await payment.searchCaseByFilingNumber(globals.cmpNumber);
+
+        await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
+
+        await payment.recordPaymentForCase();
+        await payment.selectPaymentMode('Cash');
+        await payment.submitPayment();
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 19 — Judge approves Others application
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/13-approveOthersApp.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('19 - Judge approves Others application', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const judgeOrders = new JudgeOrdersPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsJudge();
+
+        await judgeOrders.approveOthersApplication(globals.cmpNumber);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 20 — Citizen initiates Condonation of Delay application (1st round)
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/14-initiateCondOfDelayApp.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('20 - Citizen initiates Condonation of Delay application (1st round)', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const login = new LoginPage(page, globals);
+        const condDelay = new CondonationOfDelayPage(page, globals);
+
+        await login.open();
+        await login.loginWithMobileOtp(globals.citizenUsername);
+
+        await page.waitForLoadState('networkidle');
+        await page.waitForTimeout(2000);
+
+        await condDelay.initiateCondonationOfDelay(globals.cmpNumber);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 21 — Naya Mitra collects payment for Condonation of Delay (1st round)
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/15-condOfDelayAppPayment.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('21 - Naya Mitra collects payment for Condonation of Delay (1st round)', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const payment = new PaymentPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsNayaMitra();
+
+        await payment.navigateToCollectPayments();
+        await payment.searchCaseByFilingNumber(globals.cmpNumber);
+
+        await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
+
+        await payment.recordPaymentForCase();
+        await payment.selectPaymentMode('Cash');
+        await payment.submitPayment();
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 22 — Judge rejects Condonation of Delay application
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/16-rejectCondOfDelayApp.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('22 - Judge rejects Condonation of Delay application', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const judgeOrders = new JudgeOrdersPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsJudge();
+
+        await judgeOrders.rejectCondonationOfDelay(globals.cmpNumber);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 23 — Citizen initiates Condonation of Delay application (2nd round)
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/17-initiateCondOfDelayApp.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('23 - Citizen initiates Condonation of Delay application (2nd round)', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const login = new LoginPage(page, globals);
+        const condDelay = new CondonationOfDelayPage(page, globals);
+
+        await login.open();
+        await login.loginWithMobileOtp(globals.citizenUsername);
+
+        await page.waitForLoadState('networkidle');
+        await page.waitForTimeout(2000);
+
+        await condDelay.initiateCondonationOfDelay(globals.cmpNumber);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 24 — Naya Mitra collects payment for Condonation of Delay (2nd round)
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/18-condOfDelayAppPayment.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('24 - Naya Mitra collects payment for Condonation of Delay (2nd round)', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const payment = new PaymentPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsNayaMitra();
+
+        await payment.navigateToCollectPayments();
+        await payment.searchCaseByFilingNumber(globals.cmpNumber);
+
+        await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
+
+        await payment.recordPaymentForCase();
+        await payment.selectPaymentMode('Cash');
+        await payment.submitPayment();
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 25 — Judge approves Condonation of Delay application
+    // Source: UI Tests/tests/6-ResubmitCaseFSO/19-approveCondOfDelayApp.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('25 - Judge approves Condonation of Delay application', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const judgeOrders = new JudgeOrdersPage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsJudge();
+
+        await judgeOrders.approveCondonationOfDelay(globals.cmpNumber);
     });
 });
