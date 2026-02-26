@@ -92,6 +92,84 @@ class ReSubmitCasePage extends BasePage {
 
         await this.page.waitForLoadState('networkidle');
     }
+
+    /**
+     * Citizen/advocate resubmits a case that was returned by the Judge.
+     * Navigates through the full multi-step wizard (10x Next, Skip & Continue,
+     * one more Next), checks the consent checkbox, downloads and uploads
+     * the signed PDF, submits signature, and submits the case.
+     *
+     * Source ref:
+     *   UI Tests/tests/7-JudgeReSubmitCase/4.1-reSubmitCaseFromAdv.spec.js
+     *
+     * Prerequisites: citizen must already be logged in before calling this method.
+     *
+     * @param {string} filingNumber - Filing number of the returned case
+     */
+    async resubmitCaseFromJudgeReturn(filingNumber) {
+        console.log(`[ReSubmitCasePage] Resubmitting judge-returned case: ${filingNumber}`);
+
+        // Search for the case by filing number
+        await this.page.locator('input[name="caseSearchText"]').click();
+        await this.page.locator('input[name="caseSearchText"]').fill(filingNumber);
+        await this.page.getByRole('button').filter({ hasText: 'Search' }).click();
+
+        // Open the returned case
+        await this.page.getByRole('cell', { name: filingNumber }).click();
+        await this.page.waitForTimeout(2000);
+        console.log('[ReSubmitCasePage] Opened judge-returned case.');
+
+        // Navigate through all wizard steps (10x Next)
+        for (let i = 0; i < 10; i++) {
+            await this.page.getByRole('button').filter({ hasText: 'Next' }).click();
+            await this.page.waitForTimeout(2000);
+            await this.page.waitForLoadState('networkidle');
+        }
+
+        // Skip & Continue (witness step)
+        await this.page.getByRole('button').filter({ hasText: 'Skip & Continue' }).click();
+        await this.page.waitForTimeout(1000);
+
+        // One more Next to reach signature step
+        await this.page.getByRole('button').filter({ hasText: 'Next' }).click();
+        await this.page.waitForTimeout(1000);
+
+        // Consent checkbox
+        await this.page.getByRole('checkbox').check();
+
+        // Upload Signed copy — triggers the download modal
+        await this.page.getByRole('button', { name: 'Upload Signed copy' }).click();
+
+        // Download the PDF
+        const [download] = await Promise.all([
+            this.page.waitForEvent('download'),
+            this.page.getByRole('button', { name: 'Download PDF' }).click(),
+        ]);
+
+        const projectDownloadPath = path.join(
+            resolveFromUiE2E('downloads'),
+            await download.suggestedFilename()
+        );
+        fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
+        await download.saveAs(projectDownloadPath);
+        console.log(`[ReSubmitCasePage] Signed PDF downloaded: ${projectDownloadPath}`);
+
+        // Upload the signed PDF
+        await this.page.getByRole('button', { name: 'Upload Signed PDF' }).click();
+        await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+
+        // Submit Signature
+        await this.page.getByRole('button', { name: 'Submit Signature' }).click();
+        await this.page.waitForTimeout(3000);
+        console.log('[ReSubmitCasePage] Signature submitted for judge-returned case.');
+
+        // Submit Case
+        await this.page.getByRole('button').filter({ hasText: 'Submit Case' }).click();
+        await this.page.waitForTimeout(3000);
+        console.log('[ReSubmitCasePage] Judge-returned case re-submitted successfully.');
+
+        await this.page.waitForLoadState('networkidle');
+    }
 }
 
 module.exports = { ReSubmitCasePage };

@@ -269,6 +269,146 @@ class JudgePage extends BasePage {
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
   }
+
+  /**
+   * Judge sends a case back to the litigant/advocate for correction.
+   * Converted from: UI Tests/tests/7-JudgeReSubmitCase/4-returnCaseFromJudge.spec.js
+   *
+   * @param {string} filingNumber - Filing number to search for
+   * @param {string} comment      - Correction comment (default 'TEST')
+   */
+  async returnCaseToLitigant(filingNumber, comment = 'TEST') {
+    await this.navigateToAllCases();
+    await this.searchCase(filingNumber);
+    await this.openCase();
+
+    // Click "Send back for correction"
+    await this.page.getByText('Send back for correction', { exact: true }).click();
+
+    // Fill comment and confirm
+    await this.page.getByRole('textbox').click();
+    await this.page.getByRole('textbox').fill(comment);
+    await this.page.getByRole('button').filter({ hasText: 'Send' }).click();
+
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+    console.log('[JudgePage] Case sent back for correction.');
+  }
+
+  /**
+   * Judge approves a pending Profile Correction Application.
+   * Navigates via All Cases → cmpNumber cell → Applications tab →
+   * Profile Correction Application → Review → Approve → sign & issue order.
+   *
+   * Converted from: UI Tests/tests/7-JudgeReSubmitCase/11-approveProfileEditingApp.spec.js
+   *
+   * @param {string} cmpNumber - The case CMP number (e.g. 'CMP/173/2026')
+   */
+  async approveProfileCorrectionApplication(cmpNumber) {
+    console.log('[JudgePage] Approving Profile Correction Application...');
+
+    await this.allCasesLink.click();
+    await this.page.waitForTimeout(1000);
+    await this.page.getByRole('cell', { name: cmpNumber }).click();
+    await this.page.waitForTimeout(1000);
+
+    // Open Applications tab and click the Profile Correction Application row
+    await this.page.getByRole('button', { name: 'Applications' }).click();
+    await this.page.getByRole('table').getByText('Profile Correction Application').click();
+    await this.page.getByRole('button', { name: 'Review Profile Changes' }).click();
+    await this.page.getByRole('button').filter({ hasText: 'Approve' }).click();
+
+    // Preview PDF → add signature
+    await this.previewPdfBtn.click();
+    await this.addSignatureBtn.click();
+
+    // Download the pre-filled order PDF
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.page.getByText('click here').click(),
+    ]);
+
+    const projectDownloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
+    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
+    await download.saveAs(projectDownloadPath);
+    console.log(`[JudgePage] Profile correction order downloaded: ${projectDownloadPath}`);
+
+    // Upload the signed PDF and submit
+    await this.uploadOrderBtn.click();
+    await this.page.waitForTimeout(2000);
+    await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+
+    await this.submitSignatureBtn.click();
+    await this.issueOrderBtn.click();
+
+    // Handle success confirmation
+    await this.page.getByText('You have successfully issued').click();
+    await this.page.getByRole('button', { name: 'Close' }).click();
+    await this.page.getByRole('heading', { name: 'Order successfully issued!' }).click();
+
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+    console.log('[JudgePage] Profile Correction Application approved successfully.');
+  }
+
+  /**
+   * Judge submits a document (e.g. an Affidavit) from the case view.
+   * Navigates via All Cases → cmpNumber → Take Action → Submit Documents.
+   *
+   * Converted from: UI Tests/tests/7-JudgeReSubmitCase/12-submitDocumentJudge.spec.js
+   *
+   * @param {string} cmpNumber        - The case CMP number (e.g. 'CMP/173/2026')
+   * @param {string} documentType     - Document type dropdown label (default 'Affidavits')
+   * @param {string} documentFilePath - Absolute path to the file to upload
+   * @param {string} reason           - Reason text for the submission (default 'reason testing')
+   */
+  async submitDocumentAsJudge(
+    cmpNumber,
+    documentType = 'Affidavits',
+    documentFilePath,
+    reason = 'reason testing'
+  ) {
+    console.log('[JudgePage] Submitting document as Judge...');
+
+    await this.allCasesLink.click();
+    await this.page.waitForTimeout(1000);
+    await this.page.getByRole('cell', { name: cmpNumber }).click();
+    await this.page.waitForTimeout(1000);
+
+    // Open Take Action → Submit Documents
+    await this.page.getByRole('button', { name: 'Take Action' }).click();
+    await this.page.getByText('Submit Documents').click();
+
+    // Select document type from dropdown
+    await this.page.locator('div').filter({ hasText: /^Document Type\*$/ }).getByRole('img').click();
+    await this.page.locator('#jk-dropdown-unique div').filter({ hasText: documentType }).click();
+
+    // Upload the document file
+    const fileInput = await this.page.$('input[type="file"]');
+    await fileInput.setInputFiles(documentFilePath);
+
+    // Fill reason
+    await this.page.locator('.ql-editor').click();
+    await this.page.locator('.ql-editor').fill(reason);
+    await this.page.waitForTimeout(3000);
+
+    // Review and sign
+    await this.page.getByRole('button').filter({ hasText: 'Review Submission' }).click();
+    await this.page.getByRole('button', { name: 'Sign' }).click();
+
+    // Upload signed document
+    await this.uploadOrderBtn.click();
+    const fileInput1 = await this.page.$('input[type="file"]');
+    await fileInput1.setInputFiles(documentFilePath);
+
+    await this.submitSignatureBtn.click();
+    await this.page.getByRole('button', { name: 'Finish' }).click();
+    await this.page.getByRole('button', { name: 'Close' }).click();
+
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+    console.log('[JudgePage] Document submitted successfully.');
+  }
 }
 
 module.exports = { JudgePage };

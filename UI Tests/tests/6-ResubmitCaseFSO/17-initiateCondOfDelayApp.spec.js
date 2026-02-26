@@ -73,7 +73,6 @@ test("Dristi Kerala login and initiating cond of delay application", async ({ pa
     console.log(`File downloaded and saved to: ${projectDownloadPath}`);
     await page.getByRole("button", { name: "Upload document with Signature" }).click();
     await page.waitForTimeout(6000);
-    await page.pause();
     await page
         .locator('input[type="file"]')
         .setInputFiles(projectDownloadPath);
