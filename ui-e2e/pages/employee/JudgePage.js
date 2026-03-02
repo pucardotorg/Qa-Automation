@@ -409,6 +409,160 @@ class JudgePage extends BasePage {
     await this.page.waitForTimeout(2000);
     console.log('[JudgePage] Document submitted successfully.');
   }
+  /**
+   * Citizen initiates a Bail Bond Surety filing from the case view.
+   * Navigates via citizen login → cmpNumber cell → Make Filings → Generate Bail Bond.
+   *
+   * Converted from: UI Tests/tests/7-JudgeReSubmitCase/13-initiateBailBondSurety.spec.js
+   *
+   * @param {string} cmpNumber      - The registered case CMP number (e.g. 'CMP/175/2026')
+   * @param {string} chequeFilePath - Absolute path to the cheque/surety image to upload
+   */
+  async initiateBailBondSurety(cmpNumber, chequeFilePath) {
+    console.log('[JudgePage] Initiating Bail Bond Surety...');
+
+    await this.page.waitForTimeout(1000);
+    await this.page.getByRole('cell', { name: cmpNumber }).click();
+    await this.page.waitForTimeout(1000);
+
+    // Open Make Filings → Generate Bail Bond
+    await this.page.getByRole('button', { name: 'Make Filings' }).click();
+    await this.page.getByText('Generate Bail Bond').click();
+
+    // Fill litigant details
+    await this.page.locator('input[name="litigantFatherName"]').click();
+    await this.page.locator('input[name="litigantFatherName"]').fill('Ajay Verma');
+    await this.page.locator('#validationCustom01').click();
+    await this.page.locator('#validationCustom01').fill('8500');
+
+    // Select Bail Type → Bail Surety
+    await this.page.locator('div').filter({ hasText: /^Bail Type\*$/ }).getByRole('img').click();
+    await this.page.locator('#jk-dropdown-unique div').filter({ hasText: 'Bail Surety' }).click();
+
+    // Fill surety details
+    await this.page.locator('input[name="name"]').first().click();
+    await this.page.locator('input[name="name"]').first().fill('Akay Kumar');
+    await this.page.locator('input[name="fatherName"]').first().click();
+    await this.page.locator('input[name="fatherName"]').first().fill('Rakesh Kumar');
+    await this.page.locator('input[name="mobileNumber"]').first().click();
+    await this.page.locator('input[name="mobileNumber"]').first().fill('9632000000');
+    await this.page.locator('input[name="locality"]').first().click();
+    await this.page.locator('input[name="locality"]').first().fill('91 Springboard');
+    await this.page.locator('input[name="city"]').first().click();
+    await this.page.locator('input[name="city"]').first().fill('Augusta');
+
+    // Pincode — use pressSequentially to trigger React onChange events
+    await this.page.waitForTimeout(2000);
+    await this.page.locator('input[name="pincode"]').first().waitFor({ state: 'visible' });
+    await this.page.locator('input[name="pincode"]').first().scrollIntoViewIfNeeded();
+    await this.page.locator('input[name="pincode"]').first().click({ clickCount: 3 });
+    await this.page.locator('input[name="pincode"]').first().pressSequentially('9856230', { delay: 100 });
+    await this.page.waitForTimeout(1000);
+
+    await this.page.locator('input[name="district"]').first().click();
+    await this.page.locator('input[name="district"]').first().fill('Kollam');
+    await this.page.locator('input[name="state"]').first().click();
+    await this.page.locator('input[name="state"]').first().fill('Kerala');
+
+    // Upload surety documents (cheque image used for both uploads)
+    const fileInput1 = await this.page.$('input[type="file"]');
+    await fileInput1.setInputFiles(chequeFilePath);
+
+    const fileInput2 = this.page.locator('input[type="file"]').nth(2);
+    await fileInput2.waitFor({ state: 'attached' });
+    await fileInput2.setInputFiles(chequeFilePath);
+
+    // Submit surety details
+    await this.page.locator('div:nth-child(2) > div > button').click();
+
+    // Review → Sign (button may be covered by animation, use JS click)
+    await this.page.getByRole('button').filter({ hasText: 'Review Bail Bond' }).click();
+    await this.page.waitForTimeout(2000);
+    const signBtn = this.page.getByRole('button', { name: 'Sign' });
+    await signBtn.waitFor({ state: 'visible' });
+    await expect(signBtn).toBeEnabled();
+    await signBtn.scrollIntoViewIfNeeded();
+    await signBtn.evaluate(btn => btn.click());
+
+    // Upload Signed copy → download → re-upload
+    await this.page.getByRole('button', { name: 'Upload Signed copy' }).click();
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.page.click('text=click here'),
+    ]);
+
+    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
+    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
+    await download.saveAs(downloadPath);
+    console.log(`[JudgePage] Bail bond downloaded: ${downloadPath}`);
+
+    // Upload the signed PDF into the modal's specific file input
+    const signedCopyInput = this.page.locator('input[type="file"][name="file"][accept=".pdf"]');
+    await signedCopyInput.waitFor({ state: 'attached' });
+    await signedCopyInput.setInputFiles(downloadPath);
+
+    await this.page.getByRole('button', { name: 'Submit' }).click();
+    await this.page.getByRole('button', { name: 'Close' }).click();
+
+    await this.page.waitForLoadState('networkidle');
+    console.log('[JudgePage] Bail Bond Surety initiated successfully.');
+  }
+
+  /**
+   * Judge approves a pending Bail Bond Surety from the Documents tab.
+   * Navigates via All Cases → cmpNumber → Documents → Bail Bonds → Surety →
+   * Proceed To Sign → download → upload signed copy → Submit Signature → Submit.
+   *
+   * Converted from: UI Tests/tests/7-JudgeReSubmitCase/14-approveBailBondSurety.spec.js
+   *
+   * @param {string} cmpNumber - The registered case CMP number (e.g. 'CMP/175/2026')
+   */
+  async approveBailBondSurety(cmpNumber) {
+    console.log('[JudgePage] Approving Bail Bond Surety...');
+
+    await this.allCasesLink.click();
+    await this.page.waitForTimeout(1000);
+    await this.page.getByRole('cell', { name: cmpNumber }).click();
+    await this.page.waitForTimeout(1000);
+
+    // Navigate to Documents → Bail Bonds → Surety
+    await this.page.getByRole('button', { name: 'Documents' }).click();
+    await this.page.getByRole('button', { name: 'Bail Bonds' }).click();
+    await this.page.getByText('Surety').click();
+
+    // Sign the bail bond — button may render after animation
+    const proceedToSignBtn = this.page.getByRole('button', { name: 'Proceed To Sign' });
+    await proceedToSignBtn.waitFor({ state: 'visible' });
+    await expect(proceedToSignBtn).toBeEnabled();
+    await proceedToSignBtn.evaluate(btn => btn.click());
+
+    // Download the bail bond document
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.page.click('text=click here'),
+    ]);
+
+    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
+    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
+    await download.saveAs(downloadPath);
+    console.log(`[JudgePage] Bail bond approval doc downloaded: ${downloadPath}`);
+
+    // Upload the signed copy and submit
+    await this.page.getByRole('button', { name: 'Upload Order Document with' }).click();
+    await this.page.waitForTimeout(2000);
+    await this.page.locator('input[type="file"]').first().setInputFiles(downloadPath);
+
+    await this.page.getByRole('button', { name: 'Submit Signature' }).click();
+    await this.page.getByRole('button', { name: 'Submit' }).click();
+
+    // Confirm success
+    await this.page.getByText('You have successfully signed the Bail Bond').click();
+    await this.page.getByRole('button', { name: 'Close' }).click();
+
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+    console.log('[JudgePage] Bail Bond Surety approved successfully.');
+  }
 }
 
 module.exports = { JudgePage };

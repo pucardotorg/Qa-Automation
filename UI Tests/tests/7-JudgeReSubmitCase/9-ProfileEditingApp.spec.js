@@ -28,7 +28,7 @@ test("Dristi Kerala login and initiating profile correction application", async 
 
     // Search for the case using filing number
     await page.waitForTimeout(1000);
-    await page.getByRole('cell', { name: 'CMP/173/2026' }).click();
+    await page.getByRole('cell', { name: globalVariables.cmpNumber }).click();
     await page.waitForTimeout(1000);
 
     // Initiating Profile Correction Application

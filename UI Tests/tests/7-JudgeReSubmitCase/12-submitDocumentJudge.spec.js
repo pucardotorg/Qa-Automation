@@ -15,8 +15,7 @@ test('Submit Document From Judge', async ({ page }) => {
     await page.waitForTimeout(1000);
     await page.getByRole('link', { name: 'All Cases' }).click();
     await page.waitForTimeout(1000);
-    //await page.getByRole('cell', { name: globalVars.cmpNumber }).click();
-    await page.getByRole('cell', { name: 'CMP/173/2026' }).click();
+    await page.getByRole('cell', { name: globalVars.cmpNumber }).click();
     await page.waitForTimeout(1000);
 
     await page.getByRole('button', { name: 'Take Action' }).click();

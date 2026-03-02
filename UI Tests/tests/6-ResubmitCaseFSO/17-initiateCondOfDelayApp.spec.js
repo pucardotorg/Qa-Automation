@@ -28,7 +28,7 @@ test("Dristi Kerala login and initiating cond of delay application", async ({ pa
 
     // Search for the case using filing number
     await page.waitForTimeout(1000);
-    await page.getByRole('cell', { name: 'CMP/156/2026' }).click();
+    await page.getByRole('cell', { name: globalVariables.cmpNumber }).click();
     await page.waitForTimeout(1000);
 
     // Initiating Cond of Delay Application

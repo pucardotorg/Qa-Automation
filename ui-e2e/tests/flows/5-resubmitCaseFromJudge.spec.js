@@ -430,4 +430,44 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
             'reason testing'
         );
     });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 18 — Citizen initiates a Bail Bond Surety
+    // Source: UI Tests/tests/7-JudgeReSubmitCase/13-initiateBailBondSurety.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('18 - Citizen initiates bail bond surety', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const login = new LoginPage(page, globals);
+        const judge = new JudgePage(page, globals);
+
+        // Resolve the cheque image used as the surety document
+        const chequeFilePath = path.resolve(
+            __dirname,
+            '../../documents/cheque.png'
+        );
+
+        await login.open();
+        await login.loginWithMobileOtp(globals.citizenUsername);
+        await page.waitForLoadState('networkidle');
+        await page.waitForTimeout(1000);
+
+        await judge.initiateBailBondSurety(globals.cmpNumber, chequeFilePath);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 19 — Judge approves the Bail Bond Surety
+    // Source: UI Tests/tests/7-JudgeReSubmitCase/14-approveBailBondSurety.spec.js
+    // ─────────────────────────────────────────────────────────────────────────────
+    test('19 - Judge approves bail bond surety', async ({ page }) => {
+        test.setTimeout(180000);
+
+        const employeeLogin = new EmployeeLoginPage(page, globals);
+        const judge = new JudgePage(page, globals);
+
+        await employeeLogin.open();
+        await employeeLogin.loginAsJudge();
+
+        await judge.approveBailBondSurety(globals.cmpNumber);
+    });
 });
