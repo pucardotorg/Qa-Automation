@@ -488,6 +488,82 @@ class JudgeOrdersPage extends BasePage {
   async approveCondonationOfDelay(caseNumber) {
     await this.reviewApplication(caseNumber, 'Condonation of delay', 'Approve');
   }
+
+  /**
+   * Judge issues a Judgement Order (Guilty / Acquitted verdict).
+   * Converted from: UI Tests/tests/8-WitnessEvidence/10-judgementOrder.spec.js
+   *
+   * @param {string} caseNumber        - ST number to navigate to (e.g. 'ST/12/2026')
+   * @param {string} finding           - Finding/Holding dropdown value (default 'Acquitted')
+   * @param {string} sentenceText      - Sentence / punishment text (default '2 months of jail.')
+   * @param {string} judgementRemarks  - Rich-text editor remarks (default 'Judgement order')
+   */
+  async issueJudgementOrder(caseNumber, finding = 'Acquitted', sentenceText = '2 months of jail.', judgementRemarks = 'Judgement order') {
+    console.log('[JudgeOrdersPage] Issuing Judgement Order...');
+
+    await this.navigateToCase(caseNumber);
+    await this.openGenerateOrder();
+
+    // Select 'Judgement' order type
+    await this.orderTypeDropdownFirst.click();
+    await this.page.locator('#jk-dropdown-unique div').filter({ hasText: 'Judgement' }).click();
+    await this.page.waitForTimeout(1000);
+
+    // Check 'Guilty' radio button
+    await this.page.locator('div').filter({ hasText: /^Guilty$/ }).getByRole('radio').check();
+
+    // Select Finding/Holding value (e.g. 'Acquitted')
+    await this.page.locator('div').filter({ hasText: /^Finding\/Holding\*$/ }).locator('path').nth(1).click();
+    await this.page.waitForTimeout(1000);
+    await this.page.locator('#jk-dropdown-unique div').filter({ hasText: finding }).first().click();
+    await this.page.waitForTimeout(1000);
+
+    // Select Nature of Disposal (first option)
+    await this.page.locator('div').filter({ hasText: /^Nature of Disposal\*$/ }).getByRole('img').click();
+    await this.page.locator('#jk-dropdown-unique div').first().click();
+
+    // Fill sentence/punishment text
+    await this.page.getByRole('textbox', { name: 'Type here' }).fill(sentenceText);
+    await this.page.waitForTimeout(1000);
+
+    // Confirm the order form
+    await this.confirmBtn.click();
+    await this.page.waitForTimeout(1000);
+
+    // Fill judgement remarks in the rich-text editor
+    await this.page.getByRole('paragraph').click();
+    await this.page.locator('.ql-editor').fill(judgementRemarks);
+    await this.page.waitForTimeout(1000);
+
+    // Preview → Sign → Download → Upload → Issue
+    await this.previewPdfBtn.click();
+    await this.addSignatureBtn.click();
+
+    const download1Promise = this.page.waitForEvent('download');
+    await this.page.getByText('click here').click();
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.page.click('text=click here'),
+    ]);
+
+    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
+    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
+    await download.saveAs(downloadPath);
+    console.log(`[JudgeOrdersPage] Judgement order downloaded: ${downloadPath}`);
+
+    await this.uploadOrderBtn.click();
+    await this.page.waitForTimeout(2000);
+    await this.page.locator('input[type="file"]').first().setInputFiles(downloadPath);
+
+    await this.submitSignatureBtn.click();
+    await this.issueOrderBtn.click();
+    await this.page.getByRole('button', { name: 'Close' }).click();
+    await this.page.getByRole('heading', { name: 'Order successfully issued!' }).click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    console.log('[JudgeOrdersPage] Judgement Order issued successfully.');
+  }
 }
 
 module.exports = { JudgeOrdersPage };

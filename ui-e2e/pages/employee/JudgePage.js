@@ -563,6 +563,379 @@ class JudgePage extends BasePage {
     await this.page.waitForTimeout(2000);
     console.log('[JudgePage] Bail Bond Surety approved successfully.');
   }
+  /**
+   * Judge registers a case using the kebab menu → Generate Order → hearing date flow.
+   * Different from registerCaseFlow which uses the Register Case button + Schedule Hearing.
+   * Converted from: UI Tests/tests/8-WitnessEvidence/4-registerCase.spec.js
+   *
+   * @param {string} filingNumber - The filing number to search and open
+   * @param {string} orderText    - Not used in this variant (hearing date is set instead)
+   */
+  async registerCaseWithHearingDate(filingNumber) {
+    console.log('[JudgePage] Registering case with hearing date flow...');
+
+    await this.navigateToAllCases();
+    await this.searchCase(filingNumber);
+    await this.openCase();
+
+    // Click Register Case button
+    await expect(this.registerCaseBtn).toBeVisible({ timeout: 10000 });
+    await this.page.waitForTimeout(2000);
+    await this.registerCaseBtn.click();
+    await this.page.waitForTimeout(2000);
+
+    // Close the registration popup / schedule modal
+    await this.page.locator('.header-end > div > svg').click();
+
+    // Open Generate Order via kebab menu
+    await this.page.getByRole('button', { name: 'Take Action' }).click();
+    await this.page.getByText('Generate Order').click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    // Select order type options via dropdowns
+    await this.page.getByRole('img').nth(5).click();
+    await this.page.waitForTimeout(1000);
+    await this.page.locator('div:nth-child(14)').click();
+    await this.page.locator('.select.undefined > .cp > path:nth-child(2)').click();
+    await this.page.locator('#jk-dropdown-unique > div:nth-child(4)').click();
+
+    // Set today's date as the hearing date
+    const today = new Date();
+    const formattedDate = today.getFullYear() + '-' +
+      String(today.getMonth() + 1).padStart(2, '0') + '-' +
+      String(today.getDate()).padStart(2, '0');
+    await this.page.locator('input[name="hearingDate"]').fill(formattedDate);
+
+
+    // Confirm — wait for visibility of the button after dropdown/form renders
+    // Using a fresh locator instead of the constructor-cached this.confirmBtn to avoid stale state
+    const confirmBtn = this.page.getByRole('button').filter({ hasText: 'Confirm' });
+    await confirmBtn.waitFor({ state: 'visible', timeout: 15000 });
+    await confirmBtn.click();
+    await this.page.waitForTimeout(1000);
+
+    // Preview PDF — wait for the order editor to be ready
+    const previewBtn = this.page.getByRole('button').filter({ hasText: 'Preview PDF' });
+    await previewBtn.waitFor({ state: 'visible', timeout: 15000 });
+    await previewBtn.click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(1000);
+
+    // Add Signature
+    const addSigBtn = this.page.getByRole('button', { name: 'Add Signature' });
+    await addSigBtn.waitFor({ state: 'visible', timeout: 15000 });
+    await addSigBtn.click();
+    await this.page.waitForTimeout(1000);
+
+    // Download signed order
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.page.getByText('click here').click(),
+    ]);
+
+    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
+    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
+    await download.saveAs(downloadPath);
+    console.log(`[JudgePage] Register case order downloaded: ${downloadPath}`);
+
+    // Upload and submit
+    await this.uploadOrderBtn.click();
+    await this.page.locator('input[type="file"]').first().setInputFiles(downloadPath);
+    await this.submitSignatureBtn.click();
+    await this.issueOrderBtn.click();
+    await this.page.waitForTimeout(2000);
+
+    // Close the success popup
+    await this.page.locator('.popup-module.orders-success-modal > .header-wrap > .header-end > div > svg').click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    // Capture accessCode and cmpNumber
+    const { accessCode, cmpNumber } = await this.captureAccessCodeAndCmpNumber();
+    console.log('[JudgePage] Register case with hearing date completed.');
+    return { accessCode, cmpNumber };
+  }
+
+  /**
+   * Judge starts a hearing from the case list dashboard.
+   * Navigates via home → search filed number → kebab menu → Start Hearing.
+   * Converted from: UI Tests/tests/8-WitnessEvidence/5-startHearing.spec.js
+   *
+   * @param {string} filingNumber - Filing number to search for on the home dashboard
+   */
+  async startHearing(filingNumber) {
+    console.log('[JudgePage] Starting hearing...');
+
+    // Use the dashboard search (different from All Cases search)
+    await this.page.getByRole('textbox', { name: 'Search Case Name or Number' }).click();
+    await this.page.waitForTimeout(2000);
+    await this.page.getByRole('textbox', { name: 'Search Case Name or Number' }).fill(filingNumber);
+    await this.page.waitForLoadState('networkidle');
+    await this.page.getByRole('button', { name: 'Search', exact: true }).click();
+    await this.page.waitForLoadState('networkidle');
+
+    // Click the kebab/action icon in the 7th column
+    await this.page.locator('td:nth-child(7) > div > div > div > svg > path').click();
+    await this.page.waitForTimeout(5000);
+
+    await this.page.getByText('Start Hearing').click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(5000);
+    console.log('[JudgePage] Hearing started.');
+  }
+
+  /**
+   * Judge takes a witness deposition: selects witness, fills deposition, submits & e-signs.
+   * Converted from: UI Tests/tests/8-WitnessEvidence/6-witnessDeposition.spec.js (first half)
+   *
+   * @param {string} filingNumber  - Filing number to navigate to via All Cases
+   * @param {string} depositionText - Text to fill in the deposition editor
+   */
+  async takeWitnessDeposition(filingNumber, depositionText = 'Checking witness deposition') {
+    console.log('[JudgePage] Taking witness deposition...');
+
+    await this.navigateToAllCases();
+    await this.searchCase(filingNumber);
+    await this.openCase();
+
+    // Open kebab → Take Witness Deposition
+    await this.page.getByRole('img').nth(5).click();
+    await this.page.getByText('Take Witness Deposition').click();
+    await this.page.waitForTimeout(2000);
+
+    // Select witness and witness marked-as option from dropdowns
+    await this.page.locator('.select > .cp').first().click();
+    await this.page.locator('.cp.profile-dropdown--item').first().click();
+
+    await this.page.locator('div:nth-child(2) > .select-wrap > .select > .cp').click();
+    await this.page.locator('.cp.profile-dropdown--item').first().click();
+
+    // Fill deposition text and submit
+    await this.page.locator('.ql-editor').click();
+    await this.page.locator('.ql-editor').fill(depositionText);
+    await this.page.getByRole('button', { name: 'Submit' }).click();
+    await this.page.waitForLoadState('networkidle');
+
+    // E-Sign
+    await this.page.getByRole('button', { name: 'Submit & E-Sign' }).click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    // Proceed To Sign → Upload Signed copy → download → upload
+    await this.page.getByRole('button', { name: 'Proceed To Sign' }).click();
+    await this.page.getByRole('button', { name: 'Upload Signed copy' }).click();
+
+    await this.page.getByText('click here').click();
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.page.click('text=click here'),
+    ]);
+
+    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
+    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
+    await download.saveAs(downloadPath);
+    console.log(`[JudgePage] Witness deposition downloaded: ${downloadPath}`);
+
+    await this.page.waitForTimeout(2000);
+    await this.page.locator('input[type="file"]').first().setInputFiles(downloadPath);
+    await this.page.getByRole('button', { name: 'Submit' }).nth(1).click();
+    await this.page.waitForTimeout(2000);
+    await this.page.getByRole('button', { name: 'Close' }).click();
+    await this.page.waitForTimeout(2000);
+
+    // Click the back/home button (empty filter button)
+    await this.page.getByRole('button').filter({ hasText: /^$/ }).click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    console.log('[JudgePage] Witness deposition submitted.');
+    return downloadPath;
+  }
+
+  /**
+   * Judge signs the witness deposition from the "Sign Witness Deposition" home section.
+   * Converted from: UI Tests/tests/8-WitnessEvidence/6-witnessDeposition.spec.js (second half)
+   *
+   * @param {string} filingNumber - Filing number to search in the sign deposition view
+   */
+  async signWitnessDeposition(filingNumber) {
+    console.log('[JudgePage] Signing witness deposition...');
+
+    // Step 1: Try to navigate to home using in-app navigation (Home link/logo).
+    // The 'Sign Witness Deposition' pending-task widget only loads correctly when
+    // navigated to from within the session, not always via a direct goto().
+    console.log('[JudgePage] Navigating to home for Sign Witness Deposition...');
+
+    // Try several selectors for the Home navigation element
+    const homeSelectors = [
+      () => this.page.getByRole('link', { name: 'Home' }),
+      () => this.page.locator('a[href*="/home"]').first(),
+      () => this.page.locator('header').getByRole('img').first(),
+    ];
+
+    let navigatedViaLink = false;
+    for (const selector of homeSelectors) {
+      const el = selector();
+      const isVisible = await el.isVisible({ timeout: 3000 }).catch(() => false);
+      if (isVisible) {
+        await el.click();
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForTimeout(3000);
+        navigatedViaLink = true;
+        console.log('[JudgePage] Navigated home via in-app link.');
+        break;
+      }
+    }
+
+    // Step 2: Fall back to goto() + reload to force task list refresh
+    if (!navigatedViaLink) {
+      console.log('[JudgePage] Home link not found, using goto() fallback...');
+      await this.page.goto(`${this.globals.baseURL}ui/employee/dristi/home`);
+      await this.page.waitForLoadState('networkidle');
+      await this.page.waitForTimeout(3000);
+      // Reload once to trigger async task widgets (Sign Witness Deposition etc.)
+      await this.page.reload();
+      await this.page.waitForLoadState('networkidle');
+      await this.page.waitForTimeout(3000);
+    }
+
+    // Step 3: Wait for 'Sign Witness Deposition' widget — scroll if below fold
+    console.log('[JudgePage] Looking for Sign Witness Deposition widget...');
+    const signDepositionWidget = this.page.getByText('Sign Witness Deposition');
+    await signDepositionWidget.waitFor({ state: 'visible', timeout: 30000 });
+    await signDepositionWidget.scrollIntoViewIfNeeded();
+    await signDepositionWidget.click();
+
+    await this.page.getByRole('textbox').click();
+    await this.page.getByRole('textbox').fill(filingNumber);
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    // Search button (by xpath matching the source spec)
+    const searchBtn = this.page.locator('xpath=/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div[2]/div[1]/div[1]/div/div/form/div/div/div[2]/button/header');
+    await expect(searchBtn).toBeVisible({ timeout: 10000 });
+    await searchBtn.click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    // Click the deposition result row
+    const resultRow = this.page.locator('tr');
+    await expect(resultRow.first()).toBeVisible({ timeout: 10000 });
+
+    const caseIdCell = this.page.locator('xpath=/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div[2]/div[1]/div[2]/div/span/table/tbody/tr[1]/td[2]');
+    await expect(caseIdCell).toBeVisible({ timeout: 20000 });
+    const clickableLink = caseIdCell.locator('a,button');
+    if (await clickableLink.count() > 0) {
+      await clickableLink.first().click();
+    } else {
+      await caseIdCell.click();
+    }
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    // Sign the deposition
+    await this.page.getByRole('button', { name: 'Proceed To Sign' }).click();
+    await this.page.getByText('click here').click();
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.page.click('text=click here'),
+    ]);
+
+    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
+    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
+    await download.saveAs(downloadPath);
+    console.log(`[JudgePage] Sign deposition doc downloaded: ${downloadPath}`);
+
+    await this.page.getByRole('button', { name: 'Upload Order Document with Signature' }).click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+    await this.page.locator('input[type="file"]').first().setInputFiles(downloadPath);
+    await this.submitSignatureBtn.click();
+    await this.page.waitForTimeout(3000);
+    await this.page.getByRole('button', { name: 'Submit' }).click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+    await this.page.getByRole('button', { name: 'Close' }).click();
+
+    console.log('[JudgePage] Witness deposition signed successfully.');
+  }
+
+  /**
+   * Judge ends the hearing from the case list dashboard.
+   * Converted from: UI Tests/tests/8-WitnessEvidence/7-endHearing.spec.js
+   *
+   * @param {string} filingNumber - Filing number to search on dashboard
+   */
+  async endHearing(filingNumber) {
+    console.log('[JudgePage] Ending hearing...');
+
+    await this.page.getByRole('textbox', { name: 'Search Case Name or Number' }).click();
+    await this.page.waitForTimeout(2000);
+    await this.page.getByRole('textbox', { name: 'Search Case Name or Number' }).fill(filingNumber);
+    await this.page.waitForLoadState('networkidle');
+    await this.page.getByRole('button', { name: 'Search', exact: true }).click();
+    await this.page.waitForLoadState('networkidle');
+
+    // Click kebab action icon
+    await this.page.locator('td:nth-child(7) > div > div > div > svg > path').click();
+    await this.page.waitForTimeout(5000);
+
+    await this.page.getByText('End Hearing').click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    // Confirm the End Hearing popup
+    const endHearingHeading = this.page.locator('h2:has-text("End Hearing")');
+    await expect(endHearingHeading).toBeVisible({ timeout: 10000 });
+    await endHearingHeading.click();
+
+    await this.page.waitForTimeout(5000);
+    console.log('[JudgePage] Hearing ended.');
+  }
+
+  /**
+   * Judge marks a document as evidence from the Documents tab.
+   * Converted from: UI Tests/tests/8-WitnessEvidence/8-evidence.spec.js
+   *
+   * @param {string} filingNumber   - Filing number to navigate to via All Cases
+   * @param {string} exhibitNumber  - Exhibit number to fill in the popup (default '1')
+   */
+  async markAsEvidence(filingNumber, exhibitNumber = '1') {
+    console.log('[JudgePage] Marking document as evidence...');
+
+    await this.navigateToAllCases();
+    await this.searchCase(filingNumber);
+    await this.openCase();
+
+    // Open Documents tab
+    await this.page.getByRole('button', { name: 'Documents' }).click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    // Click three-dot menu on the second document row
+    await this.page.locator('tr:nth-child(2) > td:nth-child(8) > div > div > svg').click();
+    await this.page.waitForTimeout(1000);
+    await this.page.getByText('Mark as Evidence').click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    // Fill in the evidence marking popup
+    await this.page.locator('.select.false > .cp > path:nth-child(2)').click();
+    await this.page.locator('.cp.profile-dropdown--item').click();
+    await this.page.locator('.label-field-pair > div > .text-input > .citizen-card-input').click();
+    await this.page.locator('.label-field-pair > div > .text-input > .citizen-card-input').fill(exhibitNumber);
+    await this.page.waitForTimeout(2000);
+
+    await this.page.getByRole('button', { name: 'Proceed' }).click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+
+    await this.page.getByRole('button', { name: 'Send for Sign' }).click();
+    await this.page.waitForTimeout(6000);
+
+    console.log('[JudgePage] Document marked as evidence and sent for sign.');
+  }
 }
 
 module.exports = { JudgePage };
