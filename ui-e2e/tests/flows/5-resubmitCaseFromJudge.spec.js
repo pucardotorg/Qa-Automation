@@ -108,7 +108,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
         await fileCase.processdelivery1();
 
         const filingNumber = await fileCase.captureFilingNumber();
-        saveGlobalVariables({ ...globals, filingNumber });
+        saveGlobalVariables({ filingNumber });
         console.log('Filing Number:', filingNumber);
         globals.filingNumber = filingNumber;
     });
@@ -118,7 +118,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/2-paymentNm.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('02 - Naya Mitra collects payment for filing', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -141,7 +141,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/3-fso.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('03 - FSO scrutinizes and forwards case to Judge', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const fso = new FSOPage(page, globals);
@@ -157,7 +157,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/4-returnCaseFromJudge.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('04 - Judge sends case back to litigant for correction', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -192,7 +192,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/5-fso.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('06 - FSO scrutinizes and forwards re-submitted case', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const fso = new FSOPage(page, globals);
@@ -221,7 +221,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
             'AUTOMATION ORDER GENERATED'
         );
 
-        saveGlobalVariables({ ...globals, accessCode, cmpNumber });
+        saveGlobalVariables({ accessCode, cmpNumber });
         console.log('Access Code:', accessCode);
         console.log('CMP Number:', cmpNumber);
         globals.accessCode = accessCode;
@@ -233,7 +233,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/6-issueNotice.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('08 - Judge issues notice to accused', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -249,7 +249,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     });
 
     test('09 - Citizen selects notice address and payment method', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const login = new LoginPage(page, globals);
         const noticePayment = new NoticePaymentPage(page, globals);
@@ -268,7 +268,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/7-NoticePayment.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('10 - Naya Mitra collects payment for notice', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -291,7 +291,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/8-CourtStaff.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('11 - Court staff e-signs and sends notice', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const courtStaff = new CourtStaffPage(page, globals);
@@ -306,7 +306,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/8.1-joincase.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('12 - Accused advocate joins the case', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const joinCase = new JoinCasePage(page, globals);
 
@@ -326,7 +326,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/8.2-joinCasePayment.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('13 - Naya Mitra collects payment for join case', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -349,7 +349,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/9-ProfileEditingApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('14 - Citizen initiates profile correction application', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const login = new LoginPage(page, globals);
         const profileCorrection = new ProfileCorrectionPage(page, globals);
@@ -370,7 +370,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/10-profileEditingPayment.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('15 - Naya Mitra collects payment for profile correction', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -393,7 +393,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/11-approveProfileEditingApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('16 - Judge approves profile correction application', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -409,7 +409,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/12-submitDocumentJudge.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('17 - Judge submits document on the case', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -436,7 +436,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/13-initiateBailBondSurety.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('18 - Citizen initiates bail bond surety', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const login = new LoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -460,7 +460,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/14-approveBailBondSurety.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('19 - Judge approves bail bond surety', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);

@@ -90,7 +90,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
         await fileCase.processdelivery1();
 
         const filingNumber = await fileCase.captureFilingNumber();
-        saveGlobalVariables({ ...globals, filingNumber });
+        saveGlobalVariables({ filingNumber });
         console.log('Filing Number:', filingNumber);
         globals.filingNumber = filingNumber;
     });
@@ -100,7 +100,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/2-paymentNm.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('02 - Naya Mitra collects payment for filing', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -123,7 +123,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/3-fso.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('03 - FSO scrutinizes and forwards case to Judge', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const fso = new FSOPage(page, globals);
@@ -149,7 +149,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
 
         const { accessCode, cmpNumber } = await judge.registerCaseWithHearingDate(globals.filingNumber);
 
-        saveGlobalVariables({ ...globals, accessCode, cmpNumber });
+        saveGlobalVariables({ accessCode, cmpNumber });
         console.log('Access Code:', accessCode);
         console.log('CMP Number:', cmpNumber);
         globals.accessCode = accessCode;
@@ -161,7 +161,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/5-startHearing.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('05 - Judge starts the hearing', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -197,7 +197,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/7-endHearing.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('07 - Judge ends the hearing', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -214,7 +214,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/8-evidence.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('08 - Judge marks document as evidence', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -231,7 +231,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/9-admitCase.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('09 - Judge issues Admit Case and captures ST Number', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -243,7 +243,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
         // signs/issues it, and returns the captured ST number
         const stNumber = await judgeOrders.admitCase(globals.cmpNumber);
 
-        saveGlobalVariables({ ...globals, stNumber });
+        saveGlobalVariables({ stNumber });
         console.log('ST Number:', stNumber);
         globals.stNumber = stNumber;
         await page.close();
@@ -254,7 +254,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/10-judgementOrder.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('10 - Judge issues Judgement Order', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);

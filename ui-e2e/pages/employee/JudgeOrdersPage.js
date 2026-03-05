@@ -531,7 +531,9 @@ class JudgeOrdersPage extends BasePage {
     await this.page.waitForTimeout(1000);
 
     // Fill judgement remarks in the rich-text editor
-    await this.page.getByRole('paragraph').click();
+    // Use the specific <p> inside .ql-editor to avoid strict mode violation
+    // (multiple <p> elements exist on the page from other sections)
+    await this.page.locator('.ql-editor p').first().click();
     await this.page.locator('.ql-editor').fill(judgementRemarks);
     await this.page.waitForTimeout(1000);
 
@@ -539,11 +541,9 @@ class JudgeOrdersPage extends BasePage {
     await this.previewPdfBtn.click();
     await this.addSignatureBtn.click();
 
-    const download1Promise = this.page.waitForEvent('download');
-    await this.page.getByText('click here').click();
     const [download] = await Promise.all([
       this.page.waitForEvent('download'),
-      this.page.click('text=click here'),
+      this.page.getByText('click here').click(),
     ]);
 
     const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());

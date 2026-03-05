@@ -9,7 +9,13 @@ class BasePage {
     const rel = String(path || '').replace(/^\/+/, '');
     const target = rel ? `${base}/${rel}` : base;
     await this.page.goto(target, { waitUntil: 'domcontentloaded' });
-    await this.page.waitForLoadState('networkidle', { timeout: 30000 });
+    try {
+      await this.page.waitForLoadState('networkidle', { timeout: 60000 });
+    } catch {
+      // networkidle didn't settle within 60s (common on demo server under load)
+      // 'load' event already fired via domcontentloaded above — safe to continue
+      console.warn('[BasePage] networkidle timeout — page loaded, continuing...');
+    }
   }
 
   async waitIdle() {

@@ -16,6 +16,12 @@
     "test:flow1:demo": "TEST_ENV=demo playwright test tests/flows/1-normalFullCaseFlow.spec.js --headed --workers=1",
     "test:flow2:demo": "TEST_ENV=demo playwright test tests/flows/2-normalFullCaseFlowwith2acc.spec.js --headed --workers=1",
     "test:flow3:demo": "TEST_ENV=demo playwright test tests/flows/3-litigentfilecase.spec.js --headed --workers=1",
+    "run:all-flows": "node tests/flows/run-all-flows.js",
+    "run:all-flows:headed": "node tests/flows/run-all-flows.js --headed",
+    "run:all-flows:qa": "TEST_ENV=qa node tests/flows/run-all-flows.js",
+    "run:all-flows:qa:headed": "TEST_ENV=qa node tests/flows/run-all-flows.js --headed",
+    "run:all-flows:demo": "TEST_ENV=demo node tests/flows/run-all-flows.js",
+    "run:all-flows:demo:headed": "TEST_ENV=demo node tests/flows/run-all-flows.js --headed",
     "report": "playwright show-report"
   },
   "devDependencies": {

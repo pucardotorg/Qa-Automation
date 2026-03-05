@@ -41,9 +41,9 @@ module.exports = defineConfig({
 
   use: {
     baseURL: BASE_URL,
-    headless: true,
+    headless: process.env.HEADED !== '1',  // set HEADED=1 or pass --headed to run-all-flows.js
     launchOptions: {
-      slowMo: 500,
+      slowMo: 200,
       args: ['--start-maximized', '--disable-web-security'],
     },
     viewport: { width: 1920, height: 1080 },

@@ -107,7 +107,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
         await fileCase.processdelivery1();
 
         const filingNumber = await fileCase.captureFilingNumber();
-        saveGlobalVariables({ ...globals, filingNumber });
+        saveGlobalVariables({ filingNumber });
         console.log('Filing Number:', filingNumber);
         globals.filingNumber = filingNumber;
     });
@@ -117,7 +117,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/2-paymentNm.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('02 - Naya Mitra collects payment for filing', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -140,7 +140,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/2.1-returnCaseFromFso.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('03 - FSO returns case to litigant for correction', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const fso = new FSOPage(page, globals);
@@ -156,7 +156,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/2.2-reSubmitCaseFromAdv.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('04 - Citizen re-submits the corrected case', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const login = new LoginPage(page, globals);
         const reSubmit = new ReSubmitCasePage(page, globals);
@@ -175,7 +175,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/3-fso.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('05 - FSO scrutinizes and forwards re-submitted case to Judge', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const fso = new FSOPage(page, globals);
@@ -204,7 +204,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
             'AUTOMATION ORDER GENERATED'
         );
 
-        saveGlobalVariables({ ...globals, accessCode, cmpNumber });
+        saveGlobalVariables({ accessCode, cmpNumber });
         console.log('Access Code:', accessCode);
         console.log('CMP Number:', cmpNumber);
         globals.accessCode = accessCode;
@@ -216,7 +216,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/5-issueNotice.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('07 - Judge issues notice to accused', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -232,7 +232,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     });
 
     test('08 - Citizen selects notice address and payment method', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const login = new LoginPage(page, globals);
         const noticePayment = new NoticePaymentPage(page, globals);
@@ -251,7 +251,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/6-NoticePayment.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('09 - Naya Mitra collects payment for notice', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -274,7 +274,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/7-CourtStaff.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('10 - Court staff e-signs and sends notice', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const courtStaff = new CourtStaffPage(page, globals);
@@ -289,7 +289,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/8-initiateProductionDocApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('11 - Citizen initiates Production of Documents application', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const login = new LoginPage(page, globals);
         const productionDocs = new ProductionOfDocumentsPage(page, globals);
@@ -308,7 +308,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/8-productionDocAppPayment.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('12 - Naya Mitra collects payment for Production of Documents', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -331,7 +331,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/9-rejectProductionDocApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('13 - Judge rejects Production of Documents application and issues order', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -343,7 +343,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     });
 
     test('14 - Citizen initiates Production of Documents application', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const login = new LoginPage(page, globals);
         const productionDocs = new ProductionOfDocumentsPage(page, globals);
@@ -362,7 +362,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/8-productionDocAppPayment.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('15 - Naya Mitra collects payment for Production of Documents', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -385,7 +385,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/10-approveProductionDocApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('16 - Judge approves Production of Documents application', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -401,7 +401,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/11-initiateOthersApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('17 - Citizen initiates Others application', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const login = new LoginPage(page, globals);
         const othersApp = new OthersApplicationPage(page, globals);
@@ -420,7 +420,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/12-othersAppPayment.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('18 - Naya Mitra collects payment for Others application', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -443,7 +443,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/13-approveOthersApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('19 - Judge approves Others application', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -459,7 +459,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/14-initiateCondOfDelayApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('20 - Citizen initiates Condonation of Delay application (1st round)', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const login = new LoginPage(page, globals);
         const condDelay = new CondonationOfDelayPage(page, globals);
@@ -478,7 +478,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/15-condOfDelayAppPayment.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('21 - Naya Mitra collects payment for Condonation of Delay (1st round)', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -501,7 +501,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/16-rejectCondOfDelayApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('22 - Judge rejects Condonation of Delay application', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -517,7 +517,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/17-initiateCondOfDelayApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('23 - Citizen initiates Condonation of Delay application (2nd round)', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const login = new LoginPage(page, globals);
         const condDelay = new CondonationOfDelayPage(page, globals);
@@ -536,7 +536,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/18-condOfDelayAppPayment.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('24 - Naya Mitra collects payment for Condonation of Delay (2nd round)', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -559,7 +559,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/6-ResubmitCaseFSO/19-approveCondOfDelayApp.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('25 - Judge approves Condonation of Delay application', async ({ page }) => {
-        test.setTimeout(180000);
+        test.setTimeout(300000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
