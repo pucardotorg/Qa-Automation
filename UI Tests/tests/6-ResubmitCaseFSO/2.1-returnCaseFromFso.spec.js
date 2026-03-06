@@ -72,13 +72,17 @@ test('Fso Login Test', async ({ page }) => {
 
   // Wait for the page to load after clicking the case ID
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(2000); // Add some wait before proceeding
-
+  await page.waitForTimeout(18000); 
+  // Add some wait before proceeding
   await page.locator('div:nth-child(3) > .field > .accordion-wrapper > .accordion-item > .accordion-content > div > .item-body > div:nth-child(7) > .text > .flag > svg').click();
   await page.getByRole('textbox').click();
   await page.getByRole('textbox').fill('DEFECT1');
+  console.log("identified the fso field");
+  await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'Mark Defect' }).click();
+  await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'Send Back for Correction' }).click();
+  await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'Confirm' }).click();
   await page.waitForTimeout(2000);
 });

@@ -24,13 +24,15 @@ export TEST_ENV="$ENV_LC"
 node ui-global-setup.js || { echo "[run-all-ui] ui-global-setup failed"; exit 1; }
 
 # Define the ordered list of folders to run sequentially
-FOLDERS=(
+FOLDERS=(  
+  
   "tests/1-Normal"
   "tests/2-TwoComp"
   "tests/3-TwoCompTwoAdv"
   "tests/4-FiledFromLit"
   "tests/6-ResubmitCaseFSO"
   "tests/7-JudgeReSubmitCase"
+
 )
 
 echo "[run-all-ui] Running folders in sequence:"

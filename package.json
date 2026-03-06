@@ -5,7 +5,16 @@
   "scripts": {
     "test": "npx playwright test",
     "test:qa": "TEST_ENV=qa npx playwright test",
-    "test:uat": "TEST_ENV=uat npx playwright test"
+    "test:uat": "TEST_ENV=uat npx playwright test",
+    "e2e:test": "playwright test -c e2e/playwright.config.js",
+    "e2e:test:headed": "playwright test -c e2e/playwright.config.js --headed",
+    "e2e:test:ui": "playwright test -c e2e/playwright.config.js --ui",
+    "e2e:report": "playwright show-report e2e/reports/html",
+    "e2e:trace": "playwright show-trace ./e2e/test-results/**/trace.zip",
+    "e2e:test:filing": "playwright test -c e2e/playwright.config.js -g @filing",
+    "e2e:test:hearings": "playwright test -c e2e/playwright.config.js -g @hearings",
+    "e2e:test:join": "playwright test -c e2e/playwright.config.js -g @join",
+    "e2e:test:pending": "playwright test -c e2e/playwright.config.js -g @pending"
   },
   "keywords": [],
   "author": "",
