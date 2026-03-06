@@ -1,0 +1,84 @@
+name: POM Playwright Frontend
+
+on:
+  schedule:
+    - cron: "30 3 * * 1-5"   # 9:00 AM IST (3:30 AM UTC)
+
+  push:
+    branches: [ main ]
+
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select environment"
+        required: true
+        type: choice
+        options:
+          - dev
+          - qa
+          - uat
+          - demo
+
+jobs:
+  ui-e2e-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    environment:
+      name: ${{ inputs.environment || 'qa' }}
+
+    env:
+      TEST_ENV: ${{ inputs.environment || 'qa' }}
+      CI: true
+
+      CITIZEN_USERNAME: ${{ vars.CITIZEN_USERNAME }}
+      CITIZEN_PASSWORD: ${{ vars.CITIZEN_PASSWORD }}
+      LITIGENT_USERNAME: ${{ vars.LITIGENT_USERNAME }}
+      LITIGENT_PASSWORD: ${{ vars.LITIGENT_PASSWORD }}
+      NAYAMITRA_USERNAME: ${{ vars.NAYAMITRA_USERNAME }}
+      NAYAMITRA_PASSWORD: ${{ vars.NAYAMITRA_PASSWORD }}
+      FSO_USERNAME: ${{ vars.FSO_USERNAME }}
+      FSO_PASSWORD: ${{ vars.FSO_PASSWORD }}
+      JUDGE_USERNAME: ${{ vars.JUDGE_USERNAME }}
+      JUDGE_PASSWORD: ${{ vars.JUDGE_PASSWORD }}
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Verify Playwright installation
+        run: npx playwright --version
+
+      - name: Run UI E2E Flows Sequentially
+        run: |
+          node QA-automation-ui-e2e-tests-flows/run-all-flows.js
+
+      - name: Upload Playwright Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ env.TEST_ENV }}
+          path: playwright-report/
+          retention-days: 7
