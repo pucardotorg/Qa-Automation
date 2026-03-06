@@ -73,7 +73,7 @@ jobs:
 
       - name: Run UI E2E Flows Sequentially
         run: |
-          node QA-automation-ui-e2e-tests-flows/run-all-flows.js
+          node ui-e2e/tests/flows/run-all-flows.js
 
       - name: Upload Playwright Report
         if: always()
