@@ -39,7 +39,7 @@ const path = require('path');
 // ─── Configuration ─────────────────────────────────────────────────────────
 
 /** Delay between each spec file (milliseconds) */
-const BREAK_MS = 30_000;
+const BREAK_MS = 60_000;
 
 /**
  * Root of the ui-e2e project.
