@@ -17,7 +17,6 @@ on:
         required: true
         type: choice
         options:
-          - qa
           - demo
 
 jobs:
