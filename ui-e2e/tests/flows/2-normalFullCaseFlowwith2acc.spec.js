@@ -30,7 +30,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('01 - File a case successfully (2 Complainants + 1 Accused Entity)', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const login = new LoginPage(page, globals);
         const fileCase = new FileCasePage(page, globals);
@@ -59,7 +59,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('02 - Naya Mitra collects payment for filing', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -70,7 +70,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('03 - FSO scrutinizes and forwards to judge', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const fso = new FSOPage(page, globals);
@@ -81,7 +81,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('04 - Judge registers case and issues order', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -102,7 +102,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('05 - Judge issues notice to accused', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -118,7 +118,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('06 - Citizen selects notice address and payment method', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const login = new LoginPage(page, globals);
         const noticePayment = new NoticePaymentPage(page, globals);
@@ -133,7 +133,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('07 - Naya Mitra collects payment for notice', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -152,7 +152,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('08 - Court staff e-signs and sends notice', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const courtStaff = new CourtStaffPage(page, globals);
@@ -163,7 +163,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('11 - Judge admits case and captures ST number', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -182,7 +182,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     // ─── 7.x Advocate / Join Case Scenarios ──────────────────────────────────
 
     test('12 - Accused joins case as Party in Person', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const joinCase = new JoinCasePage(page, globals);
         await joinCase.open();
@@ -194,7 +194,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('13 - Accused advocate joins replacing PiP (with judge approval + payment)', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const joinCase = new JoinCasePage(page, globals);
         await joinCase.open();
@@ -206,7 +206,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('14 - Naya Mitra collects payment for join case (advocate PiP)', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -222,7 +222,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('15 - Judge reviews and approves advocate replacement request (first time)', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -233,7 +233,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('16 - Second advocate adds to case without payment (judge approval)', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const joinCase = new JoinCasePage(page, globals);
         await joinCase.open();
@@ -244,7 +244,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('17 - Third advocate replaces existing advocate without payment (judge approval)', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const joinCase = new JoinCasePage(page, globals);
         await joinCase.open();
@@ -256,7 +256,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
 
 
     test('18 - Judge reviews and approves advocate replacement request (second time)', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);

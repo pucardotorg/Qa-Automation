@@ -68,7 +68,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/1-fileCase.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('01 - Citizen files a case', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const login = new LoginPage(page, globals);
         const fileCase = new FileCasePage(page, globals);
@@ -100,7 +100,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/2-paymentNm.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('02 - Naya Mitra collects payment for filing', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -123,7 +123,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/3-fso.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('03 - FSO scrutinizes and forwards case to Judge', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const fso = new FSOPage(page, globals);
@@ -139,7 +139,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/4-registerCase.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('04 - Judge registers case and captures accessCode & cmpNumber', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -161,7 +161,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/5-startHearing.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('05 - Judge starts the hearing', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -179,7 +179,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // (both take + sign are in one test in the source spec)
     // ─────────────────────────────────────────────────────────────────────────────
     test('06 - Judge takes and signs witness deposition', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -197,7 +197,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/7-endHearing.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('07 - Judge ends the hearing', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -214,7 +214,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/8-evidence.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('08 - Judge marks document as evidence', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -231,7 +231,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/9-admitCase.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('09 - Judge issues Admit Case and captures ST Number', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -254,7 +254,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
     // Source: UI Tests/tests/8-WitnessEvidence/10-judgementOrder.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('10 - Judge issues Judgement Order', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);

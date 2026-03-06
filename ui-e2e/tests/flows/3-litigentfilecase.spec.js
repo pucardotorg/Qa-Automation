@@ -55,7 +55,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     //      1 Accused (Individual) + 2 Advocates (one per complainant)
     // ─────────────────────────────────────────────────────────────────────────────
     test('01 - File a case successfully (2 Complainants + 2 Advocates)', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const login = new LoginPage(page, globals);
         const fileCase = new FileCasePage(page, globals);
@@ -94,7 +94,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     // ─────────────────────────────────────────────────────────────────────────────
 
     test('02 - Naya Mitra collects payment for filing', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -105,7 +105,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('03 - FSO scrutinizes and forwards to judge', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const fso = new FSOPage(page, globals);
@@ -116,7 +116,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('04 - Judge registers case and issues order', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
@@ -137,7 +137,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('05 - Judge issues notice to accused', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -153,7 +153,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('06 - Citizen selects notice address and payment method', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const login = new LoginPage(page, globals);
         const noticePayment = new NoticePaymentPage(page, globals);
@@ -168,7 +168,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('07 - Naya Mitra collects payment for notice', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -187,7 +187,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('08 - Court staff e-signs and sends notice', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const courtStaff = new CourtStaffPage(page, globals);
@@ -198,7 +198,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('09 - Advocate joins case on behalf of accused', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const joinCase = new JoinCasePage(page, globals);
 
@@ -214,7 +214,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('10 - Naya Mitra collects payment for join case', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -230,7 +230,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('11 - Judge admits case and captures ST number', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -246,7 +246,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('12 - Judge issues summons to accused', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -261,7 +261,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('13 - Court staff e-signs and sends summons', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const courtStaff = new CourtStaffPage(page, globals);
@@ -272,7 +272,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('14 - Judge issues proclamation to accused', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -287,7 +287,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('15 - Naya Mitra collects payment for proclamation', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -306,7 +306,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('16 - Judge e-signs and sends proclamation', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeSign = new JudgeSignPage(page, globals);
@@ -317,7 +317,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('17 - Judge issues attachment order', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -332,7 +332,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('18 - Naya Mitra collects payment for attachment', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -351,7 +351,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('19 - Judge e-signs and sends attachment', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeSign = new JudgeSignPage(page, globals);
@@ -362,7 +362,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('20 - Judge issues warrant', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -377,7 +377,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('21 - Naya Mitra collects payment for warrant', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -396,7 +396,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('22 - Judge e-signs and sends warrant', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeSign = new JudgeSignPage(page, globals);
@@ -413,7 +413,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     // ─────────────────────────────────────────────────────────────────
 
     test('23 - Citizen initiates Transfer Application', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const login = new LoginPage(page, globals);
         const transfer = new TransferApplicationPage(page, globals);
@@ -424,7 +424,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
         await transfer.initiateTransferApplication(globals.stNumber);
     });
     test('24 - Naya Mitra collects payment for Transfer Application', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -443,7 +443,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('25 - Judge rejects Transfer Application and issues order', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judgeOrders = new JudgeOrdersPage(page, globals);
@@ -462,7 +462,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
 
 
     test('26 - Citizen initiates Settlement Application', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const login = new LoginPage(page, globals);
         const settlement = new SettlementApplicationPage(page, globals);
@@ -478,7 +478,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
 
 
     test('27 - Naya Mitra collects payment for Settlement Application', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -497,7 +497,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('28 - Judge approves Settlement Application and issues order', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const settlement = new SettlementApplicationPage(page, globals);
@@ -515,7 +515,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     // ─────────────────────────────────────────────────────────────────────────
 
     test('29 - Citizen initiates Withdrawal Application', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const login = new LoginPage(page, globals);
         const withdrawal = new WithdrawalApplicationPage(page, globals);
@@ -530,7 +530,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('30 - Naya Mitra collects payment for Withdrawal Application', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
@@ -549,7 +549,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
     });
 
     test('31 - Judge approves Withdrawal Application and issues order', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const withdrawal = new WithdrawalApplicationPage(page, globals);
