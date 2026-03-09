@@ -35,6 +35,7 @@
 
 const { execSync } = require('child_process');
 const path = require('path');
+const { loadRowFromCsv } = require('../../helpers/csv');
 
 // ─── Configuration ─────────────────────────────────────────────────────────
 
@@ -63,14 +64,18 @@ const EXTRA_FLAGS = RAW_ARGS.filter((a) => a !== '--headed').join(' ');
 // Tell playwright.config.js to launch headed when requested
 if (IS_HEADED) process.env.HEADED = '1';
 
-/** Ordered list of spec files to run */
+/**
+ * Ordered list of spec files with their corresponding Excel row index.
+ * rowIndex is 0-based: row 0 → spreadsheet row 2 (after the header).
+ * Customise each row in data/test-data.xlsx independently.
+ */
 const FLOWS = [
-    'tests/flows/1-normalFullCaseFlow.spec.js',
-    'tests/flows/2-normalFullCaseFlowwith2acc.spec.js',
-    'tests/flows/3-litigentfilecase.spec.js',
-    'tests/flows/4-resubmitCaseFso.spec.js',
-    'tests/flows/5-resubmitCaseFromJudge.spec.js',
-    'tests/flows/6-witnessEvidenceJudgement.spec.js',
+    { spec: 'tests/flows/1-normalFullCaseFlow.spec.js', rowIndex: 0 },
+    { spec: 'tests/flows/2-normalFullCaseFlowwith2acc.spec.js', rowIndex: 1 },
+    { spec: 'tests/flows/3-litigentfilecase.spec.js', rowIndex: 2 },
+    { spec: 'tests/flows/4-resubmitCaseFso.spec.js', rowIndex: 3 },
+    { spec: 'tests/flows/5-resubmitCaseFromJudge.spec.js', rowIndex: 4 },
+    { spec: 'tests/flows/6-witnessEvidenceJudgement.spec.js', rowIndex: 5 },
 ];
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -104,17 +109,28 @@ function sleep(ms) {
 }
 
 /**
- * Run a single Playwright spec file via `npx playwright test`.
- * All environment variables from the parent process are forwarded so that
- * TEST_ENV, etc. are inherited automatically.
+ * Load Excel data for a flow then run its Playwright spec file.
  *
- * @param {string} specRelPath   – relative path from PROJECT_ROOT to the spec
- * @param {number} index         – 1-based flow index (for display only)
+ * @param {{ spec: string, rowIndex: number }} flow  – flow descriptor from FLOWS array
+ * @param {number} index  – 1-based flow number (display only)
  * @returns {{ success: boolean, durationSec: number }}
  */
-function runSpec(specRelPath, index) {
+function runSpec(flow, index) {
+    const { spec: specRelPath, rowIndex } = flow;
     const label = `Flow ${index}/${FLOWS.length} → ${path.basename(specRelPath)}`;
     banner(`▶  ${label}`);
+
+    // ── Load this flow's test data from Excel ─────────────────────────────
+    try {
+        console.log(`[⚓  CSV]  Loading row ${rowIndex + 1} for this flow...`);
+        loadRowFromCsv({ rowIndex, env: process.env.TEST_ENV });
+    } catch (err) {
+        console.warn(
+            `[csv.js] Could not load row ${rowIndex} from CSV — ` +
+            `falling back to existing JSON.\n  ${err.message}`
+        );
+    }
+
     console.log(`[${timestamp()}]  Starting: ${specRelPath}`);
 
     const start = Date.now();
@@ -126,14 +142,11 @@ function runSpec(specRelPath, index) {
             `npx playwright test ${specRelPath} --reporter=list --retries=0 ${headedFlag} ${EXTRA_FLAGS}`.trimEnd(),
             {
                 cwd: PROJECT_ROOT,
-                stdio: 'inherit',   // pipe Playwright output directly to this terminal
-                env: process.env,   // forward all env vars (TEST_ENV, HEADED, etc.)
+                stdio: 'inherit',
+                env: process.env,
             }
         );
     } catch {
-        // execSync throws if the exit code is non-zero (i.e. some tests failed).
-        // We catch here so the runner can continue with the next flow instead of
-        // aborting the entire sequence.
         success = false;
     }
 
@@ -148,22 +161,22 @@ function runSpec(specRelPath, index) {
 
 async function main() {
     banner('🚀  Sequential Flow Runner — All Flows (1 → 6)');
-    console.log(`Project root : ${PROJECT_ROOT}`);
-    console.log(`Environment  : ${process.env.TEST_ENV || 'default'}`);
-    console.log(`Mode         : ${IS_HEADED ? '🖥️  Headed (browser visible)' : '🕶️  Headless'}`);
-    console.log(`Break between flows : ${BREAK_MS / 1000}s`);
-    console.log(`Total flows  : ${FLOWS.length}`);
+    console.log(`Project root  : ${PROJECT_ROOT}`);
+    console.log(`Environment   : ${process.env.TEST_ENV || 'default'}`);
+    console.log(`Mode          : ${IS_HEADED ? '🖥️  Headed (browser visible)' : '🕶️  Headless'}`);
+    console.log(`Break between : ${BREAK_MS / 1000}s`);
+    console.log(`Total flows   : ${FLOWS.length}`);
+    console.log(`Data source   : data/test-data.csv (one row per flow)`);
 
     const results = [];
 
     for (let i = 0; i < FLOWS.length; i++) {
-        const specPath = FLOWS[i];
+        const flow = FLOWS[i];
         const flowNum = i + 1;
 
-        const result = runSpec(specPath, flowNum);
-        results.push({ specPath, ...result });
+        const result = runSpec(flow, flowNum);
+        results.push({ spec: flow.spec, ...result });
 
-        // ── 30-second break between flows (skip after the last one) ──────────
         if (i < FLOWS.length - 1) {
             console.log(
                 `\n⏳  [${timestamp()}]  Waiting ${BREAK_MS / 1000} seconds before next flow...\n`
@@ -172,15 +185,15 @@ async function main() {
         }
     }
 
-    // ── Final summary ────────────────────────────────────────────────────────
+    // ── Final summary ───────────────────────────────────────────────────
     banner('📋  Run Summary');
     let allPassed = true;
 
-    results.forEach(({ specPath, success, durationSec }, idx) => {
+    results.forEach(({ spec, success, durationSec }, idx) => {
         const icon = success ? '✅' : '❌';
         const status = success ? 'PASSED' : 'FAILED';
         console.log(
-            `  ${icon}  Flow ${idx + 1}: ${path.basename(specPath).padEnd(45)} ${status}  (${durationSec}s)`
+            `  ${icon}  Flow ${idx + 1}: ${path.basename(spec).padEnd(45)} ${status}  (${durationSec}s)`
         );
         if (!success) allPassed = false;
     });

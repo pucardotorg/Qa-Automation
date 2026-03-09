@@ -22,6 +22,8 @@
     "run:all-flows:qa:headed": "TEST_ENV=qa node tests/flows/run-all-flows.js --headed",
     "run:all-flows:demo": "TEST_ENV=demo node tests/flows/run-all-flows.js",
     "run:all-flows:demo:headed": "TEST_ENV=demo node tests/flows/run-all-flows.js --headed",
+    "generate-csv:demo": "node helpers/generate-csv.js --env=demo",
+    "generate-csv:qa": "node helpers/generate-csv.js --env=qa",
     "report": "playwright show-report"
   },
   "devDependencies": {

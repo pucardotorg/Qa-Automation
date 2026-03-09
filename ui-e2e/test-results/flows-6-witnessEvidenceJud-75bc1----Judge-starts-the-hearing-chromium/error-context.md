@@ -1,0 +1,385 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7] [cursor=pointer]:
+        - img "mSeva" [ref=e8]
+        - img "mSeva" [ref=e9]
+      - generic [ref=e11]:
+        - generic [ref=e15] [cursor=pointer]:
+          - generic [ref=e16]:
+            - img [ref=e18]
+            - generic [ref=e20]: EN
+          - img [ref=e21]
+        - generic [ref=e26] [cursor=pointer]:
+          - generic "gJudge" [ref=e27]: G
+          - img [ref=e28]
+    - generic [ref=e35]:
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - generic [ref=e38]: Good Afternoon, gJudge
+          - generic [ref=e39]:
+            - link "Dashboards" [ref=e40] [cursor=pointer]:
+              - /url: /ui/employee/home/dashboard
+              - generic [ref=e41]:
+                - img [ref=e42]
+                - generic [ref=e44]: Dashboards
+              - img [ref=e45]
+            - link "All Cases" [ref=e47] [cursor=pointer]:
+              - /url: /ui/employee/home/home-pending-task
+              - generic [ref=e48]:
+                - img [ref=e49]
+                - generic [ref=e51]: All Cases
+              - img [ref=e52]
+        - generic [ref=e54]:
+          - generic [ref=e55] [cursor=pointer]:
+            - generic [ref=e56]: Hearings
+            - img [ref=e58]
+          - generic [ref=e61] [cursor=pointer]: Today’s Hearings
+          - generic [ref=e63] [cursor=pointer]: Bulk Reschedule Hearing
+        - generic [ref=e64]:
+          - generic [ref=e65] [cursor=pointer]:
+            - generic [ref=e66]: Actions
+            - img [ref=e68]
+          - generic [ref=e70] [cursor=pointer]:
+            - generic [ref=e71]: Register Cases
+            - generic [ref=e72]: "79"
+        - generic [ref=e73]:
+          - generic [ref=e74] [cursor=pointer]:
+            - generic [ref=e75]: Review Applications
+            - img [ref=e77]
+          - generic [ref=e79] [cursor=pointer]:
+            - generic [ref=e80]: Rescheduling Request
+            - generic [ref=e81]: "8"
+          - generic [ref=e82] [cursor=pointer]:
+            - generic [ref=e83]: Delay Condonation
+            - generic [ref=e84]: "59"
+          - generic [ref=e85] [cursor=pointer]:
+            - generic [ref=e86]: Others
+            - generic [ref=e87]: "81"
+        - generic [ref=e88]:
+          - generic [ref=e89] [cursor=pointer]:
+            - generic [ref=e90]: Sign
+            - img [ref=e92]
+          - generic [ref=e95] [cursor=pointer]: Sign Forms
+          - generic [ref=e97] [cursor=pointer]: Sign Orders
+          - generic [ref=e99] [cursor=pointer]: Sign Process
+          - generic [ref=e101] [cursor=pointer]: Sign Bail Bonds
+          - generic [ref=e103] [cursor=pointer]: Sign Witness Deposition
+          - generic [ref=e105] [cursor=pointer]: Sign Evidence
+          - generic [ref=e107] [cursor=pointer]: Sign A-Diary
+      - generic [ref=e109]:
+        - generic [ref=e110]: All Hearings
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - generic [ref=e116]:
+              - textbox "Status" [ref=e117]
+              - img [ref=e118] [cursor=pointer]
+            - generic [ref=e123]:
+              - textbox "Purpose" [ref=e124]
+              - img [ref=e125] [cursor=pointer]
+            - textbox [ref=e131]: 2026-03-09
+            - textbox "Search Case Name or Number" [ref=e133]
+            - button "Search" [ref=e134] [cursor=pointer]
+            - button "Clear Search" [ref=e135]
+          - button "Join VC" [ref=e137]:
+            - generic [ref=e138]:
+              - img [ref=e139]
+              - generic [ref=e141]: Join VC
+        - generic [ref=e143]:
+          - table [ref=e144]:
+            - rowgroup [ref=e145]:
+              - row "S.No. Case Name Case Number Advocates Purpose Status Actions" [ref=e146]:
+                - columnheader "S.No." [ref=e147]
+                - columnheader "Case Name" [ref=e148]
+                - columnheader "Case Number" [ref=e149]
+                - columnheader "Advocates" [ref=e150]
+                - columnheader "Purpose" [ref=e151]
+                - columnheader "Status" [ref=e152]
+                - columnheader "Actions" [ref=e153]
+            - rowgroup [ref=e154]:
+              - row "1 Iknoor Demo Env and 1 Other vs Automation Accused ST/30/2026 ADV TEST(C) + 1 Other ADV ACC(A) Admission Scheduled" [ref=e155]:
+                - cell "1" [ref=e156]
+                - cell "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e157]:
+                  - link "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e158] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=55a513a4-04be-47d7-bb57-defe3fba416e&filingNumber=KL-000463-2026&tab=Overview&fromHome=true
+                - cell "ST/30/2026" [ref=e159]
+                - cell "ADV TEST(C) + 1 Other ADV ACC(A)" [ref=e160]:
+                  - generic [ref=e161]:
+                    - paragraph [ref=e162]: ADV TEST(C) + 1 Other
+                    - paragraph [ref=e163]: ADV ACC(A)
+                - cell "Admission" [ref=e164]
+                - cell "Scheduled" [ref=e165]:
+                  - generic [ref=e166]:
+                    - generic [ref=e167]: Scheduled
+                    - generic "Order Not Created" [ref=e168] [cursor=pointer]:
+                      - img [ref=e169]
+                - cell [ref=e171]:
+                  - img [ref=e173] [cursor=pointer]
+              - row "2 Rajesh Ch vs Automation Accused ST/31/2026 ADV TEST(C) ADV ACC(A) Admission Scheduled" [ref=e175]:
+                - cell "2" [ref=e176]
+                - cell "Rajesh Ch vs Automation Accused" [ref=e177]:
+                  - link "Rajesh Ch vs Automation Accused" [ref=e178] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=25bb0f0a-f38f-46c4-9897-a1993f101beb&filingNumber=KL-000466-2026&tab=Overview&fromHome=true
+                - cell "ST/31/2026" [ref=e179]
+                - cell "ADV TEST(C) ADV ACC(A)" [ref=e180]:
+                  - generic [ref=e181]:
+                    - paragraph [ref=e182]: ADV TEST(C)
+                    - paragraph [ref=e183]: ADV ACC(A)
+                - cell "Admission" [ref=e184]
+                - cell "Scheduled" [ref=e185]:
+                  - generic [ref=e186]:
+                    - generic [ref=e187]: Scheduled
+                    - generic "Order Not Created" [ref=e188] [cursor=pointer]:
+                      - img [ref=e189]
+                - cell [ref=e191]:
+                  - img [ref=e193] [cursor=pointer]
+              - row "3 Iknoor Demo Env and 1 Other vs Automation Accused ST/32/2026 ADV TEST(C) + 1 Other ADV ACC(A) Admission Scheduled" [ref=e195]:
+                - cell "3" [ref=e196]
+                - cell "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e197]:
+                  - link "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e198] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=70a3071c-075a-4c4f-9dec-a93e9739e2b6&filingNumber=KL-000467-2026&tab=Overview&fromHome=true
+                - cell "ST/32/2026" [ref=e199]
+                - cell "ADV TEST(C) + 1 Other ADV ACC(A)" [ref=e200]:
+                  - generic [ref=e201]:
+                    - paragraph [ref=e202]: ADV TEST(C) + 1 Other
+                    - paragraph [ref=e203]: ADV ACC(A)
+                - cell "Admission" [ref=e204]
+                - cell "Scheduled" [ref=e205]:
+                  - generic [ref=e206]:
+                    - generic [ref=e207]: Scheduled
+                    - generic "Order Not Created" [ref=e208] [cursor=pointer]:
+                      - img [ref=e209]
+                - cell [ref=e211]:
+                  - img [ref=e213] [cursor=pointer]
+              - row "4 Rajesh Ch and 1 Other vs Automate Company ST/33/2026 ADV TEST(C) + 1 Other iknoor demo env(A) + 1 Other Admission Scheduled" [ref=e215]:
+                - cell "4" [ref=e216]
+                - cell "Rajesh Ch and 1 Other vs Automate Company" [ref=e217]:
+                  - link "Rajesh Ch and 1 Other vs Automate Company" [ref=e218] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=45c942f0-d050-41f8-b2b3-4d6c9b0115c1&filingNumber=KL-000472-2026&tab=Overview&fromHome=true
+                - cell "ST/33/2026" [ref=e219]
+                - cell "ADV TEST(C) + 1 Other iknoor demo env(A) + 1 Other" [ref=e220]:
+                  - generic [ref=e221]:
+                    - paragraph [ref=e222]: ADV TEST(C) + 1 Other
+                    - paragraph [ref=e223]: iknoor demo env(A) + 1 Other
+                - cell "Admission" [ref=e224]
+                - cell "Scheduled" [ref=e225]:
+                  - generic [ref=e226]:
+                    - generic [ref=e227]: Scheduled
+                    - generic "Order Not Created" [ref=e228] [cursor=pointer]:
+                      - img [ref=e229]
+                - cell [ref=e231]:
+                  - img [ref=e233] [cursor=pointer]
+              - row "5 Rajesh Ch and 1 Other vs Automate Company ST/34/2026 ADV TEST(C) + 1 Other iknoor demo env(A) + 1 Other Admission Scheduled" [ref=e235]:
+                - cell "5" [ref=e236]
+                - cell "Rajesh Ch and 1 Other vs Automate Company" [ref=e237]:
+                  - link "Rajesh Ch and 1 Other vs Automate Company" [ref=e238] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=ed42f8a7-80cb-4032-88c0-25d5420bdc72&filingNumber=KL-000473-2026&tab=Overview&fromHome=true
+                - cell "ST/34/2026" [ref=e239]
+                - cell "ADV TEST(C) + 1 Other iknoor demo env(A) + 1 Other" [ref=e240]:
+                  - generic [ref=e241]:
+                    - paragraph [ref=e242]: ADV TEST(C) + 1 Other
+                    - paragraph [ref=e243]: iknoor demo env(A) + 1 Other
+                - cell "Admission" [ref=e244]
+                - cell "Scheduled" [ref=e245]:
+                  - generic [ref=e246]:
+                    - generic [ref=e247]: Scheduled
+                    - generic "Order Not Created" [ref=e248] [cursor=pointer]:
+                      - img [ref=e249]
+                - cell [ref=e251]:
+                  - img [ref=e253] [cursor=pointer]
+              - row "6 Iknoor Demo Env and 1 Other vs Automation Accused ST/35/2026 ADV TEST(C) + 1 Other ADV ACC(A) Admission Scheduled" [ref=e255]:
+                - cell "6" [ref=e256]
+                - cell "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e257]:
+                  - link "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e258] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=69bdf8ef-4ce1-4952-9f2a-d21533487982&filingNumber=KL-000474-2026&tab=Overview&fromHome=true
+                - cell "ST/35/2026" [ref=e259]
+                - cell "ADV TEST(C) + 1 Other ADV ACC(A)" [ref=e260]:
+                  - generic [ref=e261]:
+                    - paragraph [ref=e262]: ADV TEST(C) + 1 Other
+                    - paragraph [ref=e263]: ADV ACC(A)
+                - cell "Admission" [ref=e264]
+                - cell "Scheduled" [ref=e265]:
+                  - generic [ref=e266]:
+                    - generic [ref=e267]: Scheduled
+                    - generic "Order Not Created" [ref=e268] [cursor=pointer]:
+                      - img [ref=e269]
+                - cell [ref=e271]:
+                  - img [ref=e273] [cursor=pointer]
+              - row "7 Rajesh Ch vs Automation Accused ST/36/2026 ADV TEST(C) ADV ACC(A) Admission Scheduled" [ref=e275]:
+                - cell "7" [ref=e276]
+                - cell "Rajesh Ch vs Automation Accused" [ref=e277]:
+                  - link "Rajesh Ch vs Automation Accused" [ref=e278] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=b86af4d5-9d1c-4239-9344-6a9393db4f27&filingNumber=KL-000475-2026&tab=Overview&fromHome=true
+                - cell "ST/36/2026" [ref=e279]
+                - cell "ADV TEST(C) ADV ACC(A)" [ref=e280]:
+                  - generic [ref=e281]:
+                    - paragraph [ref=e282]: ADV TEST(C)
+                    - paragraph [ref=e283]: ADV ACC(A)
+                - cell "Admission" [ref=e284]
+                - cell "Scheduled" [ref=e285]:
+                  - generic [ref=e286]:
+                    - generic [ref=e287]: Scheduled
+                    - generic "Order Not Created" [ref=e288] [cursor=pointer]:
+                      - img [ref=e289]
+                - cell [ref=e291]:
+                  - img [ref=e293] [cursor=pointer]
+              - row "8 Rajesh Ch and 1 Other vs Automate Company ST/37/2026 ADV TEST(C) + 1 Other iknoor demo env(A) + 1 Other Admission Scheduled" [ref=e295]:
+                - cell "8" [ref=e296]
+                - cell "Rajesh Ch and 1 Other vs Automate Company" [ref=e297]:
+                  - link "Rajesh Ch and 1 Other vs Automate Company" [ref=e298] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=3567547a-eb5b-42a2-be36-1fbf3bbc663f&filingNumber=KL-000480-2026&tab=Overview&fromHome=true
+                - cell "ST/37/2026" [ref=e299]
+                - cell "ADV TEST(C) + 1 Other iknoor demo env(A) + 1 Other" [ref=e300]:
+                  - generic [ref=e301]:
+                    - paragraph [ref=e302]: ADV TEST(C) + 1 Other
+                    - paragraph [ref=e303]: iknoor demo env(A) + 1 Other
+                - cell "Admission" [ref=e304]
+                - cell "Scheduled" [ref=e305]:
+                  - generic [ref=e306]:
+                    - generic [ref=e307]: Scheduled
+                    - generic "Order Not Created" [ref=e308] [cursor=pointer]:
+                      - img [ref=e309]
+                - cell [ref=e311]:
+                  - img [ref=e313] [cursor=pointer]
+              - row "9 Iknoor Demo Env and 1 Other vs Automation Accused ST/38/2026 ADV TEST(C) + 1 Other ADV ACC(A) Admission Scheduled" [ref=e315]:
+                - cell "9" [ref=e316]
+                - cell "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e317]:
+                  - link "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e318] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=d13db2ad-e06e-4bf5-bbb6-b40ce976bece&filingNumber=KL-000481-2026&tab=Overview&fromHome=true
+                - cell "ST/38/2026" [ref=e319]
+                - cell "ADV TEST(C) + 1 Other ADV ACC(A)" [ref=e320]:
+                  - generic [ref=e321]:
+                    - paragraph [ref=e322]: ADV TEST(C) + 1 Other
+                    - paragraph [ref=e323]: ADV ACC(A)
+                - cell "Admission" [ref=e324]
+                - cell "Scheduled" [ref=e325]:
+                  - generic [ref=e326]:
+                    - generic [ref=e327]: Scheduled
+                    - generic "Order Not Created" [ref=e328] [cursor=pointer]:
+                      - img [ref=e329]
+                - cell [ref=e331]:
+                  - img [ref=e333] [cursor=pointer]
+              - row "10 Iknoor Demo Env and 1 Other vs Automation Accused CMP/128/2026 ADV TEST(C) + 1 Other Admission Scheduled" [ref=e335]:
+                - cell "10" [ref=e336]
+                - cell "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e337]:
+                  - link "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e338] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=845a93c1-7a8f-46f4-82c6-f225e79d691d&filingNumber=KL-000457-2026&tab=Overview&fromHome=true
+                - cell "CMP/128/2026" [ref=e339]
+                - cell "ADV TEST(C) + 1 Other" [ref=e340]:
+                  - generic [ref=e341]:
+                    - paragraph [ref=e342]: ADV TEST(C) + 1 Other
+                    - paragraph
+                - cell "Admission" [ref=e343]
+                - cell "Scheduled" [ref=e344]:
+                  - generic [ref=e345]:
+                    - generic [ref=e346]: Scheduled
+                    - generic "Order Not Created" [ref=e347] [cursor=pointer]:
+                      - img [ref=e348]
+                - cell [ref=e350]:
+                  - img [ref=e352] [cursor=pointer]
+              - row "11 Iknoor Demo Env and 1 Other vs Automation Accused CMP/129/2026 ADV TEST(C) + 1 Other Admission Scheduled" [ref=e354]:
+                - cell "11" [ref=e355]
+                - cell "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e356]:
+                  - link "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e357] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=b24a23b9-0477-415e-b65a-290ad6d2b081&filingNumber=KL-000459-2026&tab=Overview&fromHome=true
+                - cell "CMP/129/2026" [ref=e358]
+                - cell "ADV TEST(C) + 1 Other" [ref=e359]:
+                  - generic [ref=e360]:
+                    - paragraph [ref=e361]: ADV TEST(C) + 1 Other
+                    - paragraph
+                - cell "Admission" [ref=e362]
+                - cell "Scheduled" [ref=e363]:
+                  - generic [ref=e364]:
+                    - generic [ref=e365]: Scheduled
+                    - generic "Order Not Created" [ref=e366] [cursor=pointer]:
+                      - img [ref=e367]
+                - cell [ref=e369]:
+                  - img [ref=e371] [cursor=pointer]
+              - row "12 Iknoor Demo Env and 1 Other vs Automation Accused CMP/130/2026 ADV TEST(C) + 1 Other Admission Scheduled" [ref=e373]:
+                - cell "12" [ref=e374]
+                - cell "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e375]:
+                  - link "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e376] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=2f51f52b-972c-41e0-bf83-050843f3a2a2&filingNumber=KL-000460-2026&tab=Overview&fromHome=true
+                - cell "CMP/130/2026" [ref=e377]
+                - cell "ADV TEST(C) + 1 Other" [ref=e378]:
+                  - generic [ref=e379]:
+                    - paragraph [ref=e380]: ADV TEST(C) + 1 Other
+                    - paragraph
+                - cell "Admission" [ref=e381]
+                - cell "Scheduled" [ref=e382]:
+                  - generic [ref=e383]:
+                    - generic [ref=e384]: Scheduled
+                    - generic "Order Not Created" [ref=e385] [cursor=pointer]:
+                      - img [ref=e386]
+                - cell [ref=e388]:
+                  - img [ref=e390] [cursor=pointer]
+              - row "13 Rajesh Ch and 1 Other vs Automate Company CMP/139/2026 ADV TEST(C) + 1 Other Admission Scheduled" [ref=e392]:
+                - cell "13" [ref=e393]
+                - cell "Rajesh Ch and 1 Other vs Automate Company" [ref=e394]:
+                  - link "Rajesh Ch and 1 Other vs Automate Company" [ref=e395] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=bbfdf61e-3114-4ceb-8f52-9a0ea8995f1f&filingNumber=KL-000478-2026&tab=Overview&fromHome=true
+                - cell "CMP/139/2026" [ref=e396]
+                - cell "ADV TEST(C) + 1 Other" [ref=e397]:
+                  - generic [ref=e398]:
+                    - paragraph [ref=e399]: ADV TEST(C) + 1 Other
+                    - paragraph
+                - cell "Admission" [ref=e400]
+                - cell "Scheduled" [ref=e401]:
+                  - generic [ref=e402]:
+                    - generic [ref=e403]: Scheduled
+                    - generic "Order Not Created" [ref=e404] [cursor=pointer]:
+                      - img [ref=e405]
+                - cell [ref=e407]:
+                  - img [ref=e409] [cursor=pointer]
+              - row "14 GURU vs Hemadri CMP/193/2026 ADV EIGHT TWO EIGHT(C) Admission Scheduled" [ref=e411]:
+                - cell "14" [ref=e412]
+                - cell "GURU vs Hemadri" [ref=e413]:
+                  - link "GURU vs Hemadri" [ref=e414] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=9561fde0-45e8-4a9d-b60e-40b9773c5ec7&filingNumber=KL-000587-2026&tab=Overview&fromHome=true
+                - cell "CMP/193/2026" [ref=e415]
+                - cell "ADV EIGHT TWO EIGHT(C)" [ref=e416]:
+                  - generic [ref=e417]:
+                    - paragraph [ref=e418]: ADV EIGHT TWO EIGHT(C)
+                    - paragraph
+                - cell "Admission" [ref=e419]
+                - cell "Scheduled" [ref=e420]:
+                  - generic [ref=e421]:
+                    - generic [ref=e422]: Scheduled
+                    - generic "Order Not Created" [ref=e423] [cursor=pointer]:
+                      - img [ref=e424]
+                - cell [ref=e426]:
+                  - img [ref=e428] [cursor=pointer]
+              - row "15 Rajesh Ch vs Automation Accused CMP/266/2026 ADV TEST(C) Arguments Scheduled" [ref=e430]:
+                - cell "15" [ref=e431]
+                - cell "Rajesh Ch vs Automation Accused" [ref=e432]:
+                  - link "Rajesh Ch vs Automation Accused" [ref=e433] [cursor=pointer]:
+                    - /url: /ui/employee/dristi/home/view-case?caseId=c951a71d-dda6-4814-86cf-562b1f95e763&filingNumber=KL-000739-2026&tab=Overview&fromHome=true
+                - cell "CMP/266/2026" [ref=e434]
+                - cell "ADV TEST(C)" [ref=e435]:
+                  - generic [ref=e436]:
+                    - paragraph [ref=e437]: ADV TEST(C)
+                    - paragraph
+                - cell "Arguments" [ref=e438]
+                - cell "Scheduled" [ref=e439]:
+                  - generic [ref=e440]:
+                    - generic [ref=e441]: Scheduled
+                    - generic "Order Not Created" [ref=e442] [cursor=pointer]:
+                      - img [ref=e443]
+                - cell [ref=e445]:
+                  - img [ref=e447] [cursor=pointer]
+          - generic [ref=e450]:
+            - generic [ref=e451]: "Rows per page:"
+            - combobox [ref=e452]:
+              - option "10"
+              - option "20"
+              - option "30" [selected]
+              - option "40"
+              - option "50"
+            - generic [ref=e454]: 1–15 of 15
+  - generic [ref=e455]:
+    - img [ref=e456]
+    - img [ref=e457]
+```

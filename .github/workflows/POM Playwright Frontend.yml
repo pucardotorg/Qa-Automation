@@ -17,12 +17,13 @@ on:
         required: true
         type: choice
         options:
+          - qa
           - demo
 
 jobs:
   ui-e2e-tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 240          # 6 flows × 10min/test + breaks; keep headroom
+    timeout-minutes: 180
 
     environment:
       name: ${{ inputs.environment || 'qa' }}
@@ -42,10 +43,6 @@ jobs:
       JUDGE_USERNAME: ${{ vars.JUDGE_USERNAME }}
       JUDGE_PASSWORD: ${{ vars.JUDGE_PASSWORD }}
 
-    defaults:
-      run:
-        working-directory: ui-e2e    # all `run:` steps execute inside ui-e2e/
-
     steps:
 
       - name: Checkout repository
@@ -56,32 +53,30 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: ui-e2e/package-lock.json   # lock file is in ui-e2e/
 
       - name: Install Node dependencies
-        run: npm ci                                          # runs inside ui-e2e/
+        run: npm ci
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('ui-e2e/package-lock.json') }}
-          restore-keys: |
-            playwright-${{ runner.os }}-
+          key: playwright-${{ runner.os }}
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium     # only chromium needed
+        run: npx playwright install --with-deps
 
       - name: Verify Playwright installation
         run: npx playwright --version
 
       - name: Run UI E2E Flows Sequentially
-        run: node tests/flows/run-all-flows.js               # relative to ui-e2e/
+        run: |
+          node ui-e2e/tests/flows/run-all-flows.js
 
       - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-${{ env.TEST_ENV }}
-          path: ui-e2e/playwright-report/                   # correct path from repo root
+          path: playwright-report/
           retention-days: 7

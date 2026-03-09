@@ -36,7 +36,7 @@ module.exports = defineConfig({
   fullyParallel: false,
   timeout: 1800000,
   workers: 1,
-  retries: 0,
+  retries: 1,
   reporter: 'html',
 
   use: {
