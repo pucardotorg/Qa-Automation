@@ -1,0 +1,19 @@
+{
+  "baseURL": "https://demo.pucar.org/",
+  "DEMOfilestore": {
+    "case.cheque": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "case.cheque.returnmemo": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "case.liabilityproof": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "case.demandnotice": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "case.demandnotice.proof": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "case.demandnotice.serviceproof": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "VAKALATNAMA_DOC": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "case.affidavit.223bnss": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "COMPLAINANT_ID_PROOF": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "case.affidavit.225bnss": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "image/png": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "orderTitle": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "application": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
+    "case.complaint.signed": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f"
+  }
+}
