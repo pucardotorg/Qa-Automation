@@ -97,7 +97,7 @@ function buildFlowsFromCsv() {
 
         if (!specFile) {
             console.warn(
-                `[run-all-flows] ⚠️   Row ${idx + 1} ("${row.flowLabel || '?'}") ` +
+                `[run-all-flows] ⚠️   Row ${idx + 1} ` +
                 `has no specFile value — skipping.`
             );
             return;
