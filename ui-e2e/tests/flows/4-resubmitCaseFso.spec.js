@@ -148,7 +148,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
         await employeeLogin.open();
         await employeeLogin.loginAsFSO();
 
-        await fso.returnCaseToLitigant(globals.filingNumber, 'DEFECT1');
+        await fso.returnCaseToLitigant(globals.filingNumber, globals.fsoDefectCode);
     });
 
     // ─────────────────────────────────────────────────────────────────────────────
@@ -183,7 +183,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
         await employeeLogin.open();
         await employeeLogin.loginAsFSO();
 
-        await fso.scrutinizeAndForward(globals.filingNumber, 'FSO comments');
+        await fso.scrutinizeAndForward(globals.filingNumber, globals.fsoComments);
     });
 
     // ─────────────────────────────────────────────────────────────────────────────
@@ -201,7 +201,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
 
         const { accessCode, cmpNumber } = await judge.registerCaseFlow(
             globals.filingNumber,
-            'AUTOMATION ORDER GENERATED'
+            globals.orderText
         );
 
         saveGlobalVariables({ accessCode, cmpNumber });
@@ -226,7 +226,7 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
 
         await judgeOrders.issueNotice(
             globals.cmpNumber,
-            'Section 223 Notice',
+            globals.noticeType,
             `${globals.respondentFirstName} (Accused)`
         );
     });

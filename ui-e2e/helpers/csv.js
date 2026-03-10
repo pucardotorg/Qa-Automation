@@ -34,8 +34,8 @@ const path = require('path');
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const CSV_FILE = path.join(DATA_DIR, 'test-data.csv');
 
-// flowLabel column is informational-only — not written to JSON
-const SKIP_COLUMNS = new Set(['flowLabel']);
+// These columns control the runner — not written to the globals JSON
+const SKIP_COLUMNS = new Set(['flowLabel', 'specFile']);
 
 // ─── RFC-4180 CSV Parser ─────────────────────────────────────────────────────
 

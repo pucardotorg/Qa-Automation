@@ -131,7 +131,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
         await employeeLogin.open();
         await employeeLogin.loginAsFSO();
 
-        await fso.scrutinizeAndForward(globals.filingNumber, 'FSO comments');
+        await fso.scrutinizeAndForward(globals.filingNumber, globals.fsoComments);
     });
 
     // ─────────────────────────────────────────────────────────────────────────────
@@ -187,7 +187,7 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
         await employeeLogin.open();
         await employeeLogin.loginAsJudge();
 
-        await judge.takeWitnessDeposition(globals.filingNumber, 'Checking witness deposition');
+        await judge.takeWitnessDeposition(globals.filingNumber, globals.witnessDepositionText);
         await judge.signWitnessDeposition(globals.filingNumber);
         await page.close();
     });
@@ -265,9 +265,9 @@ test.describe.serial('Witness Evidence & Judgement Flow - End to End', () => {
         // Uses stNumber saved in test 09; Finding defaults to 'Acquitted'
         await judgeOrders.issueJudgementOrder(
             globals.stNumber,
-            'Acquitted',
-            '2 months of jail.',
-            'Judgement order'
+            globals.judgementFinding,
+            globals.judgementSentence,
+            globals.judgementOrderText
         );
         await page.close();
     });
