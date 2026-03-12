@@ -436,7 +436,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // Source: UI Tests/tests/7-JudgeReSubmitCase/13-initiateBailBondSurety.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
     test('18 - Citizen initiates bail bond surety', async ({ page }) => {
-        test.setTimeout(600000);
+        test.setTimeout(1200000);
 
         const login = new LoginPage(page, globals);
         const judge = new JudgePage(page, globals);

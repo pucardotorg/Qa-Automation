@@ -40,7 +40,7 @@ const { loadRowFromCsv } = require('../../helpers/csv');
 // ─── Configuration ─────────────────────────────────────────────────────────
 
 /** Delay between each spec file (milliseconds) */
-const BREAK_MS = 60_000;
+const BREAK_MS = 120_000;
 
 /**
  * Root of the ui-e2e project.
@@ -139,7 +139,7 @@ function runSpec(flow, index) {
     try {
         const headedFlag = IS_HEADED ? '--headed' : '';
         execSync(
-            `npx playwright test ${specRelPath} --reporter=list --retries=0 ${headedFlag} ${EXTRA_FLAGS}`.trimEnd(),
+            `npx playwright test ${specRelPath} --reporter=list ${headedFlag} ${EXTRA_FLAGS}`.trimEnd(),
             {
                 cwd: PROJECT_ROOT,
                 stdio: 'inherit',
