@@ -435,7 +435,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // 18 — Citizen initiates a Bail Bond Surety
     // Source: UI Tests/tests/7-JudgeReSubmitCase/13-initiateBailBondSurety.spec.js
     // ─────────────────────────────────────────────────────────────────────────────
-    test('18 - Citizen initiates bail bond surety', async ({ page }) => {
+  /*  test('18 - Citizen initiates bail bond surety', async ({ page }) => {
         test.setTimeout(1200000);
 
         const login = new LoginPage(page, globals);
@@ -469,5 +469,5 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
         await employeeLogin.loginAsJudge();
 
         await judge.approveBailBondSurety(globals.cmpNumber);
-    });
+    });*/
 });

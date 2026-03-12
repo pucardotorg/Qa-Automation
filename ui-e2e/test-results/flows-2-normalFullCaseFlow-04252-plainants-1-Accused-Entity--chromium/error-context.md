@@ -1,0 +1,1723 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e5]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9] [cursor=pointer]:
+          - img "mSeva" [ref=e10]
+          - img "mSeva" [ref=e11]
+        - heading [level=3] [ref=e12]
+      - generic [ref=e16] [cursor=pointer]: A
+    - generic [ref=e18]:
+      - list [ref=e19]:
+        - listitem [ref=e20]:
+          - link "Home" [ref=e21] [cursor=pointer]:
+            - /url: /ui/citizen/home/home-pending-task
+          - text: /
+        - listitem [ref=e22]: All Cases
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e26]:
+            - generic [ref=e27]: Good Evening, ADV TEST
+            - generic [ref=e28]:
+              - generic [ref=e29]:
+                - generic [ref=e30]:
+                  - generic [ref=e31]:
+                    - generic [ref=e32]: Mar
+                    - generic [ref=e33]: "12"
+                    - generic [ref=e34]: Thu
+                  - generic [ref=e35]:
+                    - generic [ref=e36]: 11:00 am
+                    - link "Rajesh Ch vs Automation Accused, Rajesh Ch vs Automation Accused +4 more" [ref=e38] [cursor=pointer]:
+                      - /url: /ui/citizen/hearings?from-date=1773253800000&to-date=1773300600000&slot=Slot+1&count=6
+                - button "View Hearings" [ref=e39] [cursor=pointer]:
+                  - heading "View Hearings" [level=2] [ref=e41]
+              - paragraph [ref=e43]: You have 94 upcoming hearings this month.
+          - generic [ref=e44]:
+            - generic [ref=e45]:
+              - generic [ref=e46]: Your Cases
+              - generic [ref=e47]:
+                - button "Join Case" [ref=e49] [cursor=pointer]:
+                  - heading "Join Case" [level=2] [ref=e50]
+                - button "File Case" [ref=e51] [cursor=pointer]:
+                  - heading "File Case" [level=2] [ref=e52]
+            - generic [ref=e55]:
+              - generic [ref=e56]:
+                - generic [ref=e58]:
+                  - button "Ongoing (1192)" [ref=e59]
+                  - button "Pending Submission (479)" [ref=e60]
+                  - button "Disposed (68)" [ref=e61]
+                  - button "Long Pending Register (3)" [ref=e62]
+                - generic [ref=e66]:
+                  - generic [ref=e67]:
+                    - heading "Case Type" [level=2] [ref=e68]
+                    - generic [ref=e70]:
+                      - textbox [ref=e71]: NIA S138
+                      - img [ref=e72] [cursor=pointer]
+                  - generic [ref=e75]:
+                    - heading "Stage" [level=2] [ref=e76]
+                    - generic [ref=e78]:
+                      - textbox [ref=e79]
+                      - img [ref=e80] [cursor=pointer]
+                  - generic [ref=e83]:
+                    - heading "Case Name or Number" [level=2] [ref=e84]
+                    - textbox [ref=e86]
+                  - generic [ref=e87]:
+                    - generic [ref=e88] [cursor=pointer]: Clear Search
+                    - button [ref=e89] [cursor=pointer]:
+                      - banner [ref=e90]: Search
+              - generic [ref=e92]:
+                - table [ref=e94]:
+                  - rowgroup [ref=e95]:
+                    - row "Case Name Stage Case Number Case Type" [ref=e96]:
+                      - columnheader "Case Name" [ref=e97]: Case Name
+                      - columnheader "Stage" [ref=e98]: Stage
+                      - columnheader "Case Number" [ref=e99]: Case Number
+                      - columnheader "Case Type" [ref=e100]: Case Type
+                  - rowgroup [ref=e101]:
+                    - row "Rajesh Ch and 1 Other vs _______ Draft KL-000817-2026 NIA S138" [ref=e102]:
+                      - cell "Rajesh Ch and 1 Other vs _______" [ref=e103]
+                      - cell "Draft" [ref=e104]
+                      - cell "KL-000817-2026" [ref=e105]
+                      - cell "NIA S138" [ref=e106]
+                    - row "Iknoor Demo Env and 1 Other vs Automation Accused Appearance ST/112/2026 NIA S138" [ref=e107]:
+                      - cell "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e108]
+                      - cell "Appearance" [ref=e109]
+                      - cell "ST/112/2026" [ref=e110]
+                      - cell "NIA S138" [ref=e111]
+                    - row "Rajesh Ch and 1 Other vs _______ Draft KL-000815-2026 NIA S138" [ref=e112]:
+                      - cell "Rajesh Ch and 1 Other vs _______" [ref=e113]
+                      - cell "Draft" [ref=e114]
+                      - cell "KL-000815-2026" [ref=e115]
+                      - cell "NIA S138" [ref=e116]
+                    - row "Rajesh Ch and 1 Other vs _______ Draft KL-000814-2026 NIA S138" [ref=e117]:
+                      - cell "Rajesh Ch and 1 Other vs _______" [ref=e118]
+                      - cell "Draft" [ref=e119]
+                      - cell "KL-000814-2026" [ref=e120]
+                      - cell "NIA S138" [ref=e121]
+                    - row "Rajesh Ch vs Automation Accused Appearance ST/111/2026 NIA S138" [ref=e122]:
+                      - cell "Rajesh Ch vs Automation Accused" [ref=e123]
+                      - cell "Appearance" [ref=e124]
+                      - cell "ST/111/2026" [ref=e125]
+                      - cell "NIA S138" [ref=e126]
+                    - row "Rajesh Ch vs Automation Accused Post-Judgement ST/110/2026 NIA S138" [ref=e127]:
+                      - cell "Rajesh Ch vs Automation Accused" [ref=e128]
+                      - cell "Post-Judgement" [ref=e129]
+                      - cell "ST/110/2026" [ref=e130]
+                      - cell "NIA S138" [ref=e131]
+                    - row "Rajesh Ch vs Automation Accused Cognizance CMP/308/2026 NIA S138" [ref=e132]:
+                      - cell "Rajesh Ch vs Automation Accused" [ref=e133]
+                      - cell "Cognizance" [ref=e134]
+                      - cell "CMP/308/2026" [ref=e135]
+                      - cell "NIA S138" [ref=e136]
+                    - row "Rajesh Ch vs Automation Accused Cognizance CMP/307/2026 NIA S138" [ref=e137]:
+                      - cell "Rajesh Ch vs Automation Accused" [ref=e138]
+                      - cell "Cognizance" [ref=e139]
+                      - cell "CMP/307/2026" [ref=e140]
+                      - cell "NIA S138" [ref=e141]
+                    - row "Iknoor Demo Env and 1 Other vs Automation Accused Appearance ST/109/2026 NIA S138" [ref=e142]:
+                      - cell "Iknoor Demo Env and 1 Other vs Automation Accused" [ref=e143]
+                      - cell "Appearance" [ref=e144]
+                      - cell "ST/109/2026" [ref=e145]
+                      - cell "NIA S138" [ref=e146]
+                    - row "Rajesh Ch and 1 Other vs _______ Draft KL-000807-2026 NIA S138" [ref=e147]:
+                      - cell "Rajesh Ch and 1 Other vs _______" [ref=e148]
+                      - cell "Draft" [ref=e149]
+                      - cell "KL-000807-2026" [ref=e150]
+                      - cell "NIA S138" [ref=e151]
+                - generic [ref=e152]:
+                  - text: "Rows per page :"
+                  - combobox [ref=e153] [cursor=pointer]:
+                    - option "10" [selected]
+                    - option "20"
+                    - option "30"
+                    - option "40"
+                    - option "50"
+                  - generic [ref=e155]: 1-10 of 1192
+                  - img [ref=e156] [cursor=pointer]
+        - generic [ref=e160]:
+          - heading "All Pending tasks" [level=2] [ref=e161]
+          - generic [ref=e163]:
+            - generic [ref=e164]:
+              - heading "Case Type" [level=2] [ref=e165]
+              - generic [ref=e167]:
+                - textbox "Case Type" [ref=e168]
+                - img [ref=e169] [cursor=pointer]
+            - generic [ref=e172]:
+              - heading "Task Type" [level=2] [ref=e173]
+              - generic [ref=e175]:
+                - textbox "Task Type" [ref=e176]
+                - img [ref=e177] [cursor=pointer]
+          - generic [ref=e181]:
+            - generic [ref=e182]:
+              - generic [ref=e183]:
+                - img [ref=e185]
+                - generic [ref=e187]: Complete this week (19)
+              - img [ref=e190] [cursor=pointer]
+            - generic [ref=e193]:
+              - generic [ref=e194] [cursor=pointer]:
+                - checkbox [ref=e195]
+                - generic [ref=e196]:
+                  - generic [ref=e197]: "Pending Response for iknoor : LitigantDemo and 1 Other vs AccusedONe and 1 Others"
+                  - generic [ref=e198]: NIA S138 - KL-000426-2026 - Due in 2 Days
+              - generic [ref=e199] [cursor=pointer]:
+                - checkbox [ref=e200]
+                - generic [ref=e201]:
+                  - generic [ref=e202]: "Pending Response for sdasdasd asdasd asdasd : Compla vs Weqeqwdeqwdq"
+                  - generic [ref=e203]: NIA S138 - KL-000157-2026 - Due in 3 Days
+              - generic [ref=e204] [cursor=pointer]:
+                - checkbox [ref=e205]
+                - generic [ref=e206]:
+                  - generic [ref=e207]: "Pending E-Sign for Document Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e208]: NIA S138 - KL-000596-2026 - Due in 6 Days
+              - generic [ref=e209] [cursor=pointer]:
+                - checkbox [ref=e210]
+                - generic [ref=e211]:
+                  - generic [ref=e212]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e213]: NIA S138 - KL-000646-2026 - Due in 5 Days
+              - generic [ref=e214] [cursor=pointer]:
+                - checkbox [ref=e215]
+                - generic [ref=e216]:
+                  - generic [ref=e217]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e218]: NIA S138 - KL-000647-2026 - Due in 5 Days
+              - generic [ref=e219] [cursor=pointer]:
+                - checkbox [ref=e220]
+                - generic [ref=e221]:
+                  - generic [ref=e222]: "Pending Payment : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e223]: NIA S138 - KL-000626-2026 - Due in 5 Days
+              - generic [ref=e224] [cursor=pointer]:
+                - checkbox [ref=e225]
+                - generic [ref=e226]:
+                  - generic [ref=e227]: "Pending Payment : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e228]: NIA S138 - KL-000625-2026 - Due in 5 Days
+              - generic [ref=e229] [cursor=pointer]:
+                - checkbox [ref=e230]
+                - generic [ref=e231]:
+                  - generic [ref=e232]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e233]: NIA S138 - KL-000672-2026 - Due in 4 Days
+              - generic [ref=e234] [cursor=pointer]:
+                - checkbox [ref=e235]
+                - generic [ref=e236]:
+                  - generic [ref=e237]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e238]: NIA S138 - KL-000700-2026 - Due in 5 Days
+              - generic [ref=e239] [cursor=pointer]:
+                - checkbox [ref=e240]
+                - generic [ref=e241]:
+                  - generic [ref=e242]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e243]: NIA S138 - KL-000705-2026 - Due in 5 Days
+              - generic [ref=e244] [cursor=pointer]:
+                - checkbox [ref=e245]
+                - generic [ref=e246]:
+                  - generic [ref=e247]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e248]: NIA S138 - KL-000716-2026 - Due in 4 Days
+              - generic [ref=e249] [cursor=pointer]:
+                - checkbox [ref=e250]
+                - generic [ref=e251]:
+                  - generic [ref=e252]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e253]: NIA S138 - KL-000717-2026 - Due in 4 Days
+              - generic [ref=e254] [cursor=pointer]:
+                - checkbox [ref=e255]
+                - generic [ref=e256]:
+                  - generic [ref=e257]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e258]: NIA S138 - KL-000723-2026 - Due today
+              - generic [ref=e259] [cursor=pointer]:
+                - checkbox [ref=e260]
+                - generic [ref=e261]:
+                  - generic [ref=e262]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e263]: NIA S138 - KL-000724-2026 - Due today
+              - generic [ref=e264] [cursor=pointer]:
+                - checkbox [ref=e265]
+                - generic [ref=e266]:
+                  - generic [ref=e267]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e268]: NIA S138 - KL-000728-2026 - Due today
+              - generic [ref=e269] [cursor=pointer]:
+                - checkbox [ref=e270]
+                - generic [ref=e271]:
+                  - generic [ref=e272]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e273]: NIA S138 - KL-000731-2026 - Due today
+              - generic [ref=e274] [cursor=pointer]:
+                - checkbox [ref=e275]
+                - generic [ref=e276]:
+                  - generic [ref=e277]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e278]: NIA S138 - KL-000737-2026 - Due today
+              - generic [ref=e279] [cursor=pointer]:
+                - checkbox [ref=e280]
+                - generic [ref=e281]:
+                  - generic [ref=e282]: "Make payment for Submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e283]: NIA S138 - KL-000782-2026 - Due today
+              - generic [ref=e284] [cursor=pointer]:
+                - checkbox [ref=e285]
+                - generic [ref=e286]:
+                  - generic [ref=e287]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e288]: NIA S138 - KL-000786-2026 - Due today
+          - generic [ref=e290]:
+            - generic [ref=e291]:
+              - generic [ref=e293]: All other tasks (292)
+              - img [ref=e296] [cursor=pointer]
+            - generic [ref=e298]:
+              - generic [ref=e299] [cursor=pointer]:
+                - checkbox [ref=e300]
+                - generic [ref=e301]:
+                  - generic [ref=e302]: "Make payment for Submission : B Guru vs Final Bail Bond App"
+                  - generic [ref=e303]: NIA S138 - KL-000044-2025 - Due in 113 Days
+              - generic [ref=e304] [cursor=pointer]:
+                - checkbox [ref=e305]
+                - generic [ref=e306]:
+                  - generic [ref=e307]: "Esign the submission : B Guru vs Acc"
+                  - generic [ref=e308]: NIA S138 - KL-000015-2025 - Due in 113 Days
+              - generic [ref=e309] [cursor=pointer]:
+                - checkbox [ref=e310]
+                - generic [ref=e311]:
+                  - generic [ref=e312]: "Esign the submission : B Guru vs Acc"
+                  - generic [ref=e313]: NIA S138 - KL-000015-2025 - Due in 113 Days
+              - generic [ref=e314] [cursor=pointer]:
+                - checkbox [ref=e315]
+                - generic [ref=e316]:
+                  - generic [ref=e317]: "Pending Response for Accused Test : Dharani Complainant vs Accused Test"
+                  - generic [ref=e318]: NIA S138 - KL-000047-2025 - Due in 95 Days
+              - generic [ref=e319] [cursor=pointer]:
+                - checkbox [ref=e320]
+                - generic [ref=e321]:
+                  - generic [ref=e322]: "Esign the submission : Dharani Complainant vs Accused Test"
+                  - generic [ref=e323]: NIA S138 - KL-000047-2025 - Due in 113 Days
+              - generic [ref=e324] [cursor=pointer]:
+                - checkbox [ref=e325]
+                - generic [ref=e326]:
+                  - generic [ref=e327]: "Choose dates for Reschedule of Hearing Date : B Guru vs No Application Bail Bond"
+                  - generic [ref=e328]: NIA S138 - KL-000036-2025 - Due in 113 Days
+              - generic [ref=e329] [cursor=pointer]:
+                - checkbox [ref=e330]
+                - generic [ref=e331]:
+                  - generic [ref=e332]: "Choose dates for Reschedule of Hearing Date : B Guru vs Bail Application Flow"
+                  - generic [ref=e333]: NIA S138 - KL-000038-2025 - Due in 112 Days
+              - generic [ref=e334] [cursor=pointer]:
+                - checkbox [ref=e335]
+                - generic [ref=e336]:
+                  - generic [ref=e337]: "Take Steps - Notice : B Guru vs In Portal"
+                  - generic [ref=e338]: NIA S138 - KL-000066-2025 - Due in 108 Days
+              - generic [ref=e339] [cursor=pointer]:
+                - checkbox [ref=e340]
+                - generic [ref=e341]:
+                  - generic [ref=e342]: "Esign the submission : B Guru vs TEMST Number"
+                  - generic [ref=e343]: NIA S138 - KL-000059-2025 - Due in 109 Days
+              - generic [ref=e344] [cursor=pointer]:
+                - checkbox [ref=e345]
+                - generic [ref=e346]:
+                  - generic [ref=e347]: "Pending Response for AdvocateDemo : Dharani Complaint vs Guru"
+                  - generic [ref=e348]: NIA S138 - KL-000061-2025 - Due in 91 Days
+              - generic [ref=e349] [cursor=pointer]:
+                - checkbox [ref=e350]
+                - generic [ref=e351]:
+                  - generic [ref=e352]: "Take Steps - Summons : Dharani Complaint vs Guru"
+                  - generic [ref=e353]: NIA S138 - KL-000061-2025 - Due in 107 Days
+              - generic [ref=e354] [cursor=pointer]:
+                - checkbox [ref=e355]
+                - generic [ref=e356]:
+                  - generic [ref=e357]: "Take Steps - Summons : Dharani Complaint vs Guru"
+                  - generic [ref=e358]: NIA S138 - KL-000061-2025 - Due in 107 Days
+              - generic [ref=e359] [cursor=pointer]:
+                - checkbox [ref=e360]
+                - generic [ref=e361]:
+                  - generic [ref=e362]: "Take Steps - Summons : Dharani Complaint vs Guru"
+                  - generic [ref=e363]: NIA S138 - KL-000061-2025 - Due in 107 Days
+              - generic [ref=e364] [cursor=pointer]:
+                - checkbox [ref=e365]
+                - generic [ref=e366]:
+                  - generic [ref=e367]: "Choose dates for Reschedule of Hearing Date : B Guru vs Application Check"
+                  - generic [ref=e368]: NIA S138 - KL-000086-2025 - Due in 109 Days
+              - generic [ref=e369] [cursor=pointer]:
+                - checkbox [ref=e370]
+                - generic [ref=e371]:
+                  - generic [ref=e372]: "Pending Response for Iknoor : Gilbert vs Achhhh Rt"
+                  - generic [ref=e373]: NIA S138 - KL-000106-2025 - Due in 86 Days
+              - generic [ref=e374] [cursor=pointer]:
+                - checkbox [ref=e375]
+                - generic [ref=e376]:
+                  - generic [ref=e377]: "Esign the submission : Gilbert vs Achhhh Rt"
+                  - generic [ref=e378]: NIA S138 - KL-000106-2025 - Due in 103 Days
+              - generic [ref=e379] [cursor=pointer]:
+                - checkbox [ref=e380]
+                - generic [ref=e381]:
+                  - generic [ref=e382]: "Esign the submission : Gilbert vs Achhhh Rt"
+                  - generic [ref=e383]: NIA S138 - KL-000106-2025 - Due in 103 Days
+              - generic [ref=e384] [cursor=pointer]:
+                - checkbox [ref=e385]
+                - generic [ref=e386]:
+                  - generic [ref=e387]: "Esign the submission : Gilbert vs Achhhh Rt"
+                  - generic [ref=e388]: NIA S138 - KL-000106-2025 - Due in 103 Days
+              - generic [ref=e389] [cursor=pointer]:
+                - checkbox [ref=e390]
+                - generic [ref=e391]:
+                  - generic [ref=e392]: "Pending E-Sign for Document Submission : Gilbert vs Achhhh Rt"
+                  - generic [ref=e393]: NIA S138 - KL-000106-2025 - Due in 103 Days
+              - generic [ref=e394] [cursor=pointer]:
+                - checkbox [ref=e395]
+                - generic [ref=e396]:
+                  - generic [ref=e397]: "Choose dates for Reschedule of Hearing Date : Gilbert vs Achhhh Rt"
+                  - generic [ref=e398]: NIA S138 - KL-000106-2025 - Due in 104 Days
+              - generic [ref=e399] [cursor=pointer]:
+                - checkbox [ref=e400]
+                - generic [ref=e401]:
+                  - generic [ref=e402]: "Pending Response for E Sign : B Guru and 1 Other vs VermaPharmacy and 1 Other"
+                  - generic [ref=e403]: NIA S138 - KL-000132-2025 - Due in 81 Days
+              - generic [ref=e404] [cursor=pointer]:
+                - checkbox [ref=e405]
+                - generic [ref=e406]:
+                  - generic [ref=e407]: "Submit stamp & envelope for RPAD : B Guru and 1 Other vs AccusedONeSaurabhVerma and 1 Other"
+                  - generic [ref=e408]: NIA S138 - KL-000136-2025 - Due in 95 Days
+              - generic [ref=e409] [cursor=pointer]:
+                - checkbox [ref=e410]
+                - generic [ref=e411]:
+                  - generic [ref=e412]: "Pending Response for LitigantDemo : B Guru vs Test"
+                  - generic [ref=e413]: NIA S138 - KL-000123-2025 - Due in 79 Days
+              - generic [ref=e414] [cursor=pointer]:
+                - checkbox [ref=e415]
+                - generic [ref=e416]:
+                  - generic [ref=e417]: "Pending re-upload signature for case : LitigantDemo vs AccusedONe"
+                  - generic [ref=e418]: NIA S138 - KL-000140-2025 - No Due Date
+              - generic [ref=e419] [cursor=pointer]:
+                - checkbox [ref=e420]
+                - generic [ref=e421]:
+                  - generic [ref=e422]: "Sign Witness Deposition : B Guru vs Test"
+                  - generic [ref=e423]: NIA S138 - KL-000123-2025 - Due in 98 Days
+              - generic [ref=e424] [cursor=pointer]:
+                - checkbox [ref=e425]
+                - generic [ref=e426]:
+                  - generic [ref=e427]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e428]: NIA S138 - KL-000148-2025 - Due in 92 Days
+              - generic [ref=e429] [cursor=pointer]:
+                - checkbox [ref=e430]
+                - generic [ref=e431]:
+                  - generic [ref=e432]: "Payment for warrant : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e433]: NIA S138 - KL-000148-2025 - Due in 96 Days
+              - generic [ref=e434] [cursor=pointer]:
+                - checkbox [ref=e435]
+                - generic [ref=e436]:
+                  - generic [ref=e437]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e438]: NIA S138 - KL-000153-2025 - Due in 95 Days
+              - generic [ref=e439] [cursor=pointer]:
+                - checkbox [ref=e440]
+                - generic [ref=e441]:
+                  - generic [ref=e442]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e443]: NIA S138 - KL-000155-2025 - No Due Date
+              - generic [ref=e444] [cursor=pointer]:
+                - checkbox [ref=e445]
+                - generic [ref=e446]:
+                  - generic [ref=e447]: "Pending Upload Signature For Case : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e448]: NIA S138 - KL-000157-2025 - No Due Date
+              - generic [ref=e449] [cursor=pointer]:
+                - checkbox [ref=e450]
+                - generic [ref=e451]:
+                  - generic [ref=e452]: "Pending Upload Signature For Case : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e453]: NIA S138 - KL-000158-2025 - No Due Date
+              - generic [ref=e454] [cursor=pointer]:
+                - checkbox [ref=e455]
+                - generic [ref=e456]:
+                  - generic [ref=e457]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e458]: NIA S138 - KL-000167-2025 - Due in 92 Days
+              - generic [ref=e459] [cursor=pointer]:
+                - checkbox [ref=e460]
+                - generic [ref=e461]:
+                  - generic [ref=e462]: "Esign the submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e463]: NIA S138 - KL-000168-2025 - Due in 95 Days
+              - generic [ref=e464] [cursor=pointer]:
+                - checkbox [ref=e465]
+                - generic [ref=e466]:
+                  - generic [ref=e467]: "Esign the submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e468]: NIA S138 - KL-000168-2025 - Due in 95 Days
+              - generic [ref=e469] [cursor=pointer]:
+                - checkbox [ref=e470]
+                - generic [ref=e471]:
+                  - generic [ref=e472]: "Esign the submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e473]: NIA S138 - KL-000168-2025 - Due in 95 Days
+              - generic [ref=e474] [cursor=pointer]:
+                - checkbox [ref=e475]
+                - generic [ref=e476]:
+                  - generic [ref=e477]: "Esign the submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e478]: NIA S138 - KL-000168-2025 - Due in 95 Days
+              - generic [ref=e479] [cursor=pointer]:
+                - checkbox [ref=e480]
+                - generic [ref=e481]:
+                  - generic [ref=e482]: "Esign the submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e483]: NIA S138 - KL-000168-2025 - Due in 95 Days
+              - generic [ref=e484] [cursor=pointer]:
+                - checkbox [ref=e485]
+                - generic [ref=e486]:
+                  - generic [ref=e487]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e488]: NIA S138 - KL-000173-2025 - No Due Date
+              - generic [ref=e489] [cursor=pointer]:
+                - checkbox [ref=e490]
+                - generic [ref=e491]:
+                  - generic [ref=e492]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e493]: NIA S138 - KL-000184-2025 - Due in 95 Days
+              - generic [ref=e494] [cursor=pointer]:
+                - checkbox [ref=e495]
+                - generic [ref=e496]:
+                  - generic [ref=e497]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e498]: NIA S138 - KL-000189-2025 - No Due Date
+              - generic [ref=e499] [cursor=pointer]:
+                - checkbox [ref=e500]
+                - generic [ref=e501]:
+                  - generic [ref=e502]: "Submit stamp & envelope for RPAD : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e503]: NIA S138 - KL-000192-2025 - Due in 92 Days
+              - generic [ref=e504] [cursor=pointer]:
+                - checkbox [ref=e505]
+                - generic [ref=e506]:
+                  - generic [ref=e507]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e508]: NIA S138 - KL-000199-2025 - No Due Date
+              - generic [ref=e509] [cursor=pointer]:
+                - checkbox [ref=e510]
+                - generic [ref=e511]:
+                  - generic [ref=e512]: "Pending Upload Signature For Case : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e513]: NIA S138 - KL-000201-2025 - No Due Date
+              - generic [ref=e514] [cursor=pointer]:
+                - checkbox [ref=e515]
+                - generic [ref=e516]:
+                  - generic [ref=e517]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e518]: NIA S138 - KL-000204-2025 - No Due Date
+              - generic [ref=e519] [cursor=pointer]:
+                - checkbox [ref=e520]
+                - generic [ref=e521]:
+                  - generic [ref=e522]: "Esign the submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e523]: NIA S138 - KL-000192-2025 - Due in 92 Days
+              - generic [ref=e524] [cursor=pointer]:
+                - checkbox [ref=e525]
+                - generic [ref=e526]:
+                  - generic [ref=e527]: "E-Sign is Pending : Iknoor vs Automation Accused"
+                  - generic [ref=e528]: NIA S138 - KL-000224-2025 - No Due Date
+              - generic [ref=e529] [cursor=pointer]:
+                - checkbox [ref=e530]
+                - generic [ref=e531]:
+                  - generic [ref=e532]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e533]: NIA S138 - KL-000253-2025 - No Due Date
+              - generic [ref=e534] [cursor=pointer]:
+                - checkbox [ref=e535]
+                - generic [ref=e536]:
+                  - generic [ref=e537]: "Pending Upload Signature For Case : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e538]: NIA S138 - KL-000255-2025 - No Due Date
+              - generic [ref=e539] [cursor=pointer]:
+                - checkbox [ref=e540]
+                - generic [ref=e541]:
+                  - generic [ref=e542]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e543]: NIA S138 - KL-000258-2025 - No Due Date
+              - generic [ref=e544] [cursor=pointer]:
+                - checkbox [ref=e545]
+                - generic [ref=e546]:
+                  - generic [ref=e547]: "Esign the submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e548]: NIA S138 - KL-000261-2025 - Due in 91 Days
+              - generic [ref=e549] [cursor=pointer]:
+                - checkbox [ref=e550]
+                - generic [ref=e551]:
+                  - generic [ref=e552]: "Esign the submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e553]: NIA S138 - KL-000261-2025 - Due in 91 Days
+              - generic [ref=e554] [cursor=pointer]:
+                - checkbox [ref=e555]
+                - generic [ref=e556]:
+                  - generic [ref=e557]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e558]: NIA S138 - KL-000286-2025 - Due in 87 Days
+              - generic [ref=e559] [cursor=pointer]:
+                - checkbox [ref=e560]
+                - generic [ref=e561]:
+                  - generic [ref=e562]: "E-Sign is Pending : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e563]: NIA S138 - KL-000281-2025 - No Due Date
+              - generic [ref=e564] [cursor=pointer]:
+                - checkbox [ref=e565]
+                - generic [ref=e566]:
+                  - generic [ref=e567]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e568]: NIA S138 - KL-000291-2025 - Due in 90 Days
+              - generic [ref=e569] [cursor=pointer]:
+                - checkbox [ref=e570]
+                - generic [ref=e571]:
+                  - generic [ref=e572]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e573]: NIA S138 - KL-000306-2025 - Due in 86 Days
+              - generic [ref=e574] [cursor=pointer]:
+                - checkbox [ref=e575]
+                - generic [ref=e576]:
+                  - generic [ref=e577]: "Pending Response for Bhuvi Bsdk : AdvocateDemo vs Bhuvi Bsdk"
+                  - generic [ref=e578]: NIA S138 - KL-000310-2025 - Due in 71 Days
+              - generic [ref=e579] [cursor=pointer]:
+                - checkbox [ref=e580]
+                - generic [ref=e581]:
+                  - generic [ref=e582]: "Pending Response for Bail Bond Check : AdvocateDemo vs Bail Bond Check"
+                  - generic [ref=e583]: NIA S138 - KL-000315-2025 - Due in 71 Days
+              - generic [ref=e584] [cursor=pointer]:
+                - checkbox [ref=e585]
+                - generic [ref=e586]:
+                  - generic [ref=e587]: "Esign the submission : AdvocateDemo vs Bail Bond Check"
+                  - generic [ref=e588]: NIA S138 - KL-000315-2025 - Due in 89 Days
+              - generic [ref=e589] [cursor=pointer]:
+                - checkbox [ref=e590]
+                - generic [ref=e591]:
+                  - generic [ref=e592]: "Submit stamp & envelope for RPAD : LitigantDemo and 1 Other vs AccusedONe and 2 Others"
+                  - generic [ref=e593]: NIA S138 - KL-000304-2025 - Due in 86 Days
+              - generic [ref=e594] [cursor=pointer]:
+                - checkbox [ref=e595]
+                - generic [ref=e596]:
+                  - generic [ref=e597]: "Submit stamp & envelope for RPAD : LitigantDemo and 1 Other vs AccusedONe and 2 Others"
+                  - generic [ref=e598]: NIA S138 - KL-000304-2025 - Due in 86 Days
+              - generic [ref=e599] [cursor=pointer]:
+                - checkbox [ref=e600]
+                - generic [ref=e601]:
+                  - generic [ref=e602]: "Submit stamp & envelope for RPAD : LitigantDemo and 1 Other vs AccusedONe and 2 Others"
+                  - generic [ref=e603]: NIA S138 - KL-000304-2025 - Due in 86 Days
+              - generic [ref=e604] [cursor=pointer]:
+                - checkbox [ref=e605]
+                - generic [ref=e606]:
+                  - generic [ref=e607]: "Take Steps - Notice : LitigantDemo and 1 Other vs AccusedONe and 2 Others"
+                  - generic [ref=e608]: NIA S138 - KL-000304-2025 - Due in 88 Days
+              - generic [ref=e609] [cursor=pointer]:
+                - checkbox [ref=e610]
+                - generic [ref=e611]:
+                  - generic [ref=e612]: "Take Steps - Summons : LitigantDemo and 1 Other vs AccusedONe and 2 Others"
+                  - generic [ref=e613]: NIA S138 - KL-000304-2025 - Due in 88 Days
+              - generic [ref=e614] [cursor=pointer]:
+                - checkbox [ref=e615]
+                - generic [ref=e616]:
+                  - generic [ref=e617]: "Esign the submission : AdvocateDemo vs Bail Bond Check"
+                  - generic [ref=e618]: NIA S138 - KL-000315-2025 - Due in 89 Days
+              - generic [ref=e619] [cursor=pointer]:
+                - checkbox [ref=e620]
+                - generic [ref=e621]:
+                  - generic [ref=e622]: "Take Steps - Notice : LitigantDemo and 1 Other vs AccusedONe and 2 Others"
+                  - generic [ref=e623]: NIA S138 - KL-000304-2025 - Due in 88 Days
+              - generic [ref=e624] [cursor=pointer]:
+                - checkbox [ref=e625]
+                - generic [ref=e626]:
+                  - generic [ref=e627]: "Take Steps - Summons : LitigantDemo and 1 Other vs AccusedONe and 2 Others"
+                  - generic [ref=e628]: NIA S138 - KL-000304-2025 - Due in 88 Days
+              - generic [ref=e629] [cursor=pointer]:
+                - checkbox [ref=e630]
+                - generic [ref=e631]:
+                  - generic [ref=e632]: "Payment for Proclamation : LitigantDemo and 1 Other vs AccusedONe and 2 Others"
+                  - generic [ref=e633]: NIA S138 - KL-000304-2025 - Due in 90 Days
+              - generic [ref=e634] [cursor=pointer]:
+                - checkbox [ref=e635]
+                - generic [ref=e636]:
+                  - generic [ref=e637]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e638]: NIA S138 - KL-000317-2025 - Due in 89 Days
+              - generic [ref=e639] [cursor=pointer]:
+                - checkbox [ref=e640]
+                - generic [ref=e641]:
+                  - generic [ref=e642]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e643]: NIA S138 - KL-000317-2025 - Due in 89 Days
+              - generic [ref=e644] [cursor=pointer]:
+                - checkbox [ref=e645]
+                - generic [ref=e646]:
+                  - generic [ref=e647]: "Choose dates for Reschedule of Hearing Date : AdvocateDemo vs Bhuvi Bsdk"
+                  - generic [ref=e648]: NIA S138 - KL-000310-2025 - Due in 90 Days
+              - generic [ref=e649] [cursor=pointer]:
+                - checkbox [ref=e650]
+                - generic [ref=e651]:
+                  - generic [ref=e652]: "Submit stamp & envelope for RPAD : LitigantDemo vs AccusedONe"
+                  - generic [ref=e653]: NIA S138 - KL-000331-2025 - Due in 86 Days
+              - generic [ref=e654] [cursor=pointer]:
+                - checkbox [ref=e655]
+                - generic [ref=e656]:
+                  - generic [ref=e657]: "Esign the submission : LitigantDemo vs AccusedONe"
+                  - generic [ref=e658]: NIA S138 - KL-000331-2025 - Due in 89 Days
+              - generic [ref=e659] [cursor=pointer]:
+                - checkbox [ref=e660]
+                - generic [ref=e661]:
+                  - generic [ref=e662]: "Take Steps - Notice : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e663]: NIA S138 - KL-000339-2025 - Due in 88 Days
+              - generic [ref=e664] [cursor=pointer]:
+                - checkbox [ref=e665]
+                - generic [ref=e666]:
+                  - generic [ref=e667]: "Pending Upload Signature For Case : Iknoor vs Automation Accused"
+                  - generic [ref=e668]: NIA S138 - KL-000343-2025 - No Due Date
+              - generic [ref=e669] [cursor=pointer]:
+                - checkbox [ref=e670]
+                - generic [ref=e671]:
+                  - generic [ref=e672]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e673]: NIA S138 - KL-000347-2025 - No Due Date
+              - generic [ref=e674] [cursor=pointer]:
+                - checkbox [ref=e675]
+                - generic [ref=e676]:
+                  - generic [ref=e677]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e678]: NIA S138 - KL-000349-2025 - Due in 89 Days
+              - generic [ref=e679] [cursor=pointer]:
+                - checkbox [ref=e680]
+                - generic [ref=e681]:
+                  - generic [ref=e682]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e683]: NIA S138 - KL-000372-2025 - Due in 88 Days
+              - generic [ref=e684] [cursor=pointer]:
+                - checkbox [ref=e685]
+                - generic [ref=e686]:
+                  - generic [ref=e687]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e688]: NIA S138 - KL-000374-2025 - No Due Date
+              - generic [ref=e689] [cursor=pointer]:
+                - checkbox [ref=e690]
+                - generic [ref=e691]:
+                  - generic [ref=e692]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e693]: NIA S138 - KL-000385-2025 - No Due Date
+              - generic [ref=e694] [cursor=pointer]:
+                - checkbox [ref=e695]
+                - generic [ref=e696]:
+                  - generic [ref=e697]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e698]: NIA S138 - KL-000387-2025 - No Due Date
+              - generic [ref=e699] [cursor=pointer]:
+                - checkbox [ref=e700]
+                - generic [ref=e701]:
+                  - generic [ref=e702]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e703]: NIA S138 - KL-000389-2025 - No Due Date
+              - generic [ref=e704] [cursor=pointer]:
+                - checkbox [ref=e705]
+                - generic [ref=e706]:
+                  - generic [ref=e707]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e708]: NIA S138 - KL-000390-2025 - No Due Date
+              - generic [ref=e709] [cursor=pointer]:
+                - checkbox [ref=e710]
+                - generic [ref=e711]:
+                  - generic [ref=e712]: "Choose dates for Reschedule of Hearing Date : Dharani Complaint vs Guru"
+                  - generic [ref=e713]: NIA S138 - KL-000061-2025 - Due in 86 Days
+              - generic [ref=e714] [cursor=pointer]:
+                - checkbox [ref=e715]
+                - generic [ref=e716]:
+                  - generic [ref=e717]: "Pending Upload Signature For Case : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e718]: NIA S138 - KL-000399-2025 - No Due Date
+              - generic [ref=e719] [cursor=pointer]:
+                - checkbox [ref=e720]
+                - generic [ref=e721]:
+                  - generic [ref=e722]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e723]: NIA S138 - KL-000402-2025 - No Due Date
+              - generic [ref=e724] [cursor=pointer]:
+                - checkbox [ref=e725]
+                - generic [ref=e726]:
+                  - generic [ref=e727]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e728]: NIA S138 - KL-000406-2025 - Due in 82 Days
+              - generic [ref=e729] [cursor=pointer]:
+                - checkbox [ref=e730]
+                - generic [ref=e731]:
+                  - generic [ref=e732]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e733]: NIA S138 - KL-000410-2025 - No Due Date
+              - generic [ref=e734] [cursor=pointer]:
+                - checkbox [ref=e735]
+                - generic [ref=e736]:
+                  - generic [ref=e737]: "Esign the submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e738]: NIA S138 - KL-000413-2025 - Due in 84 Days
+              - generic [ref=e739] [cursor=pointer]:
+                - checkbox [ref=e740]
+                - generic [ref=e741]:
+                  - generic [ref=e742]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e743]: NIA S138 - KL-000418-2025 - No Due Date
+              - generic [ref=e744] [cursor=pointer]:
+                - checkbox [ref=e745]
+                - generic [ref=e746]:
+                  - generic [ref=e747]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e748]: NIA S138 - KL-000419-2025 - No Due Date
+              - generic [ref=e749] [cursor=pointer]:
+                - checkbox [ref=e750]
+                - generic [ref=e751]:
+                  - generic [ref=e752]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e753]: NIA S138 - KL-000420-2025 - No Due Date
+              - generic [ref=e754] [cursor=pointer]:
+                - checkbox [ref=e755]
+                - generic [ref=e756]:
+                  - generic [ref=e757]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e758]: NIA S138 - KL-000421-2025 - No Due Date
+              - generic [ref=e759] [cursor=pointer]:
+                - checkbox [ref=e760]
+                - generic [ref=e761]:
+                  - generic [ref=e762]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e763]: NIA S138 - KL-000426-2025 - Due in 85 Days
+              - generic [ref=e764] [cursor=pointer]:
+                - checkbox [ref=e765]
+                - generic [ref=e766]:
+                  - generic [ref=e767]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e768]: NIA S138 - KL-000427-2025 - Due in 85 Days
+              - generic [ref=e769] [cursor=pointer]:
+                - checkbox [ref=e770]
+                - generic [ref=e771]:
+                  - generic [ref=e772]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e773]: NIA S138 - KL-000430-2025 - Due in 81 Days
+              - generic [ref=e774] [cursor=pointer]:
+                - checkbox [ref=e775]
+                - generic [ref=e776]:
+                  - generic [ref=e777]: "Esign the submission : Iknoor vs Automation Accused"
+                  - generic [ref=e778]: NIA S138 - KL-000433-2025 - Due in 84 Days
+              - generic [ref=e779] [cursor=pointer]:
+                - checkbox [ref=e780]
+                - generic [ref=e781]:
+                  - generic [ref=e782]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e783]: NIA S138 - KL-000434-2025 - No Due Date
+              - generic [ref=e784] [cursor=pointer]:
+                - checkbox [ref=e785]
+                - generic [ref=e786]:
+                  - generic [ref=e787]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e788]: NIA S138 - KL-000436-2025 - Due in 81 Days
+              - generic [ref=e789] [cursor=pointer]:
+                - checkbox [ref=e790]
+                - generic [ref=e791]:
+                  - generic [ref=e792]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e793]: NIA S138 - KL-000444-2025 - No Due Date
+              - generic [ref=e794] [cursor=pointer]:
+                - checkbox [ref=e795]
+                - generic [ref=e796]:
+                  - generic [ref=e797]: "Esign the submission : Iknoor vs Automation Accused"
+                  - generic [ref=e798]: NIA S138 - KL-000446-2025 - Due in 84 Days
+              - generic [ref=e799] [cursor=pointer]:
+                - checkbox [ref=e800]
+                - generic [ref=e801]:
+                  - generic [ref=e802]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e803]: NIA S138 - KL-000448-2025 - Due in 85 Days
+              - generic [ref=e804] [cursor=pointer]:
+                - checkbox [ref=e805]
+                - generic [ref=e806]:
+                  - generic [ref=e807]: "Submit stamp & envelope for RPAD : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e808]: NIA S138 - KL-000442-2025 - Due in 81 Days
+              - generic [ref=e809] [cursor=pointer]:
+                - checkbox [ref=e810]
+                - generic [ref=e811]:
+                  - generic [ref=e812]: "Esign the submission : Dharani Complainant vs Accused Test"
+                  - generic [ref=e813]: NIA S138 - KL-000047-2025 - Due in 84 Days
+              - generic [ref=e814] [cursor=pointer]:
+                - checkbox [ref=e815]
+                - generic [ref=e816]:
+                  - generic [ref=e817]: "Esign the submission : Iknoor vs Automation Accused"
+                  - generic [ref=e818]: NIA S138 - KL-000446-2025 - Due in 83 Days
+              - generic [ref=e819] [cursor=pointer]:
+                - checkbox [ref=e820]
+                - generic [ref=e821]:
+                  - generic [ref=e822]: "Esign the submission : Iknoor vs Automation Accused"
+                  - generic [ref=e823]: NIA S138 - KL-000446-2025 - Due in 83 Days
+              - generic [ref=e824] [cursor=pointer]:
+                - checkbox [ref=e825]
+                - generic [ref=e826]:
+                  - generic [ref=e827]: "Esign the submission : Iknoor vs Automation Accused"
+                  - generic [ref=e828]: NIA S138 - KL-000446-2025 - Due in 83 Days
+              - generic [ref=e829] [cursor=pointer]:
+                - checkbox [ref=e830]
+                - generic [ref=e831]:
+                  - generic [ref=e832]: "Esign the submission : Iknoor vs Automation Accused"
+                  - generic [ref=e833]: NIA S138 - KL-000446-2025 - Due in 83 Days
+              - generic [ref=e834] [cursor=pointer]:
+                - checkbox [ref=e835]
+                - generic [ref=e836]:
+                  - generic [ref=e837]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e838]: NIA S138 - KL-000594-2025 - Due in 82 Days
+              - generic [ref=e839] [cursor=pointer]:
+                - checkbox [ref=e840]
+                - generic [ref=e841]:
+                  - generic [ref=e842]: "Take Steps - Notice : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e843]: NIA S138 - KL-000598-2025 - Due in 81 Days
+              - generic [ref=e844] [cursor=pointer]:
+                - checkbox [ref=e845]
+                - generic [ref=e846]:
+                  - generic [ref=e847]: "Take Steps - Notice : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e848]: NIA S138 - KL-000612-2025 - Due in 81 Days
+              - generic [ref=e849] [cursor=pointer]:
+                - checkbox [ref=e850]
+                - generic [ref=e851]:
+                  - generic [ref=e852]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e853]: NIA S138 - KL-000612-2025 - Due in 79 Days
+              - generic [ref=e854] [cursor=pointer]:
+                - checkbox [ref=e855]
+                - generic [ref=e856]:
+                  - generic [ref=e857]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e858]: NIA S138 - KL-000630-2025 - No Due Date
+              - generic [ref=e859] [cursor=pointer]:
+                - checkbox [ref=e860]
+                - generic [ref=e861]:
+                  - generic [ref=e862]: "Pending Upload Signature For Case : Rajesh Ch vs Kumar"
+                  - generic [ref=e863]: NIA S138 - KL-000647-2025 - No Due Date
+              - generic [ref=e864] [cursor=pointer]:
+                - checkbox [ref=e865]
+                - generic [ref=e866]:
+                  - generic [ref=e867]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Kumar"
+                  - generic [ref=e868]: NIA S138 - KL-000646-2025 - Due in 78 Days
+              - generic [ref=e869] [cursor=pointer]:
+                - checkbox [ref=e870]
+                - generic [ref=e871]:
+                  - generic [ref=e872]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Kumar"
+                  - generic [ref=e873]: NIA S138 - KL-000648-2025 - Due in 78 Days
+              - generic [ref=e874] [cursor=pointer]:
+                - checkbox [ref=e875]
+                - generic [ref=e876]:
+                  - generic [ref=e877]: "Pending Payment : B Guru vs Bhuvanyu"
+                  - generic [ref=e878]: NIA S138 - KL-000653-2025 - Due in 81 Days
+              - generic [ref=e879] [cursor=pointer]:
+                - checkbox [ref=e880]
+                - generic [ref=e881]:
+                  - generic [ref=e882]: "Payment for Proclamation : B Guru vs Bhuvanyu"
+                  - generic [ref=e883]: NIA S138 - KL-000660-2025 - Due in 81 Days
+              - generic [ref=e884] [cursor=pointer]:
+                - checkbox [ref=e885]
+                - generic [ref=e886]:
+                  - generic [ref=e887]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Kumar"
+                  - generic [ref=e888]: NIA S138 - KL-000665-2025 - Due in 77 Days
+              - generic [ref=e889] [cursor=pointer]:
+                - checkbox [ref=e890]
+                - generic [ref=e891]:
+                  - generic [ref=e892]: "Pending Upload Signature For Case : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e893]: NIA S138 - KL-000671-2025 - No Due Date
+              - generic [ref=e894] [cursor=pointer]:
+                - checkbox [ref=e895]
+                - generic [ref=e896]:
+                  - generic [ref=e897]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e898]: NIA S138 - KL-000674-2025 - No Due Date
+              - generic [ref=e899] [cursor=pointer]:
+                - checkbox [ref=e900]
+                - generic [ref=e901]:
+                  - generic [ref=e902]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Kumar"
+                  - generic [ref=e903]: NIA S138 - KL-000680-2025 - Due in 75 Days
+              - generic [ref=e904] [cursor=pointer]:
+                - checkbox [ref=e905]
+                - generic [ref=e906]:
+                  - generic [ref=e907]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e908]: NIA S138 - KL-000688-2025 - Due in 78 Days
+              - generic [ref=e909] [cursor=pointer]:
+                - checkbox [ref=e910]
+                - generic [ref=e911]:
+                  - generic [ref=e912]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e913]: NIA S138 - KL-000699-2025 - No Due Date
+              - generic [ref=e914] [cursor=pointer]:
+                - checkbox [ref=e915]
+                - generic [ref=e916]:
+                  - generic [ref=e917]: "Pending Upload Signature For Case : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e918]: NIA S138 - KL-000701-2025 - No Due Date
+              - generic [ref=e919] [cursor=pointer]:
+                - checkbox [ref=e920]
+                - generic [ref=e921]:
+                  - generic [ref=e922]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e923]: NIA S138 - KL-000704-2025 - No Due Date
+              - generic [ref=e924] [cursor=pointer]:
+                - checkbox [ref=e925]
+                - generic [ref=e926]:
+                  - generic [ref=e927]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e928]: NIA S138 - KL-000706-2025 - Due in 77 Days
+              - generic [ref=e929] [cursor=pointer]:
+                - checkbox [ref=e930]
+                - generic [ref=e931]:
+                  - generic [ref=e932]: "Payment for Proclamation : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e933]: NIA S138 - KL-000706-2025 - Due in 78 Days
+              - generic [ref=e934] [cursor=pointer]:
+                - checkbox [ref=e935]
+                - generic [ref=e936]:
+                  - generic [ref=e937]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e938]: NIA S138 - KL-000706-2025 - Due in 77 Days
+              - generic [ref=e939] [cursor=pointer]:
+                - checkbox [ref=e940]
+                - generic [ref=e941]:
+                  - generic [ref=e942]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e943]: NIA S138 - KL-000706-2025 - Due in 77 Days
+              - generic [ref=e944] [cursor=pointer]:
+                - checkbox [ref=e945]
+                - generic [ref=e946]:
+                  - generic [ref=e947]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e948]: NIA S138 - KL-000706-2025 - Due in 77 Days
+              - generic [ref=e949] [cursor=pointer]:
+                - checkbox [ref=e950]
+                - generic [ref=e951]:
+                  - generic [ref=e952]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e953]: NIA S138 - KL-000706-2025 - Due in 77 Days
+              - generic [ref=e954] [cursor=pointer]:
+                - checkbox [ref=e955]
+                - generic [ref=e956]:
+                  - generic [ref=e957]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e958]: NIA S138 - KL-000706-2025 - Due in 77 Days
+              - generic [ref=e959] [cursor=pointer]:
+                - checkbox [ref=e960]
+                - generic [ref=e961]:
+                  - generic [ref=e962]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e963]: NIA S138 - KL-000706-2025 - Due in 77 Days
+              - generic [ref=e964] [cursor=pointer]:
+                - checkbox [ref=e965]
+                - generic [ref=e966]:
+                  - generic [ref=e967]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e968]: NIA S138 - KL-000724-2025 - Due in 73 Days
+              - generic [ref=e969] [cursor=pointer]:
+                - checkbox [ref=e970]
+                - generic [ref=e971]:
+                  - generic [ref=e972]: "Take Steps - Notice : LitigantDemo vs Shoib Khan"
+                  - generic [ref=e973]: NIA S138 - KL-000726-2025 - Due in 75 Days
+              - generic [ref=e974] [cursor=pointer]:
+                - checkbox [ref=e975]
+                - generic [ref=e976]:
+                  - generic [ref=e977]: "Submit stamp & envelope for RPAD : LitigantDemo vs Shoib Khan"
+                  - generic [ref=e978]: NIA S138 - KL-000726-2025 - Due in 73 Days
+              - generic [ref=e979] [cursor=pointer]:
+                - checkbox [ref=e980]
+                - generic [ref=e981]:
+                  - generic [ref=e982]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e983]: NIA S138 - KL-000721-2025 - Due in 76 Days
+              - generic [ref=e984] [cursor=pointer]:
+                - checkbox [ref=e985]
+                - generic [ref=e986]:
+                  - generic [ref=e987]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Kumar"
+                  - generic [ref=e988]: NIA S138 - KL-000709-2025 - Due in 73 Days
+              - generic [ref=e989] [cursor=pointer]:
+                - checkbox [ref=e990]
+                - generic [ref=e991]:
+                  - generic [ref=e992]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Kumar"
+                  - generic [ref=e993]: NIA S138 - KL-000709-2025 - Due in 73 Days
+              - generic [ref=e994] [cursor=pointer]:
+                - checkbox [ref=e995]
+                - generic [ref=e996]:
+                  - generic [ref=e997]: "Take Steps - Notice : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e998]: NIA S138 - KL-000735-2025 - Due in 75 Days
+              - generic [ref=e999] [cursor=pointer]:
+                - checkbox [ref=e1000]
+                - generic [ref=e1001]:
+                  - generic [ref=e1002]: "Submit stamp & envelope for RPAD : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1003]: NIA S138 - KL-000728-2025 - Due in 73 Days
+              - generic [ref=e1004] [cursor=pointer]:
+                - checkbox [ref=e1005]
+                - generic [ref=e1006]:
+                  - generic [ref=e1007]: "Submit stamp & envelope for RPAD : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1008]: NIA S138 - KL-000728-2025 - Due in 73 Days
+              - generic [ref=e1009] [cursor=pointer]:
+                - checkbox [ref=e1010]
+                - generic [ref=e1011]:
+                  - generic [ref=e1012]: "Take Steps - Notice : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1013]: NIA S138 - KL-000744-2025 - Due in 75 Days
+              - generic [ref=e1014] [cursor=pointer]:
+                - checkbox [ref=e1015]
+                - generic [ref=e1016]:
+                  - generic [ref=e1017]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1018]: NIA S138 - KL-000744-2025 - Due in 76 Days
+              - generic [ref=e1019] [cursor=pointer]:
+                - checkbox [ref=e1020]
+                - generic [ref=e1021]:
+                  - generic [ref=e1022]: "Submit stamp & envelope for RPAD : Compliant Of Bail vs Accused Of Bail"
+                  - generic [ref=e1023]: NIA S138 - KL-000745-2025 - Due in 73 Days
+              - generic [ref=e1024] [cursor=pointer]:
+                - checkbox [ref=e1025]
+                - generic [ref=e1026]:
+                  - generic [ref=e1027]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1028]: NIA S138 - KL-000746-2025 - Due in 76 Days
+              - generic [ref=e1029] [cursor=pointer]:
+                - checkbox [ref=e1030]
+                - generic [ref=e1031]:
+                  - generic [ref=e1032]: "Esign the submission : Compliant Of Bail vs Accused Of Bail"
+                  - generic [ref=e1033]: NIA S138 - KL-000745-2025 - Due in 76 Days
+              - generic [ref=e1034] [cursor=pointer]:
+                - checkbox [ref=e1035]
+                - generic [ref=e1036]:
+                  - generic [ref=e1037]: "Pending Upload Signature For Case : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1038]: NIA S138 - KL-000752-2025 - No Due Date
+              - generic [ref=e1039] [cursor=pointer]:
+                - checkbox [ref=e1040]
+                - generic [ref=e1041]:
+                  - generic [ref=e1042]: "Pending Upload Signature For Case : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1043]: NIA S138 - KL-000758-2025 - No Due Date
+              - generic [ref=e1044] [cursor=pointer]:
+                - checkbox [ref=e1045]
+                - generic [ref=e1046]:
+                  - generic [ref=e1047]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1048]: NIA S138 - KL-000762-2025 - No Due Date
+              - generic [ref=e1049] [cursor=pointer]:
+                - checkbox [ref=e1050]
+                - generic [ref=e1051]:
+                  - generic [ref=e1052]: "Pending E-Sign for Document Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1053]: NIA S138 - KL-000765-2025 - Due in 74 Days
+              - generic [ref=e1054] [cursor=pointer]:
+                - checkbox [ref=e1055]
+                - generic [ref=e1056]:
+                  - generic [ref=e1057]: "Submit stamp & envelope for RPAD : Rajesh Ch vs Kumar"
+                  - generic [ref=e1058]: NIA S138 - KL-000767-2025 - Due in 71 Days
+              - generic [ref=e1059] [cursor=pointer]:
+                - checkbox [ref=e1060]
+                - generic [ref=e1061]:
+                  - generic [ref=e1062]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1063]: NIA S138 - KL-000782-2025 - No Due Date
+              - generic [ref=e1064] [cursor=pointer]:
+                - checkbox [ref=e1065]
+                - generic [ref=e1066]:
+                  - generic [ref=e1067]: "Esign the submission : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1068]: NIA S138 - KL-000783-2025 - Due in 70 Days
+              - generic [ref=e1069] [cursor=pointer]:
+                - checkbox [ref=e1070]
+                - generic [ref=e1071]:
+                  - generic [ref=e1072]: "Pending Upload Signature For Case : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1073]: NIA S138 - KL-000791-2025 - No Due Date
+              - generic [ref=e1074] [cursor=pointer]:
+                - checkbox [ref=e1075]
+                - generic [ref=e1076]:
+                  - generic [ref=e1077]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1078]: NIA S138 - KL-000795-2025 - No Due Date
+              - generic [ref=e1079] [cursor=pointer]:
+                - checkbox [ref=e1080]
+                - generic [ref=e1081]:
+                  - generic [ref=e1082]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1083]: NIA S138 - KL-000001-2026 - No Due Date
+              - generic [ref=e1084] [cursor=pointer]:
+                - checkbox [ref=e1085]
+                - generic [ref=e1086]:
+                  - generic [ref=e1087]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1088]: NIA S138 - KL-000011-2026 - No Due Date
+              - generic [ref=e1089] [cursor=pointer]:
+                - checkbox [ref=e1090]
+                - generic [ref=e1091]:
+                  - generic [ref=e1092]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1093]: NIA S138 - KL-000020-2026 - Due in 67 Days
+              - generic [ref=e1094] [cursor=pointer]:
+                - checkbox [ref=e1095]
+                - generic [ref=e1096]:
+                  - generic [ref=e1097]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1098]: NIA S138 - KL-000019-2026 - Due in 66 Days
+              - generic [ref=e1099] [cursor=pointer]:
+                - checkbox [ref=e1100]
+                - generic [ref=e1101]:
+                  - generic [ref=e1102]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1103]: NIA S138 - KL-000028-2026 - No Due Date
+              - generic [ref=e1104] [cursor=pointer]:
+                - checkbox [ref=e1105]
+                - generic [ref=e1106]:
+                  - generic [ref=e1107]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1108]: NIA S138 - KL-000020-2026 - Due in 64 Days
+              - generic [ref=e1109] [cursor=pointer]:
+                - checkbox [ref=e1110]
+                - generic [ref=e1111]:
+                  - generic [ref=e1112]: "Make Mandatory Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1113]: NIA S138 - KL-000020-2026 - Due in 50 Days
+              - generic [ref=e1114] [cursor=pointer]:
+                - checkbox [ref=e1115]
+                - generic [ref=e1116]:
+                  - generic [ref=e1117]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1118]: NIA S138 - KL-000020-2026 - Due in 64 Days
+              - generic [ref=e1119] [cursor=pointer]:
+                - checkbox [ref=e1120]
+                - generic [ref=e1121]:
+                  - generic [ref=e1122]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1123]: NIA S138 - KL-000020-2026 - Due in 64 Days
+              - generic [ref=e1124] [cursor=pointer]:
+                - checkbox [ref=e1125]
+                - generic [ref=e1126]:
+                  - generic [ref=e1127]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1128]: NIA S138 - KL-000020-2026 - Due in 64 Days
+              - generic [ref=e1129] [cursor=pointer]:
+                - checkbox [ref=e1130]
+                - generic [ref=e1131]:
+                  - generic [ref=e1132]: "Pending Payment : Rajesh Ch vs Deepak"
+                  - generic [ref=e1133]: NIA S138 - KL-000033-2026 - Due in 63 Days
+              - generic [ref=e1134] [cursor=pointer]:
+                - checkbox [ref=e1135]
+                - generic [ref=e1136]:
+                  - generic [ref=e1137]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1138]: NIA S138 - KL-000034-2026 - Due in 63 Days
+              - generic [ref=e1139] [cursor=pointer]:
+                - checkbox [ref=e1140]
+                - generic [ref=e1141]:
+                  - generic [ref=e1142]: "Pending Payment : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1143]: NIA S138 - KL-000036-2026 - Due in 63 Days
+              - generic [ref=e1144] [cursor=pointer]:
+                - checkbox [ref=e1145]
+                - generic [ref=e1146]:
+                  - generic [ref=e1147]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1148]: NIA S138 - KL-000039-2026 - Due in 63 Days
+              - generic [ref=e1149] [cursor=pointer]:
+                - checkbox [ref=e1150]
+                - generic [ref=e1151]:
+                  - generic [ref=e1152]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1153]: NIA S138 - KL-000052-2026 - Due in 62 Days
+              - generic [ref=e1154] [cursor=pointer]:
+                - checkbox [ref=e1155]
+                - generic [ref=e1156]:
+                  - generic [ref=e1157]: "Submit stamp & envelope for RPAD : LitigantDemo vs Shoib Khan"
+                  - generic [ref=e1158]: NIA S138 - KL-000726-2025 - Due in 59 Days
+              - generic [ref=e1159] [cursor=pointer]:
+                - checkbox [ref=e1160]
+                - generic [ref=e1161]:
+                  - generic [ref=e1162]: "Submit stamp & envelope for RPAD : LitigantDemo vs Shoib Khan"
+                  - generic [ref=e1163]: NIA S138 - KL-000726-2025 - Due in 59 Days
+              - generic [ref=e1164] [cursor=pointer]:
+                - checkbox [ref=e1165]
+                - generic [ref=e1166]:
+                  - generic [ref=e1167]: "Submit stamp & envelope for RPAD : LitigantDemo vs Shoib Khan"
+                  - generic [ref=e1168]: NIA S138 - KL-000726-2025 - Due in 59 Days
+              - generic [ref=e1169] [cursor=pointer]:
+                - checkbox [ref=e1170]
+                - generic [ref=e1171]:
+                  - generic [ref=e1172]: "Submit stamp & envelope for RPAD : LitigantDemo vs Shoib Khan"
+                  - generic [ref=e1173]: NIA S138 - KL-000726-2025 - Due in 59 Days
+              - generic [ref=e1174] [cursor=pointer]:
+                - checkbox [ref=e1175]
+                - generic [ref=e1176]:
+                  - generic [ref=e1177]: "Pending Payment : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1178]: NIA S138 - KL-000059-2026 - Due in 61 Days
+              - generic [ref=e1179] [cursor=pointer]:
+                - checkbox [ref=e1180]
+                - generic [ref=e1181]:
+                  - generic [ref=e1182]: "Pending Payment : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1183]: NIA S138 - KL-000060-2026 - Due in 61 Days
+              - generic [ref=e1184] [cursor=pointer]:
+                - checkbox [ref=e1185]
+                - generic [ref=e1186]:
+                  - generic [ref=e1187]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1188]: NIA S138 - KL-000063-2026 - Due in 61 Days
+              - generic [ref=e1189] [cursor=pointer]:
+                - checkbox [ref=e1190]
+                - generic [ref=e1191]:
+                  - generic [ref=e1192]: "Take Steps - Notice : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1193]: NIA S138 - KL-000724-2025 - Due in 60 Days
+              - generic [ref=e1194] [cursor=pointer]:
+                - checkbox [ref=e1195]
+                - generic [ref=e1196]:
+                  - generic [ref=e1197]: "Make Mandatory Submission : B Guru vs Bhuvanyu"
+                  - generic [ref=e1198]: NIA S138 - KL-000771-2025 - Due in 62 Days
+              - generic [ref=e1199] [cursor=pointer]:
+                - checkbox [ref=e1200]
+                - generic [ref=e1201]:
+                  - generic [ref=e1202]: "Pending Payment : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1203]: NIA S138 - KL-000078-2026 - Due in 60 Days
+              - generic [ref=e1204] [cursor=pointer]:
+                - checkbox [ref=e1205]
+                - generic [ref=e1206]:
+                  - generic [ref=e1207]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1208]: NIA S138 - KL-000082-2026 - Due in 60 Days
+              - generic [ref=e1209] [cursor=pointer]:
+                - checkbox [ref=e1210]
+                - generic [ref=e1211]:
+                  - generic [ref=e1212]: "Pending Response for Tetetete : Plea And Examination vs Testing"
+                  - generic [ref=e1213]: NIA S138 - KL-000087-2026 - Due in 42 Days
+              - generic [ref=e1214] [cursor=pointer]:
+                - checkbox [ref=e1215]
+                - generic [ref=e1216]:
+                  - generic [ref=e1217]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1218]: NIA S138 - KL-000097-2026 - Due in 61 Days
+              - generic [ref=e1219] [cursor=pointer]:
+                - checkbox [ref=e1220]
+                - generic [ref=e1221]:
+                  - generic [ref=e1222]: "Pending Payment : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1223]: NIA S138 - KL-000099-2026 - Due in 57 Days
+              - generic [ref=e1224] [cursor=pointer]:
+                - checkbox [ref=e1225]
+                - generic [ref=e1226]:
+                  - generic [ref=e1227]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1228]: NIA S138 - KL-000103-2026 - Due in 57 Days
+              - generic [ref=e1229] [cursor=pointer]:
+                - checkbox [ref=e1230]
+                - generic [ref=e1231]:
+                  - generic [ref=e1232]: "Choose dates for Reschedule of Hearing Date : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1233]: NIA S138 - KL-000792-2025 - Due in 58 Days
+              - generic [ref=e1234] [cursor=pointer]:
+                - checkbox [ref=e1235]
+                - generic [ref=e1236]:
+                  - generic [ref=e1237]: "Pending Payment : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1238]: NIA S138 - KL-000124-2026 - Due in 55 Days
+              - generic [ref=e1239] [cursor=pointer]:
+                - checkbox [ref=e1240]
+                - generic [ref=e1241]:
+                  - generic [ref=e1242]: "Pending Payment : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1243]: NIA S138 - KL-000125-2026 - Due in 55 Days
+              - generic [ref=e1244] [cursor=pointer]:
+                - checkbox [ref=e1245]
+                - generic [ref=e1246]:
+                  - generic [ref=e1247]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1248]: NIA S138 - KL-000128-2026 - Due in 55 Days
+              - generic [ref=e1249] [cursor=pointer]:
+                - checkbox [ref=e1250]
+                - generic [ref=e1251]:
+                  - generic [ref=e1252]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1253]: NIA S138 - KL-000132-2026 - Due in 54 Days
+              - generic [ref=e1254] [cursor=pointer]:
+                - checkbox [ref=e1255]
+                - generic [ref=e1256]:
+                  - generic [ref=e1257]: "Pending Payment : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1258]: NIA S138 - KL-000133-2026 - Due in 54 Days
+              - generic [ref=e1259] [cursor=pointer]:
+                - checkbox [ref=e1260]
+                - generic [ref=e1261]:
+                  - generic [ref=e1262]: "Pending Payment : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1263]: NIA S138 - KL-000134-2026 - Due in 54 Days
+              - generic [ref=e1264] [cursor=pointer]:
+                - checkbox [ref=e1265]
+                - generic [ref=e1266]:
+                  - generic [ref=e1267]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1268]: NIA S138 - KL-000140-2026 - Due in 53 Days
+              - generic [ref=e1269] [cursor=pointer]:
+                - checkbox [ref=e1270]
+                - generic [ref=e1271]:
+                  - generic [ref=e1272]: "Pending Payment : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1273]: NIA S138 - KL-000141-2026 - Due in 53 Days
+              - generic [ref=e1274] [cursor=pointer]:
+                - checkbox [ref=e1275]
+                - generic [ref=e1276]:
+                  - generic [ref=e1277]: "Pending Payment : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1278]: NIA S138 - KL-000142-2026 - Due in 53 Days
+              - generic [ref=e1279] [cursor=pointer]:
+                - checkbox [ref=e1280]
+                - generic [ref=e1281]:
+                  - generic [ref=e1282]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1283]: NIA S138 - KL-000145-2026 - Due in 53 Days
+              - generic [ref=e1284] [cursor=pointer]:
+                - checkbox [ref=e1285]
+                - generic [ref=e1286]:
+                  - generic [ref=e1287]: "Correct File Errors : AdvocateDemo vs Sdf"
+                  - generic [ref=e1288]: NIA S138 - KL-000147-2026 - Due in 54 Days
+              - generic [ref=e1289] [cursor=pointer]:
+                - checkbox [ref=e1290]
+                - generic [ref=e1291]:
+                  - generic [ref=e1292]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1293]: NIA S138 - KL-000160-2026 - Due in 48 Days
+              - generic [ref=e1294] [cursor=pointer]:
+                - checkbox [ref=e1295]
+                - generic [ref=e1296]:
+                  - generic [ref=e1297]: "Pay Vakalatnama Fees : Radhesh vs Radhesh"
+                  - generic [ref=e1298]: NIA S138 - KL-000074-2026 - Due in 49 Days
+              - generic [ref=e1299] [cursor=pointer]:
+                - checkbox [ref=e1300]
+                - generic [ref=e1301]:
+                  - generic [ref=e1302]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1303]: NIA S138 - KL-000161-2026 - Due in 48 Days
+              - generic [ref=e1304] [cursor=pointer]:
+                - checkbox [ref=e1305]
+                - generic [ref=e1306]:
+                  - generic [ref=e1307]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1308]: NIA S138 - KL-000197-2026 - Due in 47 Days
+              - generic [ref=e1309] [cursor=pointer]:
+                - checkbox [ref=e1310]
+                - generic [ref=e1311]:
+                  - generic [ref=e1312]: "Pending re-upload signature for case : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1313]: NIA S138 - KL-000215-2026 - No Due Date
+              - generic [ref=e1314] [cursor=pointer]:
+                - checkbox [ref=e1315]
+                - generic [ref=e1316]:
+                  - generic [ref=e1317]: "Pending re-upload signature for case : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1318]: NIA S138 - KL-000216-2026 - No Due Date
+              - generic [ref=e1319] [cursor=pointer]:
+                - checkbox [ref=e1320]
+                - generic [ref=e1321]:
+                  - generic [ref=e1322]: "Correct File Errors : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1323]: NIA S138 - KL-000216-2026 - Due in 48 Days
+              - generic [ref=e1324] [cursor=pointer]:
+                - checkbox [ref=e1325]
+                - generic [ref=e1326]:
+                  - generic [ref=e1327]: "Pending re-upload signature for case : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1328]: NIA S138 - KL-000217-2026 - No Due Date
+              - generic [ref=e1329] [cursor=pointer]:
+                - checkbox [ref=e1330]
+                - generic [ref=e1331]:
+                  - generic [ref=e1332]: "Correct File Errors : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1333]: NIA S138 - KL-000217-2026 - Due in 48 Days
+              - generic [ref=e1334] [cursor=pointer]:
+                - checkbox [ref=e1335]
+                - generic [ref=e1336]:
+                  - generic [ref=e1337]: "Pending re-upload signature for case : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1338]: NIA S138 - KL-000218-2026 - No Due Date
+              - generic [ref=e1339] [cursor=pointer]:
+                - checkbox [ref=e1340]
+                - generic [ref=e1341]:
+                  - generic [ref=e1342]: "Correct File Errors : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1343]: NIA S138 - KL-000218-2026 - Due in 48 Days
+              - generic [ref=e1344] [cursor=pointer]:
+                - checkbox [ref=e1345]
+                - generic [ref=e1346]:
+                  - generic [ref=e1347]: "Pending re-upload signature for case : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1348]: NIA S138 - KL-000219-2026 - No Due Date
+              - generic [ref=e1349] [cursor=pointer]:
+                - checkbox [ref=e1350]
+                - generic [ref=e1351]:
+                  - generic [ref=e1352]: "Correct File Errors : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1353]: NIA S138 - KL-000219-2026 - Due in 48 Days
+              - generic [ref=e1354] [cursor=pointer]:
+                - checkbox [ref=e1355]
+                - generic [ref=e1356]:
+                  - generic [ref=e1357]: "Pending re-upload signature for case : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1358]: NIA S138 - KL-000220-2026 - No Due Date
+              - generic [ref=e1359] [cursor=pointer]:
+                - checkbox [ref=e1360]
+                - generic [ref=e1361]:
+                  - generic [ref=e1362]: "Correct File Errors : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1363]: NIA S138 - KL-000220-2026 - Due in 48 Days
+              - generic [ref=e1364] [cursor=pointer]:
+                - checkbox [ref=e1365]
+                - generic [ref=e1366]:
+                  - generic [ref=e1367]: "Pending Payment : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1368]: NIA S138 - KL-000221-2026 - Due in 47 Days
+              - generic [ref=e1369] [cursor=pointer]:
+                - checkbox [ref=e1370]
+                - generic [ref=e1371]:
+                  - generic [ref=e1372]: "Choose dates for Reschedule of Hearing Date : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1373]: NIA S138 - KL-000186-2026 - Due in 48 Days
+              - generic [ref=e1374] [cursor=pointer]:
+                - checkbox [ref=e1375]
+                - generic [ref=e1376]:
+                  - generic [ref=e1377]: "Take Steps - Notice : Compliant Of Bail vs Accused Of Bail"
+                  - generic [ref=e1378]: NIA S138 - KL-000745-2025 - Due in 46 Days
+              - generic [ref=e1379] [cursor=pointer]:
+                - checkbox [ref=e1380]
+                - generic [ref=e1381]:
+                  - generic [ref=e1382]: "Choose dates for Reschedule of Hearing Date : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1383]: NIA S138 - KL-000020-2026 - Due in 41 Days
+              - generic [ref=e1384] [cursor=pointer]:
+                - checkbox [ref=e1385]
+                - generic [ref=e1386]:
+                  - generic [ref=e1387]: "Take Steps - Notice : B Guru vs Bhuvanyu"
+                  - generic [ref=e1388]: NIA S138 - KL-000711-2025 - Due in 38 Days
+              - generic [ref=e1389] [cursor=pointer]:
+                - checkbox [ref=e1390]
+                - generic [ref=e1391]:
+                  - generic [ref=e1392]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1393]: NIA S138 - KL-000295-2026 - Due in 36 Days
+              - generic [ref=e1394] [cursor=pointer]:
+                - checkbox [ref=e1395]
+                - generic [ref=e1396]:
+                  - generic [ref=e1397]: "Make Mandatory Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1398]: NIA S138 - KL-000068-2026 - Due in 33 Days
+              - generic [ref=e1399] [cursor=pointer]:
+                - checkbox [ref=e1400]
+                - generic [ref=e1401]:
+                  - generic [ref=e1402]: "Make payment for Submission : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1403]: NIA S138 - KL-000333-2026 - Due in 32 Days
+              - generic [ref=e1404] [cursor=pointer]:
+                - checkbox [ref=e1405]
+                - generic [ref=e1406]:
+                  - generic [ref=e1407]: "Correct File Errors : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1408]: NIA S138 - KL-000342-2026 - Due in 33 Days
+              - generic [ref=e1409] [cursor=pointer]:
+                - checkbox [ref=e1410]
+                - generic [ref=e1411]:
+                  - generic [ref=e1412]: "Pending E-Sign for Document Submission : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1413]: NIA S138 - KL-000333-2026 - Due in 32 Days
+              - generic [ref=e1414] [cursor=pointer]:
+                - checkbox [ref=e1415]
+                - generic [ref=e1416]:
+                  - generic [ref=e1417]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1418]: NIA S138 - KL-000354-2026 - No Due Date
+              - generic [ref=e1419] [cursor=pointer]:
+                - checkbox [ref=e1420]
+                - generic [ref=e1421]:
+                  - generic [ref=e1422]: "Pending Response for ADV TEST : Dharani Compliant vs Accused"
+                  - generic [ref=e1423]: NIA S138 - KL-000076-2025 - Due in 11 Days
+              - generic [ref=e1424] [cursor=pointer]:
+                - checkbox [ref=e1425]
+                - generic [ref=e1426]:
+                  - generic [ref=e1427]: "Pending Response for Compla : B Guru vs Sri Teja"
+                  - generic [ref=e1428]: NIA S138 - KL-000349-2026 - Due in 11 Days
+              - generic [ref=e1429] [cursor=pointer]:
+                - checkbox [ref=e1430]
+                - generic [ref=e1431]:
+                  - generic [ref=e1432]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1433]: NIA S138 - KL-000364-2026 - Due in 29 Days
+              - generic [ref=e1434] [cursor=pointer]:
+                - checkbox [ref=e1435]
+                - generic [ref=e1436]:
+                  - generic [ref=e1437]: "Correct File Errors : Rajesh Ch and 1 Other vs Company automation"
+                  - generic [ref=e1438]: NIA S138 - KL-000213-2026 - Due in 29 Days
+              - generic [ref=e1439] [cursor=pointer]:
+                - checkbox [ref=e1440]
+                - generic [ref=e1441]:
+                  - generic [ref=e1442]: "Pending Payment : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1443]: NIA S138 - KL-000223-2026 - Due in 27 Days
+              - generic [ref=e1444] [cursor=pointer]:
+                - checkbox [ref=e1445]
+                - generic [ref=e1446]:
+                  - generic [ref=e1447]: "Pending Payment : Asdf vs Asdf"
+                  - generic [ref=e1448]: NIA S138 - KL-000374-2026 - Due in 27 Days
+              - generic [ref=e1449] [cursor=pointer]:
+                - checkbox [ref=e1450]
+                - generic [ref=e1451]:
+                  - generic [ref=e1452]: "Pending Payment : Asdf vs Asdf"
+                  - generic [ref=e1453]: NIA S138 - KL-000375-2026 - Due in 27 Days
+              - generic [ref=e1454] [cursor=pointer]:
+                - checkbox [ref=e1455]
+                - generic [ref=e1456]:
+                  - generic [ref=e1457]: "Pending Payment : Asdf vs Asdf"
+                  - generic [ref=e1458]: NIA S138 - KL-000376-2026 - Due in 27 Days
+              - generic [ref=e1459] [cursor=pointer]:
+                - checkbox [ref=e1460]
+                - generic [ref=e1461]:
+                  - generic [ref=e1462]: "Pending Payment : Asdf vs Asdf"
+                  - generic [ref=e1463]: NIA S138 - KL-000377-2026 - Due in 27 Days
+              - generic [ref=e1464] [cursor=pointer]:
+                - checkbox [ref=e1465]
+                - generic [ref=e1466]:
+                  - generic [ref=e1467]: "Make Mandatory Submission : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1468]: NIA S138 - KL-000333-2026 - Due in 28 Days
+              - generic [ref=e1469] [cursor=pointer]:
+                - checkbox [ref=e1470]
+                - generic [ref=e1471]:
+                  - generic [ref=e1472]: "Pending Payment : Asdf vs Asd"
+                  - generic [ref=e1473]: NIA S138 - KL-000400-2026 - Due in 24 Days
+              - generic [ref=e1474] [cursor=pointer]:
+                - checkbox [ref=e1475]
+                - generic [ref=e1476]:
+                  - generic [ref=e1477]: "Create DCA Applications : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1478]: NIA S138 - KL-000275-2026 - No Due Date
+              - generic [ref=e1479] [cursor=pointer]:
+                - checkbox [ref=e1480]
+                - generic [ref=e1481]:
+                  - generic [ref=e1482]: "Create DCA Applications : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1483]: NIA S138 - KL-000402-2026 - No Due Date
+              - generic [ref=e1484] [cursor=pointer]:
+                - checkbox [ref=e1485]
+                - generic [ref=e1486]:
+                  - generic [ref=e1487]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1488]: NIA S138 - KL-000391-2026 - Due in 21 Days
+              - generic [ref=e1489] [cursor=pointer]:
+                - checkbox [ref=e1490]
+                - generic [ref=e1491]:
+                  - generic [ref=e1492]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1493]: NIA S138 - KL-000428-2026 - No Due Date
+              - generic [ref=e1494] [cursor=pointer]:
+                - checkbox [ref=e1495]
+                - generic [ref=e1496]:
+                  - generic [ref=e1497]: "Pending Upload Signature For Case : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1498]: NIA S138 - KL-000424-2026 - No Due Date
+              - generic [ref=e1499] [cursor=pointer]:
+                - checkbox [ref=e1500]
+                - generic [ref=e1501]:
+                  - generic [ref=e1502]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1503]: NIA S138 - KL-000438-2026 - No Due Date
+              - generic [ref=e1504] [cursor=pointer]:
+                - checkbox [ref=e1505]
+                - generic [ref=e1506]:
+                  - generic [ref=e1507]: "Raise Bail Bond : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1508]: NIA S138 - KL-000459-2026 - Due in 17 Days
+              - generic [ref=e1509] [cursor=pointer]:
+                - checkbox [ref=e1510]
+                - generic [ref=e1511]:
+                  - generic [ref=e1512]: "Raise Bail Bond : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1513]: NIA S138 - KL-000316-2026 - Due in 17 Days
+              - generic [ref=e1514] [cursor=pointer]:
+                - checkbox [ref=e1515]
+                - generic [ref=e1516]:
+                  - generic [ref=e1517]: "Raise Bail Bond : Rajesh Ch and 1 Other vs Automate Company"
+                  - generic [ref=e1518]: NIA S138 - KL-000410-2026 - Due in 17 Days
+              - generic [ref=e1519] [cursor=pointer]:
+                - checkbox [ref=e1520]
+                - generic [ref=e1521]:
+                  - generic [ref=e1522]: "Make payment for Submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1523]: NIA S138 - KL-000467-2026 - Due in 15 Days
+              - generic [ref=e1524] [cursor=pointer]:
+                - checkbox [ref=e1525]
+                - generic [ref=e1526]:
+                  - generic [ref=e1527]: "Make payment for Submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1528]: NIA S138 - KL-000467-2026 - Due in 15 Days
+              - generic [ref=e1529] [cursor=pointer]:
+                - checkbox [ref=e1530]
+                - generic [ref=e1531]:
+                  - generic [ref=e1532]: "Make payment for Submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1533]: NIA S138 - KL-000467-2026 - Due in 15 Days
+              - generic [ref=e1534] [cursor=pointer]:
+                - checkbox [ref=e1535]
+                - generic [ref=e1536]:
+                  - generic [ref=e1537]: "Make payment for Submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1538]: NIA S138 - KL-000467-2026 - Due in 15 Days
+              - generic [ref=e1539] [cursor=pointer]:
+                - checkbox [ref=e1540]
+                - generic [ref=e1541]:
+                  - generic [ref=e1542]: "Esign the submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1543]: NIA S138 - KL-000474-2026 - Due in 14 Days
+              - generic [ref=e1544] [cursor=pointer]:
+                - checkbox [ref=e1545]
+                - generic [ref=e1546]:
+                  - generic [ref=e1547]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1548]: NIA S138 - KL-000491-2026 - Due in 14 Days
+              - generic [ref=e1549] [cursor=pointer]:
+                - checkbox [ref=e1550]
+                - generic [ref=e1551]:
+                  - generic [ref=e1552]: "Pending re-upload signature for case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1553]: NIA S138 - KL-000492-2026 - No Due Date
+              - generic [ref=e1554] [cursor=pointer]:
+                - checkbox [ref=e1555]
+                - generic [ref=e1556]:
+                  - generic [ref=e1557]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1558]: NIA S138 - KL-000495-2026 - Due in 14 Days
+              - generic [ref=e1559] [cursor=pointer]:
+                - checkbox [ref=e1560]
+                - generic [ref=e1561]:
+                  - generic [ref=e1562]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1563]: NIA S138 - KL-000497-2026 - Due in 14 Days
+              - generic [ref=e1564] [cursor=pointer]:
+                - checkbox [ref=e1565]
+                - generic [ref=e1566]:
+                  - generic [ref=e1567]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1568]: NIA S138 - KL-000497-2026 - Due in 14 Days
+              - generic [ref=e1569] [cursor=pointer]:
+                - checkbox [ref=e1570]
+                - generic [ref=e1571]:
+                  - generic [ref=e1572]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1573]: NIA S138 - KL-000497-2026 - Due in 14 Days
+              - generic [ref=e1574] [cursor=pointer]:
+                - checkbox [ref=e1575]
+                - generic [ref=e1576]:
+                  - generic [ref=e1577]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1578]: NIA S138 - KL-000497-2026 - Due in 14 Days
+              - generic [ref=e1579] [cursor=pointer]:
+                - checkbox [ref=e1580]
+                - generic [ref=e1581]:
+                  - generic [ref=e1582]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1583]: NIA S138 - KL-000497-2026 - Due in 14 Days
+              - generic [ref=e1584] [cursor=pointer]:
+                - checkbox [ref=e1585]
+                - generic [ref=e1586]:
+                  - generic [ref=e1587]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1588]: NIA S138 - KL-000497-2026 - Due in 14 Days
+              - generic [ref=e1589] [cursor=pointer]:
+                - checkbox [ref=e1590]
+                - generic [ref=e1591]:
+                  - generic [ref=e1592]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1593]: NIA S138 - KL-000497-2026 - Due in 14 Days
+              - generic [ref=e1594] [cursor=pointer]:
+                - checkbox [ref=e1595]
+                - generic [ref=e1596]:
+                  - generic [ref=e1597]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1598]: NIA S138 - KL-000517-2026 - Due in 13 Days
+              - generic [ref=e1599] [cursor=pointer]:
+                - checkbox [ref=e1600]
+                - generic [ref=e1601]:
+                  - generic [ref=e1602]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1603]: NIA S138 - KL-000521-2026 - Due in 13 Days
+              - generic [ref=e1604] [cursor=pointer]:
+                - checkbox [ref=e1605]
+                - generic [ref=e1606]:
+                  - generic [ref=e1607]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1608]: NIA S138 - KL-000522-2026 - Due in 13 Days
+              - generic [ref=e1609] [cursor=pointer]:
+                - checkbox [ref=e1610]
+                - generic [ref=e1611]:
+                  - generic [ref=e1612]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1613]: NIA S138 - KL-000525-2026 - Due in 13 Days
+              - generic [ref=e1614] [cursor=pointer]:
+                - checkbox [ref=e1615]
+                - generic [ref=e1616]:
+                  - generic [ref=e1617]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1618]: NIA S138 - KL-000517-2026 - Due in 13 Days
+              - generic [ref=e1619] [cursor=pointer]:
+                - checkbox [ref=e1620]
+                - generic [ref=e1621]:
+                  - generic [ref=e1622]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1623]: NIA S138 - KL-000525-2026 - Due in 13 Days
+              - generic [ref=e1624] [cursor=pointer]:
+                - checkbox [ref=e1625]
+                - generic [ref=e1626]:
+                  - generic [ref=e1627]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1628]: NIA S138 - KL-000517-2026 - Due in 13 Days
+              - generic [ref=e1629] [cursor=pointer]:
+                - checkbox [ref=e1630]
+                - generic [ref=e1631]:
+                  - generic [ref=e1632]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1633]: NIA S138 - KL-000517-2026 - Due in 13 Days
+              - generic [ref=e1634] [cursor=pointer]:
+                - checkbox [ref=e1635]
+                - generic [ref=e1636]:
+                  - generic [ref=e1637]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1638]: NIA S138 - KL-000517-2026 - Due in 13 Days
+              - generic [ref=e1639] [cursor=pointer]:
+                - checkbox [ref=e1640]
+                - generic [ref=e1641]:
+                  - generic [ref=e1642]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1643]: NIA S138 - KL-000517-2026 - Due in 13 Days
+              - generic [ref=e1644] [cursor=pointer]:
+                - checkbox [ref=e1645]
+                - generic [ref=e1646]:
+                  - generic [ref=e1647]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1648]: NIA S138 - KL-000517-2026 - Due in 13 Days
+              - generic [ref=e1649] [cursor=pointer]:
+                - checkbox [ref=e1650]
+                - generic [ref=e1651]:
+                  - generic [ref=e1652]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1653]: NIA S138 - KL-000517-2026 - Due in 13 Days
+              - generic [ref=e1654] [cursor=pointer]:
+                - checkbox [ref=e1655]
+                - generic [ref=e1656]:
+                  - generic [ref=e1657]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1658]: NIA S138 - KL-000534-2026 - Due in 13 Days
+              - generic [ref=e1659] [cursor=pointer]:
+                - checkbox [ref=e1660]
+                - generic [ref=e1661]:
+                  - generic [ref=e1662]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1663]: NIA S138 - KL-000535-2026 - Due in 12 Days
+              - generic [ref=e1664] [cursor=pointer]:
+                - checkbox [ref=e1665]
+                - generic [ref=e1666]:
+                  - generic [ref=e1667]: "Pending Payment : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1668]: NIA S138 - KL-000476-2026 - Due in 12 Days
+              - generic [ref=e1669] [cursor=pointer]:
+                - checkbox [ref=e1670]
+                - generic [ref=e1671]:
+                  - generic [ref=e1672]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1673]: NIA S138 - KL-000532-2026 - Due in 12 Days
+              - generic [ref=e1674] [cursor=pointer]:
+                - checkbox [ref=e1675]
+                - generic [ref=e1676]:
+                  - generic [ref=e1677]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1678]: NIA S138 - KL-000532-2026 - Due in 12 Days
+              - generic [ref=e1679] [cursor=pointer]:
+                - checkbox [ref=e1680]
+                - generic [ref=e1681]:
+                  - generic [ref=e1682]: "Take Steps - Notice : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1683]: NIA S138 - KL-000545-2026 - Due in 11 Days
+              - generic [ref=e1684] [cursor=pointer]:
+                - checkbox [ref=e1685]
+                - generic [ref=e1686]:
+                  - generic [ref=e1687]: "Correct File Errors : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1688]: NIA S138 - KL-000547-2026 - Due in 13 Days
+              - generic [ref=e1689] [cursor=pointer]:
+                - checkbox [ref=e1690]
+                - generic [ref=e1691]:
+                  - generic [ref=e1692]: "Take Steps - Notice : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1693]: NIA S138 - KL-000548-2026 - Due in 11 Days
+              - generic [ref=e1694] [cursor=pointer]:
+                - checkbox [ref=e1695]
+                - generic [ref=e1696]:
+                  - generic [ref=e1697]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1698]: NIA S138 - KL-000550-2026 - Due in 12 Days
+              - generic [ref=e1699] [cursor=pointer]:
+                - checkbox [ref=e1700]
+                - generic [ref=e1701]:
+                  - generic [ref=e1702]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1703]: NIA S138 - KL-000548-2026 - Due in 12 Days
+              - generic [ref=e1704] [cursor=pointer]:
+                - checkbox [ref=e1705]
+                - generic [ref=e1706]:
+                  - generic [ref=e1707]: "Esign the submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1708]: NIA S138 - KL-000545-2026 - Due in 12 Days
+              - generic [ref=e1709] [cursor=pointer]:
+                - checkbox [ref=e1710]
+                - generic [ref=e1711]:
+                  - generic [ref=e1712]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1713]: NIA S138 - KL-000554-2026 - Due in 11 Days
+              - generic [ref=e1714] [cursor=pointer]:
+                - checkbox [ref=e1715]
+                - generic [ref=e1716]:
+                  - generic [ref=e1717]: "Make payment for Submission : LitigantDemo and 1 Other vs AccusedONe and 1 Others"
+                  - generic [ref=e1718]: NIA S138 - KL-000426-2026 - Due in 11 Days
+              - generic [ref=e1719] [cursor=pointer]:
+                - checkbox [ref=e1720]
+                - generic [ref=e1721]:
+                  - generic [ref=e1722]: "Payment for warrant : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1723]: NIA S138 - KL-000554-2026 - Due in 12 Days
+              - generic [ref=e1724] [cursor=pointer]:
+                - checkbox [ref=e1725]
+                - generic [ref=e1726]:
+                  - generic [ref=e1727]: "Take Steps - Notice : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1728]: NIA S138 - KL-000574-2026 - Due in 7 Days
+              - generic [ref=e1729] [cursor=pointer]:
+                - checkbox [ref=e1730]
+                - generic [ref=e1731]:
+                  - generic [ref=e1732]: "Pending Upload Signature For Case : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1733]: NIA S138 - KL-000606-2026 - No Due Date
+              - generic [ref=e1734] [cursor=pointer]:
+                - checkbox [ref=e1735]
+                - generic [ref=e1736]:
+                  - generic [ref=e1737]: "Make payment for Submission : Iknoor Demo Env and 1 Other vs Automation Accused"
+                  - generic [ref=e1738]: NIA S138 - KL-000467-2026 - Due in 7 Days
+              - generic [ref=e1739] [cursor=pointer]:
+                - checkbox [ref=e1740]
+                - generic [ref=e1741]:
+                  - generic [ref=e1742]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1743]: NIA S138 - KL-000619-2026 - Due in 7 Days
+              - generic [ref=e1744] [cursor=pointer]:
+                - checkbox [ref=e1745]
+                - generic [ref=e1746]:
+                  - generic [ref=e1747]: "Make payment for Submission : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1748]: NIA S138 - KL-000619-2026 - Due in 7 Days
+              - generic [ref=e1749] [cursor=pointer]:
+                - checkbox [ref=e1750]
+                - generic [ref=e1751]:
+                  - generic [ref=e1752]: "Correct File Errors : Iknoor vs Test Legal D N"
+                  - generic [ref=e1753]: NIA S138 - KL-000622-2026 - Due in 7 Days
+              - generic [ref=e1754] [cursor=pointer]:
+                - checkbox [ref=e1755]
+                - generic [ref=e1756]:
+                  - generic [ref=e1757]: "Raise Bail Bond : Rajesh Ch vs Automation Accused"
+                  - generic [ref=e1758]: NIA S138 - KL-000605-2026 - Due in 8 Days
+  - generic [ref=e1759]:
+    - img [ref=e1760]
+    - img [ref=e1761]
+```

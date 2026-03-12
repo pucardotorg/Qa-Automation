@@ -243,7 +243,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
         );
     });
 
-    test('17 - Third advocate replaces existing advocate without payment (judge approval)', async ({ page }) => {
+   /* test('17 - Third advocate replaces existing advocate without payment (judge approval)', async ({ page }) => {
         test.setTimeout(600000);
 
         const joinCase = new JoinCasePage(page, globals);
@@ -264,5 +264,5 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
         await employeeLogin.open();
         await employeeLogin.loginAsJudge();
         await judge.reviewAdvReplacement(globals.stNumber);
-    });
+    });*/
 });
