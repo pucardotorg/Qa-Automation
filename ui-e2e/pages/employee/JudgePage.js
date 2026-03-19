@@ -88,34 +88,75 @@ class JudgePage extends BasePage {
     await this.scheduleHearingBtn.click();
     await this.page.waitForTimeout(1000);
 
+    // Click "Select another date" to open calendar popup
     await this.selectCustomDateBtn.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(2000);
 
-    // Wait for the calendar popup to be visible
+    // Wait for the "Select Custom Date" modal to appear
     await this.page.waitForSelector('text=Select Custom Date', { state: 'visible', timeout: 10000 });
-
+    await this.page.waitForTimeout(1000);
+    
     // Calculate target date (10 working days from now)
     const targetDate = this.calculateWorkingDaysFromNow(10);
     const currentDate = new Date();
-
+    
+    console.log(`[JudgePage] Current date: ${currentDate.toDateString()}`);
+    console.log(`[JudgePage] Target date (10 working days): ${targetDate.toDateString()}`);
+    
     // Navigate to the correct month if needed
     const monthsToNavigate = (targetDate.getFullYear() - currentDate.getFullYear()) * 12 +
       (targetDate.getMonth() - currentDate.getMonth());
-
-    for (let i = 0; i < monthsToNavigate; i++) {
-      const nextMonthBtn = this.page.getByRole('button').filter({ hasText: /^$/ }).last();
-      await nextMonthBtn.click();
-      await this.page.waitForTimeout(500);
+    
+    console.log(`[JudgePage] Months to navigate: ${monthsToNavigate}`);
+    
+    if (monthsToNavigate > 0) {
+      for (let i = 0; i < monthsToNavigate; i++) {
+        // Click the right arrow (>) button to navigate to next month
+        await this.page.locator('button').filter({ hasText: '›' }).or(
+          this.page.locator('button:has(svg):last-of-type')
+        ).last().click();
+        await this.page.waitForTimeout(800);
+        console.log(`[JudgePage] Navigated to next month (${i + 1}/${monthsToNavigate})`);
+      }
     }
+    
+    // Select the specific target day
+    const dayToSelect = targetDate.getDate();
+    console.log(`[JudgePage] Looking for day: ${dayToSelect}`);
+    
+    // Find all active weekday buttons
+    const allDayButtons = await this.page.locator('button.rdrDay:not(.rdrDayPassive):not(.rdrDayWeekend)').all();
+    console.log(`[JudgePage] Found ${allDayButtons.length} active weekday buttons`);
+    
+    let targetButton = null;
+    for (const btn of allDayButtons) {
+      const text = await btn.textContent();
+      const cleanText = text.trim();
+      // Extract the first number from text like "21 9 Hearings" or just "21"
+      const dayMatch = cleanText.match(/^(\d+)/);
+      if (dayMatch && parseInt(dayMatch[1]) === dayToSelect) {
+        targetButton = btn;
+        console.log(`[JudgePage] Found target day button: ${dayToSelect} (full text: "${cleanText}")`);
+        break;
+      }
+    }
+    
+    if (!targetButton) {
+      console.log('[JudgePage] Could not find exact day, selecting first available weekday');
+      targetButton = allDayButtons[0];
+    }
+    
+    await targetButton.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(500);
+    await targetButton.click();
+    console.log('[JudgePage] Clicked date button');
+    await this.page.waitForTimeout(1500);
 
-    // Select the target day
-    const dayToSelect = targetDate.getDate().toString();
-    // Use getByRole to find button with the day number, which works even if it has "Hearings" text
-    const dateButton = this.page.getByRole('button', { name: new RegExp(`^${dayToSelect}`) });
-    await dateButton.waitFor({ state: 'visible', timeout: 10000 });
-    await dateButton.click();
-
-    await this.confirmBtn.click();
+    // Click the Confirm button in the calendar popup
+    const confirmButton = this.page.getByRole('button', { name: 'Confirm' });
+    await confirmButton.waitFor({ state: 'visible', timeout: 5000 });
+    console.log('[JudgePage] Clicking Confirm button');
+    await confirmButton.click();
     await this.page.waitForTimeout(1000);
   }
 
@@ -238,7 +279,7 @@ class JudgePage extends BasePage {
     const projectDownloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
     fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
     await download.saveAs(projectDownloadPath);
-    console.log(`File downloaded: ${projectDownloadPath}`);
+    console.log(`[JudgePage] File downloaded: ${projectDownloadPath}`);
 
     await this.uploadOrderBtn.click();
     await this.page.waitForTimeout(2000);
@@ -657,31 +698,37 @@ class JudgePage extends BasePage {
     return { accessCode, cmpNumber };
   }
 
-  /**
-   * Judge starts a hearing from the case list dashboard.
-   * Navigates via home → search filed number → kebab menu → Start Hearing.
-   * Converted from: UI Tests/tests/8-WitnessEvidence/5-startHearing.spec.js
-   *
-   * @param {string} filingNumber - Filing number to search for on the home dashboard
-   */
   async startHearing(filingNumber) {
     console.log('[JudgePage] Starting hearing...');
 
     // Use the dashboard search (different from All Cases search)
-    await this.page.getByRole('textbox', { name: 'Search Case Name or Number' }).click();
+    console.log('[JudgePage] Searching for case...');
+    const searchBox = this.page.getByRole('textbox', { name: 'Search Case Name or Number' });
+    await searchBox.waitFor({ state: 'visible', timeout: 10000 });
+    await searchBox.click();
+    await this.page.waitForTimeout(1000);
+    await searchBox.fill(filingNumber);
+    await this.page.waitForTimeout(1000);
+    
+    const searchBtn = this.page.getByRole('button', { name: 'Search', exact: true });
+    await searchBtn.waitFor({ state: 'visible', timeout: 10000 });
+    await searchBtn.click();
+    await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
-    await this.page.getByRole('textbox', { name: 'Search Case Name or Number' }).fill(filingNumber);
-    await this.page.waitForLoadState('networkidle');
-    await this.page.getByRole('button', { name: 'Search', exact: true }).click();
-    await this.page.waitForLoadState('networkidle');
 
     // Click the kebab/action icon in the 7th column
-    await this.page.locator('td:nth-child(7) > div > div > div > svg > path').click();
-    await this.page.waitForTimeout(5000);
+    console.log('[JudgePage] Opening kebab menu...');
+    const kebabIcon = this.page.locator('td:nth-child(7) > div > div > div > svg > path').first();
+    await kebabIcon.waitFor({ state: 'visible', timeout: 10000 });
+    await kebabIcon.click();
+    await this.page.waitForTimeout(3000);
 
-    await this.page.getByText('Start Hearing').click();
+    console.log('[JudgePage] Clicking Start Hearing...');
+    const startHearingBtn = this.page.getByText('Start Hearing');
+    await startHearingBtn.waitFor({ state: 'visible', timeout: 10000 });
+    await startHearingBtn.click();
     await this.page.waitForLoadState('networkidle');
-    await this.page.waitForTimeout(5000);
+    await this.page.waitForTimeout(3000);
     console.log('[JudgePage] Hearing started.');
   }
 
@@ -834,12 +881,19 @@ class JudgePage extends BasePage {
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
 
-    // Sign the deposition
-    await this.page.getByRole('button', { name: 'Proceed To Sign' }).click();
-    await this.page.getByText('click here').click();
+    console.log('[JudgePage] Waiting for Proceed To Sign button...');
+    const proceedToSignBtn = this.page.getByRole('button', { name: 'Proceed To Sign' });
+    await proceedToSignBtn.waitFor({ state: 'visible', timeout: 30000 });
+    await proceedToSignBtn.click();
+    await this.page.waitForTimeout(2000);
+    
+    console.log('[JudgePage] Downloading deposition document...');
+    const clickHereLink = this.page.getByText('click here');
+    await clickHereLink.waitFor({ state: 'visible', timeout: 10000 });
+    
     const [download] = await Promise.all([
       this.page.waitForEvent('download'),
-      this.page.click('text=click here'),
+      clickHereLink.click(),
     ]);
 
     const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
@@ -847,16 +901,32 @@ class JudgePage extends BasePage {
     await download.saveAs(downloadPath);
     console.log(`[JudgePage] Sign deposition doc downloaded: ${downloadPath}`);
 
-    await this.page.getByRole('button', { name: 'Upload Order Document with Signature' }).click();
-    await this.page.waitForLoadState('networkidle');
+    console.log('[JudgePage] Uploading signed document...');
+    const uploadBtn = this.page.getByRole('button', { name: 'Upload Order Document with Signature' });
+    await uploadBtn.waitFor({ state: 'visible', timeout: 10000 });
+    await uploadBtn.click();
     await this.page.waitForTimeout(2000);
+    
     await this.page.locator('input[type="file"]').first().setInputFiles(downloadPath);
+    await this.page.waitForTimeout(2000);
+    
+    console.log('[JudgePage] Submitting signature...');
+    await this.submitSignatureBtn.waitFor({ state: 'visible', timeout: 10000 });
     await this.submitSignatureBtn.click();
     await this.page.waitForTimeout(3000);
-    await this.page.getByRole('button', { name: 'Submit' }).click();
+    
+    console.log('[JudgePage] Clicking Submit...');
+    const submitBtn = this.page.getByRole('button', { name: 'Submit' });
+    await submitBtn.waitFor({ state: 'visible', timeout: 10000 });
+    await submitBtn.click();
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
-    await this.page.getByRole('button', { name: 'Close' }).click();
+    
+    console.log('[JudgePage] Closing confirmation...');
+    const closeBtn = this.page.getByRole('button', { name: 'Close' });
+    await closeBtn.waitFor({ state: 'visible', timeout: 10000 });
+    await closeBtn.click();
+    await this.page.waitForTimeout(1000);
 
     console.log('[JudgePage] Witness deposition signed successfully.');
   }

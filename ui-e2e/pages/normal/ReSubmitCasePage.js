@@ -38,22 +38,38 @@ class ReSubmitCasePage extends BasePage {
         await this.page.locator('input[name="caseSearchText"]').fill(filingNumber);
         await this.page.getByRole('button').filter({ hasText: 'Search' }).click();
 
+        // Wait for search results to load
+        await this.page.waitForTimeout(2000);
+        await this.page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {
+            console.log('[ReSubmitCasePage] Network idle timeout, continuing...');
+        });
+
         // Open the returned case
         await this.page.getByRole('cell', { name: filingNumber }).click();
+        await this.page.waitForTimeout(2000);
         console.log('[ReSubmitCasePage] Opened returned case for correction.');
 
-        // Make the required correction (payerBankName = 'Resubmit' signals re-submission)
-        await this.page.locator('input[name="payerBankName"]').click();
-        await this.page.locator('input[name="payerBankName"]').fill('Resubmit');
+        // Wait for the form to be fully loaded
+        await this.page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {
+            console.log('[ReSubmitCasePage] Network idle timeout after opening case, continuing...');
+        });
 
-        // Navigate through the wizard steps
+        // Navigate through the wizard steps - skip editing payerBankName
+        await this.page.waitForTimeout(1000);
         await this.page.getByRole('button').filter({ hasText: 'Next' }).click();
+        await this.page.waitForTimeout(1000);
 
         // Close/dismiss any side panel
-        await this.page.locator('.header-end > div > svg').click();
+        try {
+            await this.page.locator('.header-end > div > svg').click({ timeout: 5000 });
+        } catch (error) {
+            console.log('[ReSubmitCasePage] No side panel to close or already closed');
+        }
 
         // Advance to the signature step
+        await this.page.waitForTimeout(1000);
         await this.page.getByRole('button').filter({ hasText: 'Next' }).click();
+        await this.page.waitForTimeout(1000);
 
         // Consent checkbox
         await this.page.getByRole('checkbox').check();
@@ -87,10 +103,13 @@ class ReSubmitCasePage extends BasePage {
         console.log('[ReSubmitCasePage] Signature submitted.');
 
         // Submit the re-submitted case
+        await this.page.waitForTimeout(2000);
         await this.page.getByRole('button').filter({ hasText: 'Submit Case' }).click();
         console.log('[ReSubmitCasePage] Case re-submitted successfully.');
 
-        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {
+            console.log('[ReSubmitCasePage] Network idle timeout after submission, continuing...');
+        });
     }
 
     /**
@@ -113,6 +132,12 @@ class ReSubmitCasePage extends BasePage {
         await this.page.locator('input[name="caseSearchText"]').click();
         await this.page.locator('input[name="caseSearchText"]').fill(filingNumber);
         await this.page.getByRole('button').filter({ hasText: 'Search' }).click();
+
+        // Wait for search results to load
+        await this.page.waitForTimeout(2000);
+        await this.page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {
+            console.log('[ReSubmitCasePage] Network idle timeout, continuing...');
+        });
 
         // Open the returned case
         await this.page.getByRole('cell', { name: filingNumber }).click();

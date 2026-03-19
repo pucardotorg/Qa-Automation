@@ -1,0 +1,260 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e5]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9] [cursor=pointer]:
+          - img "mSeva" [ref=e10]
+          - img "mSeva" [ref=e11]
+        - heading [level=3] [ref=e12]
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - button "Adv. ADV TEST 's Profile" [disabled] [ref=e16]:
+            - generic [ref=e17]: Adv. ADV TEST 's Profile
+            - img [ref=e18]
+          - button "Manage Office" [ref=e21] [cursor=pointer]:
+            - img [ref=e22]
+            - generic [ref=e24]: Manage Office
+        - generic [ref=e27] [cursor=pointer]: A
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]:
+            - img [ref=e37]
+            - generic [ref=e40]: You are filing a case
+          - paragraph [ref=e41]:
+            - text: Under
+            - link "S-138, Negotiable Instruments Act" [ref=e42] [cursor=pointer]:
+              - /url: https://www.indiacode.nic.in/bitstream/123456789/2189/1/a1881-26.pdf
+            - text: In Kollam S-138 Special Court.
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - generic [ref=e45] [cursor=pointer]:
+              - generic [ref=e46]: 1. Litigant Details
+              - generic [ref=e47]:
+                - img [ref=e48]
+                - generic [ref=e50]: 04m
+                - img [ref=e52]
+            - generic [ref=e54]:
+              - generic [ref=e55]:
+                - img [ref=e56]
+                - generic [ref=e59]: Complainant Details
+              - generic [ref=e60]:
+                - img [ref=e61]
+                - generic [ref=e64]: Accused Details
+          - generic [ref=e65]:
+            - generic [ref=e66] [cursor=pointer]:
+              - generic [ref=e67]: 2. Case Specific Details
+              - generic [ref=e68]:
+                - img [ref=e69]
+                - generic [ref=e71]: 15m
+                - img [ref=e73]
+            - generic [ref=e76]:
+              - generic [ref=e77]:
+                - radio [checked] [ref=e79] [cursor=pointer]
+                - generic [ref=e81]: Cheque Details
+              - generic [ref=e82]:
+                - radio [ref=e84] [cursor=pointer]
+                - generic [ref=e86]: Debt/ Liability Details
+              - generic [ref=e87]:
+                - radio [ref=e89] [cursor=pointer]
+                - generic [ref=e91]: Legal Demand Notice Details
+              - generic [ref=e92]:
+                - radio [ref=e94] [cursor=pointer]
+                - generic [ref=e96]: Delay Condonation Application
+          - generic [ref=e97]:
+            - generic [ref=e98] [cursor=pointer]:
+              - generic [ref=e99]: 3. Additional Details
+              - generic [ref=e100]:
+                - img [ref=e101]
+                - generic [ref=e103]: 10m
+                - img [ref=e105]
+            - generic [ref=e107]:
+              - generic [ref=e108]:
+                - radio [ref=e110] [cursor=pointer]
+                - generic [ref=e112]: Witness Details (optional)
+              - generic [ref=e113]:
+                - radio [ref=e115] [cursor=pointer]
+                - generic [ref=e117]: Complaint
+              - generic [ref=e118]:
+                - radio [ref=e120] [cursor=pointer]
+                - generic [ref=e122]: Advocate Details
+          - generic [ref=e123]:
+            - generic [ref=e124] [cursor=pointer]:
+              - generic [ref=e125]: 4. Payment Confirmation
+              - generic [ref=e126]:
+                - img [ref=e127]
+                - generic [ref=e129]: 06m
+                - img [ref=e131]
+            - generic [ref=e134]:
+              - radio [ref=e136] [cursor=pointer]
+              - generic [ref=e138]: Process Delivery - Courier Service
+          - generic [ref=e139]:
+            - generic [ref=e140] [cursor=pointer]:
+              - generic [ref=e141]: 5. Review & Sign
+              - generic [ref=e142]:
+                - img [ref=e143]
+                - generic [ref=e145]: 05m
+                - img [ref=e147]
+            - generic [ref=e150]:
+              - radio [ref=e152] [cursor=pointer]
+              - generic [ref=e154]: Review Case File
+      - generic [ref=e156]:
+        - generic [ref=e157]:
+          - banner [ref=e161]: Cheque Details
+          - paragraph [ref=e162]: Please provide the necessary details about the cheque(s)
+        - generic [ref=e163]:
+          - heading "Cheque 1" [level=1] [ref=e165]
+          - generic [ref=e166]:
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - heading "Name of the person who issued/signed the cheque" [level=2] [ref=e169]
+                - textbox [ref=e173]: Test
+              - generic [ref=e176]:
+                - heading "Dishonored Cheque" [level=1] [ref=e179]
+                - generic [ref=e181]:
+                  - generic [ref=e182]:
+                    - img [ref=e184]
+                    - heading "cheque.png" [level=3] [ref=e186]
+                  - generic [ref=e187]:
+                    - generic [ref=e189]:
+                      - button "Choose File"
+                      - button "Reupload" [ref=e190] [cursor=pointer]:
+                        - img [ref=e192]
+                        - heading "Reupload" [level=2] [ref=e194]
+                    - button "Delete" [ref=e195] [cursor=pointer]:
+                      - img [ref=e197]
+                      - heading "Delete" [level=2] [ref=e199]
+                - generic [ref=e200]:
+                  - generic [ref=e201]:
+                    - button "Choose File"
+                    - generic [ref=e202]:
+                      - img [ref=e203]
+                      - paragraph [ref=e206]: Drag and drop your file or Browse in my files
+                  - paragraph [ref=e208]: Upload .jpg, .jpeg, .pdf or .png. Maximum upload size of 10MB. Please upload a clear and straight image
+              - generic [ref=e209]:
+                - heading "Payee Name on Cheque (Complainant’s name)" [level=2] [ref=e210]
+                - textbox [ref=e214]: Name On Cheque
+              - generic [ref=e215]:
+                - heading [level=2]
+                - generic [ref=e218]:
+                  - generic [ref=e220]: IFSC Code (IFSC Code of the bank branch with which the payee maintains an account)
+                  - generic [ref=e221]:
+                    - textbox [ref=e224]: KLGB0040237
+                    - button "Search" [ref=e226] [cursor=pointer]
+              - generic [ref=e227]:
+                - heading "Payee Bank Name (Complainant’s bank name)" [level=2] [ref=e228]
+                - generic [ref=e231]:
+                  - textbox: Kerala Gramin Bank
+              - generic [ref=e232]:
+                - heading "Payee Bank Branch Name (Complainant’s bank branch name)" [level=2] [ref=e233]
+                - generic [ref=e236]:
+                  - textbox: KUNINGAD
+              - generic [ref=e237]:
+                - heading "Cheque Number" [level=2] [ref=e238]
+                - textbox [ref=e242]: "123123"
+              - generic [ref=e243]:
+                - heading "Date of Cheque" [level=2] [ref=e244]
+                - textbox [ref=e248]: 2025-06-01
+              - generic [ref=e249]:
+                - heading [level=2]
+                - generic [ref=e252]:
+                  - generic [ref=e254]: IFSC Code (IFSC Code of the bank branch with which the payer maintains an account)
+                  - generic [ref=e255]:
+                    - textbox [ref=e258]: KLGB0040237
+                    - button "Search" [ref=e260] [cursor=pointer]
+              - generic [ref=e261]:
+                - heading "Payer Bank Name (Accused’s bank name)" [level=2] [ref=e262]
+                - generic [ref=e265]:
+                  - textbox: Kerala Gramin Bank
+              - generic [ref=e266]:
+                - heading "Payer Bank Branch Name (Accused’s bank branch name)" [level=2] [ref=e267]
+                - generic [ref=e270]:
+                  - textbox: KUNINGAD
+              - generic [ref=e271]:
+                - heading "Cheque Amount" [level=2] [ref=e272]
+                - generic [ref=e274]:
+                  - generic [ref=e275]: ₹
+                  - textbox [ref=e277]: 9,999
+              - generic [ref=e278]:
+                - heading "Police Station with Jurisdiction over the Cheque Deposit Bank" [level=2] [ref=e279]
+                - generic [ref=e282]:
+                  - textbox [ref=e283]: MEDICAL COLLEGE PS
+                  - img [ref=e284] [cursor=pointer]
+              - generic [ref=e287]:
+                - heading "Date of Return of Cheque as per Cheque Return Memo" [level=2] [ref=e288]
+                - textbox [ref=e292]: 2025-06-15
+              - generic [ref=e295]:
+                - generic [ref=e297]:
+                  - heading "Proof of deposit of Cheque" [level=1] [ref=e298]
+                  - generic [ref=e299] [cursor=pointer]: (optional)
+                - generic [ref=e300]:
+                  - generic [ref=e301]:
+                    - button "Choose File"
+                    - generic [ref=e302]:
+                      - img [ref=e303]
+                      - paragraph [ref=e306]: Drag and drop your file or Browse in my files
+                  - paragraph [ref=e308]: Upload .jpg, .jpeg, .pdf or .png. Maximum upload size of 10MB. Please upload a clear and straight image
+              - generic [ref=e309]:
+                - heading [level=2]
+                - generic [ref=e311]:
+                  - paragraph [ref=e314]: Reason for the return of cheque
+                  - textbox [ref=e315]: reason
+              - generic [ref=e318]:
+                - heading "Cheque Return Memo" [level=1] [ref=e321]
+                - generic [ref=e323]:
+                  - generic [ref=e324]:
+                    - img [ref=e326]
+                    - heading "return-memo.png" [level=3] [ref=e328]
+                  - generic [ref=e329]:
+                    - generic [ref=e331]:
+                      - button "Choose File"
+                      - button "Reupload" [ref=e332] [cursor=pointer]:
+                        - img [ref=e334]
+                        - heading "Reupload" [level=2] [ref=e336]
+                    - button "Delete" [ref=e337] [cursor=pointer]:
+                      - img [ref=e339]
+                      - heading "Delete" [level=2] [ref=e341]
+                - generic [ref=e342]:
+                  - generic [ref=e343]:
+                    - button "Choose File"
+                    - generic [ref=e344]:
+                      - img [ref=e345]
+                      - paragraph [ref=e348]: Drag and drop your file or Browse in my files
+                  - paragraph [ref=e350]: Upload .jpg, .jpeg, .pdf or .png. Maximum upload size of 10MB. Please upload a clear and straight image
+              - generic [ref=e353]:
+                - paragraph [ref=e356]:
+                  - text: Additional details about cheque
+                  - generic [ref=e357]: (optional)
+                - generic [ref=e359]:
+                  - generic [ref=e360]:
+                    - generic [ref=e361]:
+                      - button [ref=e362] [cursor=pointer]:
+                        - img [ref=e363]
+                      - button [ref=e366] [cursor=pointer]:
+                        - img [ref=e367]
+                    - generic [ref=e369]:
+                      - button [ref=e370] [cursor=pointer]:
+                        - img [ref=e371]
+                      - button [ref=e375] [cursor=pointer]:
+                        - img [ref=e376]
+                    - button [ref=e379] [cursor=pointer]:
+                      - img [ref=e380]
+                  - generic [ref=e381]:
+                    - paragraph [ref=e383]
+                    - text: "Visit URL: EditRemove"
+            - generic [ref=e384]:
+              - button [active] [ref=e385] [cursor=pointer]:
+                - banner [ref=e386]: Continue
+                - img [ref=e387]
+              - button "Save as Draft" [ref=e389] [cursor=pointer]:
+                - heading "Save as Draft" [level=2] [ref=e390]
+        - button "Add Cheque" [ref=e391] [cursor=pointer]:
+          - img [ref=e392]
+          - heading "Add Cheque" [level=2] [ref=e394]
+  - generic [ref=e395]:
+    - img [ref=e396]
+    - img [ref=e397]
+```

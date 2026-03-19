@@ -40,7 +40,7 @@
 
 const { execSync } = require('child_process');
 const path = require('path');
-const { loadRowFromCsv, getAllRowsFromCsv } = require('../../helpers/csv');
+const csv = require('../../helpers/csv');
 
 // ─── Configuration ─────────────────────────────────────────────────────────
 
@@ -79,7 +79,7 @@ if (IS_HEADED) process.env.HEADED = '1';
 function buildFlowsFromCsv() {
     let allRows;
     try {
-        allRows = getAllRowsFromCsv();
+        allRows = csv.getAllRowsFromCsv();
     } catch (err) {
         console.error(`[run-all-flows] ❌  Could not read test-data.csv:\n  ${err.message}`);
         process.exit(1);
@@ -150,7 +150,7 @@ function runSpec(flow, index, totalFlows) {
     // ── Load this flow's test data row from CSV into the env JSON ──────────
     try {
         console.log(`[⚓  CSV]  Loading row ${rowIndex + 1} for this flow...`);
-        loadRowFromCsv({ rowIndex, env: process.env.TEST_ENV });
+        csv.loadRowFromCsv({ rowIndex, env: process.env.TEST_ENV });
     } catch (err) {
         console.warn(
             `[csv.js] Could not load row ${rowIndex} from CSV — ` +
