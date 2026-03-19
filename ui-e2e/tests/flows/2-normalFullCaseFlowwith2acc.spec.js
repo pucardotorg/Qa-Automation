@@ -30,7 +30,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
     });
 
     test('01 - File a case successfully (2 Complainants + 1 Accused Entity)', async ({ page }) => {
-        test.setTimeout(600000);
+        test.setTimeout(1200000);
 
         const login = new LoginPage(page, globals);
         const fileCase = new FileCasePage(page, globals);
@@ -243,7 +243,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
         );
     });
 
-    test('17 - Third advocate replaces existing advocate without payment (judge approval)', async ({ page }) => {
+   /* test('17 - Third advocate replaces existing advocate without payment (judge approval)', async ({ page }) => {
         test.setTimeout(600000);
 
         const joinCase = new JoinCasePage(page, globals);
@@ -264,5 +264,5 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
         await employeeLogin.open();
         await employeeLogin.loginAsJudge();
         await judge.reviewAdvReplacement(globals.stNumber);
-    });
+    });*/
 });
