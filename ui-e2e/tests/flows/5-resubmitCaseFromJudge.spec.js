@@ -149,7 +149,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
         await employeeLogin.open();
         await employeeLogin.loginAsFSO();
 
-        await fso.scrutinizeAndForward(globals.filingNumber, 'FSO comments');
+        await fso.scrutinizeAndForward(globals.filingNumber, globals.fsoComments);
     });
 
     // ─────────────────────────────────────────────────────────────────────────────
@@ -165,7 +165,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
         await employeeLogin.open();
         await employeeLogin.loginAsJudge();
 
-        await judge.returnCaseToLitigant(globals.filingNumber, 'TEST');
+        await judge.returnCaseToLitigant(globals.filingNumber, globals.judgeReturnReason);
     });
 
     // ─────────────────────────────────────────────────────────────────────────────
@@ -200,7 +200,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
         await employeeLogin.open();
         await employeeLogin.loginAsFSO();
 
-        await fso.scrutinizeAndForward(globals.filingNumber, 'FSO comments');
+        await fso.scrutinizeAndForward(globals.filingNumber, globals.fsoComments);
     });
 
     // ─────────────────────────────────────────────────────────────────────────────
@@ -218,7 +218,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
 
         const { accessCode, cmpNumber } = await judge.registerCaseFlow(
             globals.filingNumber,
-            'AUTOMATION ORDER GENERATED'
+            globals.orderText
         );
 
         saveGlobalVariables({ accessCode, cmpNumber });
@@ -243,7 +243,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
 
         await judgeOrders.issueNotice(
             globals.cmpNumber,
-            'Section 223 Notice',
+            globals.noticeType,
             `${globals.respondentFirstName} (Accused)`
         );
     });
@@ -358,10 +358,10 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
         await login.loginWithMobileOtp(globals.citizenUsername);
 
         await profileCorrection.initiateProfileCorrectionApplication(globals.cmpNumber, {
-            age: '23',
-            lastName: 'Verma',
-            middleName: 'Ch',
-            reason: 'Changing the middle and last name, age',
+            age: globals.profileCorrectionAge,
+            lastName: globals.profileCorrectionLastName,
+            middleName: globals.profileCorrectionMiddleName,
+            reason: globals.profileCorrectionReason,
         });
     });
 
@@ -425,9 +425,9 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
 
         await judge.submitDocumentAsJudge(
             globals.cmpNumber,
-            'Affidavits',
+            globals.judgeDocumentType,
             chequeFilePath,
-            'reason testing'
+            globals.judgeDocumentReason
         );
     });
 

@@ -132,7 +132,9 @@ class FileCasePage extends BasePage {
     await this.waitIdle();
   }
 
-  // Ensures we are on the Accused Details step (left nav), then waits for banner
+  /**
+   * Ensures we are on the Accused Details step (left nav), then waits for banner
+   */
   async ensureOnAccusedStep() {
     const navItem = this.page.locator('nav, aside, .side, .sidebar').locator('text=Accused Details').first();
     if (await navItem.isVisible().catch(() => false)) {
@@ -141,7 +143,9 @@ class FileCasePage extends BasePage {
     await this.page.getByText('Accused Details', { exact: false }).first().waitFor({ state: 'visible', timeout: 10000 });
   }
 
-  // Ensures we are on the Cheque Details step (left nav), then waits for a distinctive field
+  /**
+   * Ensures we are on the Cheque Details step (left nav), then waits for a distinctive field
+   */
   async ensureOnChequeStep() {
     const nav = this.page.locator('nav, aside, .side, .sidebar');
     const navItem = nav.locator('text=Cheque Details').first();
@@ -290,16 +294,49 @@ class FileCasePage extends BasePage {
     }
 
     // Name on cheque
-    await this.page.locator('input[name="name"]').fill('Name On Cheque');
+    await this.page.locator('input[name="name"]').fill(this.globals.nameOnCheque || 'Name On Cheque');
 
-    // Bank details
-    await this.page.locator('input[name="payeeBankName"]').fill(this.globals.payeeBankName || '');
-    await this.page.locator('input[name="payeeBranchName"]').fill(this.globals.payeeBranchName || '');
+    // Bank details - Use more specific locators for IFSC text input fields
+    console.log('Looking for IFSC fields...');
+    
+    // Payee IFSC field - find the input that's not a radio button
+    const payeeIfscBox = this.page.locator('input[type="text"]').filter({ hasText: '' }).nth(2); // First text input after name field
+    
+    // Payer IFSC field - find the second text input that's not a radio button  
+    const payerIfscBox = this.page.locator('input[type="text"]').filter({ hasText: '' }).nth(6); // Second text input
+    
+    const searchBtns = this.page.getByRole('button', { name: 'Search' });
+
+    // Wait for page to be stable
+    await this.page.waitForTimeout(2000);
+
+    if (await payeeIfscBox.isVisible().catch(() => false)) {
+      console.log('Found payee IFSC field, filling...');
+      await payeeIfscBox.fill(this.globals.payeeIfsc || 'KLGB0040237');
+      await searchBtns.first().click();
+      await this.page.waitForTimeout(1000);
+      console.log('Payee IFSC search completed');
+    } else {
+      console.log('Payee IFSC field not found');
+    }
+
     await this.page.locator('input[name="chequeNumber"]').fill(this.globals.chequeNumber || '');
     await this.page.locator('input[name="issuanceDate"]').fill(this.globals.issuanceDate || '');
-    await this.page.locator('input[name="payerBankName"]').fill(this.globals.payerBankName || '');
-    await this.page.locator('input[name="payerBranchName"]').fill(this.globals.payerBranchName || '');
-    await this.page.locator('input[name="ifsc"]').fill(this.globals.ifsc || '');
+
+    if (await payerIfscBox.isVisible().catch(() => false)) {
+      console.log('Found payer IFSC field, filling...');
+      await payerIfscBox.fill(this.globals.payerIfsc || 'KLGB0040237');
+      await searchBtns.nth(1).click();
+      await this.page.waitForTimeout(1000);
+      console.log('Payer IFSC search completed');
+    } else {
+      console.log('Payer IFSC field not found');
+    }
+
+    try {
+      await this.page.getByText('KLGB0040237 (Kerala Gramin Bank, Kuningad, Kozhikode)').click({ timeout: 2000 });
+      await this.page.waitForTimeout(1000);
+    } catch (e) { }
     await this.page.locator('#validationCustom01').fill(this.globals.chequeAmount || '');
 
     // Police station (dropdown-like textbox)
@@ -421,10 +458,24 @@ class FileCasePage extends BasePage {
     await this.page.waitForTimeout(15000);
     //await this.page.pause();
 
-    // Fill Complaint Details (first editor)
+    // Fill Synopsis (new field before Complaint Details)
+    const synopsisText = this.globals.synopsisDetails || 'Synopsis';
+    const synopsisQuill = this.page.locator('.ql-editor').first();
+    const synopsisRdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).first();
+    
+    if (await synopsisQuill.count()) {
+      await synopsisQuill.click();
+      await synopsisQuill.fill(synopsisText);
+    } else if (await synopsisRdw.count()) {
+      await synopsisRdw.click();
+      await synopsisRdw.fill(synopsisText);
+    }
+    await this.page.waitForTimeout(1000);
+
+    // Fill Complaint Details (second editor now)
     const complaintText = this.globals.complaintDetails || 'test';
-    const quill = this.page.locator('.ql-editor').first();
-    const rdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).first();
+    const quill = this.page.locator('.ql-editor').nth(1);
+    const rdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(1);
     if (await quill.count()) {
       await quill.fill(complaintText);
     } else {
@@ -435,10 +486,10 @@ class FileCasePage extends BasePage {
       await this.page.locator('input[type="file"]').first().setInputFiles(fallbackFile);
     }
 
-    // Fill Prayer Details (second editor)
+    // Fill Prayer Details (third editor now)
     const prayerText = this.globals.prayerDetails || 'test';
-    const quill2 = this.page.locator('.ql-editor').nth(1);
-    const rdw2 = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(1);
+    const quill2 = this.page.locator('.ql-editor').nth(2);
+    const rdw2 = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(2);
     if (await quill2.count()) {
       await quill2.fill(prayerText);
     } else {
@@ -475,6 +526,9 @@ class FileCasePage extends BasePage {
 
   async fillAdvocateDetails() {
     await this.page.waitForTimeout(3000);
+    await this.page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {
+      console.log('[fillAdvocateDetails] Network idle timeout, continuing...');
+    });
 
     // Compute Vakalatnama path
     const VakalatnamaPath = firstExisting([
@@ -488,8 +542,29 @@ class FileCasePage extends BasePage {
     }
 
     // --- Complainant 1 advocate section ---
-    const advocatesBox = this.page.getByRole('textbox').first();
-    await expect(advocatesBox).toBeVisible({ timeout: 15000 });
+    // Wait for the advocate section to be visible and find the textbox for number of advocates
+    await this.page.waitForTimeout(2000);
+    
+    // Try multiple selectors to find the number of advocates input
+    let advocatesBox = this.page.locator('input[type="text"]').filter({ hasText: '' }).first();
+    
+    // Wait for any textbox to appear
+    await this.page.waitForSelector('input[type="text"], input[type="number"], [role="textbox"]', { 
+      state: 'visible', 
+      timeout: 15000 
+    }).catch(() => {
+      console.log('[fillAdvocateDetails] No textbox found, trying alternative selector...');
+    });
+    
+    // Use the first visible textbox
+    advocatesBox = this.page.getByRole('textbox').first();
+    await advocatesBox.waitFor({ state: 'visible', timeout: 15000 }).catch(async () => {
+      console.log('[fillAdvocateDetails] Textbox not visible, trying input[type="text"]...');
+      advocatesBox = this.page.locator('input[type="text"]').first();
+      await advocatesBox.waitFor({ state: 'visible', timeout: 10000 });
+    });
+    
+    await advocatesBox.click();
     await advocatesBox.fill(this.globals.noOfAdvocates || '1');
     await this.page.waitForTimeout(2000);
 

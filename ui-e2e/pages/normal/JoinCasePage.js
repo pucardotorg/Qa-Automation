@@ -120,6 +120,20 @@ class JoinCasePage extends BasePage {
     // Enter OTP
     await this.enterOTP('123456');
     await this.page.getByRole('button', { name: 'Verify', exact: true }).click();
+    await this.page.waitForTimeout(2000);
+    
+    // Fill Father's Name in the Verify Litigant Details popup if it appears
+    const fatherNameInput = this.page.locator('input[name="fatherName"]').or(
+      this.page.getByLabel("Father's Name")
+    );
+    
+    const isFatherNameVisible = await fatherNameInput.isVisible({ timeout: 3000 }).catch(() => false);
+    if (isFatherNameVisible) {
+      console.log('[JoinCasePage] Filling Father\'s Name field');
+      await fatherNameInput.click();
+      await fatherNameInput.fill('Test Father Name');
+      await this.page.waitForTimeout(500);
+    }
   }
 
   async uploadVakalatnama(noOfAdvocates = '1') {
@@ -224,6 +238,20 @@ class JoinCasePage extends BasePage {
     await this.page.locator('div').filter({ hasText: /^Judge$/ }).getByRole('radio').check();
     await this.page.getByRole('textbox', { name: 'Type here' }).fill('replacement text');
     await this.proceedBtn.click();
+    await this.page.waitForTimeout(2000);
+    
+    // Fill Father's Name in the Verify Litigant Details popup if it appears
+    const fatherNameInput = this.page.locator('input[name="fatherName"]').or(
+      this.page.getByLabel("Father's Name")
+    );
+    
+    const isFatherNameVisible = await fatherNameInput.isVisible({ timeout: 3000 }).catch(() => false);
+    if (isFatherNameVisible) {
+      console.log('[JoinCasePage] Filling Father\'s Name field in PiP replacement flow');
+      await fatherNameInput.click();
+      await fatherNameInput.fill('Test Father Name');
+      await this.page.waitForTimeout(500);
+    }
 
     // Fill advocate details
     await this.page.locator('input[name="noOfAdvocates"]').fill(noOfAdvocates || this.globals.noOfAdvocates || '1');

@@ -1,18 +1,23 @@
 /**
  * run-all-flows.js
  * ─────────────────────────────────────────────────────────────────────────────
- * Sequential runner for all 6 end-to-end flow spec files.
+ * Dynamic sequential runner — reads test-data.csv to decide WHICH spec files
+ * to run and in WHAT ORDER.
  *
- * Execution order:
- *   1 → 1-normaltest.spec.js
- *   2 → 1-normalFullCaseFlow.spec.js
- *   3 → 2-normalFullCaseFlowwith2acc.spec.js
- *   4 → 3-litigentfilecase.spec.js
- *   5 → 4-resubmitCaseFso.spec.js
- *   6 → 5-resubmitCaseFromJudge.spec.js
- *   7 → 6-witnessEvidenceJudgement.spec.js
+ * How to control execution from test-data.csv:
+ *   • Each data row must have a `specFile` column (first column).
+ *   • The runner executes ONLY the rows present in the CSV, in the order they appear.
+ *   • To SKIP a flow  → delete (or comment out) its row from test-data.csv
+ *   • To RUN only 1 & 5 → keep only those two rows in test-data.csv
+ *   • To REORDER flows  → reorder the rows in test-data.csv
  *
- * A 30-second pause is inserted between each spec file run.
+ * Supported specFile values (relative to ui-e2e/):
+ *   tests/flows/1-normalFullCaseFlow.spec.js
+ *   tests/flows/2-normalFullCaseFlowwith2acc.spec.js
+ *   tests/flows/3-litigentfilecase.spec.js
+ *   tests/flows/4-resubmitCaseFso.spec.js
+ *   tests/flows/5-resubmitCaseFromJudge.spec.js
+ *   tests/flows/6-witnessEvidenceJudgement.spec.js
  *
  * Usage (run from the ui-e2e/ folder OR the repo root):
  *   cd ui-e2e && node tests/flows/run-all-flows.js
@@ -35,7 +40,7 @@
 
 const { execSync } = require('child_process');
 const path = require('path');
-const { loadRowFromCsv } = require('../../helpers/csv');
+const csv = require('../../helpers/csv');
 
 // ─── Configuration ─────────────────────────────────────────────────────────
 
@@ -57,33 +62,63 @@ const PROJECT_ROOT = path.resolve(__dirname, '../..');
  */
 const RAW_ARGS = process.argv.slice(2);   // everything after: node run-all-flows.js
 const IS_HEADED = RAW_ARGS.includes('--headed');
-// Extra flags to append to every playwright invocation (exclude bare --headed
-// because we control headless via the HEADED env var; other flags pass through)
 const EXTRA_FLAGS = RAW_ARGS.filter((a) => a !== '--headed').join(' ');
 
 // Tell playwright.config.js to launch headed when requested
 if (IS_HEADED) process.env.HEADED = '1';
 
+// ─── Read flows dynamically from CSV ────────────────────────────────────────
+
 /**
- * Ordered list of spec files with their corresponding Excel row index.
- * rowIndex is 0-based: row 0 → spreadsheet row 2 (after the header).
- * Customise each row in data/test-data.xlsx independently.
+ * Reads all rows from test-data.csv and builds the FLOWS array dynamically.
+ * Each row MUST have a `specFile` column — rows missing it are skipped with
+ * a warning so a bad CSV never silently swallows flows.
+ *
+ * @returns {{ spec: string, rowIndex: number }[]}
  */
-const FLOWS = [
-    { spec: 'tests/flows/1-normalFullCaseFlow.spec.js', rowIndex: 0 },
-    { spec: 'tests/flows/2-normalFullCaseFlowwith2acc.spec.js', rowIndex: 1 },
-    { spec: 'tests/flows/3-litigentfilecase.spec.js', rowIndex: 2 },
-    { spec: 'tests/flows/4-resubmitCaseFso.spec.js', rowIndex: 3 },
-    { spec: 'tests/flows/5-resubmitCaseFromJudge.spec.js', rowIndex: 4 },
-    { spec: 'tests/flows/6-witnessEvidenceJudgement.spec.js', rowIndex: 5 },
-];
+function buildFlowsFromCsv() {
+    let allRows;
+    try {
+        allRows = csv.getAllRowsFromCsv();
+    } catch (err) {
+        console.error(`[run-all-flows] ❌  Could not read test-data.csv:\n  ${err.message}`);
+        process.exit(1);
+    }
+
+    if (allRows.length === 0) {
+        console.error('[run-all-flows] ❌  test-data.csv has no data rows. Nothing to run.');
+        process.exit(1);
+    }
+
+    const flows = [];
+
+    allRows.forEach((row, idx) => {
+        const specFile = (row.specFile || '').trim();
+
+        if (!specFile) {
+            console.warn(
+                `[run-all-flows] ⚠️   Row ${idx + 1} ` +
+                `has no specFile value — skipping.`
+            );
+            return;
+        }
+
+        flows.push({ spec: specFile, rowIndex: idx });
+    });
+
+    if (flows.length === 0) {
+        console.error(
+            '[run-all-flows] ❌  No valid rows with a specFile column found in test-data.csv.\n' +
+            '  Make sure the first column is "specFile" and each row has a spec path.'
+        );
+        process.exit(1);
+    }
+
+    return flows;
+}
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
-/**
- * Pretty-print a separator banner to make console output easier to read.
- * @param {string} label
- */
 function banner(label) {
     const line = '═'.repeat(70);
     console.log(`\n${line}`);
@@ -91,39 +126,31 @@ function banner(label) {
     console.log(`${line}\n`);
 }
 
-/**
- * Return a human-readable HH:MM:SS timestamp string.
- * @returns {string}
- */
 function timestamp() {
     return new Date().toLocaleTimeString('en-IN', { hour12: false });
 }
 
-/**
- * Sleep for the given number of milliseconds.
- * @param {number} ms
- * @returns {Promise<void>}
- */
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
- * Load Excel data for a flow then run its Playwright spec file.
+ * Load CSV data for a flow's row then run its Playwright spec file.
  *
- * @param {{ spec: string, rowIndex: number }} flow  – flow descriptor from FLOWS array
- * @param {number} index  – 1-based flow number (display only)
- * @returns {{ success: boolean, durationSec: number }}
+ * @param {{ spec: string, rowIndex: number }} flow
+ * @param {number} index          – 1-based display number
+ * @param {number} totalFlows     – total flows being run (for display)
+ * @returns {{ success: boolean, durationSec: string }}
  */
-function runSpec(flow, index) {
+function runSpec(flow, index, totalFlows) {
     const { spec: specRelPath, rowIndex } = flow;
-    const label = `Flow ${index}/${FLOWS.length} → ${path.basename(specRelPath)}`;
+    const label = `Flow ${index}/${totalFlows} → ${path.basename(specRelPath)}`;
     banner(`▶  ${label}`);
 
-    // ── Load this flow's test data from Excel ─────────────────────────────
+    // ── Load this flow's test data row from CSV into the env JSON ──────────
     try {
         console.log(`[⚓  CSV]  Loading row ${rowIndex + 1} for this flow...`);
-        loadRowFromCsv({ rowIndex, env: process.env.TEST_ENV });
+        csv.loadRowFromCsv({ rowIndex, env: process.env.TEST_ENV });
     } catch (err) {
         console.warn(
             `[csv.js] Could not load row ${rowIndex} from CSV — ` +
@@ -160,13 +187,20 @@ function runSpec(flow, index) {
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
-    banner('🚀  Sequential Flow Runner — All Flows (1 → 6)');
+    // Build dynamic flow list from CSV BEFORE printing the banner
+    const FLOWS = buildFlowsFromCsv();
+
+    banner('🚀  Sequential Flow Runner — CSV-Driven');
     console.log(`Project root  : ${PROJECT_ROOT}`);
     console.log(`Environment   : ${process.env.TEST_ENV || 'default'}`);
     console.log(`Mode          : ${IS_HEADED ? '🖥️  Headed (browser visible)' : '🕶️  Headless'}`);
     console.log(`Break between : ${BREAK_MS / 1000}s`);
-    console.log(`Total flows   : ${FLOWS.length}`);
-    console.log(`Data source   : data/test-data.csv (one row per flow)`);
+    console.log(`Total flows   : ${FLOWS.length}  (read from data/test-data.csv)`);
+    console.log('');
+    console.log('  Flows to run (in order):');
+    FLOWS.forEach((f, i) => {
+        console.log(`    ${i + 1}. Row ${f.rowIndex + 1}  →  ${path.basename(f.spec)}`);
+    });
 
     const results = [];
 
@@ -174,7 +208,7 @@ async function main() {
         const flow = FLOWS[i];
         const flowNum = i + 1;
 
-        const result = runSpec(flow, flowNum);
+        const result = runSpec(flow, flowNum, FLOWS.length);
         results.push({ spec: flow.spec, ...result });
 
         if (i < FLOWS.length - 1) {
@@ -206,7 +240,6 @@ async function main() {
     }
     console.log('');
 
-    // Exit with non-zero code if any flow failed, so CI pipelines can detect it.
     process.exit(allPassed ? 0 : 1);
 }
 
