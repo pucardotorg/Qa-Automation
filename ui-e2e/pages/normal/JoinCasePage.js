@@ -121,12 +121,12 @@ class JoinCasePage extends BasePage {
     await this.enterOTP('123456');
     await this.page.getByRole('button', { name: 'Verify', exact: true }).click();
     await this.page.waitForTimeout(2000);
-    
+
     // Fill Father's Name in the Verify Litigant Details popup if it appears
     const fatherNameInput = this.page.locator('input[name="fatherName"]').or(
       this.page.getByLabel("Father's Name")
     );
-    
+
     const isFatherNameVisible = await fatherNameInput.isVisible({ timeout: 3000 }).catch(() => false);
     if (isFatherNameVisible) {
       console.log('[JoinCasePage] Filling Father\'s Name field');
@@ -239,12 +239,12 @@ class JoinCasePage extends BasePage {
     await this.page.getByRole('textbox', { name: 'Type here' }).fill('replacement text');
     await this.proceedBtn.click();
     await this.page.waitForTimeout(2000);
-    
+
     // Fill Father's Name in the Verify Litigant Details popup if it appears
     const fatherNameInput = this.page.locator('input[name="fatherName"]').or(
       this.page.getByLabel("Father's Name")
     );
-    
+
     const isFatherNameVisible = await fatherNameInput.isVisible({ timeout: 3000 }).catch(() => false);
     if (isFatherNameVisible) {
       console.log('[JoinCasePage] Filling Father\'s Name field in PiP replacement flow');
@@ -295,6 +295,24 @@ class JoinCasePage extends BasePage {
     await this.page.locator('div').filter({ hasText: /^Automation Accused$/ }).getByRole('checkbox').check({ force: true });
     await this.page.getByText('ComplainantAccused').click();
     await this.proceedBtn.click();
+    await this.page.waitForTimeout(2000);
+
+    // Fill Father's Name in the Verify Litigant Details popup if it appears
+    const fatherNameInputAdd = this.page.locator('input[name="fatherName"]').or(
+      this.page.getByLabel("Father's Name")
+    );
+    const isFatherNameVisibleAdd = await fatherNameInputAdd.isVisible({ timeout: 3000 }).catch(() => false);
+    if (isFatherNameVisibleAdd) {
+      console.log('[JoinCasePage] Filling Father\'s Name field in Add without payment flow');
+      await fatherNameInputAdd.click();
+      await fatherNameInputAdd.fill('Test Father Name');
+      await this.page.waitForTimeout(500);
+
+      // Also click the Continue/Verify button in the modal if needed
+      // Based on UI screenshot it might require clicking a button to dismiss if it's not auto-dismissing
+      // Actually in other flows we just fill the name. Let's assume hitting enter or next fields handles it, or there is another button.
+      // Wait, let's look at verifyAdvocateMobile... it doesn't click any button after filling! It just fills and proceeds.
+    }
 
     // No payment
     await this.noRadio.check();
@@ -337,7 +355,19 @@ class JoinCasePage extends BasePage {
     await this.page.locator('div').filter({ hasText: /^Judge$/ }).getByRole('radio').check();
     await this.page.getByRole('textbox', { name: 'Type here' }).fill('test');
     await this.proceedBtn.click();
+    await this.page.waitForTimeout(2000);
 
+    // Fill Father's Name in the Verify Litigant Details popup if it appears
+    const fatherNameInputReplace = this.page.locator('input[name="fatherName"]').or(
+      this.page.getByLabel("Father's Name")
+    );
+    const isFatherNameVisibleReplace = await fatherNameInputReplace.isVisible({ timeout: 3000 }).catch(() => false);
+    if (isFatherNameVisibleReplace) {
+      console.log('[JoinCasePage] Filling Father\'s Name field in Replace without payment flow');
+      await fatherNameInputReplace.click();
+      await fatherNameInputReplace.fill('Test Father Name');
+      await this.page.waitForTimeout(500);
+    }
     // No payment
     await this.noRadio.check();
     await this.page.waitForTimeout(2000);

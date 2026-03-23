@@ -95,20 +95,20 @@ class JudgePage extends BasePage {
     // Wait for the "Select Custom Date" modal to appear
     await this.page.waitForSelector('text=Select Custom Date', { state: 'visible', timeout: 10000 });
     await this.page.waitForTimeout(1000);
-    
+
     // Calculate target date (10 working days from now)
     const targetDate = this.calculateWorkingDaysFromNow(10);
     const currentDate = new Date();
-    
+
     console.log(`[JudgePage] Current date: ${currentDate.toDateString()}`);
     console.log(`[JudgePage] Target date (10 working days): ${targetDate.toDateString()}`);
-    
+
     // Navigate to the correct month if needed
     const monthsToNavigate = (targetDate.getFullYear() - currentDate.getFullYear()) * 12 +
       (targetDate.getMonth() - currentDate.getMonth());
-    
+
     console.log(`[JudgePage] Months to navigate: ${monthsToNavigate}`);
-    
+
     if (monthsToNavigate > 0) {
       for (let i = 0; i < monthsToNavigate; i++) {
         // Click the right arrow (>) button to navigate to next month
@@ -119,15 +119,15 @@ class JudgePage extends BasePage {
         console.log(`[JudgePage] Navigated to next month (${i + 1}/${monthsToNavigate})`);
       }
     }
-    
+
     // Select the specific target day
     const dayToSelect = targetDate.getDate();
     console.log(`[JudgePage] Looking for day: ${dayToSelect}`);
-    
+
     // Find all active weekday buttons
     const allDayButtons = await this.page.locator('button.rdrDay:not(.rdrDayPassive):not(.rdrDayWeekend)').all();
     console.log(`[JudgePage] Found ${allDayButtons.length} active weekday buttons`);
-    
+
     let targetButton = null;
     for (const btn of allDayButtons) {
       const text = await btn.textContent();
@@ -140,12 +140,12 @@ class JudgePage extends BasePage {
         break;
       }
     }
-    
+
     if (!targetButton) {
       console.log('[JudgePage] Could not find exact day, selecting first available weekday');
       targetButton = allDayButtons[0];
     }
-    
+
     await targetButton.scrollIntoViewIfNeeded();
     await this.page.waitForTimeout(500);
     await targetButton.click();
@@ -433,18 +433,19 @@ class JudgePage extends BasePage {
     await this.page.locator('.ql-editor').fill(reason);
     await this.page.waitForTimeout(3000);
 
-    // Review and sign
+    // Review and submit
     await this.page.getByRole('button').filter({ hasText: 'Review Submission' }).click();
-    await this.page.getByRole('button', { name: 'Sign' }).click();
+    await this.page.waitForTimeout(2000);
+    const signBtn = this.page.getByRole('button', { name: 'Submit', exact: true }).last();
+    await signBtn.waitFor({ state: 'visible' });
+    await expect(signBtn).toBeEnabled();
+    await signBtn.scrollIntoViewIfNeeded();
+    await signBtn.evaluate(btn => btn.click());
 
-    // Upload signed document
-    await this.uploadOrderBtn.click();
-    const fileInput1 = await this.page.$('input[type="file"]');
-    await fileInput1.setInputFiles(documentFilePath);
-
-    await this.submitSignatureBtn.click();
-    await this.page.getByRole('button', { name: 'Finish' }).click();
-    await this.page.getByRole('button', { name: 'Close' }).click();
+    // Wait for the success modal and close it
+    const closeBtn = this.page.getByRole('button', { name: 'Close', exact: true });
+    await closeBtn.waitFor({ state: 'visible', timeout: 15000 });
+    await closeBtn.click();
 
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
@@ -513,13 +514,16 @@ class JudgePage extends BasePage {
     await fileInput2.waitFor({ state: 'attached' });
     await fileInput2.setInputFiles(chequeFilePath);
 
-    // Submit surety details
-    await this.page.locator('div:nth-child(2) > div > button').click();
+    // Delete auto-generated "Surety 2" block so form validation passes
+    const deleteSurety2Btn = this.page.getByText('Surety 2', { exact: true }).locator('..').getByRole('button').first();
+    if (await deleteSurety2Btn.isVisible({ timeout: 5000 }).catch(() => false)) {
+      await deleteSurety2Btn.click();
+    }
 
     // Review → Sign (button may be covered by animation, use JS click)
     await this.page.getByRole('button').filter({ hasText: 'Review Bail Bond' }).click();
     await this.page.waitForTimeout(2000);
-    const signBtn = this.page.getByRole('button', { name: 'Sign' });
+    const signBtn = this.page.getByRole('button', { name: 'Proceed To Sign' });
     await signBtn.waitFor({ state: 'visible' });
     await expect(signBtn).toBeEnabled();
     await signBtn.scrollIntoViewIfNeeded();
@@ -532,15 +536,19 @@ class JudgePage extends BasePage {
       this.page.click('text=click here'),
     ]);
 
-    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
-    await download.saveAs(downloadPath);
-    console.log(`[JudgePage] Bail bond downloaded: ${downloadPath}`);
+    // Save the downloaded file to a known location
+    const downloadedFilePath = require('path').join(
+      __dirname,
+      '../../../downloads',
+      await download.suggestedFilename()
+    );
+    await download.saveAs(downloadedFilePath);
+    console.log(`[JudgePage] Bail bond signed PDF downloaded to: ${downloadedFilePath}`);
 
-    // Upload the signed PDF into the modal's specific file input
+    // Upload the signed copy
     const signedCopyInput = this.page.locator('input[type="file"][name="file"][accept=".pdf"]');
     await signedCopyInput.waitFor({ state: 'attached' });
-    await signedCopyInput.setInputFiles(downloadPath);
+    await signedCopyInput.setInputFiles(downloadedFilePath);
 
     await this.page.getByRole('button', { name: 'Submit' }).click();
     await this.page.getByRole('button', { name: 'Close' }).click();
@@ -709,7 +717,7 @@ class JudgePage extends BasePage {
     await this.page.waitForTimeout(1000);
     await searchBox.fill(filingNumber);
     await this.page.waitForTimeout(1000);
-    
+
     const searchBtn = this.page.getByRole('button', { name: 'Search', exact: true });
     await searchBtn.waitFor({ state: 'visible', timeout: 10000 });
     await searchBtn.click();
@@ -886,11 +894,11 @@ class JudgePage extends BasePage {
     await proceedToSignBtn.waitFor({ state: 'visible', timeout: 30000 });
     await proceedToSignBtn.click();
     await this.page.waitForTimeout(2000);
-    
+
     console.log('[JudgePage] Downloading deposition document...');
     const clickHereLink = this.page.getByText('click here');
     await clickHereLink.waitFor({ state: 'visible', timeout: 10000 });
-    
+
     const [download] = await Promise.all([
       this.page.waitForEvent('download'),
       clickHereLink.click(),
@@ -906,22 +914,22 @@ class JudgePage extends BasePage {
     await uploadBtn.waitFor({ state: 'visible', timeout: 10000 });
     await uploadBtn.click();
     await this.page.waitForTimeout(2000);
-    
+
     await this.page.locator('input[type="file"]').first().setInputFiles(downloadPath);
     await this.page.waitForTimeout(2000);
-    
+
     console.log('[JudgePage] Submitting signature...');
     await this.submitSignatureBtn.waitFor({ state: 'visible', timeout: 10000 });
     await this.submitSignatureBtn.click();
     await this.page.waitForTimeout(3000);
-    
+
     console.log('[JudgePage] Clicking Submit...');
     const submitBtn = this.page.getByRole('button', { name: 'Submit' });
     await submitBtn.waitFor({ state: 'visible', timeout: 10000 });
     await submitBtn.click();
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
-    
+
     console.log('[JudgePage] Closing confirmation...');
     const closeBtn = this.page.getByRole('button', { name: 'Close' });
     await closeBtn.waitFor({ state: 'visible', timeout: 10000 });

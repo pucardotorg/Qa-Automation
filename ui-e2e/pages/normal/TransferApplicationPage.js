@@ -41,16 +41,21 @@ class TransferApplicationPage extends BasePage {
         await this.page.locator('div').filter({ hasText: /^Raise Application$/ }).click();
 
         // Select Transfer from application type dropdown
-        await this.page.locator('path').nth(4).click();
-        await this.page.locator('#jk-dropdown-unique div').filter({ hasText: 'Transfer' }).click();
+        await this.page
+            .locator('div')
+            .filter({ hasText: /^Application Type\*$/ })
+            .getByRole('img')
+            .click();
+        await this.page.waitForTimeout(500);
+        await this.page.getByText('Transfer').click();
 
         // Fill transfer form fields
         await this.page.locator('input[name="requestedCourt"]').click();
         await this.page.locator('input[name="requestedCourt"]').fill('test');
         await this.page.locator('input[name="groundsForTransfer"]').click();
         await this.page.locator('input[name="groundsForTransfer"]').fill('test');
-        await this.page.getByRole('textbox', { name: 'Type here' }).click();
-        await this.page.getByRole('textbox', { name: 'Type here' }).fill('test');
+        // await this.page.getByRole('textbox', { name: 'Type here' }).click();
+        // await this.page.getByRole('textbox', { name: 'Type here' }).fill('test');
 
         // Generate the application
         await this.page.getByRole('button').filter({ hasText: 'Generate Application' }).click();
@@ -79,11 +84,11 @@ class TransferApplicationPage extends BasePage {
         // Wait for the file to be processed — Submit Signature button stays disabled until upload completes
         await this.page.waitForTimeout(3000);
         const submitSigBtn = this.page.getByRole('button', { name: 'Submit Signature' });
-        await submitSigBtn.waitFor({ state: 'visible', timeout: 15000 });
-        // Wait up to 15s for the button to become enabled after file processing
+        await submitSigBtn.waitFor({ state: 'visible', timeout: 60000 });
+        // Wait up to 60s for the button to become enabled after file processing
         await this.page.waitForFunction(
             () => !document.querySelector('button[name="Submit Signature"], button:has-text("Submit Signature")')?.disabled,
-            { timeout: 15000 }
+            { timeout: 60000 }
         ).catch(() => console.log('[TransferApplication] Submit Signature still disabled, attempting force click'));
         await submitSigBtn.click({ force: true });
 

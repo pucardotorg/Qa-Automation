@@ -402,7 +402,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
         await employeeLogin.loginAsJudge();
 
         await judge.approveProfileCorrectionApplication(globals.cmpNumber);
-    });
+    })
 
     // ─────────────────────────────────────────────────────────────────────────────
     // 17 — Judge submits a document (Affidavit) on the case

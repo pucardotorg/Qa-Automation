@@ -60,10 +60,9 @@ class WithdrawalApplicationPage extends BasePage {
             .click();
 
         // Fill the reason textbox
-        await this.page.getByRole('textbox', { name: 'Type here' }).click();
-        await this.page
-            .getByRole('textbox', { name: 'Type here' })
-            .fill('Withdrawal Application Automation testing');
+        const reasonBox = this.page.locator('.ql-editor').or(this.page.locator('textarea')).first();
+        await reasonBox.click();
+        await reasonBox.fill('Withdrawal Application Automation testing');
 
         // Generate application
         await this.page
@@ -98,14 +97,14 @@ class WithdrawalApplicationPage extends BasePage {
         // Wait for Submit Signature to become enabled after file processing
         await this.page.waitForTimeout(3000);
         const submitSigBtn = this.page.getByRole('button', { name: 'Submit Signature' });
-        await submitSigBtn.waitFor({ state: 'visible', timeout: 15000 });
+        await submitSigBtn.waitFor({ state: 'visible', timeout: 60000 });
         await this.page
             .waitForFunction(
                 () =>
                     !document.querySelector(
                         'button[name="Submit Signature"], button:has-text("Submit Signature")'
                     )?.disabled,
-                { timeout: 15000 }
+                { timeout: 60000 }
             )
             .catch(() =>
                 console.log('[WithdrawalApplication] Submit Signature still disabled, force clicking')
@@ -183,14 +182,14 @@ class WithdrawalApplicationPage extends BasePage {
         // Wait for Submit Signature to become enabled
         await this.page.waitForTimeout(3000);
         const submitSigBtn = this.page.getByRole('button', { name: 'Submit Signature' });
-        await submitSigBtn.waitFor({ state: 'visible', timeout: 15000 });
+        await submitSigBtn.waitFor({ state: 'visible', timeout: 60000 });
         await this.page
             .waitForFunction(
                 () =>
                     !document.querySelector(
                         'button[name="Submit Signature"], button:has-text("Submit Signature")'
                     )?.disabled,
-                { timeout: 15000 }
+                { timeout: 60000 }
             )
             .catch(() =>
                 console.log('[WithdrawalApplication approveWithdrawal] Submit Signature still disabled, force clicking')

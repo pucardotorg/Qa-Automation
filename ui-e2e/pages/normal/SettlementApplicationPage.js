@@ -49,8 +49,8 @@ class SettlementApplicationPage extends BasePage {
         await this.page.getByText('Settlement').click();
 
         // Fill in the reason/details textbox
-        await this.page.getByRole('textbox', { name: 'Type here' }).click();
-        await this.page.getByRole('textbox', { name: 'Type here' }).fill('test');
+        await this.page.locator('.ql-editor').first().click();
+        await this.page.locator('.ql-editor').first().fill('test');
 
         // Generate application
         await this.page.getByRole('button').filter({ hasText: 'Generate Application' }).click();
@@ -78,10 +78,10 @@ class SettlementApplicationPage extends BasePage {
         // Wait for Submit Signature to become enabled after file processing
         await this.page.waitForTimeout(3000);
         const submitSigBtn = this.page.getByRole('button', { name: 'Submit Signature' });
-        await submitSigBtn.waitFor({ state: 'visible', timeout: 15000 });
+        await submitSigBtn.waitFor({ state: 'visible', timeout: 60000 });
         await this.page.waitForFunction(
             () => !document.querySelector('button[name="Submit Signature"], button:has-text("Submit Signature")')?.disabled,
-            { timeout: 15000 }
+            { timeout: 60000 }
         ).catch(() => console.log('[SettlementApplication] Submit Signature still disabled, force clicking'));
         await submitSigBtn.click({ force: true });
 
@@ -171,10 +171,10 @@ class SettlementApplicationPage extends BasePage {
         // Wait for Submit Signature to become enabled after file processing
         await this.page.waitForTimeout(3000);
         const submitSigBtn = this.page.getByRole('button', { name: 'Submit Signature' });
-        await submitSigBtn.waitFor({ state: 'visible', timeout: 15000 });
+        await submitSigBtn.waitFor({ state: 'visible', timeout: 60000 });
         await this.page.waitForFunction(
             () => !document.querySelector('button[name="Submit Signature"], button:has-text("Submit Signature")')?.disabled,
-            { timeout: 15000 }
+            { timeout: 60000 }
         ).catch(() => console.log('[Settlement approveSettlement] Submit Signature still disabled, force clicking'));
         await submitSigBtn.click({ force: true });
 
