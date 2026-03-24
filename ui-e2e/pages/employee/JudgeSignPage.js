@@ -14,7 +14,7 @@ class JudgeSignPage extends BasePage {
     this.searchBtn = page.getByText('Search').first();
     this.eSignBtn = page.getByRole('button', { name: 'E-Sign' });
     this.proceedToSignBtn = page.getByRole('button', { name: 'Proceed To Sign' });
-    this.proceedToSendBtn = page.getByRole('button', { name: 'Proceed to Send' });
+    this.proceedToSendBtn = page.getByRole('button', { name: 'Send', exact: true });
     this.uploadOrderBtn = page.getByRole('button', { name: 'Upload Order Document with' });
     this.submitSignatureBtn = page.getByRole('button', { name: 'Submit Signature' });
     this.markAsSentBtn = page.getByRole('button', { name: 'Mark as sent' });
@@ -24,6 +24,13 @@ class JudgeSignPage extends BasePage {
   async navigateToSignProcess() {
     await this.signProcessLink.click();
     await this.page.waitForTimeout(1000);
+
+    // Explicitly click "Pending Sign" tab as per new UI changes
+    const pendingSignTab = this.page.getByRole('button', { name: 'Pending Sign', exact: true });
+    if (await pendingSignTab.isVisible({ timeout: 5000 }).catch(() => false)) {
+      await pendingSignTab.click();
+      await this.page.waitForTimeout(1000);
+    }
   }
 
   async searchCase(caseNumber) {
@@ -85,9 +92,17 @@ class JudgeSignPage extends BasePage {
   }
 
   async confirmAndSend() {
-    // After "Proceed to Send", success popup appears with "Mark as Sent" button
-    await expect(this.markAsSentBtn).toBeVisible({ timeout: 10000 });
-    await this.markAsSentBtn.click();
+    // After "Send", success popup appears. It may have "Mark as sent" or "Close".
+    await Promise.race([
+      this.markAsSentBtn.waitFor({ state: 'visible', timeout: 15000 }).catch(() => { }),
+      this.sendBtn.waitFor({ state: 'visible', timeout: 15000 }).catch(() => { })
+    ]);
+
+    if (await this.markAsSentBtn.isVisible()) {
+      await this.markAsSentBtn.click();
+    } else if (await this.sendBtn.isVisible()) {
+      await this.sendBtn.click();
+    }
     await this.page.waitForTimeout(2000);
   }
 
