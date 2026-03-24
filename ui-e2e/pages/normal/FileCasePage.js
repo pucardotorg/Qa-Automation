@@ -217,13 +217,17 @@ class FileCasePage extends BasePage {
   async fillAccusedAsEntityDetails() {
     await this.ensureOnAccusedStep();
 
+    // In CI/CD, the accused details form can take a while to fully load and render.
+    // Adding explicit waits here to ensure the page has settled before selecting 'Entity'.
+    await this.page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => { });
+    await this.page.waitForTimeout(4000);
+
+    // Get the Entity radio button and explicitly wait for it to be visible
+    const entityRadio = this.page.locator('div').filter({ hasText: /^Entity$/ }).getByRole('radio').first();
+    await entityRadio.waitFor({ state: 'visible', timeout: 15000 });
+
     // Select Entity radio — use .check() which is the correct Playwright method for radio buttons
-    await this.page
-      .locator('div')
-      .filter({ hasText: /^Entity$/ })
-      .getByRole('radio')
-      .first()
-      .check();
+    await entityRadio.check();
 
     // Wait for the Entity form to render
     await this.page.waitForTimeout(2000);
@@ -298,13 +302,13 @@ class FileCasePage extends BasePage {
 
     // Bank details - Use more specific locators for IFSC text input fields
     console.log('Looking for IFSC fields...');
-    
+
     // Payee IFSC field - find the input that's not a radio button
     const payeeIfscBox = this.page.locator('input[type="text"]').filter({ hasText: '' }).nth(2); // First text input after name field
-    
+
     // Payer IFSC field - find the second text input that's not a radio button  
     const payerIfscBox = this.page.locator('input[type="text"]').filter({ hasText: '' }).nth(6); // Second text input
-    
+
     const searchBtns = this.page.getByRole('button', { name: 'Search' });
 
     // Wait for page to be stable
@@ -462,7 +466,7 @@ class FileCasePage extends BasePage {
     const synopsisText = this.globals.synopsisDetails || 'Synopsis';
     const synopsisQuill = this.page.locator('.ql-editor').first();
     const synopsisRdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).first();
-    
+
     if (await synopsisQuill.count()) {
       await synopsisQuill.click();
       await synopsisQuill.fill(synopsisText);
@@ -544,18 +548,18 @@ class FileCasePage extends BasePage {
     // --- Complainant 1 advocate section ---
     // Wait for the advocate section to be visible and find the textbox for number of advocates
     await this.page.waitForTimeout(2000);
-    
+
     // Try multiple selectors to find the number of advocates input
     let advocatesBox = this.page.locator('input[type="text"]').filter({ hasText: '' }).first();
-    
+
     // Wait for any textbox to appear
-    await this.page.waitForSelector('input[type="text"], input[type="number"], [role="textbox"]', { 
-      state: 'visible', 
-      timeout: 15000 
+    await this.page.waitForSelector('input[type="text"], input[type="number"], [role="textbox"]', {
+      state: 'visible',
+      timeout: 15000
     }).catch(() => {
       console.log('[fillAdvocateDetails] No textbox found, trying alternative selector...');
     });
-    
+
     // Use the first visible textbox
     advocatesBox = this.page.getByRole('textbox').first();
     await advocatesBox.waitFor({ state: 'visible', timeout: 15000 }).catch(async () => {
@@ -563,7 +567,7 @@ class FileCasePage extends BasePage {
       advocatesBox = this.page.locator('input[type="text"]').first();
       await advocatesBox.waitFor({ state: 'visible', timeout: 10000 });
     });
-    
+
     await advocatesBox.click();
     await advocatesBox.fill(this.globals.noOfAdvocates || '1');
     await this.page.waitForTimeout(2000);

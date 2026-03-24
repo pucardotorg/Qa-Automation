@@ -41,6 +41,10 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
         await fileCase.startFiling();
         // 2 complainants (Complainant 1: litigantUsername, Complainant 2: litigantUsername2)
         await fileCase.fillTwoComplainantDetails();
+
+        // Add wait before accused details selection for entity type to prevent CICD failures
+        await page.waitForTimeout(5000);
+
         // 1 accused as Entity (One-person company)
         await fileCase.fillAccusedAsEntityDetails();
         await fileCase.fillChequeDetails();
@@ -243,26 +247,26 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
         );
     });
 
-   /* test('17 - Third advocate replaces existing advocate without payment (judge approval)', async ({ page }) => {
-        test.setTimeout(600000);
-
-        const joinCase = new JoinCasePage(page, globals);
-        await joinCase.open();
-        await joinCase.joinAsAdvocateReplaceWithoutPayment(
-            globals.filingNumber,
-            globals.accessCode
-        );
-    });
-
-
-    test('18 - Judge reviews and approves advocate replacement request (second time)', async ({ page }) => {
-        test.setTimeout(600000);
-
-        const employeeLogin = new EmployeeLoginPage(page, globals);
-        const judge = new JudgePage(page, globals);
-
-        await employeeLogin.open();
-        await employeeLogin.loginAsJudge();
-        await judge.reviewAdvReplacement(globals.stNumber);
-    });*/
+    /* test('17 - Third advocate replaces existing advocate without payment (judge approval)', async ({ page }) => {
+         test.setTimeout(600000);
+ 
+         const joinCase = new JoinCasePage(page, globals);
+         await joinCase.open();
+         await joinCase.joinAsAdvocateReplaceWithoutPayment(
+             globals.filingNumber,
+             globals.accessCode
+         );
+     });
+ 
+ 
+     test('18 - Judge reviews and approves advocate replacement request (second time)', async ({ page }) => {
+         test.setTimeout(600000);
+ 
+         const employeeLogin = new EmployeeLoginPage(page, globals);
+         const judge = new JudgePage(page, globals);
+ 
+         await employeeLogin.open();
+         await employeeLogin.loginAsJudge();
+         await judge.reviewAdvReplacement(globals.stNumber);
+     });*/
 });
