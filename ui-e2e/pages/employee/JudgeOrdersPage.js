@@ -564,8 +564,79 @@ class JudgeOrdersPage extends BasePage {
 
     console.log('[JudgeOrdersPage] Judgement Order issued successfully.');
   }
+
+  /**
+   * Judge issues a "Moving Case to Long Pending" (LPR) order.
+   * Navigates via All Cases → stNumber → Take Action → Generate Order →
+   * selects "Moving Case to Long Pending" order type → signs and issues.
+   * Captures and returns the LP number from the case detail page after issuing.
+   *
+   * Converted from: UI Tests/tests/9-LPROrders/09-issueLPROrder.spec.js
+   *
+   * @param {string} stNumber   - The ST case number to navigate to (e.g. 'ST/179/2026')
+   * @param {string} remarks    - Remarks to fill in the "Type here" textbox (default 'testing')
+   * @returns {Promise<string>} - The captured LP number (e.g. 'LP/6/2026')
+   */
+  async issueLPROrder(stNumber, remarks = 'testing') {
+    console.log('[JudgeOrdersPage] Issuing LPR (Moving Case to Long Pending) order...');
+
+    await this.navigateToCase(stNumber);
+    await this.openGenerateOrder();
+
+    // Select "Moving Case to Long Pending" order type via the first dropdown img
+    await this.orderTypeDropdownFirst.click();
+    await this.page.getByText('Moving Case to Long Pending').click();
+    await this.page.waitForTimeout(1000);
+
+    // Fill the remarks textbox
+    await this.page.getByRole('textbox', { name: 'Type here' }).click();
+    await this.page.getByRole('textbox', { name: 'Type here' }).fill(remarks);
+
+    // Sign and issue the order (Confirm → Preview → Add Signature → Download → Upload → Issue)
+    await this.signAndIssueOrder();
+
+    // Capture the LP number from the case summary
+    const lpElement = this.page.locator('div.sub-details-text').filter({ hasText: 'LP/' });
+    await expect(lpElement.first()).toBeVisible({ timeout: 15000 });
+    const lpRaw = (await lpElement.first().textContent()) || '';
+    const lpNumber = lpRaw.match(/(LP\/\S+)/)?.[1]?.trim() || lpRaw.trim();
+    console.log('[JudgeOrdersPage] Captured LP Number:', lpNumber);
+    return lpNumber;
+  }
+
+  /**
+   * Judge issues a "Moving Case out of Long Pending" order.
+   * Navigates via All Cases → lpNumber → Take Action → Generate Order →
+   * selects "Moving Case out of Long" order type → signs and issues.
+   *
+   * Converted from: UI Tests/tests/9-LPROrders/10-movingOutFromLPR.spec.js
+   *
+   * @param {string} lpNumber - The LP case number to navigate to (e.g. 'LP/6/2026')
+   * @param {string} remarks  - Remarks to fill in the "Type here" textbox (default 'testing')
+   */
+  async moveOutOfLPR(lpNumber, remarks = 'testing') {
+    console.log('[JudgeOrdersPage] Issuing "Moving Case out of Long Pending" order...');
+
+    await this.navigateToCase(lpNumber);
+    await this.openGenerateOrder();
+
+    // Select "Moving Case out of Long Pending" order type via the second path in the dropdown
+    await this.page.locator('div').filter({ hasText: /^EditDelete$/ }).locator('path').nth(1).click();
+    await this.page.getByText('Moving Case out of Long').click();
+    await this.page.waitForTimeout(1000);
+
+    // Fill the remarks textbox
+    await this.page.getByRole('textbox', { name: 'Type here' }).click();
+    await this.page.getByRole('textbox', { name: 'Type here' }).fill(remarks);
+
+    // Sign and issue the order
+    await this.signAndIssueOrder();
+
+    console.log('[JudgeOrdersPage] Moving out of LPR order issued successfully.');
+  }
 }
 
 module.exports = { JudgeOrdersPage };
+
 
 
