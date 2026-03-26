@@ -119,6 +119,109 @@ class CourtStaffPage extends BasePage {
     await this.confirmAndMarkAsSent();
     await this.updateDeliveryStatus(caseNumber);
   }
+
+  /**
+   * Court staff creates a Miscellaneous Process template under Templates/Configuration.
+   * Converted from: UI Tests/tests/10-miscProcess/05-templates.spec.js
+   *
+   * @param {string} templateName   - Title of the new template (default 'Testing Automation')
+   * @param {string} addressee      - Addressee option to select (default 'Police')
+   * @param {string} orderText      - Rich-text content for the order editor (default 'order text')
+   * @param {string} processText    - Rich-text content for the process editor (default 'process text')
+   * @param {string} coverLetterText - Cover letter content (default 'cover letter text')
+   */
+  async createMiscProcessTemplate(
+    templateName = 'Testing Automation',
+    addressee = 'Police',
+    orderText = 'order text',
+    processText = 'process text',
+    coverLetterText = 'cover letter text'
+  ) {
+    console.log('[CourtStaffPage] Creating Miscellaneous Process template...');
+
+    await this.page.getByText('Templates/Configuration').click();
+    await this.page.getByRole('button').filter({ hasText: 'Add New Template' }).click();
+
+    await this.page.locator('input[name="processTitle"]').click();
+    await this.page.locator('input[name="processTitle"]').fill(templateName);
+
+    // Select Addressee
+    await this.page.locator('div').filter({ hasText: /^Select Addressee\*$/ }).getByRole('img').click();
+    await this.page.getByText(addressee, { exact: true }).click();
+
+    // Fill order text and process text editors
+    await this.page.locator('.ql-editor').first().fill(orderText);
+    await this.page.getByRole('paragraph').filter({ hasText: /^$/ }).click();
+    await this.page.locator('.ql-editor.ql-blank').fill(processText);
+
+    // Advance to cover letter step
+    await this.page.getByRole('button').filter({ hasText: 'Next' }).click();
+    await this.page.getByRole('paragraph').filter({ hasText: /^$/ }).click();
+    await this.page.locator('.ql-editor').fill(coverLetterText);
+
+    // Save and preview, then final save
+    await this.page.getByRole('button').filter({ hasText: 'Save & Preview' }).click();
+    await this.page.getByRole('button', { name: 'Save' }).click();
+
+    await this.page.waitForLoadState('networkidle');
+    console.log('[CourtStaffPage] Miscellaneous Process template created successfully.');
+  }
+
+  /**
+   * Court staff (or judge) signs a Miscellaneous Process via the Pending Sign queue,
+   * then updates the delivery status from the Sent tab.
+   * Converted from: UI Tests/tests/10-miscProcess/07-courtStaff.spec.js
+   *
+   * @param {string} caseNumber - CMP number to search for in the sign queue
+   */
+  async signMiscProcess(caseNumber) {
+    console.log('[CourtStaffPage] Signing Miscellaneous Process...');
+
+    // Navigate to Sign Process → Pending Sign tab
+    await this.signProcessLink.click();
+    await this.page.waitForTimeout(1000);
+    await this.page.getByRole('button', { name: 'Pending Sign' }).click();
+    await this.page.waitForTimeout(1000);
+
+    // Search for the case
+    await this.searchCase(caseNumber);
+
+    // Open the case
+    await this.openCase();
+
+    // Proceed To Sign → download
+    await this.proceedToSignBtn.click();
+    await this.page.waitForTimeout(1000);
+
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.page.getByText('click here').click(),
+    ]);
+
+    const projectDownloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
+    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
+    await download.saveAs(projectDownloadPath);
+    console.log(`[CourtStaffPage] Misc process doc downloaded: ${projectDownloadPath}`);
+
+    // Upload signed doc
+    await this.uploadOrderBtn.click();
+    await this.page.waitForTimeout(2000);
+    await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+
+    await this.submitSignatureBtn.click();
+    await this.page.waitForTimeout(2000);
+
+    // Proceed to Send → Mark as sent
+    await this.proceedToSendBtn.click();
+    await this.page.waitForTimeout(2000);
+    await this.markAsSentBtn.click();
+
+    // Update delivery status from Sent tab
+    await this.updateDeliveryStatus(caseNumber);
+
+    console.log('[CourtStaffPage] Miscellaneous Process signed and sent successfully.');
+  }
 }
 
 module.exports = { CourtStaffPage };
+

@@ -634,9 +634,62 @@ class JudgeOrdersPage extends BasePage {
 
     console.log('[JudgeOrdersPage] Moving out of LPR order issued successfully.');
   }
+
+  /**
+   * Judge issues a Miscellaneous Process order using a saved template.
+   * Navigates via All Cases → caseNumber → Take Action → Generate Order →
+   * selects "Miscellaneous Process" type → picks template → police station →
+   * party → address → signs and issues.
+   * Converted from: UI Tests/tests/10-miscProcess/06-showCauseNoticeOrder.spec.js
+   *
+   * @param {string} caseNumber    - CMP number to navigate to
+   * @param {string} templateName  - Template name to select (default 'Testing Automation')
+   * @param {string} policeStation - Police station to select (default 'ADHUR')
+   * @param {string} partyName     - Party name to select from the second dropdown (default 'Rajesh Ch')
+   * @param {string} addressLabel  - Checkbox label for the party address (default 'sh, sh, sh, sh, sh,')
+   */
+  async issueMiscProcessOrder(
+    caseNumber,
+    templateName = 'Testing Automation',
+    policeStation = 'ADHUR',
+    partyName = 'Rajesh Ch',
+    addressLabel = 'sh, sh, sh, sh, sh,'
+  ) {
+    console.log('[JudgeOrdersPage] Issuing Miscellaneous Process order...');
+
+    await this.navigateToCase(caseNumber);
+    await this.openGenerateOrder();
+
+    // Select "Miscellaneous Process" order type
+    await this.orderTypeDropdownFirst.click();
+    await this.page.getByText('Miscellaneous Process').click();
+    await this.page.waitForTimeout(1000);
+
+    // Select the process template
+    await this.page.locator('div').filter({ hasText: /^Select Miscellaneous Process Template\*$/ }).getByRole('img').click();
+    await this.page.getByText(templateName).first().click();
+
+    // Select Police Station
+    await this.page.locator('.select.false > .cp').click();
+    await this.page.locator('#jk-dropdown-unique div').filter({ hasText: policeStation }).click();
+
+    // Select Party
+    await this.page.locator('div:nth-child(2) > .select > .cp').click();
+    await this.page.locator('#jk-dropdown-unique div').filter({ hasText: partyName }).click();
+
+    // Select Address checkbox
+    await this.page.locator('div').filter({ hasText: /^Address$/ }).locator('svg').click();
+    await this.page.getByRole('checkbox', { name: addressLabel }).check();
+
+    // Sign and issue the order
+    await this.signAndIssueOrder();
+
+    console.log('[JudgeOrdersPage] Miscellaneous Process order issued successfully.');
+  }
 }
 
 module.exports = { JudgeOrdersPage };
+
 
 
 
