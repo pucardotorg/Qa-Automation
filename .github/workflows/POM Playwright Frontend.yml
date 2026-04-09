@@ -26,10 +26,10 @@ jobs:
     timeout-minutes: 180
 
     environment:
-      name: ${{ inputs.environment || 'demo' }}
+      name: ${{ inputs.environment || 'uat' }}
 
     env:
-      TEST_ENV: ${{ inputs.environment || 'demo' }}
+      TEST_ENV: ${{ inputs.environment || 'uat' }}
       CI: true
 
       CITIZEN_USERNAME: ${{ vars.CITIZEN_USERNAME }}
