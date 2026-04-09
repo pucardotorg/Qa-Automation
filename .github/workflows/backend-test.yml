@@ -2,14 +2,14 @@ name: Back-End Playwright Tests
 
 on:
   schedule:
-    - cron: "30 3 * * 1-5"  # 9:00 AM IST (3:30 AM UTC), Monday to Friday
+    - cron: "30 3 * * 1-5" # 9:00 AM IST (3:30 AM UTC), Monday to Friday
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
-    inputs: 
-      environment: 
+    inputs:
+      environment:
         required: true
         type: choice
         options:
@@ -21,20 +21,34 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     environment:
-      name: ${{ inputs.environment }}
+      name: ${{ inputs.environment || 'qa' }}
+
     env:
-        CITIZEN_USERNAME: ${{ vars.CITIZEN_USERNAME }}
-        CITIZEN_PASSWORD: ${{ vars.CITIZEN_PASSWORD }}
-        LITIGENT_USERNAME: ${{ vars.LITIGENT_USERNAME }}
-        LITIGENT_PASSWORD: ${{ vars.LITIGENT_PASSWORD }}
-        NAYAMITRA_USERNAME: ${{ vars.NAYAMITRA_USERNAME }}
-        NAYAMITRA_PASSWORD: ${{ vars.NAYAMITRA_PASSWORD }}
-        FSO_USERNAME: ${{ vars.FSO_USERNAME }}
-        FSO_PASSWORD: ${{ vars.FSO_PASSWORD }}
-        JUDGE_USERNAME: ${{ vars.JUDGE_USERNAME }}
-        JUDGE_PASSWORD: ${{ vars.JUDGE_PASSWORD }}
-        CI: true
+      # Default environment fallback
+      TEST_ENV: ${{ inputs.environment || 'qa' }}
+
+      # Application credentials
+      CITIZEN_USERNAME: ${{ vars.CITIZEN_USERNAME }}
+      CITIZEN_PASSWORD: ${{ vars.CITIZEN_PASSWORD }}
+      LITIGENT_USERNAME: ${{ vars.LITIGENT_USERNAME }}
+      LITIGENT_PASSWORD: ${{ vars.LITIGENT_PASSWORD }}
+      NAYAMITRA_USERNAME: ${{ vars.NAYAMITRA_USERNAME }}
+      NAYAMITRA_PASSWORD: ${{ vars.NAYAMITRA_PASSWORD }}
+      FSO_USERNAME: ${{ vars.FSO_USERNAME }}
+      FSO_PASSWORD: ${{ vars.FSO_PASSWORD }}
+      JUDGE_USERNAME: ${{ vars.JUDGE_USERNAME }}
+      JUDGE_PASSWORD: ${{ vars.JUDGE_PASSWORD }}
+
+      # VPN credentials (used only for UAT)
+      EVPN_USERNAME: ${{ secrets.EVPN_USERNAME }}
+      EVPN_PASSWORD: ${{ secrets.EVPN_PASSWORD }}
+      HOSTS_ENTRIES: ${{ secrets.HOSTS_ENTRIES }}
+
+
+      CI: true
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,8 +59,7 @@ jobs:
           node-version: 20
 
       - name: Install Node dependencies
-        run: |
-          npm ci
+        run: npm ci
 
       - name: Install Playwright (core + browsers)
         run: |
@@ -56,18 +69,53 @@ jobs:
           npx playwright install --with-deps
 
       - name: Verify Playwright installation
+        run: npx playwright --version
+
+      # =========================
+      # UAT ONLY - VPN SETUP
+      # =========================
+      - name: Install HySecure VPN Client
+        if: ${{ env.TEST_ENV == 'uat' }}
+        continue-on-error: true
         run: |
-          npx playwright --version
+          wget -q https://evpn.kerala.gov.in/fes-bin/public/HySecure_Client_5.1.4.16.deb -O HySecure_Client.deb
+          sudo apt install -y ./HySecure_Client.deb
 
+      - name: Update Hosts File from Secret
+        if: ${{ env.TEST_ENV == 'uat' }}
+        run: |
+          echo "${HOSTS_ENTRIES}" | sudo tee -a /etc/hosts
+          echo "Hosts file updated"     
 
+      - name: Connect to VPN (HySecure)
+        if: ${{ env.TEST_ENV == 'uat' }}
+        run: |
+          timeout 300s hysecure login \
+            --user="${EVPN_USERNAME}" \
+            --password="${EVPN_PASSWORD}" \
+            --server="evpn.kerala.gov.in" \
+            --domain="Default"
+
+      # =========================
+ 
       - name: Run Back-End Playwright tests
         run: |
           cd "Case create/"
-          TEST_ENV=${{ inputs.environment }} ./run-all-tests.sh --workers=1
+          TEST_ENV=${TEST_ENV} ./run-all-tests.sh --workers=1
 
-      - name: Upload Playwright Report (optional)
+  
+      - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
+
+      # =========================
+      # UAT ONLY - VPN LOGOUT
+      # =========================
+      - name: Logout From VPN (HySecure)
+        if: ${{ env.TEST_ENV == 'uat' }}
+        continue-on-error: true
+        run: |
+          hysecure logout --user="${EVPN_USERNAME}"
