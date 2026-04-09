@@ -18,6 +18,7 @@ on:
         type: choice
         options:
           - demo
+          - uat
 
 jobs:
   ui-e2e-tests:
@@ -41,6 +42,12 @@ jobs:
       FSO_PASSWORD: ${{ vars.FSO_PASSWORD }}
       JUDGE_USERNAME: ${{ vars.JUDGE_USERNAME }}
       JUDGE_PASSWORD: ${{ vars.JUDGE_PASSWORD }}
+
+            # VPN credentials (used only for UAT)
+      EVPN_USERNAME: ${{ secrets.EVPN_USERNAME }}
+      EVPN_PASSWORD: ${{ secrets.EVPN_PASSWORD }}
+      HOSTS_ENTRIES: ${{ secrets.HOSTS_ENTRIES }}
+
 
     steps:
 
@@ -68,6 +75,35 @@ jobs:
       - name: Verify Playwright installation
         run: npx playwright --version
 
+
+      # =========================
+      # UAT ONLY - VPN SETUP
+      # =========================
+      - name: Install HySecure VPN Client
+        if: ${{ env.TEST_ENV == 'uat' }}
+        continue-on-error: true
+        run: |
+          wget -q https://evpn.kerala.gov.in/fes-bin/public/HySecure_Client_5.1.4.16.deb -O HySecure_Client.deb
+          sudo apt install -y ./HySecure_Client.deb
+
+      - name: Update Hosts File from Secret
+        if: ${{ env.TEST_ENV == 'uat' }}
+        run: |
+          echo "${HOSTS_ENTRIES}" | sudo tee -a /etc/hosts
+          echo "Hosts file updated"     
+
+      - name: Connect to VPN (HySecure)
+        if: ${{ env.TEST_ENV == 'uat' }}
+        run: |
+          timeout 300s hysecure login \
+            --user="${EVPN_USERNAME}" \
+            --password="${EVPN_PASSWORD}" \
+            --server="evpn.kerala.gov.in" \
+            --domain="Default"
+
+      # =========================
+ 
+
       - name: Run UI E2E Flows Sequentially
         run: |
           node ui-e2e/tests/flows/run-all-flows.js
@@ -79,3 +115,13 @@ jobs:
           name: playwright-report-${{ env.TEST_ENV }}
           path: playwright-report/
           retention-days: 7
+
+      
+      # =========================
+      # UAT ONLY - VPN LOGOUT
+      # =========================
+      - name: Logout From VPN (HySecure)
+        if: ${{ env.TEST_ENV == 'uat' }}
+        continue-on-error: true
+        run: |
+          hysecure logout --user="${EVPN_USERNAME}"
