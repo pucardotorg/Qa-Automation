@@ -1,39 +1,39 @@
 {
   "baseURL": "https://dristi-kerala-qa.pucar.org/",
-  "caseId": "04031481-5e7f-49fe-ae4f-535d4a2557b6",
-  "filingNumber": "KL-000766-2026",
-  "nayamitraAuthToken": "339d480b-ebf8-4e05-a4d2-961e50c6455c",
+  "caseId": "8a346f7d-54e6-48e0-904d-d27ba8003d54",
+  "filingNumber": "KL-001369-2026",
+  "nayamitraAuthToken": "e22722f8-3d24-4097-be1b-f5edad5c55b1",
   "fsousername": "michaelGeorgeFso",
   "fsopassword": "Beehyv@123",
   "judgeusername": "michaelGeorgeJudge",
   "judgepassword": "Beehyv@123",
-  "judgeauthtoken": "13c727d2-523b-404b-91c5-1c9c9e6618bc",
-  "cnrNumber": "KLKM520000172026",
-  "orderId": "196d8e77-66fd-4a32-9888-3e4d9147260a",
-  "orderNumber": "KL-000197-2026-OR1",
-  "hearingId": "KL-000197-2026-HR1",
-  "applicationId": "e033e5e7-ce42-484b-83d4-ab4b7857f6c3",
-  "applicationNumber": "KL-000197-2026-AP1",
-  "applicationCreatedDate": 1768479794151,
-  "statuteSectionId": "788ee815-138b-4481-acf6-c6ec66025c05",
-  "applicationDocumentId": "18e030a1-4600-4c31-b181-614f3ad485b3",
+  "judgeauthtoken": "46a27276-2ee0-4ad4-8a1d-5156113e7062",
+  "cnrNumber": "KLKM520005152026",
+  "orderId": "ff3dcfae-3d5f-4bf4-b09e-d0b4180a7b35",
+  "orderNumber": "KL-001369-2026-OR1",
+  "hearingId": "KL-001369-2026-HR1",
+  "applicationId": "88ee3ee4-a532-469c-8164-802d7d4d0efe",
+  "applicationNumber": "KL-001369-2026-AP1",
+  "applicationCreatedDate": 1776063800580,
+  "statuteSectionId": "4e6e72fa-eca4-4eab-b829-5ce9115fe851",
+  "applicationDocumentId": "58e262af-cc73-46d1-949f-46bc7ce95cc6",
   "applicationDocumentFileStore": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
-  "advocateuserUUID": "46f6ba01-cbcb-41b6-9a6d-8f2e1343cbb8",
-  "advocateIndividualId": "IND-2025-11-13-000013",
+  "advocateuserUUID": "c3c91064-fa82-4138-a254-fa85cce72c83",
+  "advocateIndividualId": "IND-2025-07-18-000176",
   "demandId": "10da5a46-a4ae-4d1a-b568-b02452ff584f",
-  "billId": "051c6b14-14bf-4e4a-8238-958e9ed5d8ab",
-  "epochTime": 1773127469369,
-  "representingid": "79b7d70c-c477-42e0-8a0d-c58669233091",
-  "litigantid": "05737534-b6d0-4c30-8675-eb23551abd0f",
-  "representingli": "21611d1d-0f6b-44d5-9be4-264eea421928",
-  "artifactId": "90d69056-f7a1-45e0-ac80-f3c3bd54beaf",
-  "artifactNumber": "KL-000197-2026-AR7",
-  "advocateId": "ad28c616-c302-4b1b-bccf-58cc89818f66",
+  "billId": "ab3971fd-3837-4d7a-982d-54f6db3b5c8e",
+  "epochTime": 1776063692187,
+  "representingid": "d131aa17-4804-4c9b-ace7-14b5e2440455",
+  "litigantid": "a4195679-e64d-47dd-8fc9-77e276a38081",
+  "representingli": "74933332-9734-4b9d-a1a7-17d137ce02fe",
+  "artifactId": "a92a2499-a4dd-4980-b369-97c3f896d35a",
+  "artifactNumber": "KL-001369-2026-AR7",
+  "advocateId": "fd3f3d4c-54dd-41bf-ae9e-e564c177c53a",
   "nayamitraUserResponse": {
-    "access_token": "339d480b-ebf8-4e05-a4d2-961e50c6455c",
+    "access_token": "e22722f8-3d24-4097-be1b-f5edad5c55b1",
     "token_type": "bearer",
-    "refresh_token": "f13f950e-617d-4a6b-8d20-ec5e278d636f",
-    "expires_in": 596948,
+    "refresh_token": "8ffd552e-c93c-49c7-9e6f-729255978787",
+    "expires_in": 340583,
     "scope": "read",
     "ResponseInfo": {
       "api_id": "",
@@ -100,10 +100,10 @@
     }
   },
   "fsoUserResponse": {
-    "access_token": "55064de3-fb8e-42e6-85ee-10f48dbff395",
+    "access_token": "58222cc2-81a2-421b-8e6f-1c03cd3fbab9",
     "token_type": "bearer",
-    "refresh_token": "dbbf537b-9852-42f4-a609-63df2eefacbf",
-    "expires_in": 596947,
+    "refresh_token": "813ef535-c67c-4e2e-971b-d6473b637c46",
+    "expires_in": 340584,
     "scope": "read",
     "ResponseInfo": {
       "api_id": "",
@@ -189,12 +189,12 @@
       "permanentCity": null
     }
   },
-  "fsoauthtoken": "55064de3-fb8e-42e6-85ee-10f48dbff395",
+  "fsoauthtoken": "58222cc2-81a2-421b-8e6f-1c03cd3fbab9",
   "judgeUserResponse": {
-    "access_token": "13c727d2-523b-404b-91c5-1c9c9e6618bc",
+    "access_token": "46a27276-2ee0-4ad4-8a1d-5156113e7062",
     "token_type": "bearer",
-    "refresh_token": "bed8dbd2-9ac0-4086-b84e-c65e812ecf51",
-    "expires_in": 601366,
+    "refresh_token": "64c31f82-2a5b-474a-8ce5-40366e17a04c",
+    "expires_in": 602834,
     "scope": "read",
     "ResponseInfo": {
       "api_id": "",
@@ -275,11 +275,6 @@
           "tenantId": "kl"
         },
         {
-          "name": "VIEW_RESCHEDULE_APPLICATION",
-          "code": "VIEW_RESCHEDULE_APPLICATION",
-          "tenantId": "kl"
-        },
-        {
           "name": "APPLICATION_REJECTOR",
           "code": "APPLICATION_REJECTOR",
           "tenantId": "kl"
@@ -312,6 +307,11 @@
         {
           "name": "EVIDENCE_EDITOR",
           "code": "EVIDENCE_EDITOR",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_PROCESS_MISCELLANEOUS",
+          "code": "VIEW_PROCESS_MISCELLANEOUS",
           "tenantId": "kl"
         },
         {
@@ -367,6 +367,16 @@
         {
           "name": "WORKFLOW_ABANDON",
           "code": "WORKFLOW_ABANDON",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CERTIFIED_TRUE_COPY_APPLICATION",
+          "code": "CERTIFIED_TRUE_COPY_APPLICATION",
+          "tenantId": "kl"
+        },
+        {
+          "name": "CTC_APPLICATION_APPROVER",
+          "code": "CTC_APPLICATION_APPROVER",
           "tenantId": "kl"
         },
         {
@@ -497,6 +507,11 @@
         {
           "name": "SIGN_PROCESS_NOTICE",
           "code": "SIGN_PROCESS_NOTICE",
+          "tenantId": "kl"
+        },
+        {
+          "name": "VIEW_RESCHEDULING_REQUESTS",
+          "code": "VIEW_RESCHEDULING_REQUESTS",
           "tenantId": "kl"
         },
         {
@@ -837,61 +852,61 @@
     "permanentCity": null
   },
   "fsouuid": "9e365a5b-783a-42a7-baee-dc6dfef2243a",
-  "litigentuuid": "2faa2403-1dbe-47d6-8d8d-27962e56344d",
+  "litigentuuid": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
   "litigentIndividualResponse": {
     "ResponseInfo": {
       "apiId": "Rainmaker",
       "ver": null,
-      "ts": 1773125784685,
-      "resMsgId": "1773125784582|en_IN",
-      "msgId": "1773125784582|en_IN",
+      "ts": 1776063699275,
+      "resMsgId": "1776063699139|en_IN",
+      "msgId": "1776063699139|en_IN",
       "status": "successful"
     },
     "Individual": [
       {
-        "id": "e69bf31c-a267-4d34-a24b-cee25bc412bd",
-        "individualId": "IND-2025-11-14-000014",
+        "id": "34b5d2e3-7d31-4a14-8837-8ec7ff2a8c70",
+        "individualId": "IND-2025-07-18-000175",
         "tenantId": "kl",
         "clientReferenceId": null,
-        "userId": "122",
-        "userUuid": "2faa2403-1dbe-47d6-8d8d-27962e56344d",
+        "userId": "393",
+        "userUuid": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
         "name": {
-          "givenName": "Rajesh",
-          "familyName": "ch",
+          "givenName": "GURU LIT",
+          "familyName": null,
           "otherNames": null
         },
         "dateOfBirth": null,
         "gender": null,
         "bloodGroup": null,
-        "mobileNumber": "9032273758",
+        "mobileNumber": "9914600000",
         "altContactNumber": null,
         "email": null,
         "address": [
           {
-            "id": "2041fd63-9d47-4e1b-b700-c309767921d7",
+            "id": "223120d0-8004-4be7-a937-643a2afaf583",
             "clientReferenceId": null,
-            "individualId": "e69bf31c-a267-4d34-a24b-cee25bc412bd",
+            "individualId": "34b5d2e3-7d31-4a14-8837-8ec7ff2a8c70",
             "tenantId": "kl",
-            "doorNo": "sh",
+            "doorNo": "tset",
             "latitude": 0,
             "longitude": 0,
             "locationAccuracy": 0,
             "type": "PERMANENT",
-            "addressLine1": "sdg",
-            "addressLine2": "sh",
+            "addressLine1": "test",
+            "addressLine2": "test",
             "landmark": null,
-            "city": "sh",
-            "pincode": "685006",
-            "buildingName": "sh",
-            "street": "sh",
+            "city": "test",
+            "pincode": "686002",
+            "buildingName": "test",
+            "street": "test",
             "locality": null,
             "ward": null,
             "isDeleted": false,
             "auditDetails": {
-              "createdBy": "2faa2403-1dbe-47d6-8d8d-27962e56344d",
-              "lastModifiedBy": "2faa2403-1dbe-47d6-8d8d-27962e56344d",
-              "createdTime": 1763104065824,
-              "lastModifiedTime": 1763104065824
+              "createdBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+              "lastModifiedBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+              "createdTime": 1752841739528,
+              "lastModifiedTime": 1752841739528
             }
           }
         ],
@@ -900,17 +915,17 @@
         "relationship": null,
         "identifiers": [
           {
-            "id": "3d34b2c2-3137-4af5-a140-f0d6b3082279",
+            "id": "6b4cc966-f2a5-4d48-a967-9676687dc665",
             "clientReferenceId": null,
-            "individualId": "e69bf31c-a267-4d34-a24b-cee25bc412bd",
+            "individualId": "34b5d2e3-7d31-4a14-8837-8ec7ff2a8c70",
             "identifierType": "AADHAR",
-            "identifierId": "********************************91f3",
+            "identifierId": "********************************a8eb",
             "isDeleted": false,
             "auditDetails": {
-              "createdBy": "2faa2403-1dbe-47d6-8d8d-27962e56344d",
-              "lastModifiedBy": "2faa2403-1dbe-47d6-8d8d-27962e56344d",
-              "createdTime": 1763104065842,
-              "lastModifiedTime": 1763104065842
+              "createdBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+              "lastModifiedBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+              "createdTime": 1752841739528,
+              "lastModifiedTime": 1752841739528
             }
           }
         ],
@@ -934,17 +949,17 @@
             },
             {
               "key": "identifierIdDetails",
-              "value": "{\"fileStoreId\":\"40924f6b-7594-4b97-b726-a1c69fb191f3\",\"filename\":\"Summonspayment.pdf\"}"
+              "value": "{\"fileStoreId\":\"8d0f66ab-e219-4c55-a3af-1d953d9e9027\",\"filename\":\"bg logo.png\"}"
             }
           ]
         },
         "isDeleted": false,
         "rowVersion": 1,
         "auditDetails": {
-          "createdBy": "2faa2403-1dbe-47d6-8d8d-27962e56344d",
-          "lastModifiedBy": "2faa2403-1dbe-47d6-8d8d-27962e56344d",
-          "createdTime": 1763104065817,
-          "lastModifiedTime": 1763104065817
+          "createdBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+          "lastModifiedBy": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+          "createdTime": 1752841739528,
+          "lastModifiedTime": 1752841739528
         },
         "clientAuditDetails": {
           "createdBy": null,
@@ -955,7 +970,7 @@
         "isSystemUser": true,
         "isSystemUserActive": true,
         "userDetails": {
-          "username": "9032273758",
+          "username": "9914600000",
           "password": null,
           "tenantId": "kl",
           "roles": [
@@ -1145,14 +1160,14 @@
       }
     ]
   },
-  "litigentIndividualId": "IND-2025-11-14-000014",
+  "litigentIndividualId": "IND-2025-07-18-000175",
   "litigentuserinfo": {
-    "id": 122,
-    "userName": "9032273758",
+    "id": 393,
+    "userName": "9914600000",
     "salutation": null,
-    "name": "Rajesh  ch",
+    "name": "GURU LIT  ",
     "gender": null,
-    "mobileNumber": "9032273758",
+    "mobileNumber": "9914600000",
     "emailId": null,
     "altContactNumber": null,
     "pan": null,
@@ -1176,7 +1191,7 @@
     "photo": null,
     "identificationMark": null,
     "createdBy": 0,
-    "lastModifiedBy": 122,
+    "lastModifiedBy": 393,
     "tenantId": "kl",
     "roles": [
       {
@@ -1330,11 +1345,11 @@
         "tenantId": "kl"
       }
     ],
-    "uuid": "2faa2403-1dbe-47d6-8d8d-27962e56344d",
-    "createdDate": "14-11-2025 12:34:02",
-    "lastModifiedDate": "14-11-2025 12:37:46",
+    "uuid": "a07765e5-f3ea-46e3-8708-0d31b244f3cb",
+    "createdDate": "18-07-2025 17:58:18",
+    "lastModifiedDate": "18-07-2025 17:58:59",
     "dob": null,
-    "pwdExpiryDate": "12-02-2026 12:34:02"
+    "pwdExpiryDate": "16-10-2025 17:58:17"
   },
   "DEVfilestore": {
     "case.cheque": "fdc30a87-c550-4561-ad8a-f6d19035d626",
@@ -1353,20 +1368,20 @@
     "case.complaint.signed": "fdc30a87-c550-4561-ad8a-f6d19035d626"
   },
   "UATfilestore": {
-    "case.cheque": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.cheque.returnmemo": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.liabilityproof": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.demandnotice": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.demandnotice.proof": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.demandnotice.serviceproof": "88674014-94b5-436e-bb56-b612f664958a",
-    "VAKALATNAMA_DOC": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.affidavit.223bnss": "88674014-94b5-436e-bb56-b612f664958a",
-    "COMPLAINANT_ID_PROOF": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.affidavit.225bnss": "88674014-94b5-436e-bb56-b612f664958a",
-    "image/png": "88674014-94b5-436e-bb56-b612f664958a",
-    "orderTitle": "88674014-94b5-436e-bb56-b612f664958a",
-    "application": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.complaint.signed": "88674014-94b5-436e-bb56-b612f664958a"
+    "case.cheque": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.cheque.returnmemo": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.liabilityproof": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.demandnotice": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.demandnotice.proof": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.demandnotice.serviceproof": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "VAKALATNAMA_DOC": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.affidavit.223bnss": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "COMPLAINANT_ID_PROOF": "fdb93c49-8949-4f19-a76a-bcdff447b481",
+    "case.affidavit.225bnss": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "image/png": "fdb93c49-8949-4f19-a76a-bcdff447b481",
+    "orderTitle": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "application": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.complaint.signed": "adeb8e51-6802-4efe-b73e-0c9bb490ec37"
   },
   "filestore": {
     "case.cheque": "8d0f66ab-e219-4c55-a3af-1d953d9e9027",
@@ -1439,15 +1454,15 @@
     "application": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f",
     "case.complaint.signed": "dc5d1b0d-fb3c-4e14-88cb-9364abc7012f"
   },
-  "litigentAuthToken": "75e51149-1330-4c10-8078-9ad5bc725316",
-  "citizenAuthToken": "e36acbe4-d168-430b-948a-087683377264",
+  "litigentAuthToken": "6cacb063-1ba6-4b2f-b7ad-e42b553ac0af",
+  "citizenAuthToken": "e38ba429-e9a5-48b4-acf7-d6eb78f71456",
   "citizenUserInfo": {
-    "id": 117,
-    "uuid": "46f6ba01-cbcb-41b6-9a6d-8f2e1343cbb8",
+    "id": 394,
+    "uuid": "c3c91064-fa82-4138-a254-fa85cce72c83",
     "userName": "8827000000",
     "name": "ADV TEST  ",
     "mobileNumber": "8827000000",
-    "emailId": null,
+    "emailId": "eeedswq@gmail.com",
     "locale": null,
     "type": "CITIZEN",
     "roles": [

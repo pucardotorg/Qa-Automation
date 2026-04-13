@@ -1,19 +1,19 @@
 {
   "baseURL": "https://oncourts-staging.kerala.gov.in/",
   "UATfilestore": {
-    "case.cheque": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.cheque.returnmemo": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.liabilityproof": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.demandnotice": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.demandnotice.proof": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.demandnotice.serviceproof": "88674014-94b5-436e-bb56-b612f664958a",
-    "VAKALATNAMA_DOC": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.affidavit.223bnss": "88674014-94b5-436e-bb56-b612f664958a",
-    "COMPLAINANT_ID_PROOF": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.affidavit.225bnss": "88674014-94b5-436e-bb56-b612f664958a",
-    "image/png": "88674014-94b5-436e-bb56-b612f664958a",
-    "orderTitle": "88674014-94b5-436e-bb56-b612f664958a",
-    "application": "88674014-94b5-436e-bb56-b612f664958a",
-    "case.complaint.signed": "88674014-94b5-436e-bb56-b612f664958a"
+    "case.cheque": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.cheque.returnmemo": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.liabilityproof": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.demandnotice": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.demandnotice.proof": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.demandnotice.serviceproof": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "VAKALATNAMA_DOC": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.affidavit.223bnss": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "COMPLAINANT_ID_PROOF": "fdb93c49-8949-4f19-a76a-bcdff447b481",
+    "case.affidavit.225bnss": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "image/png": "fdb93c49-8949-4f19-a76a-bcdff447b481",
+    "orderTitle": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "application": "adeb8e51-6802-4efe-b73e-0c9bb490ec37",
+    "case.complaint.signed": "adeb8e51-6802-4efe-b73e-0c9bb490ec37"
   }
 }

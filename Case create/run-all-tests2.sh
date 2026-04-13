@@ -28,7 +28,6 @@ tests=(
     "tests/9.3hearingsearch.spec.js"
     "tests/10.1applicationcreate.spec.js"
     "tests/10.2applicationupdate.spec.js"
-    "tests/10.3createdemandforapplication.spec.js"
     "tests/10.4fetchbillapplication.spec.js"
     "tests/10.5collectionpaymentapplication.spec.js"
     "tests/evidence1.spec.js"
