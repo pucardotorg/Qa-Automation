@@ -23,11 +23,11 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: ${{ inputs.environment || 'qa' }}
+      name: ${{ inputs.environment || 'uat' }}
 
     env:
       # Default environment fallback
-      TEST_ENV: ${{ inputs.environment || 'qa' }}
+      TEST_ENV: ${{ inputs.environment || 'uat' }}
 
       # Application credentials
       CITIZEN_USERNAME: ${{ vars.CITIZEN_USERNAME }}
