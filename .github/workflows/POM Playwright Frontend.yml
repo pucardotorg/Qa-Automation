@@ -17,8 +17,8 @@ on:
         required: true
         type: choice
         options:
-          - demo
           - uat
+          - demo
 
 jobs:
   ui-e2e-tests:
