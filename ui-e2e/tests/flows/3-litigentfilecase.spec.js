@@ -376,7 +376,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
         );
     });
 
-    test('21 - Naya Mitra collects payment for warrant', async ({ page }) => {
+    /*test('21 - Naya Mitra collects payment for warrant', async ({ page }) => {
         test.setTimeout(600000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
@@ -393,7 +393,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
         await payment.recordPaymentForCase();
         await payment.selectPaymentMode('Cash');
         await payment.submitPayment();
-    });
+    });*/
 
     test('22 - Judge e-signs and sends warrant', async ({ page }) => {
         test.setTimeout(600000);

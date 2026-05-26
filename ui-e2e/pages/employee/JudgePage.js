@@ -10,8 +10,8 @@ class JudgePage extends BasePage {
     super(page, globals);
 
     this.allCasesLink = page.getByRole('link', { name: 'All Cases' });
-    this.caseSearchInput = page.locator('xpath=//*[@id="root"]/div/div/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/div/div[1]/div[1]/div[2]/form/div/div/div[3]/div/input');
-    this.searchBtn = page.locator('xpath=//*[@id="root"]/div/div/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/div/div[1]/div[1]/div[2]/form/div/div/div[4]/button/header');
+    this.caseSearchInput = page.locator('input[name="caseSearchText"]');
+    this.searchBtn = page.getByRole('button').filter({ hasText: 'Search' });
     this.registerCaseBtn = page.getByRole('button', { name: /Register Case/i }).or(
       page.locator('button:has-text("Register Case")')
     );
@@ -35,16 +35,25 @@ class JudgePage extends BasePage {
   }
 
   async searchCase(filingNumber) {
-    await expect(this.caseSearchInput).toBeVisible({ timeout: 10000 });
-    await this.caseSearchInput.type(filingNumber);
-    await this.caseSearchInput.press('Enter');
-
-    await expect(this.searchBtn).toBeVisible({ timeout: 10000 });
-    await this.searchBtn.click();
-
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
-  }
+    
+    console.log('[JudgePage] Waiting for case search input...');
+    await expect(this.caseSearchInput).toBeVisible({ timeout: 30000 });
+    
+    console.log('[JudgePage] Filling search input with:', filingNumber);
+    await this.caseSearchInput.click();
+    await this.caseSearchInput.fill(filingNumber);
+    await this.page.waitForTimeout(500);
+  
+    console.log('[JudgePage] Clicking Search button...');
+    await expect(this.searchBtn).toBeVisible({ timeout: 10000 });
+    await this.searchBtn.click();
+  
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(2000);
+    console.log('[JudgePage] Search completed');
+  } 
 
   async openCase() {
     const caseIdCell = this.page.locator('xpath=//*[@id="root"]/div/div/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/div/div[1]/div[2]/div/span/table/tbody/tr[1]/td[1]');
@@ -631,33 +640,62 @@ class JudgePage extends BasePage {
     await expect(this.registerCaseBtn).toBeVisible({ timeout: 10000 });
     await this.page.waitForTimeout(2000);
     await this.registerCaseBtn.click();
-    await this.page.waitForTimeout(2000);
-
-    // Close the registration popup / schedule modal
+    await this.page.waitForTimeout(2000);// Close the registration popup / schedule modal
     await this.page.locator('.header-end > div > svg').click();
-
+    
     // Open Generate Order via kebab menu
     await this.page.getByRole('button', { name: 'Take Action' }).click();
     await this.page.getByText('Generate Order').click();
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
-
-    // Select order type options via dropdowns
+    
+    // Select "Schedule of Hearing Date" from the order items dropdown
     await this.page.getByRole('img').nth(5).click();
     await this.page.waitForTimeout(1000);
-    await this.page.locator('div:nth-child(14)').click();
-    await this.page.locator('.select.undefined > .cp > path:nth-child(2)').click();
-    await this.page.locator('#jk-dropdown-unique > div:nth-child(4)').click();
-
+    await this.page.locator('div:nth-child(13)').click();
+    
+    // Select "Admission" from the stage dropdown
+    await this.page.locator('.select.undefined > .cp').first().click();
+    await this.page.getByText('Admission', { exact: true }).click();
+    await this.page.waitForTimeout(1000);
+    
+    // Fill order text
+    await this.orderEditor.click();
+    await this.orderEditor.fill('AUTOMATION ORDER GENERATED');
+    await this.page.waitForTimeout(1000);
+    
     // Set today's date as the hearing date
-    const today = new Date();
-    const formattedDate = today.getFullYear() + '-' +
-      String(today.getMonth() + 1).padStart(2, '0') + '-' +
-      String(today.getDate()).padStart(2, '0');
-    await this.page.locator('input[name="hearingDate"]').fill(formattedDate);
+ // Open the date picker by clicking the calendar icon
+await this.page.locator('input[name="hearingDate"]').click();
+await this.page.waitForTimeout(2000);
 
+// Alternative: Try clicking the calendar icon if input click doesn't work
+const calendarIcon = this.page.locator('input[name="hearingDate"]').locator('xpath=following-sibling::*[1]');
+if (await calendarIcon.isVisible().catch(() => false)) {
+  await calendarIcon.click();
+  await this.page.waitForTimeout(1000);
+}
 
-    // Confirm — wait for visibility of the button after dropdown/form renders
+// Wait for calendar to appear
+await this.page.waitForSelector('.rdrCalendarWrapper, .rdrDateRangeWrapper', { timeout: 5000 });
+
+// Click today's date in the calendar
+const today = new Date();
+const todayDay = today.getDate();
+
+// Find and click the button for today's date
+const todayButton = this.page.locator('.rdrDay:not(.rdrDayPassive)').filter({ hasText: new RegExp(`^${todayDay}\\b`) }).first();
+await todayButton.click();
+await this.page.waitForTimeout(1000);
+
+// Click Confirm on the date picker
+await this.page.getByRole('button', { name: 'Confirm' }).first().click();
+await this.page.waitForTimeout(1000);
+
+// Click Confirm on the date picker
+await this.page.getByRole('button', { name: 'Confirm' }).first().click();
+await this.page.waitForTimeout(1000);
+    //   // Confirm — wait for visibility of the button after dropdown/form renders
     // Using a fresh locator instead of the constructor-cached this.confirmBtn to avoid stale state
     const confirmBtn = this.page.getByRole('button').filter({ hasText: 'Confirm' });
     await confirmBtn.waitFor({ state: 'visible', timeout: 15000 });
