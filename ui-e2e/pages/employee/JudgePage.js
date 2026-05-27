@@ -416,46 +416,61 @@ class JudgePage extends BasePage {
     cmpNumber,
     documentType = 'Affidavits',
     documentFilePath,
-    reason = 'reason testing'
+    reason = 'reason testing',
+    documentTitle = 'Test Document Submission'
   ) {
     console.log('[JudgePage] Submitting document as Judge...');
-
+  
     await this.allCasesLink.click();
     await this.page.waitForTimeout(1000);
     await this.page.getByRole('cell', { name: cmpNumber }).click();
     await this.page.waitForTimeout(1000);
-
+  
     // Open Take Action → Submit Documents
     await this.page.getByRole('button', { name: 'Take Action' }).click();
     await this.page.getByText('Submit Documents').click();
-
+    await this.page.waitForTimeout(1000);
+  
     // Select document type from dropdown
     await this.page.locator('div').filter({ hasText: /^Document Type\*$/ }).getByRole('img').click();
     await this.page.locator('#jk-dropdown-unique div').filter({ hasText: documentType }).click();
-
+    await this.page.waitForTimeout(500);
+  
+    // Fill Document Title - use a more specific selector
+    const documentTitleInput = this.page.locator('input[type="text"]').nth(1); // Second text input after document type
+    await documentTitleInput.waitFor({ state: 'visible', timeout: 5000 });
+    await documentTitleInput.click();
+    await documentTitleInput.fill(documentTitle);
+    await this.page.waitForTimeout(500);
+  
     // Upload the document file
     const fileInput = await this.page.$('input[type="file"]');
     await fileInput.setInputFiles(documentFilePath);
-
+    await this.page.waitForTimeout(1000);
+  
     // Fill reason
     await this.page.locator('.ql-editor').click();
     await this.page.locator('.ql-editor').fill(reason);
-    await this.page.waitForTimeout(3000);
-
-    // Review and submit
-    await this.page.getByRole('button').filter({ hasText: 'Review Submission' }).click();
     await this.page.waitForTimeout(2000);
-    const signBtn = this.page.getByRole('button', { name: 'Submit', exact: true }).last();
-    await signBtn.waitFor({ state: 'visible' });
-    await expect(signBtn).toBeEnabled();
-    await signBtn.scrollIntoViewIfNeeded();
-    await signBtn.evaluate(btn => btn.click());
+  
+    // Review and submit
+const reviewBtn = this.page.getByRole('button').filter({ hasText: 'Review Submission' });
+await reviewBtn.waitFor({ state: 'visible', timeout: 5000 });
+await expect(reviewBtn).toBeEnabled({ timeout: 5000 });
+await reviewBtn.click();
+await this.page.waitForTimeout(2000);
 
+const signBtn = this.page.getByRole('button', { name: 'Submit', exact: true }).last();
+await signBtn.waitFor({ state: 'visible', timeout: 10000 });
+await expect(signBtn).toBeEnabled();
+await signBtn.scrollIntoViewIfNeeded();
+await signBtn.click();
+  
     // Wait for the success modal and close it
     const closeBtn = this.page.getByRole('button', { name: 'Close', exact: true });
     await closeBtn.waitFor({ state: 'visible', timeout: 15000 });
     await closeBtn.click();
-
+  
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
     console.log('[JudgePage] Document submitted successfully.');
@@ -631,117 +646,123 @@ class JudgePage extends BasePage {
    */
   async registerCaseWithHearingDate(filingNumber) {
     console.log('[JudgePage] Registering case with hearing date flow...');
-
+    
     await this.navigateToAllCases();
     await this.searchCase(filingNumber);
     await this.openCase();
-
-    // Click Register Case button
+    
+    // Click Register Case button - this directly registers the case
     await expect(this.registerCaseBtn).toBeVisible({ timeout: 10000 });
     await this.page.waitForTimeout(2000);
     await this.registerCaseBtn.click();
-    await this.page.waitForTimeout(2000);// Close the registration popup / schedule modal
-    await this.page.locator('.header-end > div > svg').click();
+    await this.page.waitForTimeout(3000);
     
-    // Open Generate Order via kebab menu
-    await this.page.getByRole('button', { name: 'Take Action' }).click();
-    await this.page.getByText('Generate Order').click();
-    await this.page.waitForLoadState('networkidle');
+    // Capture CMP number and CNR from the registration success popup
+    const cmpElement = this.page.getByText(/CMP\/\d+\/\d+/);
+    await cmpElement.waitFor({ state: 'visible', timeout: 10000 });
+    const cmpNumber = (await cmpElement.textContent())?.trim() || '';
+    
+    const cnrElement = this.page.getByText(/KLKM\d+/);
+    const accessCode = (await cnrElement.textContent())?.trim() || '';
+    
+    console.log('[JudgePage] Captured from registration popup → CMP:', cmpNumber, ' CNR:', accessCode);
+    
+    // Click "Schedule Hearing" button on the success popup
+    const scheduleHearingBtn = this.page.getByRole('button', { name: 'Schedule Hearing' });
+    await scheduleHearingBtn.waitFor({ state: 'visible', timeout: 10000 });
+    await scheduleHearingBtn.click();
     await this.page.waitForTimeout(2000);
     
-    // Select "Schedule of Hearing Date" from the order items dropdown
-    await this.page.getByRole('img').nth(5).click();
-    await this.page.waitForTimeout(1000);
-    await this.page.locator('div:nth-child(13)').click();
+    // Now the Schedule Hearing popup appears - select custom date
+    await this.selectCustomDateBtn.waitFor({ state: 'visible', timeout: 10000 });
+    await this.selectCustomDateBtn.click();
+    await this.page.waitForTimeout(2000);
     
-    // Select "Admission" from the stage dropdown
-    await this.page.locator('.select.undefined > .cp').first().click();
-    await this.page.getByText('Admission', { exact: true }).click();
+    await this.page.waitForSelector('text=Select Custom Date', { state: 'visible', timeout: 10000 });
     await this.page.waitForTimeout(1000);
     
-    // Fill order text
-    await this.orderEditor.click();
-    await this.orderEditor.fill('AUTOMATION ORDER GENERATED');
-    await this.page.waitForTimeout(1000);
+    const today = new Date();
+    const todayDay = today.getDate();
+    console.log(`[JudgePage] Looking for today's date: ${todayDay}`);
     
-    // Set today's date as the hearing date
- // Open the date picker by clicking the calendar icon
-await this.page.locator('input[name="hearingDate"]').click();
+    const todayButton = this.page.getByRole('button', { name: new RegExp(`^${todayDay}\\b`) })
+      .filter({ has: this.page.locator(':not(.rdrDayPassive)') })
+      .last();
+    
+    await todayButton.waitFor({ state: 'visible', timeout: 5000 });
+    await todayButton.click();
+    console.log('[JudgePage] Clicked today\'s date');
+    await this.page.waitForTimeout(1500);
+    
+    const confirmButton = this.page.getByRole('button', { name: 'Confirm' });
+    await confirmButton.waitFor({ state: 'visible', timeout: 10000 });
+    await confirmButton.click();
+    await this.page.waitForTimeout(2000);
+    
+    // Click "Generate Order" to create the hearing order
+const generateOrderBtn = this.page.getByRole('button').filter({ hasText: 'Generate Order' });
+await generateOrderBtn.waitFor({ state: 'visible', timeout: 10000 });
+await generateOrderBtn.click();
+await this.page.waitForLoadState('networkidle');
 await this.page.waitForTimeout(2000);
 
-// Alternative: Try clicking the calendar icon if input click doesn't work
-const calendarIcon = this.page.locator('input[name="hearingDate"]').locator('xpath=following-sibling::*[1]');
-if (await calendarIcon.isVisible().catch(() => false)) {
-  await calendarIcon.click();
-  await this.page.waitForTimeout(1000);
-}
-
-// Wait for calendar to appear
-await this.page.waitForSelector('.rdrCalendarWrapper, .rdrDateRangeWrapper', { timeout: 5000 });
-
-// Click today's date in the calendar
-const today = new Date();
-const todayDay = today.getDate();
-
-// Find and click the button for today's date
-const todayButton = this.page.locator('.rdrDay:not(.rdrDayPassive)').filter({ hasText: new RegExp(`^${todayDay}\\b`) }).first();
-await todayButton.click();
+// Fill in the order text
+await this.orderEditor.waitFor({ state: 'visible', timeout: 10000 });
+await this.orderEditor.click();
+await this.orderEditor.fill('AUTOMATION ORDER - HEARING SCHEDULED');
 await this.page.waitForTimeout(1000);
 
-// Click Confirm on the date picker
-await this.page.getByRole('button', { name: 'Confirm' }).first().click();
-await this.page.waitForTimeout(1000);
-
-// Click Confirm on the date picker
-await this.page.getByRole('button', { name: 'Confirm' }).first().click();
-await this.page.waitForTimeout(1000);
-    //   // Confirm — wait for visibility of the button after dropdown/form renders
-    // Using a fresh locator instead of the constructor-cached this.confirmBtn to avoid stale state
-    const confirmBtn = this.page.getByRole('button').filter({ hasText: 'Confirm' });
-    await confirmBtn.waitFor({ state: 'visible', timeout: 15000 });
-    await confirmBtn.click();
-    await this.page.waitForTimeout(1000);
-
-    // Preview PDF — wait for the order editor to be ready
-    const previewBtn = this.page.getByRole('button').filter({ hasText: 'Preview PDF' });
-    await previewBtn.waitFor({ state: 'visible', timeout: 15000 });
-    await previewBtn.click();
-    await this.page.waitForLoadState('networkidle');
-    await this.page.waitForTimeout(1000);
-
-    // Add Signature
-    const addSigBtn = this.page.getByRole('button', { name: 'Add Signature' });
-    await addSigBtn.waitFor({ state: 'visible', timeout: 15000 });
-    await addSigBtn.click();
-    await this.page.waitForTimeout(1000);
-
-    // Download signed order
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.getByText('click here').click(),
-    ]);
-
-    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
-    await download.saveAs(downloadPath);
-    console.log(`[JudgePage] Register case order downloaded: ${downloadPath}`);
-
-    // Upload and submit
-    await this.uploadOrderBtn.click();
-    await this.page.locator('input[type="file"]').first().setInputFiles(downloadPath);
-    await this.submitSignatureBtn.click();
-    await this.issueOrderBtn.click();
+// Sign and issue the hearing order
+await this.signAndIssueOrder();
+    
+    // Close the order success popup
+    try {
+      const closeBtn = this.page.getByRole('button', { name: 'Close' });
+      await closeBtn.click({ timeout: 5000 });
+    } catch {
+      await this.page.keyboard.press('Escape');
+    }
     await this.page.waitForTimeout(2000);
-
-    // Close the success popup
-    await this.page.locator('.popup-module.orders-success-modal > .header-wrap > .header-end > div > svg').click();
-    await this.page.waitForLoadState('networkidle');
-    await this.page.waitForTimeout(2000);
-
-    // Capture accessCode and cmpNumber
-    const { accessCode, cmpNumber } = await this.captureAccessCodeAndCmpNumber();
+    
     console.log('[JudgePage] Register case with hearing date completed.');
     return { accessCode, cmpNumber };
+  }
+  async scheduleHearingWithToday() {
+    await this.scheduleHearingBtn.click();
+    await this.page.waitForTimeout(1000);
+  
+    // Click "Select another date" to open calendar popup
+    await this.selectCustomDateBtn.click();
+    await this.page.waitForTimeout(2000);
+  
+    // Wait for the "Select Custom Date" modal to appear
+    await this.page.waitForSelector('text=Select Custom Date', { state: 'visible', timeout: 10000 });
+    await this.page.waitForTimeout(1000);
+  
+    // Click today's date in the calendar
+    const today = new Date();
+    const todayDay = today.getDate();
+    console.log(`[JudgePage] Looking for today's date: ${todayDay}`);
+  
+    // Find today's button - use getByRole to find the exact button with today's date
+    // The button text is like "27 6 Hearings" or just "27"
+    const todayButton = this.page.getByRole('button', { name: new RegExp(`^${todayDay}\\b`) })
+      .filter({ has: this.page.locator(':not(.rdrDayPassive)') })
+      .last(); // Use last() to get current month's date, not previous month's
+  
+    await todayButton.waitFor({ state: 'visible', timeout: 5000 });
+    await todayButton.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(500);
+    await todayButton.click();
+    console.log('[JudgePage] Clicked today\'s date');
+    await this.page.waitForTimeout(1500);
+  
+    // Click the Confirm button in the calendar popup
+    const confirmButton = this.page.getByRole('button', { name: 'Confirm' });
+    await confirmButton.waitFor({ state: 'visible', timeout: 10000 });
+    await confirmButton.click();
+    await this.page.waitForTimeout(2000);
+    console.log('[JudgePage] Hearing scheduled for today');
   }
 
   async startHearing(filingNumber) {

@@ -49,15 +49,21 @@ class ProfileCorrectionPage extends BasePage {
      */
     async navigateToEditDetails() {
         await this.partiesTab.click();
-        // Open the kebab / action menu for the first party's last column
-        await this.page.locator('td:nth-child(6)').first().click();
-        // Click the action icon (3rd div within the complainant row)
-        await this.page
-            .getByRole('row', { name: 'Rajesh Ch Complainant Joined' })
-            .locator('div')
-            .nth(2)
-            .click();
+        await this.page.waitForTimeout(1000);
+        
+        // Wait for the parties table to load
+        await this.page.waitForLoadState('networkidle');
+        
+        // Click the kebab menu icon in the last column of the first row
+        const kebabIcon = this.page.locator('tbody tr').first().locator('td:nth-child(6) svg, td:nth-child(6) button').first();
+        await kebabIcon.waitFor({ state: 'visible', timeout: 10000 });
+        await kebabIcon.click();
+        await this.page.waitForTimeout(500);
+        
+        // Click "Edit Details" from the dropdown menu
+        await this.editDetailsLink.waitFor({ state: 'visible', timeout: 5000 });
         await this.editDetailsLink.click();
+        await this.page.waitForTimeout(1000);
     }
 
     /**
