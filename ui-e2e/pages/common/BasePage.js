@@ -8,7 +8,12 @@ class BasePage {
     const base = (this.globals.baseURL || '').replace(/\/+$/, '');
     const rel = String(path || '').replace(/^\/+/, '');
     const target = rel ? `${base}/${rel}` : base;
-    await this.page.goto(target, { waitUntil: 'domcontentloaded' });
+    
+    await this.page.goto(target, { 
+      waitUntil: 'domcontentloaded',
+      timeout: 90000 // 90 seconds for CI/CD environments
+    });
+    
     try {
       await this.page.waitForLoadState('networkidle', { timeout: 60000 });
     } catch {

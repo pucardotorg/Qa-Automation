@@ -41,7 +41,9 @@ module.exports = defineConfig({
 
   use: {
     baseURL: BASE_URL,
-    headless: process.env.HEADED !== '1',  // set HEADED=1 or pass --headed to run-all-flows.js
+    headless: process.env.HEADED !== '1',
+    navigationTimeout: 90000, // 90 seconds for all page.goto() calls
+    actionTimeout: 30000,     // 30 seconds for all actions (click, fill, etc.)
     launchOptions: {
       slowMo: 200,
       args: ['--start-maximized', '--disable-web-security'],
