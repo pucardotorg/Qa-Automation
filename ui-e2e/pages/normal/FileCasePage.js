@@ -477,29 +477,41 @@ class FileCasePage extends BasePage {
     await this.page.waitForTimeout(1000);
 
     // Fill Complaint Details (second editor now)
-    const complaintText = this.globals.complaintDetails || 'test';
-    const quill = this.page.locator('.ql-editor').nth(1);
-    const rdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(1);
-    if (await quill.count()) {
-      await quill.fill(complaintText);
-    } else {
-      await rdw.fill(complaintText);
-    }
+const complaintText = this.globals.complaintDetails || 'test';
+const quill = this.page.locator('.ql-editor').nth(1);
+const rdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(1);
 
-    if (fs.existsSync(fallbackFile)) {
-      await this.page.locator('input[type="file"]').first().setInputFiles(fallbackFile);
-    }
+// Wait for editor to be available and visible
+await this.page.waitForTimeout(2000);
+if (await quill.count()) {
+  await quill.waitFor({ state: 'visible', timeout: 60000 });
+  await quill.click();
+  await quill.fill(complaintText);
+} else {
+  await rdw.waitFor({ state: 'visible', timeout: 60000 });
+  await rdw.click();
+  await rdw.fill(complaintText);
+}
 
-    // Fill Prayer Details (third editor now)
-    const prayerText = this.globals.prayerDetails || 'test';
-    const quill2 = this.page.locator('.ql-editor').nth(2);
-    const rdw2 = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(2);
-    if (await quill2.count()) {
-      await quill2.fill(prayerText);
-    } else {
-      await rdw2.fill(prayerText);
-    }
-    await this.page.waitForTimeout(1000);
+if (fs.existsSync(fallbackFile)) {
+  await this.page.locator('input[type="file"]').first().setInputFiles(fallbackFile);
+}
+
+// Fill Prayer Details (third editor now)
+const prayerText = this.globals.prayerDetails || 'test';
+const quill2 = this.page.locator('.ql-editor').nth(2);
+const rdw2 = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(2);
+
+if (await quill2.count()) {
+  await quill2.waitFor({ state: 'visible', timeout: 60000 });
+  await quill2.click();
+  await quill2.fill(prayerText);
+} else {
+  await rdw2.waitFor({ state: 'visible', timeout: 60000 });
+  await rdw2.click();
+  await rdw2.fill(prayerText);
+}
+await this.page.waitForTimeout(1000);;
     // Upload Affidavit
     const AffidavitPath = firstExisting([
       this.globals.AffidavitPath && path.isAbsolute(this.globals.AffidavitPath)
