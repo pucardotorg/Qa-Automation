@@ -61,9 +61,12 @@ class TransferApplicationPage extends BasePage {
         await this.page.getByRole('button').filter({ hasText: 'Generate Application' }).click();
 
         // Add Signature — download, save, re-upload
-        console.log('Adding Signature...');
-        await this.page.getByRole('button', { name: 'Add Signature' }).click();
-
+        // Add Signature — download, save, re-upload
+console.log('Adding Signature...');
+const addSignatureBtn = this.page.getByRole('button', { name: 'Add Signature' });
+await addSignatureBtn.waitFor({ state: 'visible', timeout: 60000 });
+await addSignatureBtn.click();
+       
         const [download] = await Promise.all([
             this.page.waitForEvent('download'),
             this.page.getByText('click here').click(),
