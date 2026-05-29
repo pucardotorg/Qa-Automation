@@ -22,7 +22,7 @@ on:
 
 jobs:
   ui-e2e-tests:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     timeout-minutes: 180
 
     environment:
@@ -79,29 +79,29 @@ jobs:
       # =========================
       # UAT ONLY - VPN SETUP
       # =========================
-      - name: Install HySecure VPN Client
-        if: ${{ env.TEST_ENV == 'uat' }}
-        continue-on-error: true
-        run: |
-          wget -q https://evpn.kerala.gov.in/fes-bin/public/HySecure_Client_5.1.4.16.deb -O HySecure_Client.deb
-          sudo apt install -y ./HySecure_Client.deb
+      # - name: Install HySecure VPN Client
+      #   if: ${{ env.TEST_ENV == 'uat' }}
+      #   continue-on-error: true
+      #   run: |
+      #     wget -q https://evpn.kerala.gov.in/fes-bin/public/HySecure_Client_5.1.4.16.deb -O HySecure_Client.deb
+      #     sudo apt install -y ./HySecure_Client.deb
 
-      - name: Update Hosts File from Secret
-        if: ${{ env.TEST_ENV == 'uat' }}
-        run: |
-          echo "${HOSTS_ENTRIES}" | sudo tee -a /etc/hosts
-          echo "Hosts file updated"     
+      # - name: Update Hosts File from Secret
+      #   if: ${{ env.TEST_ENV == 'uat' }}
+      #   run: |
+      #     echo "${HOSTS_ENTRIES}" | sudo tee -a /etc/hosts
+      #     echo "Hosts file updated"     
 
-      - name: Connect to VPN (HySecure)
-        if: ${{ env.TEST_ENV == 'uat' }}
-        run: |
-          timeout 300s hysecure login \
-            --user="${EVPN_USERNAME}" \
-            --password="${EVPN_PASSWORD}" \
-            --server="evpn.kerala.gov.in" \
-            --domain="Default"
+      # - name: Connect to VPN (HySecure)
+      #   if: ${{ env.TEST_ENV == 'uat' }}
+      #   run: |
+      #     timeout 300s hysecure login \
+      #       --user="${EVPN_USERNAME}" \
+      #       --password="${EVPN_PASSWORD}" \
+      #       --server="evpn.kerala.gov.in" \
+      #       --domain="Default"
 
-      # =========================
+      # # =========================
  
 
       - name: Run UI E2E Flows Sequentially
