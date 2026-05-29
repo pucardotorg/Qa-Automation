@@ -22,7 +22,7 @@ on:
 
 jobs:
   ui-e2e-tests:
-    runs-on: self-hosted
+    runs-on: [self-hosted, Linux, X64]
     timeout-minutes: 180
 
     environment:
