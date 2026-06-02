@@ -457,61 +457,55 @@ class FileCasePage extends BasePage {
     }
   }
 
+  /**
+   * Waits for either a Quill (.ql-editor) or RDW (rdw-editor textbox) rich-text
+   * editor at the given nth index to become visible, then fills it with text.
+   * CI/CD servers are slow to mount these editors — the 120s timeout covers that.
+   */
+  async _fillRichTextEditor(nthIndex, text) {
+    const quill = this.page.locator('.ql-editor').nth(nthIndex);
+    const rdw   = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(nthIndex);
+
+    // Race: whichever editor type appears first wins
+    const quillP = quill.waitFor({ state: 'visible', timeout: 120000 })
+      .then(() => 'quill').catch(() => null);
+    const rdwP   = rdw.waitFor({ state: 'visible', timeout: 120000 })
+      .then(() => 'rdw').catch(() => null);
+
+    const winner = await Promise.race([quillP, rdwP]);
+
+    if (winner === 'quill') {
+      await quill.click();
+      await quill.fill(text);
+    } else if (winner === 'rdw') {
+      await rdw.click();
+      await rdw.fill(text);
+    } else {
+      throw new Error(`[FileCasePage] Neither Quill nor RDW editor visible at index ${nthIndex} after 120s`);
+    }
+  }
+
   async fillComplaintAndDocs() {
     const fallbackFile = resolveFromUiE2E('documents', 'Affidavit.pdf');
-    await this.page.waitForTimeout(15000);
-    //await this.page.pause();
 
-    // Fill Synopsis (new field before Complaint Details)
-    const synopsisText = this.globals.synopsisDetails || 'Synopsis';
-    const synopsisQuill = this.page.locator('.ql-editor').first();
-    const synopsisRdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).first();
+    // Wait for the page to settle before checking for editors (CI is slow)
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(3000);
 
-    if (await synopsisQuill.count()) {
-      await synopsisQuill.click();
-      await synopsisQuill.fill(synopsisText);
-    } else if (await synopsisRdw.count()) {
-      await synopsisRdw.click();
-      await synopsisRdw.fill(synopsisText);
+    // Synopsis editor (index 0)
+    await this._fillRichTextEditor(0, this.globals.synopsisDetails || 'Synopsis');
+    await this.page.waitForTimeout(500);
+
+    // Complaint Details editor (index 1)
+    await this._fillRichTextEditor(1, this.globals.complaintDetails || 'Complaint Details');
+
+    if (fs.existsSync(fallbackFile)) {
+      await this.page.locator('input[type="file"]').first().setInputFiles(fallbackFile);
     }
+
+    // Prayer Details editor (index 2)
+    await this._fillRichTextEditor(2, this.globals.prayerDetails || 'Prayer Details');
     await this.page.waitForTimeout(1000);
-
-    // Fill Complaint Details (second editor now)
-const complaintText = this.globals.complaintDetails || 'test';
-const quill = this.page.locator('.ql-editor').nth(1);
-const rdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(1);
-
-// Wait for editor to be available and visible
-await this.page.waitForTimeout(2000);
-if (await quill.count()) {
-  await quill.waitFor({ state: 'visible', timeout: 60000 });
-  await quill.click();
-  await quill.fill(complaintText);
-} else {
-  await rdw.waitFor({ state: 'visible', timeout: 60000 });
-  await rdw.click();
-  await rdw.fill(complaintText);
-}
-
-if (fs.existsSync(fallbackFile)) {
-  await this.page.locator('input[type="file"]').first().setInputFiles(fallbackFile);
-}
-
-// Fill Prayer Details (third editor now)
-const prayerText = this.globals.prayerDetails || 'test';
-const quill2 = this.page.locator('.ql-editor').nth(2);
-const rdw2 = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(2);
-
-if (await quill2.count()) {
-  await quill2.waitFor({ state: 'visible', timeout: 60000 });
-  await quill2.click();
-  await quill2.fill(prayerText);
-} else {
-  await rdw2.waitFor({ state: 'visible', timeout: 60000 });
-  await rdw2.click();
-  await rdw2.fill(prayerText);
-}
-await this.page.waitForTimeout(1000);;
     // Upload Affidavit
     const AffidavitPath = firstExisting([
       this.globals.AffidavitPath && path.isAbsolute(this.globals.AffidavitPath)
