@@ -85,13 +85,14 @@ function buildFlowsFromCsv() {
         process.exit(1);
     }
     // Read the environment variable
-const environment = process.env.TEST_ENV || 'QA';
+    // Read the Test_ENV from the row
+const testEnv = row.Test_Env;
 
-// Filter rows based on the environment
-const filteredRows = allRows.filter(row => row.environment === environment);
+// Filter rows based on the Test_ENV
+const filteredRows = allRows.filter(row => row.Test_Env === testEnv);
 
 if (filteredRows.length === 0) {
-    console.error(`[run-all-flows] ❌  No test flows found for environment: ${environment}`);
+    console.error(`[run-all-flows] ❌  No test flows found for environment: ${testEnv}`);
     process.exit(1);
 }
 
