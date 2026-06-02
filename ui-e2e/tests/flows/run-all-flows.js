@@ -84,6 +84,10 @@ function buildFlowsFromCsv() {
         console.error(`[run-all-flows] ❌  Could not read test-data.csv:\n  ${err.message}`);
         process.exit(1);
     }
+    allRows.forEach((row, idx) => {
+        const testEnv = row.Test_Env; // Ensure row is defined here
+        // Your existing logic...
+    });
     // Read the environment variable
     // Read the Test_ENV from the row
 const testEnv = row.Test_Env;
