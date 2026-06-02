@@ -17,7 +17,7 @@ on:
         required: true
         type: choice
         options:
-          - uat
+          - UAT
           - demo
           - qa
 
@@ -81,20 +81,20 @@ jobs:
       # UAT ONLY - VPN SETUP
       # =========================
       - name: Install HySecure VPN Client
-        if: ${{ env.TEST_ENV == 'uat' }}
+        if: ${{ env.TEST_ENV == 'UAT' }}
         continue-on-error: true
         run: |
           wget -q https://evpn.kerala.gov.in/fes-bin/public/HySecure_Client_5.1.4.16.deb -O HySecure_Client.deb
           sudo apt install -y ./HySecure_Client.deb
 
       - name: Update Hosts File from Secret
-        if: ${{ env.TEST_ENV == 'uat' }}
+        if: ${{ env.TEST_ENV == 'UAT' }}
         run: |
           echo "${HOSTS_ENTRIES}" | sudo tee -a /etc/hosts
           echo "Hosts file updated"     
 
       - name: Connect to VPN (HySecure)
-        if: ${{ env.TEST_ENV == 'uat' }}
+        if: ${{ env.TEST_ENV == 'UAT' }}
         run: |
           timeout 300s hysecure login \
             --user="${EVPN_USERNAME}" \
@@ -122,7 +122,7 @@ jobs:
       # UAT ONLY - VPN LOGOUT
       # =========================
       - name: Logout From VPN (HySecure)
-        if: ${{ env.TEST_ENV == 'uat' }}
+        if: ${{ env.TEST_ENV == 'UAT' }}
         continue-on-error: true
         run: |
           hysecure logout --user="${EVPN_USERNAME}"
