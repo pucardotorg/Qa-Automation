@@ -140,7 +140,10 @@ class FileCasePage extends BasePage {
     if (await navItem.isVisible().catch(() => false)) {
       await navItem.click({ force: true });
     }
-    await this.page.getByText('Accused Details', { exact: false }).first().waitFor({ state: 'visible', timeout: 10000 });
+    await this.page.getByText('Accused Details', { exact: false }).first().waitFor({ state: 'visible', timeout: 30000 });
+    // Wait for page to settle after step navigation — CI servers are slow to render step content
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(2000);
   }
 
   /**
@@ -172,14 +175,9 @@ class FileCasePage extends BasePage {
       'div:has-text("Accused 1"):has-text("Accused Type")'
     ].join(', ')).first();
 
+    // Wait for the card content to render — step label appears before card in CI
+    await accusedCard.waitFor({ state: ‘visible’, timeout: 90000 });
     await accusedCard.scrollIntoViewIfNeeded();
-    // Give the UI a moment if it’s lazy-rendered
-    await this.page.waitForTimeout(250);
-
-    if (await accusedCard.count() === 0) {
-      throw new Error('Accused 1 card not found. Verify the step is Accused Details and the card is visible.');
-    }
-    await accusedCard.waitFor({ state: 'visible', timeout: 10000 });
 
     // Select Accused Type = Individual (same resilient pattern as your working spec)
     await accusedCard
@@ -452,8 +450,11 @@ class FileCasePage extends BasePage {
       await this.page.waitForTimeout(3000);
       await this.waitIdle();
       const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
-      await expect(continueBtn).toBeVisible({ timeout: 10000 });
+      await expect(continueBtn).toBeVisible({ timeout: 20000 });
       await continueBtn.click();
+      // Wait for navigation to the next step before the next iteration or fillComplaintAndDocs
+      await this.page.waitForLoadState('networkidle').catch(() => {});
+      await this.page.waitForTimeout(2000);
     }
   }
 
