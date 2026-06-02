@@ -84,6 +84,18 @@ function buildFlowsFromCsv() {
         console.error(`[run-all-flows] ❌  Could not read test-data.csv:\n  ${err.message}`);
         process.exit(1);
     }
+    // Read the environment variable
+const environment = process.env.TEST_ENV || 'QA';
+
+// Filter rows based on the environment
+const filteredRows = allRows.filter(row => row.environment === environment);
+
+if (filteredRows.length === 0) {
+    console.error(`[run-all-flows] ❌  No test flows found for environment: ${environment}`);
+    process.exit(1);
+}
+
+// Continue with the existing logic using filteredRows instead of allRows
 
     if (allRows.length === 0) {
         console.error('[run-all-flows] ❌  test-data.csv has no data rows. Nothing to run.');
