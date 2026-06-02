@@ -24,17 +24,27 @@ class FileCasePage extends BasePage {
     await this.page.locator('input[name="mobileNumber"]').click();
     await this.page.locator('input[name="mobileNumber"]').fill(this.globals.litigantUsername);
     await this.page.getByRole('button', { name: 'Verify Mobile Number' }).click();
+    // Wait for OTP inputs to appear before filling them
+    await this.page.locator('.input-otp').first().waitFor({ state: 'visible', timeout: 30000 });
     await this.fillOtpSixOnes();
     await this.page.getByRole('button', { name: 'Verify', exact: true }).click();
+    // Wait for OTP verification to complete — the API call must finish before we fill age
+    await this.page.locator('input[name="complainantAge"]').first()
+      .waitFor({ state: 'visible', timeout: 30000 });
     await this.page.locator('input[name="complainantAge"]').fill(this.globals.complainantAge);
+    await this.page.waitForTimeout(1000);
 
     const cont1 = this.page.locator('button:has-text("Continue")').first();
     await expect(cont1).toBeVisible({ timeout: 15000 });
     await expect(cont1).toBeEnabled({ timeout: 15000 });
     await cont1.scrollIntoViewIfNeeded();
-    await this.page.waitForTimeout(150);
+    await this.page.waitForTimeout(500);
     await cont1.click();
-    await this.waitIdle();
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    // Wait for the Accused Details step to load — "Accused 1" heading appears as soon
+    // as the step renders (respondentFirstName only appears after type selection)
+    await this.page.getByRole('heading', { name: 'Accused 1' }).first()
+      .waitFor({ state: 'visible', timeout: 120000 });
   }
 
   /**
@@ -82,7 +92,8 @@ class FileCasePage extends BasePage {
     // Click Continue — nth(1) targets the second Continue button (Comp 2's section)
     const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
     await continueBtn.nth(1).click({ timeout: 8000 });
-    await this.waitIdle();
+    await this.page.getByRole('heading', { name: 'Accused 1' }).first()
+      .waitFor({ state: 'visible', timeout: 120000 });
   }
 
   /**
@@ -129,21 +140,26 @@ class FileCasePage extends BasePage {
     // Click Continue — nth(1) targets the second Continue button (Comp 2's section)
     const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
     await continueBtn.nth(1).click({ timeout: 8000 });
-    await this.waitIdle();
+    await this.page.getByRole('heading', { name: 'Accused 1' }).first()
+      .waitFor({ state: 'visible', timeout: 120000 });
   }
 
   /**
    * Ensures we are on the Accused Details step (left nav), then waits for banner
    */
   async ensureOnAccusedStep() {
+    // fillComplainantDetails already waits for "Accused 1" heading before returning.
+    // This method is a safety net for flows that call fillAccusedDetails independently.
+    const accused1Heading = this.page.getByRole('heading', { name: 'Accused 1' }).first();
+    const alreadyLoaded = await accused1Heading.isVisible({ timeout: 3000 }).catch(() => false);
+    if (alreadyLoaded) return;
+
+    // Not loaded yet — try clicking the nav item to navigate there
     const navItem = this.page.locator('nav, aside, .side, .sidebar').locator('text=Accused Details').first();
     if (await navItem.isVisible().catch(() => false)) {
       await navItem.click({ force: true });
     }
-    await this.page.getByText('Accused Details', { exact: false }).first().waitFor({ state: 'visible', timeout: 30000 });
-    // Wait for page to settle after step navigation — CI servers are slow to render step content
-    await this.page.waitForLoadState('networkidle').catch(() => {});
-    await this.page.waitForTimeout(2000);
+    await accused1Heading.waitFor({ state: 'visible', timeout: 90000 });
   }
 
   /**
@@ -161,43 +177,29 @@ class FileCasePage extends BasePage {
   }
 
   async fillAccusedDetails() {
-    // Make sure we are on the correct step
+    // ensureOnAccusedStep confirms "Accused 1" heading is visible before returning
     await this.ensureOnAccusedStep();
 
-    // Robust card locator: accept h1 or h2, or a section with Accused 1 + Accused Type
-    const accusedCard = this.page.locator([
-      'section:has([role="heading"]:has-text("Accused 1"))',
-      'div:has([role="heading"]:has-text("Accused 1"))',
-      'section:has(h1:has-text("Accused 1"))',
-      'section:has(h2:has-text("Accused 1"))',
-      // fallback: any container that has both labels
-      'section:has-text("Accused 1"):has-text("Accused Type")',
-      'div:has-text("Accused 1"):has-text("Accused Type")'
-    ].join(', ')).first();
-
-    // Wait for the card content to render — step label appears before card in CI
-    await accusedCard.waitFor({ state: ‘visible’, timeout: 90000 });
-    await accusedCard.scrollIntoViewIfNeeded();
-
-    // Select Accused Type = Individual (same resilient pattern as your working spec)
-    await accusedCard
+    // Select Accused Type = Individual using page-level selector
+    // (the container is a banner/header element, not section/div, so we target page-wide)
+    await this.page
       .locator('div')
       .filter({ hasText: /^Individual$/ })
       .locator('input[type="radio"]')
       .first()
       .click({ force: true });
 
-    // First name
+    // First name — only visible after type selection
     const firstNameInput = this.page.locator('input[name="respondentFirstName"]').first();
-    await firstNameInput.waitFor({ state: 'visible', timeout: 10000 });
+    await firstNameInput.waitFor({ state: 'visible', timeout: 30000 });
     await firstNameInput.fill(this.globals.respondentFirstName || 'Automation Accused');
 
-    // Address block (same pattern as your working spec)
-    await accusedCard.locator('div').filter({ hasText: /^Pincode$/ }).getByRole('textbox').first().fill(this.globals.respondentPincode || '');
-    await accusedCard.locator('div').filter({ hasText: /^State$/ }).getByRole('textbox').first().fill(this.globals.respondentState || '');
-    await accusedCard.locator('div').filter({ hasText: /^District$/ }).getByRole('textbox').first().fill(this.globals.respondentDistrict || '');
-    await accusedCard.locator('div').filter({ hasText: /^City\/Town$/ }).getByRole('textbox').first().fill(this.globals.respondentCity || '');
-    await accusedCard.locator('div').filter({ hasText: /^Address$/ }).getByRole('textbox').first().fill(this.globals.respondentAddress || '');
+    // Address block — use page-level selectors
+    await this.page.locator('div').filter({ hasText: /^Pincode$/ }).getByRole('textbox').first().fill(this.globals.respondentPincode || '');
+    await this.page.locator('div').filter({ hasText: /^State$/ }).getByRole('textbox').first().fill(this.globals.respondentState || '');
+    await this.page.locator('div').filter({ hasText: /^District$/ }).getByRole('textbox').first().fill(this.globals.respondentDistrict || '');
+    await this.page.locator('div').filter({ hasText: /^City\/Town$/ }).getByRole('textbox').first().fill(this.globals.respondentCity || '');
+    await this.page.locator('div').filter({ hasText: /^Address$/ }).getByRole('textbox').first().fill(this.globals.respondentAddress || '');
 
     // Advance using the global Continue (more reliable on this screen)
     const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' }).first();
@@ -446,15 +448,28 @@ class FileCasePage extends BasePage {
 
   async skipWitnessAndAdvance() {
     await this.waitIdle();
-    for (let i = 0; i < 2; i++) {
-      await this.page.waitForTimeout(3000);
-      await this.waitIdle();
-      const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
-      await expect(continueBtn).toBeVisible({ timeout: 20000 });
-      await continueBtn.click();
-      // Wait for navigation to the next step before the next iteration or fillComplaintAndDocs
-      await this.page.waitForLoadState('networkidle').catch(() => {});
-      await this.page.waitForTimeout(2000);
+
+    // The witness section is identified by its banner text
+    const witnessSection = this.page.locator('banner, [role="banner"]')
+      .filter({ hasText: 'Witness Details' }).first();
+
+    // Click Continue up to 3 times while the witness section is still visible
+    for (let i = 0; i < 3; i++) {
+      const onWitness = await witnessSection.isVisible({ timeout: 3000 }).catch(() => false);
+      if (!onWitness) break;
+
+      await this.page.waitForTimeout(1000);
+      // Find the Continue button (may have no accessible name — use text content search)
+      const continueBtn = this.page.locator('button').filter({ hasText: 'Continue' }).first();
+      await continueBtn.scrollIntoViewIfNeeded();
+      await this.page.waitForTimeout(300);
+      // force: true bypasses any overlay or React transition that blocks the click
+      await continueBtn.click({ force: true });
+
+      // Wait for the witness section to leave the DOM — this is a React state update,
+      // not a network request, so networkidle is not reliable here
+      await witnessSection.waitFor({ state: 'hidden', timeout: 30000 }).catch(() => {});
+      await this.page.waitForTimeout(1000);
     }
   }
 

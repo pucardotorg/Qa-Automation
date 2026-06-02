@@ -22,12 +22,16 @@ class PaymentPage extends BasePage {
 
   async searchCaseByFilingNumber(filingNumber) {
     await this.caseFilingNumberInput.click();
+    await this.caseFilingNumberInput.clear().catch(() => {});
     await this.caseFilingNumberInput.fill(filingNumber);
     await this.searchBtn.click();
+    // Wait for results to fully load before checking
+    await this.page.waitForLoadState('networkidle').catch(() => {});
     await this.page.waitForTimeout(2000);
   }
 
   async recordPaymentForCase() {
+    await this.recordPaymentLink.first().waitFor({ state: 'visible', timeout: 30000 });
     await this.recordPaymentLink.first().click();
     await this.waitIdle();
   }
@@ -51,14 +55,14 @@ class PaymentPage extends BasePage {
     await this.navigateToCollectPayments();
 
     // Payment demands may take time to appear after case actions (join, notice, etc.)
-    // Retry the search up to 6 times with 10s gaps before giving up
+    // Retry the search up to 10 times with 15s gaps before giving up
     let found = false;
-    for (let attempt = 1; attempt <= 6; attempt++) {
+    for (let attempt = 1; attempt <= 10; attempt++) {
       await this.searchCaseByFilingNumber(filingNumber);
-      found = await this.recordPaymentLink.first().isVisible({ timeout: 5000 }).catch(() => false);
+      found = await this.recordPaymentLink.first().isVisible({ timeout: 8000 }).catch(() => false);
       if (found) break;
-      console.log(`[PaymentPage] Record Payment not visible yet (attempt ${attempt}/6), retrying in 10s...`);
-      await this.page.waitForTimeout(10000);
+      console.log(`[PaymentPage] Record Payment not visible yet (attempt ${attempt}/10), retrying in 15s...`);
+      await this.page.waitForTimeout(15000);
     }
 
     await this.recordPaymentForCase();
