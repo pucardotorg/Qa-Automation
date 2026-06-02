@@ -19,6 +19,7 @@ on:
         options:
           - uat
           - demo
+          - qa
 
 jobs:
   ui-e2e-tests:
@@ -26,10 +27,10 @@ jobs:
     timeout-minutes: 180
 
     environment:
-      name: ${{ inputs.environment || 'uat' }}
+      name: ${{ inputs.environment || 'qa' }}
 
     env:
-      TEST_ENV: ${{ inputs.environment || 'uat' }}
+      TEST_ENV: ${{ inputs.environment || 'qa' }}
       CI: true
 
       CITIZEN_USERNAME: ${{ vars.CITIZEN_USERNAME }}
