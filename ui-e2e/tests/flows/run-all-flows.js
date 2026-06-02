@@ -84,50 +84,24 @@ function buildFlowsFromCsv() {
         console.error(`[run-all-flows] ❌  Could not read test-data.csv:\n  ${err.message}`);
         process.exit(1);
     }
-    allRows.forEach((row, idx) => {
-        const testEnv = row.Test_Env; // Ensure row is defined here
-        // Your existing logic...
-    });
-    // Read the environment variable
-    // Read the Test_ENV from the row
-const testEnv = row.Test_Env;
-
-// Filter rows based on the Test_ENV
-const filteredRows = allRows.filter(row => row.Test_Env === testEnv);
-
-if (filteredRows.length === 0) {
-    console.error(`[run-all-flows] ❌  No test flows found for environment: ${testEnv}`);
-    process.exit(1);
-}
-
-// Continue with the existing logic using filteredRows instead of allRows
-
-    if (allRows.length === 0) {
-        console.error('[run-all-flows] ❌  test-data.csv has no data rows. Nothing to run.');
-        process.exit(1);
-    }
 
     const flows = [];
-
     allRows.forEach((row, idx) => {
-        const specFile = (row.specFile || '').trim();
+        const testEnv = row.Test_Env; // Ensure row is defined here
 
-        if (!specFile) {
-            console.warn(
-                `[run-all-flows] ⚠️   Row ${idx + 1} ` +
-                `has no specFile value — skipping.`
-            );
-            return;
+        // Check if the current row's Test_ENV matches the environment variable
+        if (testEnv === process.env.TEST_ENV) {
+            const specFile = (row.specFile || '').trim();
+            if (!specFile) {
+                console.warn(`[run-all-flows] ⚠️   Row ${idx + 1} has no specFile value — skipping.`);
+                return;
+            }
+            flows.push({ spec: specFile, rowIndex: idx });
         }
-
-        flows.push({ spec: specFile, rowIndex: idx });
     });
 
     if (flows.length === 0) {
-        console.error(
-            '[run-all-flows] ❌  No valid rows with a specFile column found in test-data.csv.\n' +
-            '  Make sure the first column is "specFile" and each row has a spec path.'
-        );
+        console.error('[run-all-flows] ❌  No valid rows with a specFile column found in test-data.csv.');
         process.exit(1);
     }
 
