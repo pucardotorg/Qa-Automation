@@ -1,21 +1,12 @@
 /**
- * env.js — Environment-based global variable loader
+ * env.js — Global variable loader
  *
- * How it works:
- *   Set the TEST_ENV environment variable before running tests:
+ * All tests read from and write to data/global-variables.json.
+ * The CSV runner (run-all-flows.js) populates that file from test-data.csv
+ * before each spec runs, selecting the correct environment rows via TEST_ENV.
  *
- *     TEST_ENV=qa    npx playwright test   → loads data/global-variablesqa.json
- *     TEST_ENV=demo  npx playwright test   → loads data/global-variablesdemo.json
- *     (no TEST_ENV)  npx playwright test   → loads data/global-variables.json
- *
- * Example (Linux / Mac):
- *     TEST_ENV=demo npx playwright test --headed --workers=1
- *
- * Example (Windows CMD):
- *     set TEST_ENV=demo && npx playwright test --headed --workers=1
- *
- * Example (Windows PowerShell):
- *     $env:TEST_ENV="demo"; npx playwright test --headed --workers=1
+ * TEST_ENV is used by run-all-flows.js to pick which CSV rows to run —
+ * it does NOT change which JSON file is loaded here.
  */
 
 const fs = require('fs');
@@ -35,17 +26,11 @@ function getEnvName() {
 }
 
 /**
- * Resolves the absolute path to the correct globals JSON for the current env.
- *   ""     → global-variables.json
- *   "qa"   → global-variablesqa.json
- *   "demo" → global-variablesdemo.json
+ * Returns the canonical globals file path.
+ * Always global-variables.json — the CSV runner writes there before each flow.
  */
 function resolveGlobalsPath() {
-  const env = getEnvName();
-  const dataDir = getDataDir();
-  return env
-    ? path.join(dataDir, `global-variables${env}.json`)
-    : path.join(dataDir, 'global-variables.json');
+  return path.join(getDataDir(), 'global-variables.json');
 }
 
 function readJson(filePath) {

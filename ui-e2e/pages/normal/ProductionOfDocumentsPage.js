@@ -233,18 +233,7 @@ class ProductionOfDocumentsPage extends BasePage {
         await this.page.getByRole('button', { name: 'Add Signature' }).click();
         await this.page.waitForTimeout(1000);
 
-        const [download] = await Promise.all([
-            this.page.waitForEvent('download'),
-            this.page.getByText('click here').click(),
-        ]);
-
-        const projectDownloadPath = path.join(
-            resolveFromUiE2E('downloads'),
-            await download.suggestedFilename()
-        );
-        fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-        await download.saveAs(projectDownloadPath);
-        console.log(`Production of Documents application downloaded: ${projectDownloadPath}`);
+        const projectDownloadPath = await this.clickAndSavePdf();
 
         // Upload signed document (use .last() as a second file input appears after signature flow)
         await this.page

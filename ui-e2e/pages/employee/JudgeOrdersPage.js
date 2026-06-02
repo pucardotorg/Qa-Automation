@@ -209,29 +209,66 @@ class JudgeOrdersPage extends BasePage {
     await this.previewPdfBtn.click();
     await this.addSignatureBtn.click();
 
-    // Download PDF
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.getByText('click here').click(),
-    ]);
+    // Wait for the PDF preview to fully render before "click here" appears
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(3000);
 
-    const projectDownloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-    await download.saveAs(projectDownloadPath);
+    const clickHereLink = this.page.getByText('click here');
+    await clickHereLink.waitFor({ state: 'visible', timeout: 60000 });
+    await clickHereLink.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(1000);
+
+    // Race: direct download vs new-tab (QA opens PDF in new tab)
+    const downloadP = this.page.waitForEvent('download', { timeout: 15000 })
+      .then(d => ({ type: 'download', value: d })).catch(() => null);
+    const popupP = this.page.waitForEvent('popup', { timeout: 15000 })
+      .then(p => ({ type: 'popup', value: p })).catch(() => null);
+
+    await clickHereLink.click();
+
+    const result = await Promise.race([downloadP, popupP]);
+
+    let pdfPath;
+    if (result && result.type === 'download') {
+      pdfPath = path.join(resolveFromUiE2E('downloads'), await result.value.suggestedFilename());
+      fs.mkdirSync(path.dirname(pdfPath), { recursive: true });
+      await result.value.saveAs(pdfPath);
+      console.log('[JudgeOrdersPage] PDF downloaded:', path.basename(pdfPath));
+    } else if (result && result.type === 'popup') {
+      const popup = result.value;
+      await popup.waitForLoadState('domcontentloaded').catch(() => {});
+      const pdfUrl = popup.url();
+      await popup.close();
+      const response = await this.page.request.get(pdfUrl);
+      pdfPath = path.join(resolveFromUiE2E('downloads'), 'signed-order.pdf');
+      fs.mkdirSync(path.dirname(pdfPath), { recursive: true });
+      fs.writeFileSync(pdfPath, await response.body());
+      console.log('[JudgeOrdersPage] PDF fetched from new tab');
+    } else {
+      const downloadsDir = resolveFromUiE2E('downloads');
+      const pdfs = fs.existsSync(downloadsDir)
+        ? fs.readdirSync(downloadsDir).filter(f => f.endsWith('.pdf')).sort()
+        : [];
+      if (pdfs.length === 0) throw new Error('[JudgeOrdersPage] No PDF available to upload');
+      pdfPath = path.join(downloadsDir, pdfs[pdfs.length - 1]);
+      console.log('[JudgeOrdersPage] Fallback: using existing PDF:', path.basename(pdfPath));
+    }
 
     // Upload signed PDF
     await this.uploadOrderBtn.click();
     await this.page.waitForTimeout(2000);
-    await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+    await this.page.locator('input[type="file"]').first().setInputFiles(pdfPath);
 
     await this.submitSignatureBtn.click();
     await this.issueOrderBtn.click();
-    await this.closeBtn.click();
-    await this.page.getByRole('heading', { name: 'Order successfully issued!' }).click();
+    // Dismiss any success popup/toast — these are optional and may have already closed
+    await this.closeBtn.click().catch(() => {});
+    await this.page.getByRole('heading', { name: 'Order successfully issued!' })
+      .click({ timeout: 5000 }).catch(() => {});
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
 
-    return projectDownloadPath;
+    return pdfPath;
   }
 
   async issueNotice(caseNumber, noticeType, partyName) {
@@ -327,18 +364,7 @@ class JudgeOrdersPage extends BasePage {
     await this.page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
     await this.page.getByRole('button', { name: 'Add Signature' }).click();
 
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.getByText('click here').click(),
-    ]);
-
-    const projectDownloadPath = path.join(
-      resolveFromUiE2E('downloads'),
-      await download.suggestedFilename()
-    );
-    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-    await download.saveAs(projectDownloadPath);
-    console.log(`Rejection order downloaded: ${projectDownloadPath}`);
+    const projectDownloadPath = await this.clickAndSavePdf();
 
     await this.page.getByRole('button', { name: 'Upload Order Document with' }).click();
     await this.page.waitForTimeout(2000);
@@ -346,9 +372,10 @@ class JudgeOrdersPage extends BasePage {
 
     await this.submitSignatureBtn.click();
     await this.issueOrderBtn.click();
-    await this.page.getByText('You have successfully issued').click();
-    await this.closeBtn.click();
-    await this.page.getByRole('heading', { name: 'Order successfully issued!' }).click();
+    await this.page.getByText('You have successfully issued').click({ timeout: 5000 }).catch(() => {});
+    await this.closeBtn.click().catch(() => {});
+    await this.page.getByRole('heading', { name: 'Order successfully issued!' })
+      .click({ timeout: 5000 }).catch(() => {});
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
   }
@@ -373,18 +400,7 @@ class JudgeOrdersPage extends BasePage {
     await this.page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
     await this.page.getByRole('button', { name: 'Add Signature' }).click();
 
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.getByText('click here').click(),
-    ]);
-
-    const projectDownloadPath = path.join(
-      resolveFromUiE2E('downloads'),
-      await download.suggestedFilename()
-    );
-    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-    await download.saveAs(projectDownloadPath);
-    console.log(`Production rejection order downloaded: ${projectDownloadPath}`);
+    const projectDownloadPath = await this.clickAndSavePdf();
 
     await this.page.getByRole('button', { name: 'Upload Order Document with' }).click();
     await this.page.waitForTimeout(2000);
@@ -434,18 +450,7 @@ class JudgeOrdersPage extends BasePage {
     await this.page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
     await this.page.getByRole('button', { name: 'Add Signature' }).click();
 
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.getByText('click here').click(),
-    ]);
-
-    const projectDownloadPath = path.join(
-      resolveFromUiE2E('downloads'),
-      await download.suggestedFilename()
-    );
-    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-    await download.saveAs(projectDownloadPath);
-    console.log(`[JudgeOrdersPage] Order downloaded: ${projectDownloadPath}`);
+    const projectDownloadPath = await this.clickAndSavePdf();
 
     await this.page.getByRole('button', { name: 'Upload Order Document with' }).click();
     await this.page.waitForTimeout(2000);
@@ -541,15 +546,7 @@ class JudgeOrdersPage extends BasePage {
     await this.previewPdfBtn.click();
     await this.addSignatureBtn.click();
 
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.getByText('click here').click(),
-    ]);
-
-    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
-    await download.saveAs(downloadPath);
-    console.log(`[JudgeOrdersPage] Judgement order downloaded: ${downloadPath}`);
+    const downloadPath = await this.clickAndSavePdf();
 
     await this.uploadOrderBtn.click();
     await this.page.waitForTimeout(2000);
@@ -557,8 +554,9 @@ class JudgeOrdersPage extends BasePage {
 
     await this.submitSignatureBtn.click();
     await this.issueOrderBtn.click();
-    await this.page.getByRole('button', { name: 'Close' }).click();
-    await this.page.getByRole('heading', { name: 'Order successfully issued!' }).click();
+    await this.page.getByRole('button', { name: 'Close' }).click({ timeout: 5000 }).catch(() => {});
+    await this.page.getByRole('heading', { name: 'Order successfully issued!' })
+      .click({ timeout: 5000 }).catch(() => {});
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
 

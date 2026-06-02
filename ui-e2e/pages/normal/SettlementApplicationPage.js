@@ -60,15 +60,7 @@ class SettlementApplicationPage extends BasePage {
         console.log('Adding Signature...');
         await this.page.getByRole('button', { name: 'Add Signature' }).click();
 
-        const [download] = await Promise.all([
-            this.page.waitForEvent('download'),
-            this.page.getByText('click here').click(),
-        ]);
-
-        const projectDownloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-        fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-        await download.saveAs(projectDownloadPath);
-        console.log(`Settlement application downloaded: ${projectDownloadPath}`);
+        const projectDownloadPath = await this.clickAndSavePdf();
 
         // Upload signed document
         await this.page.getByRole('button', { name: 'Upload document with Signature' }).click();
@@ -153,15 +145,7 @@ class SettlementApplicationPage extends BasePage {
         await this.page.getByRole('button').filter({ hasText: 'Preview PDF' }).click();
         await this.page.getByRole('button', { name: 'Add Signature' }).click();
 
-        const [download] = await Promise.all([
-            this.page.waitForEvent('download'),
-            this.page.getByText('click here').click(),
-        ]);
-
-        const projectDownloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-        fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-        await download.saveAs(projectDownloadPath);
-        console.log(`Settlement order downloaded: ${projectDownloadPath}`);
+        const projectDownloadPath = await this.clickAndSavePdf();
 
         // Upload signed order
         await this.page.getByRole('button', { name: 'Upload Order Document with' }).click();

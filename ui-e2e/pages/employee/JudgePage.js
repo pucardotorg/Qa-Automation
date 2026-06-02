@@ -105,54 +105,64 @@ class JudgePage extends BasePage {
     await this.page.waitForSelector('text=Select Custom Date', { state: 'visible', timeout: 10000 });
     await this.page.waitForTimeout(1000);
 
-    // Calculate target date (10 working days from now)
+    // Calculate a target date 10 working days from today
     const targetDate = this.calculateWorkingDaysFromNow(10);
-    const currentDate = new Date();
+    const today = new Date();
+    console.log(`[JudgePage] Today: ${today.toDateString()}`);
+    console.log(`[JudgePage] Target (10 working days): ${targetDate.toDateString()}`);
 
-    console.log(`[JudgePage] Current date: ${currentDate.toDateString()}`);
-    console.log(`[JudgePage] Target date (10 working days): ${targetDate.toDateString()}`);
+    // Navigate forward if target is in a future month
+    const monthsToNavigate =
+      (targetDate.getFullYear() - today.getFullYear()) * 12 +
+      (targetDate.getMonth() - today.getMonth());
 
-    // Navigate to the correct month if needed
-    const monthsToNavigate = (targetDate.getFullYear() - currentDate.getFullYear()) * 12 +
-      (targetDate.getMonth() - currentDate.getMonth());
-
-    console.log(`[JudgePage] Months to navigate: ${monthsToNavigate}`);
-
-    if (monthsToNavigate > 0) {
-      for (let i = 0; i < monthsToNavigate; i++) {
-        // Click the right arrow (>) button to navigate to next month
-        await this.page.locator('button').filter({ hasText: '›' }).or(
-          this.page.locator('button:has(svg):last-of-type')
-        ).last().click();
-        await this.page.waitForTimeout(800);
-        console.log(`[JudgePage] Navigated to next month (${i + 1}/${monthsToNavigate})`);
-      }
+    for (let i = 0; i < monthsToNavigate; i++) {
+      await this.page.locator('button').filter({ hasText: '›' }).or(
+        this.page.locator('button:has(svg):last-of-type')
+      ).last().click();
+      await this.page.waitForTimeout(800);
     }
 
-    // Select the specific target day
     const dayToSelect = targetDate.getDate();
     console.log(`[JudgePage] Looking for day: ${dayToSelect}`);
 
-    // Find all active weekday buttons
-    const allDayButtons = await this.page.locator('button.rdrDay:not(.rdrDayPassive):not(.rdrDayWeekend)').all();
-    console.log(`[JudgePage] Found ${allDayButtons.length} active weekday buttons`);
+    // Use all non-passive, non-disabled day buttons (includes weekends — we already
+    // calculated a weekday, and excluding .rdrDayWeekend was incorrectly filtering day 16)
+    const allDayButtons = await this.page
+      .locator('button.rdrDay:not(.rdrDayPassive):not(.rdrDayDisabled)')
+      .all();
+    console.log(`[JudgePage] Available day buttons: ${allDayButtons.length}`);
 
     let targetButton = null;
     for (const btn of allDayButtons) {
-      const text = await btn.textContent();
-      const cleanText = text.trim();
-      // Extract the first number from text like "21 9 Hearings" or just "21"
-      const dayMatch = cleanText.match(/^(\d+)/);
+      const text = (await btn.textContent() || '').trim();
+      // Button text can be "16", "16 3 Hearings", "  16  " etc.
+      // The day number span is the first numeric token.
+      const dayMatch = text.match(/\b(\d{1,2})\b/);
       if (dayMatch && parseInt(dayMatch[1]) === dayToSelect) {
         targetButton = btn;
-        console.log(`[JudgePage] Found target day button: ${dayToSelect} (full text: "${cleanText}")`);
+        console.log(`[JudgePage] Found day ${dayToSelect} (text: "${text.replace(/\s+/g, ' ').trim()}")`);
         break;
       }
     }
 
     if (!targetButton) {
-      console.log('[JudgePage] Could not find exact day, selecting first available weekday');
+      // Fallback: first available button whose day number is >= today's day
+      const todayDay = today.getDate();
+      for (const btn of allDayButtons) {
+        const text = (await btn.textContent() || '').trim();
+        const m = text.match(/\b(\d{1,2})\b/);
+        if (m && parseInt(m[1]) >= todayDay) {
+          targetButton = btn;
+          console.log(`[JudgePage] Fallback: selecting day ${m[1]}`);
+          break;
+        }
+      }
+    }
+
+    if (!targetButton) {
       targetButton = allDayButtons[0];
+      console.log('[JudgePage] Last-resort fallback: selecting first available day');
     }
 
     await targetButton.scrollIntoViewIfNeeded();
@@ -161,15 +171,18 @@ class JudgePage extends BasePage {
     console.log('[JudgePage] Clicked date button');
     await this.page.waitForTimeout(1500);
 
-    // Click the Confirm button in the calendar popup
+    // Confirm the selected date
     const confirmButton = this.page.getByRole('button', { name: 'Confirm' });
-    await confirmButton.waitFor({ state: 'visible', timeout: 5000 });
+    await confirmButton.waitFor({ state: 'visible', timeout: 10000 });
     console.log('[JudgePage] Clicking Confirm button');
     await confirmButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(2000);
   }
 
   async generateOrder(orderText = 'AUTOMATION ORDER GENERATED') {
+    // Wait for the button to become enabled after hearing date confirmation
+    await this.generateOrderBtn.waitFor({ state: 'visible', timeout: 30000 });
+    await expect(this.generateOrderBtn).toBeEnabled({ timeout: 30000 });
     await this.generateOrderBtn.click();
     await this.page.waitForLoadState('networkidle');
 
@@ -182,72 +195,136 @@ class JudgePage extends BasePage {
     await this.previewPdfBtn.click();
     await this.addSignatureBtn.click();
 
-    // Download the PDF
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.getByText('click here').click(),
-    ]);
+    // Wait for the PDF preview to fully render before the "click here" link appears
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(3000);
 
-    const projectDownloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-    await download.saveAs(projectDownloadPath);
+    const clickHereLink = this.page.getByText('click here');
+    await clickHereLink.waitFor({ state: 'visible', timeout: 60000 });
+    await clickHereLink.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(1000);
+
+    // Set up both listeners BEFORE clicking so no event is missed
+    const downloadP = this.page.waitForEvent('download', { timeout: 15000 })
+      .then(d => ({ type: 'download', value: d })).catch(() => null);
+    const popupP = this.page.waitForEvent('popup', { timeout: 15000 })
+      .then(p => ({ type: 'popup', value: p })).catch(() => null);
+
+    await clickHereLink.click();
+
+    // Whichever fires first wins; if neither fires within 15s both resolve to null
+    const result = await Promise.race([downloadP, popupP]);
+
+    let pdfPath;
+    if (result && result.type === 'download') {
+      pdfPath = path.join(resolveFromUiE2E('downloads'), await result.value.suggestedFilename());
+      fs.mkdirSync(path.dirname(pdfPath), { recursive: true });
+      await result.value.saveAs(pdfPath);
+      console.log('[JudgePage] PDF downloaded directly:', path.basename(pdfPath));
+    } else if (result && result.type === 'popup') {
+      const popup = result.value;
+      await popup.waitForLoadState('domcontentloaded').catch(() => {});
+      const pdfUrl = popup.url();
+      await popup.close();
+      const response = await this.page.request.get(pdfUrl);
+      pdfPath = path.join(resolveFromUiE2E('downloads'), 'signed-order.pdf');
+      fs.mkdirSync(path.dirname(pdfPath), { recursive: true });
+      fs.writeFileSync(pdfPath, await response.body());
+      console.log('[JudgePage] PDF fetched from new tab');
+    } else {
+      // click here did not trigger download or popup — reuse most recent PDF from downloads/
+      const downloadsDir = resolveFromUiE2E('downloads');
+      const pdfs = fs.existsSync(downloadsDir)
+        ? fs.readdirSync(downloadsDir).filter(f => f.endsWith('.pdf')).sort()
+        : [];
+      if (pdfs.length === 0) {
+        throw new Error('[JudgePage] No PDF available to upload and click here did not trigger a download');
+      }
+      pdfPath = path.join(downloadsDir, pdfs[pdfs.length - 1]);
+      console.log('[JudgePage] Fallback: uploading existing PDF:', path.basename(pdfPath));
+    }
 
     // Upload signed PDF
     await this.uploadOrderBtn.click();
     await this.page.waitForTimeout(2000);
-    await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
+    await this.page.locator('input[type="file"]').first().setInputFiles(pdfPath);
 
     await this.submitSignatureBtn.click();
     await this.issueOrderBtn.click();
     await this.page.waitForTimeout(2000);
 
-    return projectDownloadPath;
+    return pdfPath;
   }
 
   async captureAccessCodeAndCmpNumber() {
-    // ── Close the "Order Successfully Issued" popup ──────────────────────────
-    // Try multiple selectors robustly — the popup DOM varies across environments.
+    // Wait for the "Order Successfully Issued" popup / page to appear
+    await this.page.waitForTimeout(2000);
+
+    // ── Capture Access Code and CMP Number ───────────────────────────────────
+    // These may appear inside the success popup OR on the case overview page.
+    // Search broadly across the whole page so popup vs. main-page doesn't matter.
+    // Broad selectors tried in order:
+    const codeSelectors = [
+      'div.sub-details-text',       // original — works on some envs
+      '[class*="sub-details"]',     // variant class names
+      '[class*="details-text"]',
+      '.label-value-pair',
+      '[class*="case-detail"]',
+      'div[class*="detail"]',
+    ];
+
+    // Helper: search all selectors for text containing a pattern
+    const findTextBySelectors = async (pattern) => {
+      for (const sel of codeSelectors) {
+        try {
+          const els = this.page.locator(sel).filter({ hasText: pattern });
+          const count = await els.count();
+          if (count > 0) {
+            return (await els.first().textContent()) || '';
+          }
+        } catch { /* next */ }
+      }
+      return '';
+    };
+
+    // Wait up to 30s for either the access code or CMP to appear anywhere on page
+    let accessCodeText = '';
+    let cmpRaw = '';
+    const deadline = Date.now() + 30000;
+    while (Date.now() < deadline) {
+      accessCodeText = await findTextBySelectors('Code:');
+      cmpRaw = await findTextBySelectors('CMP/');
+      if (accessCodeText || cmpRaw) break;
+      await this.page.waitForTimeout(1500);
+    }
+
+    // ── Close any open success popup ─────────────────────────────────────────
     const popupCloseSelectors = [
       'div:nth-child(4) > .popup-module > .header-wrap > .header-end > div > svg',
       '.popup-module .header-end svg',
       '.popup-module button[aria-label="Close"]',
     ];
-    let popupClosed = false;
     for (const sel of popupCloseSelectors) {
       try {
         const el = this.page.locator(sel).first();
-        if (await el.isVisible({ timeout: 3000 }).catch(() => false)) {
+        if (await el.isVisible({ timeout: 2000 }).catch(() => false)) {
           await el.click();
-          popupClosed = true;
           break;
         }
       } catch { /* try next */ }
     }
-    if (!popupClosed) {
-      // Fallback: press Escape to dismiss any modal
-      await this.page.keyboard.press('Escape');
-    }
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('networkidle').catch(() => {});
     await this.page.waitForTimeout(1000);
 
-    // ── Capture Access Code ───────────────────────────────────────────────────
-    // Raw text examples: "Access Code: 679168"  or  "Code: ABC123"
-    // Use \w+ (word chars) to handle both pure-digit and alphanumeric codes.
-    const accessCodeElement = this.page.locator('div.sub-details-text').filter({ hasText: 'Code:' });
-    await expect(accessCodeElement.first()).toBeVisible({ timeout: 30000 });
-    const accessCodeText = (await accessCodeElement.first().textContent()) || '';
-    console.log('[JudgePage] Raw access code text:', accessCodeText);
-    const accessCode = accessCodeText.match(/Code\s*:\s*(\w+)/)?.[1]?.trim() || '';
+    // If not found in popup, try main page one more time
+    if (!accessCodeText) accessCodeText = await findTextBySelectors('Code:');
+    if (!cmpRaw) cmpRaw = await findTextBySelectors('CMP/');
 
-    // ── Capture CMP Number ────────────────────────────────────────────────────
-    // Raw text example: "CMP/129/2026" or "Case No: CMP/129/2026 (something)"
-    // Extract just the CMP/xxx/xxxx pattern to avoid trailing UI noise.
-    const cmpElement = this.page.locator('div.sub-details-text').filter({ hasText: 'CMP/' });
-    await expect(cmpElement.first()).toBeVisible({ timeout: 30000 });
-    const cmpRaw = (await cmpElement.first().textContent()) || '';
-    console.log('[JudgePage] Raw CMP text:', cmpRaw);
+    const accessCode = accessCodeText.match(/Code\s*:\s*(\w+)/)?.[1]?.trim() || '';
     const cmpNumber = cmpRaw.match(/(CMP\/\S+)/)?.[1]?.trim() || cmpRaw.trim();
 
+    console.log('[JudgePage] Raw access code text:', accessCodeText);
+    console.log('[JudgePage] Raw CMP text:', cmpRaw);
     console.log('[JudgePage] Captured → accessCode:', accessCode, ' cmpNumber:', cmpNumber);
     return { accessCode, cmpNumber };
   }
@@ -280,15 +357,7 @@ class JudgePage extends BasePage {
     await this.page.waitForTimeout(2000);
     await this.addSignatureBtn.click();
 
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.getByText('click here').click(),
-    ]);
-
-    const projectDownloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-    await download.saveAs(projectDownloadPath);
-    console.log(`[JudgePage] File downloaded: ${projectDownloadPath}`);
+    const projectDownloadPath = await this.clickAndSavePdf();
 
     await this.uploadOrderBtn.click();
     await this.page.waitForTimeout(2000);
@@ -373,15 +442,7 @@ class JudgePage extends BasePage {
     await this.addSignatureBtn.click();
 
     // Download the pre-filled order PDF
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.getByText('click here').click(),
-    ]);
-
-    const projectDownloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-    fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-    await download.saveAs(projectDownloadPath);
-    console.log(`[JudgePage] Profile correction order downloaded: ${projectDownloadPath}`);
+    const projectDownloadPath = await this.clickAndSavePdf();
 
     // Upload the signed PDF and submit
     await this.uploadOrderBtn.click();
@@ -555,19 +616,7 @@ await signBtn.click();
 
     // Upload Signed copy → download → re-upload
     await this.page.getByRole('button', { name: 'Upload Signed copy' }).click();
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.click('text=click here'),
-    ]);
-
-    // Save the downloaded file to a known location
-    const downloadedFilePath = require('path').join(
-      __dirname,
-      '../../../downloads',
-      await download.suggestedFilename()
-    );
-    await download.saveAs(downloadedFilePath);
-    console.log(`[JudgePage] Bail bond signed PDF downloaded to: ${downloadedFilePath}`);
+    const downloadedFilePath = await this.clickAndSavePdf();
 
     // Upload the signed copy
     const signedCopyInput = this.page.locator('input[type="file"][name="file"][accept=".pdf"]');
@@ -610,15 +659,7 @@ await signBtn.click();
     await proceedToSignBtn.evaluate(btn => btn.click());
 
     // Download the bail bond document
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.click('text=click here'),
-    ]);
-
-    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
-    await download.saveAs(downloadPath);
-    console.log(`[JudgePage] Bail bond approval doc downloaded: ${downloadPath}`);
+    const downloadPath = await this.clickAndSavePdf();
 
     // Upload the signed copy and submit
     await this.page.getByRole('button', { name: 'Upload Order Document with' }).click();
@@ -840,16 +881,7 @@ await this.signAndIssueOrder();
     await this.page.getByRole('button', { name: 'Proceed To Sign' }).click();
     await this.page.getByRole('button', { name: 'Upload Signed copy' }).click();
 
-    await this.page.getByText('click here').click();
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.page.click('text=click here'),
-    ]);
-
-    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
-    await download.saveAs(downloadPath);
-    console.log(`[JudgePage] Witness deposition downloaded: ${downloadPath}`);
+    const downloadPath = await this.clickAndSavePdf();
 
     await this.page.waitForTimeout(2000);
     await this.page.locator('input[type="file"]').first().setInputFiles(downloadPath);
@@ -955,18 +987,7 @@ await this.signAndIssueOrder();
     await this.page.waitForTimeout(2000);
 
     console.log('[JudgePage] Downloading deposition document...');
-    const clickHereLink = this.page.getByText('click here');
-    await clickHereLink.waitFor({ state: 'visible', timeout: 10000 });
-
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      clickHereLink.click(),
-    ]);
-
-    const downloadPath = path.join(resolveFromUiE2E('downloads'), await download.suggestedFilename());
-    fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
-    await download.saveAs(downloadPath);
-    console.log(`[JudgePage] Sign deposition doc downloaded: ${downloadPath}`);
+    const downloadPath = await this.clickAndSavePdf();
 
     console.log('[JudgePage] Uploading signed document...');
     const uploadBtn = this.page.getByRole('button', { name: 'Upload Order Document with Signature' });

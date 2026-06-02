@@ -110,18 +110,7 @@ class ProfileCorrectionPage extends BasePage {
         await this.addSignatureBtn.click();
 
         // Download the pre-filled PDF
-        const [download] = await Promise.all([
-            this.page.waitForEvent('download'),
-            this.page.click('text=click here'),
-        ]);
-
-        const projectDownloadPath = path.join(
-            resolveFromUiE2E('downloads'),
-            await download.suggestedFilename()
-        );
-        fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-        await download.saveAs(projectDownloadPath);
-        console.log(`[ProfileCorrectionPage] File downloaded: ${projectDownloadPath}`);
+        const projectDownloadPath = await this.clickAndSavePdf();
 
         // Upload the signed file
         await this.uploadWithSigBtn.click();

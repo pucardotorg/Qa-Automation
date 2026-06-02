@@ -49,7 +49,18 @@ class PaymentPage extends BasePage {
 
   async collectOfflinePayment(filingNumber) {
     await this.navigateToCollectPayments();
-    await this.searchCaseByFilingNumber(filingNumber);
+
+    // Payment demands may take time to appear after case actions (join, notice, etc.)
+    // Retry the search up to 6 times with 10s gaps before giving up
+    let found = false;
+    for (let attempt = 1; attempt <= 6; attempt++) {
+      await this.searchCaseByFilingNumber(filingNumber);
+      found = await this.recordPaymentLink.first().isVisible({ timeout: 5000 }).catch(() => false);
+      if (found) break;
+      console.log(`[PaymentPage] Record Payment not visible yet (attempt ${attempt}/6), retrying in 10s...`);
+      await this.page.waitForTimeout(10000);
+    }
+
     await this.recordPaymentForCase();
     await this.selectPaymentMode('Cash');
     await this.submitPayment();

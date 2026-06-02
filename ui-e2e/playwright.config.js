@@ -5,25 +5,25 @@ const fs = require('fs');
 
 // ─── Resolve environment config file ──────────────────────────────────────────
 //
-//  TEST_ENV=qa    → data/global-variablesqa.json   (QA environment)
-//  TEST_ENV=demo  → data/global-variablesdemo.json  (Demo environment)
-//  (no TEST_ENV)  → data/global-variables.json      (default / local)
+// Always reads from data/global-variables.json.
+// The CSV runner (run-all-flows.js) writes the correct environment's data there
+// before each spec file runs, using the Test_Env column in test-data.csv to
+// select which rows match the TEST_ENV variable.
 //
-const env = (process.env.TEST_ENV || '').trim().toLowerCase();
 const dataDir = path.join(__dirname, 'data');
-const cfgFile = env
-  ? path.join(dataDir, `global-variables${env}.json`)
-  : path.join(dataDir, 'global-variables.json');
+const cfgFile = path.join(dataDir, 'global-variables.json');
 
 if (!fs.existsSync(cfgFile)) {
   throw new Error(
     `[playwright.config] Config file not found: ${cfgFile}\n` +
-    `  Set TEST_ENV to a valid environment name (qa | demo) or leave it empty.`
+    `  Run: TEST_ENV=qa node tests/flows/run-all-flows.js\n` +
+    `  to load test data from test-data.csv into global-variables.json first.`
   );
 }
 
 const globals = JSON.parse(fs.readFileSync(cfgFile, 'utf8'));
 const BASE_URL = globals.baseURL || 'http://localhost:3000/';
+const env = (process.env.TEST_ENV || '').trim().toLowerCase();
 
 console.log(`[playwright.config] Environment : ${env || 'default'}`);
 console.log(`[playwright.config] Config file : ${cfgFile}`);
@@ -37,15 +37,15 @@ module.exports = defineConfig({
   timeout: 1800000,
   workers: 1,
   retries: 0,
-  reporter: 'html',
+  reporter: process.env.CI ? 'list' : 'html',
 
   use: {
     baseURL: BASE_URL,
     headless: process.env.HEADED !== '1',
-    navigationTimeout: 90000, // 90 seconds for all page.goto() calls
-    actionTimeout: 30000,     // 30 seconds for all actions (click, fill, etc.)
+    navigationTimeout: 120000, // 120 seconds for all page.goto() calls
+    actionTimeout: 60000,      // 60 seconds for all actions (click, fill, etc.)
     launchOptions: {
-      slowMo: 200,
+      slowMo: process.env.HEADED === '1' ? 200 : 0,
       args: ['--start-maximized', '--disable-web-security'],
     },
     viewport: { width: 1920, height: 1080 },

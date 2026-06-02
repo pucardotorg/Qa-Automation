@@ -1,0 +1,8 @@
+# Generated at runtime — never commit
+node_modules/
+downloads/
+playwright-report/
+test-results/
+
+# global-variables.json is overwritten by the CSV runner before each test run
+data/global-variables.json

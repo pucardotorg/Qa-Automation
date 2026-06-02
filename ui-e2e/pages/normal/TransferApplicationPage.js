@@ -67,18 +67,7 @@ const addSignatureBtn = this.page.getByRole('button', { name: 'Add Signature' })
 await addSignatureBtn.waitFor({ state: 'visible', timeout: 60000 });
 await addSignatureBtn.click();
        
-        const [download] = await Promise.all([
-            this.page.waitForEvent('download'),
-            this.page.getByText('click here').click(),
-        ]);
-
-        const projectDownloadPath = path.join(
-            resolveFromUiE2E('downloads'),
-            await download.suggestedFilename()
-        );
-        fs.mkdirSync(path.dirname(projectDownloadPath), { recursive: true });
-        await download.saveAs(projectDownloadPath);
-        console.log(`Transfer application downloaded: ${projectDownloadPath}`);
+        const projectDownloadPath = await this.clickAndSavePdf();
 
         // Upload signed document
         await this.page.getByRole('button', { name: 'Upload document with Signature' }).click();

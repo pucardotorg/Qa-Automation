@@ -24,10 +24,14 @@
  *   -- OR --
  *   node ui-e2e/tests/flows/run-all-flows.js          (from repo root)
  *
- * Optional env vars (passed through to Playwright):
- *   TEST_ENV=qa    → uses data/global-variablesqa.json
- *   TEST_ENV=demo  → uses data/global-variablesdemo.json
- *   (default)      → uses data/global-variables.json
+ * Optional env vars:
+ *   TEST_ENV=qa    → runs only the qa rows from test-data.csv
+ *   TEST_ENV=demo  → runs only the demo rows from test-data.csv
+ *   TEST_ENV=uat   → runs only the uat rows from test-data.csv
+ *   (default)      → skips rows with no matching Test_Env value
+ *
+ * Before each spec file, the matching CSV row is written to
+ * data/global-variables.json which all tests load via loadGlobalVariables().
  *
  * npm shortcuts (from ui-e2e/ folder):
  *   npm run run:all-flows
@@ -57,12 +61,20 @@ const PROJECT_ROOT = path.resolve(__dirname, '../..');
 /**
  * CLI flags — collect any extra flags to forward to `npx playwright test`.
  * Supported flags:
- *   --headed   → run browser in headed (visible) mode
- *   --workers=N / --workers N  → override worker count
+ *   --headed      → run browser in headed (visible) mode
+ *   --flow=N      → run only the Nth flow for the current TEST_ENV (1-based)
+ *   --workers=N   → override worker count
  */
 const RAW_ARGS = process.argv.slice(2);   // everything after: node run-all-flows.js
 const IS_HEADED = RAW_ARGS.includes('--headed');
-const EXTRA_FLAGS = RAW_ARGS.filter((a) => a !== '--headed').join(' ');
+
+// Parse --flow=N (1-based index of the flow to run for the current env)
+const flowArg = RAW_ARGS.find((a) => /^--flow=\d+$/.test(a));
+const SINGLE_FLOW = flowArg ? parseInt(flowArg.split('=')[1], 10) : null;
+
+const EXTRA_FLAGS = RAW_ARGS
+    .filter((a) => a !== '--headed' && !/^--flow=/.test(a))
+    .join(' ');
 
 // Tell playwright.config.js to launch headed when requested
 if (IS_HEADED) process.env.HEADED = '1';
@@ -101,8 +113,22 @@ function buildFlowsFromCsv() {
     });
 
     if (flows.length === 0) {
-        console.error('[run-all-flows] ❌  No valid rows with a specFile column found in test-data.csv.');
+        console.error(
+            `[run-all-flows] ❌  No rows matching Test_Env="${process.env.TEST_ENV}" found in test-data.csv.`
+        );
         process.exit(1);
+    }
+
+    // If --flow=N was given, keep only that one flow (1-based within the env's rows)
+    if (SINGLE_FLOW !== null) {
+        if (SINGLE_FLOW < 1 || SINGLE_FLOW > flows.length) {
+            console.error(
+                `[run-all-flows] ❌  --flow=${SINGLE_FLOW} is out of range. ` +
+                `TEST_ENV=${process.env.TEST_ENV} has ${flows.length} flow(s) (1–${flows.length}).`
+            );
+            process.exit(1);
+        }
+        return [flows[SINGLE_FLOW - 1]];
     }
 
     return flows;
