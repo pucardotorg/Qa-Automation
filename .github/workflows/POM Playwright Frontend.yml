@@ -121,7 +121,7 @@ jobs:
       # UAT ONLY - VPN LOGOUT
       # =========================
       - name: Logout From VPN (HySecure)
-       if: ${{ env.TEST_ENV == 'uat' }}
-       continue-on-error: true
-       run: |
-         hysecure logout --user="${EVPN_USERNAME}"
+        if: ${{ env.TEST_ENV == 'uat' }}
+        continue-on-error: true
+        run: |
+          hysecure logout --user="${EVPN_USERNAME}"
