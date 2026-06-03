@@ -29,11 +29,10 @@ class FileCasePage extends BasePage {
     await this.page.waitForTimeout(1500);
     await this.page.locator('input[name="complainantAge"]').fill(this.globals.complainantAge);
 
-    const cont1 = this.page.locator('button:has-text("Continue")').first();
-    await expect(cont1).toBeVisible({ timeout: 15000 });
-    await cont1.scrollIntoViewIfNeeded();
-    await this.page.waitForTimeout(150);
-    await cont1.click();
+    // Complainant and Accused are tabs within "Litigant Details" section, not sequential steps
+    // Click the Accused Details radio to switch to that tab
+    await this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio').click();
+    await this.page.waitForTimeout(2000); // Wait for Accused tab to load
     await this.waitIdle();
   }
 
@@ -79,9 +78,10 @@ class FileCasePage extends BasePage {
 
     await this.page.waitForTimeout(5000);
 
-    // Click Continue — nth(1) targets the second Continue button (Comp 2's section)
-    const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
-    await continueBtn.nth(1).click({ timeout: 8000 });
+    // Complainant and Accused are tabs within "Litigant Details" section
+    // Click the Accused Details radio to switch to that tab
+    await this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio').click();
+    await this.page.waitForTimeout(2000);
     await this.waitIdle();
   }
 
@@ -126,9 +126,10 @@ class FileCasePage extends BasePage {
 
     await this.page.waitForTimeout(5000);
 
-    // Click Continue — nth(1) targets the second Continue button (Comp 2's section)
-    const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
-    await continueBtn.nth(1).click({ timeout: 8000 });
+    // Complainant and Accused are tabs within "Litigant Details" section
+    // Click the Accused Details radio to switch to that tab
+    await this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio').click();
+    await this.page.waitForTimeout(2000);
     await this.waitIdle();
   }
 
