@@ -460,8 +460,15 @@ class FileCasePage extends BasePage {
 
   async fillComplaintAndDocs() {
     const fallbackFile = resolveFromUiE2E('documents', 'Affidavit.pdf');
-    await this.page.waitForTimeout(15000);
-    //await this.page.pause();
+
+    // Ensure we're fully on the Complaint step with editors loaded
+    // CI servers are slow; need longer waits than local machines
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(25000); // Increased from 15s for slow CI servers
+
+    // Ensure Complaint tab/heading is visible
+    await this.page.getByText('Complaint', { exact: false }).first()
+      .waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
 
     // Fill Synopsis (new field before Complaint Details)
     const synopsisText = this.globals.synopsisDetails || 'Synopsis';
@@ -475,7 +482,7 @@ class FileCasePage extends BasePage {
       await synopsisRdw.click();
       await synopsisRdw.fill(synopsisText);
     }
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(3000); // Increased wait for form to process synopsis
 
     // Fill Complaint Details (second editor now)
 const complaintText = this.globals.complaintDetails || 'test';
@@ -483,7 +490,7 @@ const quill = this.page.locator('.ql-editor').nth(1);
 const rdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(1);
 
 // Wait for editor to be available and visible
-await this.page.waitForTimeout(2000);
+await this.page.waitForTimeout(5000); // Increased from 2s to ensure editors mount
 if (await quill.count()) {
   await quill.waitFor({ state: 'visible', timeout: 60000 });
   await quill.click();
