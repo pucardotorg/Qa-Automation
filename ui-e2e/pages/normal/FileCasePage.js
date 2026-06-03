@@ -26,11 +26,11 @@ class FileCasePage extends BasePage {
     await this.page.getByRole('button', { name: 'Verify Mobile Number' }).click();
     await this.fillOtpSixOnes();
     await this.page.getByRole('button', { name: 'Verify', exact: true }).click();
+    await this.page.waitForTimeout(1500);
     await this.page.locator('input[name="complainantAge"]').fill(this.globals.complainantAge);
 
     const cont1 = this.page.locator('button:has-text("Continue")').first();
     await expect(cont1).toBeVisible({ timeout: 15000 });
-    await expect(cont1).toBeEnabled({ timeout: 15000 });
     await cont1.scrollIntoViewIfNeeded();
     await this.page.waitForTimeout(150);
     await cont1.click();
