@@ -140,8 +140,7 @@ class FileCasePage extends BasePage {
     if (await navItem.isVisible().catch(() => false)) {
       await navItem.click({ force: true });
     }
-    await this.page.getByText('Accused Details', { exact: false }).first()
-      .waitFor({ state: 'visible', timeout: 10000 });
+    await this.page.getByText('Accused Details', { exact: false }).first().waitFor({ state: 'visible', timeout: 10000 });
   }
 
   /**
@@ -159,29 +158,48 @@ class FileCasePage extends BasePage {
   }
 
   async fillAccusedDetails() {
-    // ensureOnAccusedStep confirms "Accused 1" heading is visible before returning
+    // Make sure we are on the correct step
     await this.ensureOnAccusedStep();
 
-    // Select Accused Type = Individual
-    await this.page
+    // Robust card locator: accept h1 or h2, or a section with Accused 1 + Accused Type
+    const accusedCard = this.page.locator([
+      'section:has([role="heading"]:has-text("Accused 1"))',
+      'div:has([role="heading"]:has-text("Accused 1"))',
+      'section:has(h1:has-text("Accused 1"))',
+      'section:has(h2:has-text("Accused 1"))',
+      // fallback: any container that has both labels
+      'section:has-text("Accused 1"):has-text("Accused Type")',
+      'div:has-text("Accused 1"):has-text("Accused Type")'
+    ].join(', ')).first();
+
+    await accusedCard.scrollIntoViewIfNeeded();
+    // Give the UI a moment if it’s lazy-rendered
+    await this.page.waitForTimeout(250);
+
+    if (await accusedCard.count() === 0) {
+      throw new Error('Accused 1 card not found. Verify the step is Accused Details and the card is visible.');
+    }
+    await accusedCard.waitFor({ state: 'visible', timeout: 10000 });
+
+    // Select Accused Type = Individual (same resilient pattern as your working spec)
+    await accusedCard
       .locator('div')
       .filter({ hasText: /^Individual$/ })
       .locator('input[type="radio"]')
       .first()
       .click({ force: true });
 
-    // First name — only visible after type selection
-    await this.page.waitForTimeout(1000); // Small wait for radio click to register
+    // First name
     const firstNameInput = this.page.locator('input[name="respondentFirstName"]').first();
-    await firstNameInput.waitFor({ state: 'visible', timeout: 30000 }); // Longer timeout for slow rendering
+    await firstNameInput.waitFor({ state: 'visible', timeout: 10000 });
     await firstNameInput.fill(this.globals.respondentFirstName || 'Automation Accused');
 
-    // Address block
-    await this.page.locator('div').filter({ hasText: /^Pincode$/ }).getByRole('textbox').first().fill(this.globals.respondentPincode || '');
-    await this.page.locator('div').filter({ hasText: /^State$/ }).getByRole('textbox').first().fill(this.globals.respondentState || '');
-    await this.page.locator('div').filter({ hasText: /^District$/ }).getByRole('textbox').first().fill(this.globals.respondentDistrict || '');
-    await this.page.locator('div').filter({ hasText: /^City\/Town$/ }).getByRole('textbox').first().fill(this.globals.respondentCity || '');
-    await this.page.locator('div').filter({ hasText: /^Address$/ }).getByRole('textbox').first().fill(this.globals.respondentAddress || '');
+    // Address block (same pattern as your working spec)
+    await accusedCard.locator('div').filter({ hasText: /^Pincode$/ }).getByRole('textbox').first().fill(this.globals.respondentPincode || '');
+    await accusedCard.locator('div').filter({ hasText: /^State$/ }).getByRole('textbox').first().fill(this.globals.respondentState || '');
+    await accusedCard.locator('div').filter({ hasText: /^District$/ }).getByRole('textbox').first().fill(this.globals.respondentDistrict || '');
+    await accusedCard.locator('div').filter({ hasText: /^City\/Town$/ }).getByRole('textbox').first().fill(this.globals.respondentCity || '');
+    await accusedCard.locator('div').filter({ hasText: /^Address$/ }).getByRole('textbox').first().fill(this.globals.respondentAddress || '');
 
     // Advance using the global Continue (more reliable on this screen)
     const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' }).first();
@@ -437,62 +455,63 @@ class FileCasePage extends BasePage {
       await expect(continueBtn).toBeVisible({ timeout: 10000 });
       await continueBtn.click();
     }
-    // Wait for the Complaint step to actually load before returning
-    // The form may appear to have navigated but the Complaint editors haven't rendered yet
-    await this.page.waitForLoadState('networkidle').catch(() => {});
-    await this.page.waitForTimeout(5000); // Extra time for editors to render
-  }
-
-  /**
-   * Waits for either a Quill (.ql-editor) or RDW (rdw-editor textbox) rich-text
-   * editor at the given nth index to become visible, then fills it with text.
-   * CI/CD servers are slow to mount these editors — the 120s timeout covers that.
-   */
-  async _fillRichTextEditor(nthIndex, text) {
-    const quill = this.page.locator('.ql-editor').nth(nthIndex);
-    const rdw   = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(nthIndex);
-
-    // Race: whichever editor type appears first wins
-    const quillP = quill.waitFor({ state: 'visible', timeout: 120000 })
-      .then(() => 'quill').catch(() => null);
-    const rdwP   = rdw.waitFor({ state: 'visible', timeout: 120000 })
-      .then(() => 'rdw').catch(() => null);
-
-    const winner = await Promise.race([quillP, rdwP]);
-
-    if (winner === 'quill') {
-      await quill.click();
-      await quill.fill(text);
-    } else if (winner === 'rdw') {
-      await rdw.click();
-      await rdw.fill(text);
-    } else {
-      throw new Error(`[FileCasePage] Neither Quill nor RDW editor visible at index ${nthIndex} after 120s`);
-    }
   }
 
   async fillComplaintAndDocs() {
     const fallbackFile = resolveFromUiE2E('documents', 'Affidavit.pdf');
-
-    // Give the form time to fully transition to the Complaint step after skipWitnessAndAdvance.
-    // The original code used 15s here; networkidle alone is not enough on slow CI servers.
-    await this.page.waitForLoadState('networkidle').catch(() => {});
     await this.page.waitForTimeout(15000);
+    //await this.page.pause();
 
-    // Synopsis editor (index 0)
-    await this._fillRichTextEditor(0, this.globals.synopsisDetails || 'Synopsis');
-    await this.page.waitForTimeout(500);
+    // Fill Synopsis (new field before Complaint Details)
+    const synopsisText = this.globals.synopsisDetails || 'Synopsis';
+    const synopsisQuill = this.page.locator('.ql-editor').first();
+    const synopsisRdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).first();
 
-    // Complaint Details editor (index 1)
-    await this._fillRichTextEditor(1, this.globals.complaintDetails || 'Complaint Details');
-
-    if (fs.existsSync(fallbackFile)) {
-      await this.page.locator('input[type="file"]').first().setInputFiles(fallbackFile);
+    if (await synopsisQuill.count()) {
+      await synopsisQuill.click();
+      await synopsisQuill.fill(synopsisText);
+    } else if (await synopsisRdw.count()) {
+      await synopsisRdw.click();
+      await synopsisRdw.fill(synopsisText);
     }
-
-    // Prayer Details editor (index 2)
-    await this._fillRichTextEditor(2, this.globals.prayerDetails || 'Prayer Details');
     await this.page.waitForTimeout(1000);
+
+    // Fill Complaint Details (second editor now)
+const complaintText = this.globals.complaintDetails || 'test';
+const quill = this.page.locator('.ql-editor').nth(1);
+const rdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(1);
+
+// Wait for editor to be available and visible
+await this.page.waitForTimeout(2000);
+if (await quill.count()) {
+  await quill.waitFor({ state: 'visible', timeout: 60000 });
+  await quill.click();
+  await quill.fill(complaintText);
+} else {
+  await rdw.waitFor({ state: 'visible', timeout: 60000 });
+  await rdw.click();
+  await rdw.fill(complaintText);
+}
+
+if (fs.existsSync(fallbackFile)) {
+  await this.page.locator('input[type="file"]').first().setInputFiles(fallbackFile);
+}
+
+// Fill Prayer Details (third editor now)
+const prayerText = this.globals.prayerDetails || 'test';
+const quill2 = this.page.locator('.ql-editor').nth(2);
+const rdw2 = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(2);
+
+if (await quill2.count()) {
+  await quill2.waitFor({ state: 'visible', timeout: 60000 });
+  await quill2.click();
+  await quill2.fill(prayerText);
+} else {
+  await rdw2.waitFor({ state: 'visible', timeout: 60000 });
+  await rdw2.click();
+  await rdw2.fill(prayerText);
+}
+await this.page.waitForTimeout(1000);;
     // Upload Affidavit
     const AffidavitPath = firstExisting([
       this.globals.AffidavitPath && path.isAbsolute(this.globals.AffidavitPath)
@@ -599,11 +618,10 @@ class FileCasePage extends BasePage {
       const barSearchInput = comp2Form.getByPlaceholder('Search BAR Registration Id');
       await barSearchInput.waitFor({ state: 'visible', timeout: 10000 });
       await barSearchInput.click();
-      await barSearchInput.fill(this.globals.advocateBarId || '');
-      await this.page.waitForTimeout(2000);
+      await barSearchInput.fill(this.globals.advocateBarId || '', { timeout: 15000 });
 
-      // Select advocate from search results — give CI extra time for results to load
-      await this.page.getByText(this.globals.advocateName || '').first().click({ timeout: 30000 });
+      // Select advocate from search results
+      await this.page.getByText(this.globals.advocateName || '').first().click({ timeout: 15000 });
       await this.page.waitForTimeout(2000);
 
       // Upload Vakalatnama for Complainant 2 (last file input on page)
@@ -741,3 +759,4 @@ class FileCasePage extends BasePage {
 }
 
 module.exports = { FileCasePage };
+
