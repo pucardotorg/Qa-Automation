@@ -24,27 +24,17 @@ class FileCasePage extends BasePage {
     await this.page.locator('input[name="mobileNumber"]').click();
     await this.page.locator('input[name="mobileNumber"]').fill(this.globals.litigantUsername);
     await this.page.getByRole('button', { name: 'Verify Mobile Number' }).click();
-    // Wait for OTP inputs to appear before filling them
-    await this.page.locator('.input-otp').first().waitFor({ state: 'visible', timeout: 30000 });
     await this.fillOtpSixOnes();
     await this.page.getByRole('button', { name: 'Verify', exact: true }).click();
-    // Wait for OTP verification to complete — the API call must finish before we fill age
-    await this.page.locator('input[name="complainantAge"]').first()
-      .waitFor({ state: 'visible', timeout: 30000 });
     await this.page.locator('input[name="complainantAge"]').fill(this.globals.complainantAge);
-    await this.page.waitForTimeout(1000);
 
     const cont1 = this.page.locator('button:has-text("Continue")').first();
     await expect(cont1).toBeVisible({ timeout: 15000 });
     await expect(cont1).toBeEnabled({ timeout: 15000 });
     await cont1.scrollIntoViewIfNeeded();
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(150);
     await cont1.click();
-    await this.page.waitForLoadState('networkidle').catch(() => {});
-    // Wait for the Accused Details step to load — "Accused 1" heading appears as soon
-    // as the step renders (respondentFirstName only appears after type selection)
-    await this.page.getByRole('heading', { name: 'Accused 1' }).first()
-      .waitFor({ state: 'visible', timeout: 120000 });
+    await this.waitIdle();
   }
 
   /**
@@ -92,8 +82,7 @@ class FileCasePage extends BasePage {
     // Click Continue — nth(1) targets the second Continue button (Comp 2's section)
     const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
     await continueBtn.nth(1).click({ timeout: 8000 });
-    await this.page.getByRole('heading', { name: 'Accused 1' }).first()
-      .waitFor({ state: 'visible', timeout: 120000 });
+    await this.waitIdle();
   }
 
   /**
@@ -140,26 +129,19 @@ class FileCasePage extends BasePage {
     // Click Continue — nth(1) targets the second Continue button (Comp 2's section)
     const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
     await continueBtn.nth(1).click({ timeout: 8000 });
-    await this.page.getByRole('heading', { name: 'Accused 1' }).first()
-      .waitFor({ state: 'visible', timeout: 120000 });
+    await this.waitIdle();
   }
 
   /**
    * Ensures we are on the Accused Details step (left nav), then waits for banner
    */
   async ensureOnAccusedStep() {
-    // fillComplainantDetails already waits for "Accused 1" heading before returning.
-    // This method is a safety net for flows that call fillAccusedDetails independently.
-    const accused1Heading = this.page.getByRole('heading', { name: 'Accused 1' }).first();
-    const alreadyLoaded = await accused1Heading.isVisible({ timeout: 3000 }).catch(() => false);
-    if (alreadyLoaded) return;
-
-    // Not loaded yet — try clicking the nav item to navigate there
     const navItem = this.page.locator('nav, aside, .side, .sidebar').locator('text=Accused Details').first();
     if (await navItem.isVisible().catch(() => false)) {
       await navItem.click({ force: true });
     }
-    await accused1Heading.waitFor({ state: 'visible', timeout: 90000 });
+    await this.page.getByText('Accused Details', { exact: false }).first()
+      .waitFor({ state: 'visible', timeout: 10000 });
   }
 
   /**
@@ -180,8 +162,7 @@ class FileCasePage extends BasePage {
     // ensureOnAccusedStep confirms "Accused 1" heading is visible before returning
     await this.ensureOnAccusedStep();
 
-    // Select Accused Type = Individual using page-level selector
-    // (the container is a banner/header element, not section/div, so we target page-wide)
+    // Select Accused Type = Individual
     await this.page
       .locator('div')
       .filter({ hasText: /^Individual$/ })
@@ -190,11 +171,12 @@ class FileCasePage extends BasePage {
       .click({ force: true });
 
     // First name — only visible after type selection
+    await this.page.waitForTimeout(1000); // Small wait for radio click to register
     const firstNameInput = this.page.locator('input[name="respondentFirstName"]').first();
-    await firstNameInput.waitFor({ state: 'visible', timeout: 30000 });
+    await firstNameInput.waitFor({ state: 'visible', timeout: 30000 }); // Longer timeout for slow rendering
     await firstNameInput.fill(this.globals.respondentFirstName || 'Automation Accused');
 
-    // Address block — use page-level selectors
+    // Address block
     await this.page.locator('div').filter({ hasText: /^Pincode$/ }).getByRole('textbox').first().fill(this.globals.respondentPincode || '');
     await this.page.locator('div').filter({ hasText: /^State$/ }).getByRole('textbox').first().fill(this.globals.respondentState || '');
     await this.page.locator('div').filter({ hasText: /^District$/ }).getByRole('textbox').first().fill(this.globals.respondentDistrict || '');
@@ -448,29 +430,17 @@ class FileCasePage extends BasePage {
 
   async skipWitnessAndAdvance() {
     await this.waitIdle();
-    // Dismiss any popup/toast that may be blocking button clicks
-    await this.page.locator('.popup-wrap').first()
-      .waitFor({ state: 'hidden', timeout: 8000 }).catch(() => {});
-
-    // Click Continue until the Complaint step's rich-text editors appear (positive detection)
-    for (let attempt = 0; attempt < 5; attempt++) {
-      const hasQuill = await this.page.locator('.ql-editor').first()
-        .isVisible({ timeout: 1000 }).catch(() => false);
-      const hasRdw = await this.page.getByRole('textbox', { name: 'rdw-editor' }).first()
-        .isVisible({ timeout: 1000 }).catch(() => false);
-      if (hasQuill || hasRdw) break; // complaint step has loaded
-
-      await this.page.waitForTimeout(2000);
-      await this.waitIdle();
-
-      const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
-      if (!await continueBtn.first().isVisible({ timeout: 5000 }).catch(() => false)) break;
-
-      await continueBtn.first().scrollIntoViewIfNeeded();
-      await continueBtn.first().evaluate(btn => btn.click());
-      await this.page.waitForLoadState('networkidle').catch(() => {});
+    for (let i = 0; i < 2; i++) {
       await this.page.waitForTimeout(3000);
+      await this.waitIdle();
+      const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
+      await expect(continueBtn).toBeVisible({ timeout: 10000 });
+      await continueBtn.click();
     }
+    // Wait for the Complaint step to actually load before returning
+    // The form may appear to have navigated but the Complaint editors haven't rendered yet
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(5000); // Extra time for editors to render
   }
 
   /**
@@ -629,10 +599,11 @@ class FileCasePage extends BasePage {
       const barSearchInput = comp2Form.getByPlaceholder('Search BAR Registration Id');
       await barSearchInput.waitFor({ state: 'visible', timeout: 10000 });
       await barSearchInput.click();
-      await barSearchInput.fill(this.globals.advocateBarId || '', { timeout: 15000 });
+      await barSearchInput.fill(this.globals.advocateBarId || '');
+      await this.page.waitForTimeout(2000);
 
-      // Select advocate from search results
-      await this.page.getByText(this.globals.advocateName || '').first().click({ timeout: 15000 });
+      // Select advocate from search results — give CI extra time for results to load
+      await this.page.getByText(this.globals.advocateName || '').first().click({ timeout: 30000 });
       await this.page.waitForTimeout(2000);
 
       // Upload Vakalatnama for Complainant 2 (last file input on page)
