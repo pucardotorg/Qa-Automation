@@ -61,7 +61,9 @@ class JoinCasePage extends BasePage {
     await this.page.waitForTimeout(1000);
     await this.searchBtn.click();
     await this.page.waitForTimeout(1000);
-    await this.page.locator('.cp').first().click();
+    // Dismiss any residual popup/toast from previous steps before selecting the case
+    await this.page.locator('.popup-wrap').first().waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
+    await this.page.locator('.cp').first().click({ force: true });
     await this.page.waitForTimeout(1000);
     await this.proceedBtn.click();
     await this.page.waitForTimeout(1000);

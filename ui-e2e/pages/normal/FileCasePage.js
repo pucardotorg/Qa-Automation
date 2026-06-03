@@ -448,28 +448,28 @@ class FileCasePage extends BasePage {
 
   async skipWitnessAndAdvance() {
     await this.waitIdle();
+    // Dismiss any popup/toast that may be blocking button clicks
+    await this.page.locator('.popup-wrap').first()
+      .waitFor({ state: 'hidden', timeout: 8000 }).catch(() => {});
 
-    // The witness section is identified by its banner text
-    const witnessSection = this.page.locator('banner, [role="banner"]')
-      .filter({ hasText: 'Witness Details' }).first();
+    // Click Continue until the Complaint step's rich-text editors appear (positive detection)
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const hasQuill = await this.page.locator('.ql-editor').first()
+        .isVisible({ timeout: 1000 }).catch(() => false);
+      const hasRdw = await this.page.getByRole('textbox', { name: 'rdw-editor' }).first()
+        .isVisible({ timeout: 1000 }).catch(() => false);
+      if (hasQuill || hasRdw) break; // complaint step has loaded
 
-    // Click Continue up to 3 times while the witness section is still visible
-    for (let i = 0; i < 3; i++) {
-      const onWitness = await witnessSection.isVisible({ timeout: 3000 }).catch(() => false);
-      if (!onWitness) break;
+      await this.page.waitForTimeout(2000);
+      await this.waitIdle();
 
-      await this.page.waitForTimeout(1000);
-      // Find the Continue button (may have no accessible name — use text content search)
-      const continueBtn = this.page.locator('button').filter({ hasText: 'Continue' }).first();
-      await continueBtn.scrollIntoViewIfNeeded();
-      await this.page.waitForTimeout(300);
-      // force: true bypasses any overlay or React transition that blocks the click
-      await continueBtn.click({ force: true });
+      const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
+      if (!await continueBtn.first().isVisible({ timeout: 5000 }).catch(() => false)) break;
 
-      // Wait for the witness section to leave the DOM — this is a React state update,
-      // not a network request, so networkidle is not reliable here
-      await witnessSection.waitFor({ state: 'hidden', timeout: 30000 }).catch(() => {});
-      await this.page.waitForTimeout(1000);
+      await continueBtn.first().scrollIntoViewIfNeeded();
+      await continueBtn.first().evaluate(btn => btn.click());
+      await this.page.waitForLoadState('networkidle').catch(() => {});
+      await this.page.waitForTimeout(3000);
     }
   }
 
@@ -504,9 +504,10 @@ class FileCasePage extends BasePage {
   async fillComplaintAndDocs() {
     const fallbackFile = resolveFromUiE2E('documents', 'Affidavit.pdf');
 
-    // Wait for the page to settle before checking for editors (CI is slow)
+    // Give the form time to fully transition to the Complaint step after skipWitnessAndAdvance.
+    // The original code used 15s here; networkidle alone is not enough on slow CI servers.
     await this.page.waitForLoadState('networkidle').catch(() => {});
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(15000);
 
     // Synopsis editor (index 0)
     await this._fillRichTextEditor(0, this.globals.synopsisDetails || 'Synopsis');
