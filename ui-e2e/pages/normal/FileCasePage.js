@@ -174,13 +174,17 @@ class FileCasePage extends BasePage {
     ].join(', ')).first();
 
     await accusedCard.scrollIntoViewIfNeeded();
-    // Give the UI a moment if it’s lazy-rendered
+    // Give the UI a moment if it's lazy-rendered
     await this.page.waitForTimeout(250);
 
     if (await accusedCard.count() === 0) {
       throw new Error('Accused 1 card not found. Verify the step is Accused Details and the card is visible.');
     }
     await accusedCard.waitFor({ state: 'visible', timeout: 10000 });
+
+    // Wait for form to fully load before interacting with fields
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(3000); // Extra buffer for slow CI servers
 
     // Select Accused Type = Individual (same resilient pattern as your working spec)
     await accusedCard
@@ -190,9 +194,9 @@ class FileCasePage extends BasePage {
       .first()
       .click({ force: true });
 
-    // First name
+    // First name — wait up to 60s for slow CI servers
     const firstNameInput = this.page.locator('input[name="respondentFirstName"]').first();
-    await firstNameInput.waitFor({ state: 'visible', timeout: 10000 });
+    await firstNameInput.waitFor({ state: 'visible', timeout: 60000 });
     await firstNameInput.fill(this.globals.respondentFirstName || 'Automation Accused');
 
     // Address block (same pattern as your working spec)
@@ -464,11 +468,11 @@ class FileCasePage extends BasePage {
     // Ensure we're fully on the Complaint step with editors loaded
     // CI servers are slow; need longer waits than local machines
     await this.page.waitForLoadState('networkidle').catch(() => {});
-    await this.page.waitForTimeout(25000); // Increased from 15s for slow CI servers
+    await this.page.waitForTimeout(35000); // Increased to 35s for very slow CI servers
 
     // Ensure Complaint tab/heading is visible
     await this.page.getByText('Complaint', { exact: false }).first()
-      .waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
+      .waitFor({ state: 'visible', timeout: 20000 }).catch(() => {});
 
     // Fill Synopsis (new field before Complaint Details)
     const synopsisText = this.globals.synopsisDetails || 'Synopsis';
@@ -482,7 +486,7 @@ class FileCasePage extends BasePage {
       await synopsisRdw.click();
       await synopsisRdw.fill(synopsisText);
     }
-    await this.page.waitForTimeout(3000); // Increased wait for form to process synopsis
+    await this.page.waitForTimeout(5000); // Increased wait for form to process synopsis
 
     // Fill Complaint Details (second editor now)
 const complaintText = this.globals.complaintDetails || 'test';
@@ -490,7 +494,7 @@ const quill = this.page.locator('.ql-editor').nth(1);
 const rdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(1);
 
 // Wait for editor to be available and visible
-await this.page.waitForTimeout(5000); // Increased from 2s to ensure editors mount
+await this.page.waitForTimeout(10000); // Extended wait to 10s to ensure complaint editor mounts
 if (await quill.count()) {
   await quill.waitFor({ state: 'visible', timeout: 60000 });
   await quill.click();
