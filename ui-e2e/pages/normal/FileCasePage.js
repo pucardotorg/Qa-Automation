@@ -31,8 +31,11 @@ class FileCasePage extends BasePage {
 
     // Complainant and Accused are tabs within "Litigant Details" section, not sequential steps
     // Click the Accused Details radio to switch to that tab
-    await this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio').click();
-    await this.page.waitForTimeout(2000); // Wait for Accused tab to load
+    const accusedRadio = this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio');
+    await accusedRadio.scrollIntoViewIfNeeded();
+    await accusedRadio.click();
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(5000); // Extended wait for Accused tab to fully load
     await this.waitIdle();
   }
 
@@ -80,8 +83,11 @@ class FileCasePage extends BasePage {
 
     // Complainant and Accused are tabs within "Litigant Details" section
     // Click the Accused Details radio to switch to that tab
-    await this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio').click();
-    await this.page.waitForTimeout(2000);
+    const accusedRadio = this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio');
+    await accusedRadio.scrollIntoViewIfNeeded();
+    await accusedRadio.click();
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(5000); // Extended wait for Accused tab to fully load
     await this.waitIdle();
   }
 
@@ -128,8 +134,11 @@ class FileCasePage extends BasePage {
 
     // Complainant and Accused are tabs within "Litigant Details" section
     // Click the Accused Details radio to switch to that tab
-    await this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio').click();
-    await this.page.waitForTimeout(2000);
+    const accusedRadio = this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio');
+    await accusedRadio.scrollIntoViewIfNeeded();
+    await accusedRadio.click();
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(5000); // Extended wait for Accused tab to fully load
     await this.waitIdle();
   }
 
