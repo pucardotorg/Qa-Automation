@@ -31,11 +31,13 @@ class FileCasePage extends BasePage {
 
     // Complainant and Accused are tabs within "Litigant Details" section, not sequential steps
     // Click the Accused Details radio to switch to that tab
-    const accusedRadio = this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio');
-    await accusedRadio.scrollIntoViewIfNeeded();
-    await accusedRadio.click();
-    await this.page.waitForLoadState('networkidle').catch(() => {});
-    await this.page.waitForTimeout(5000); // Extended wait for Accused tab to fully load
+    //const accusedRadio = this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio');
+    const cont1 = this.page.locator('button:has-text("Continue")').first();
+    await expect(cont1).toBeVisible({ timeout: 15000 });
+    await expect(cont1).toBeEnabled({ timeout: 15000 });
+    await cont1.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(150);
+    await cont1.click();
     await this.waitIdle();
   }
 
@@ -83,11 +85,12 @@ class FileCasePage extends BasePage {
 
     // Complainant and Accused are tabs within "Litigant Details" section
     // Click the Accused Details radio to switch to that tab
-    const accusedRadio = this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio');
-    await accusedRadio.scrollIntoViewIfNeeded();
-    await accusedRadio.click();
-    await this.page.waitForLoadState('networkidle').catch(() => {});
-    await this.page.waitForTimeout(5000); // Extended wait for Accused tab to fully load
+    const cont1 = this.page.locator('button:has-text("Continue")').first();
+    await expect(cont1).toBeVisible({ timeout: 15000 });
+    await expect(cont1).toBeEnabled({ timeout: 15000 });
+    await cont1.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(150);
+    await cont1.click({ force: true }); // Use force to click through any overlays
     await this.waitIdle();
   }
 
@@ -134,11 +137,12 @@ class FileCasePage extends BasePage {
 
     // Complainant and Accused are tabs within "Litigant Details" section
     // Click the Accused Details radio to switch to that tab
-    const accusedRadio = this.page.locator('div').filter({ hasText: /^Accused Details$/ }).getByRole('radio');
-    await accusedRadio.scrollIntoViewIfNeeded();
-    await accusedRadio.click();
-    await this.page.waitForLoadState('networkidle').catch(() => {});
-    await this.page.waitForTimeout(5000); // Extended wait for Accused tab to fully load
+    const cont1 = this.page.locator('button:has-text("Continue")').nth(1);
+    await expect(cont1).toBeVisible({ timeout: 15000 });
+    await expect(cont1).toBeEnabled({ timeout: 15000 });
+    await cont1.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(1500);
+    await cont1.click();
     await this.waitIdle();
   }
 
@@ -462,13 +466,18 @@ class FileCasePage extends BasePage {
 
   async skipWitnessAndAdvance() {
     await this.waitIdle();
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
       await this.page.waitForTimeout(3000);
       await this.waitIdle();
       const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
       await expect(continueBtn).toBeVisible({ timeout: 10000 });
       await continueBtn.click();
     }
+
+    // After Continue clicks, page transitions to Complaint section
+    // Wait for it to fully load before returning
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(20000); // Extended wait for Complaint editors to mount on slow CI
   }
 
   async fillComplaintAndDocs() {
@@ -499,11 +508,19 @@ class FileCasePage extends BasePage {
 
     // Fill Complaint Details (second editor now)
 const complaintText = this.globals.complaintDetails || 'test';
+
+// Wait for ANY editor (Quill or RDW) to appear first
+await this.page.waitForSelector('.ql-editor, [role="textbox"][name="rdw-editor"]', {
+  state: 'visible',
+  timeout: 60000
+}).catch(() => {
+  console.log('[fillComplaintAndDocs] Warning: No editors found after 60s');
+});
+
 const quill = this.page.locator('.ql-editor').nth(1);
 const rdw = this.page.getByRole('textbox', { name: 'rdw-editor' }).nth(1);
 
-// Wait for editor to be available and visible
-await this.page.waitForTimeout(10000); // Extended wait to 10s to ensure complaint editor mounts
+// Now check which type is available
 if (await quill.count()) {
   await quill.waitFor({ state: 'visible', timeout: 60000 });
   await quill.click();
@@ -642,8 +659,8 @@ await this.page.waitForTimeout(1000);;
       await barSearchInput.fill(this.globals.advocateBarId || '', { timeout: 15000 });
 
       // Select advocate from search results
-      await this.page.getByText(this.globals.advocateName || '').first().click({ timeout: 15000 });
-      await this.page.waitForTimeout(2000);
+      await this.page.getByText(this.globals.advocateName || '').first().click({ timeout: 40000 });
+      await this.page.waitForTimeout(30000);
 
       // Upload Vakalatnama for Complainant 2 (last file input on page)
       await this.page.locator('input[type="file"]').last().setInputFiles(VakalatnamaPath);

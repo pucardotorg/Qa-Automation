@@ -195,7 +195,6 @@ test.describe.serial('FSO Resubmit Case Flow - End to End', () => {
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
-
         await employeeLogin.open();
         await employeeLogin.loginAsJudge();
 

@@ -12,7 +12,8 @@ class PaymentPage extends BasePage {
     this.modeOfPaymentDropdown = page.locator('div').filter({ hasText: /^Mode of Payment$/ }).locator('path').nth(1);
     this.stampOption = page.locator('#jk-dropdown-unique div').filter({ hasText: 'Stamp' });
     this.cashOption = page.locator('#jk-dropdown-unique div').filter({ hasText: 'Cash' });
-    this.submitBtn = page.getByRole('button');
+    // Use ID selector to target the specific submit button, not all buttons
+    this.submitBtn = page.locator('#dristi-pending-payment-inbox-pending-payment-details-generate-receipt');
   }
 
   async navigateToCollectPayments() {
@@ -25,7 +26,7 @@ class PaymentPage extends BasePage {
     await this.caseFilingNumberInput.clear().catch(() => {});
     await this.caseFilingNumberInput.fill(filingNumber);
     await this.searchBtn.click();
-    // Wait for results to fully load before checking
+    await this.page.waitForTimeout(2000);// Wait for results to fully load before checking
     await this.page.waitForLoadState('networkidle').catch(() => {});
     await this.page.waitForTimeout(2000);
   }

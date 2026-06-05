@@ -52,6 +52,7 @@ class FSOPage extends BasePage {
 
   async scrutinizeAndForward(filingNumber, comments = 'FSO comments') {
     await this.navigateToScrutiniseCases();
+    await this.page.waitForTimeout(18000);
     await this.searchCase(filingNumber);
     await this.openCase();
     await this.forwardToJudge(comments);

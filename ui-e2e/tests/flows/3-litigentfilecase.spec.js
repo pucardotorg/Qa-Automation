@@ -223,7 +223,9 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
         await employeeLogin.loginAsNayaMitra();
 
         await payment.navigateToCollectPayments();
+        await this.page.waitForTimeout(3000);
         await payment.searchCaseByFilingNumber(globals.cmpNumber);
+
         await payment.recordPaymentForCase();
         await payment.selectPaymentMode('Cash');
         await payment.submitPayment();
