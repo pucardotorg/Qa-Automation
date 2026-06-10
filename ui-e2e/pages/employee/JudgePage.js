@@ -347,25 +347,25 @@ class JudgePage extends BasePage {
   async reviewAdvReplacement(cmpNumber) {
     await this.allCasesLink.click();
     await this.page.getByRole('cell', { name: cmpNumber }).click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(10000);
     await this.page.getByText('Review Advocate Replace').first().click();
-    await this.page.waitForTimeout(6000);
+    await this.page.waitForTimeout(60000);
     await this.page.getByRole('button', { name: 'Approve' }).click();
-    await this.page.waitForTimeout(4000);
+    await this.page.waitForTimeout(40000);
 
     await this.previewPdfBtn.click();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(20000);
     await this.addSignatureBtn.click();
 
     const projectDownloadPath = await this.clickAndSavePdf();
 
     await this.uploadOrderBtn.click();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(20000);
     await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
 
     await this.submitSignatureBtn.click();
     await this.issueOrderBtn.click();
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(30000);
 
     // The success screen has two variants depending on context:
     // Variant A: success toast "You have successfully issued" → close → heading
@@ -446,7 +446,7 @@ class JudgePage extends BasePage {
 
     // Upload the signed PDF and submit
     await this.uploadOrderBtn.click();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(20000);
     await this.page.locator('input[type="file"]').first().setInputFiles(projectDownloadPath);
 
     await this.submitSignatureBtn.click();
@@ -458,7 +458,7 @@ class JudgePage extends BasePage {
     await this.page.getByRole('heading', { name: 'Order successfully issued!' }).click();
 
     await this.page.waitForLoadState('networkidle');
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(20000);
     console.log('[JudgePage] Profile Correction Application approved successfully.');
   }
 

@@ -215,6 +215,7 @@ test.describe.serial('2-Complainant 2-Advocate Full Case Flow - End to End', () 
 
     test('10 - Naya Mitra collects payment for join case', async ({ page }) => {
         test.setTimeout(600000);
+        await page.waitForTimeout(30000);
 
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);

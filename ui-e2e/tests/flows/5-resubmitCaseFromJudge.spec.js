@@ -158,8 +158,7 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
     // ─────────────────────────────────────────────────────────────────────────────
     test('04 - Judge sends case back to litigant for correction', async ({ page }) => {
         test.setTimeout(600000);
-
-        const employeeLogin = new EmployeeLoginPage(page, globals);
+        await page.waitForTimeout(30000);        const employeeLogin = new EmployeeLoginPage(page, globals);
         const judge = new JudgePage(page, globals);
 
         await employeeLogin.open();

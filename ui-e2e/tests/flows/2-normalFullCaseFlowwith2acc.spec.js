@@ -211,7 +211,7 @@ test.describe.serial('Normal Full Case Flow - End to End', () => {
 
     test('14 - Naya Mitra collects payment for join case (advocate PiP)', async ({ page }) => {
         test.setTimeout(600000);
-
+        await page.waitForTimeout(30000);
         const employeeLogin = new EmployeeLoginPage(page, globals);
         const payment = new PaymentPage(page, globals);
 
