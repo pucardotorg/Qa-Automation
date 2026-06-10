@@ -466,8 +466,8 @@ class FileCasePage extends BasePage {
 
   async skipWitnessAndAdvance() {
     await this.waitIdle();
-    for (let i = 0; i < 3; i++) {
-      await this.page.waitForTimeout(3000);
+    for (let i = 0; i < 2; i++) {
+      await this.page.waitForTimeout(6000);
       await this.waitIdle();
       const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' });
       await expect(continueBtn).toBeVisible({ timeout: 10000 });
