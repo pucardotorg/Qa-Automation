@@ -337,10 +337,20 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
         // Use filingNumber to search for the case, not cmpNumber
         await payment.searchCaseByFilingNumber(globals.filingNumber);
 
-        // Wait for Record Payment link to appear
+        // CI/CD fix: Wait for Record Payment link with additional stabilization
         await page.waitForLoadState('networkidle').catch(() => {});
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(5000);
+
+        // Check if the link is present, with fallback debug logging
         const recordPaymentLink = page.locator('a:has-text("Record Payment")');
+        const linkCount = await recordPaymentLink.count().catch(() => 0);
+        if (linkCount === 0) {
+          console.log('[Flow 5 Test 13] Record Payment link not found in DOM');
+          const pageContent = await page.content().catch(() => '');
+          if (!pageContent.includes('Record Payment')) {
+            console.log('[Flow 5 Test 13] "Record Payment" text not in page HTML');
+          }
+        }
         await recordPaymentLink.waitFor({ state: 'visible', timeout: 30000 });
 
         await payment.recordPaymentForCase();

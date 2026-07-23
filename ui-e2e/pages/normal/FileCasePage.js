@@ -176,6 +176,10 @@ class FileCasePage extends BasePage {
     await this.ensureOnAccusedStep();
 
     // Robust card locator: accept h1 or h2, or a section with Accused 1 + Accused Type
+    // CI/CD fix: Wait for page to stabilize before looking for Accused 1 section
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(3000);
+
     const accusedCard = this.page.locator([
       'section:has([role="heading"]:has-text("Accused 1"))',
       'div:has([role="heading"]:has-text("Accused 1"))',
@@ -186,8 +190,9 @@ class FileCasePage extends BasePage {
       'div:has-text("Accused 1"):has-text("Accused Type")'
     ].join(', ')).first();
 
+    // Wait for section to exist before scrolling
+    await accusedCard.waitFor({ state: 'visible', timeout: 30000 });
     await accusedCard.scrollIntoViewIfNeeded();
-    // Give the UI a moment if it's lazy-rendered
     await this.page.waitForTimeout(250);
 
     if (await accusedCard.count() === 0) {

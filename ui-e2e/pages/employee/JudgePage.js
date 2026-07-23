@@ -879,7 +879,14 @@ await this.signAndIssueOrder();
 
     // Proceed To Sign → Upload Signed copy → download → upload
     await this.page.getByRole('button', { name: 'Proceed To Sign' }).click();
-    await this.page.getByRole('button', { name: 'Upload Signed copy' }).click();
+
+    // CI/CD fix: Wait for modal/page transition to complete before looking for next button
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(3000);
+
+    const uploadBtn = this.page.getByRole('button', { name: 'Upload Signed copy' });
+    await uploadBtn.waitFor({ state: 'visible', timeout: 30000 });
+    await uploadBtn.click();
 
     const downloadPath = await this.clickAndSavePdf();
 

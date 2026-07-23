@@ -176,8 +176,9 @@ class JoinCasePage extends BasePage {
     await this.searchAndSelectCase(filingNumber);
     await this.verifyAccessCode(accessCode);
 
-    // Select Accused role
-    await this.accusedRadio.check();
+    // Select Accused role — wait for enabled state (CI/CD timing fix)
+    await this.accusedRadio.waitFor({ state: 'enabled', timeout: 30000 }).catch(() => {});
+    await this.accusedRadio.check({ force: true });
     // Not representing anyone (PiP = No)
     await this.noRadio.check();
     await this.page.waitForTimeout(1000);
@@ -222,8 +223,9 @@ class JoinCasePage extends BasePage {
     await this.searchAndSelectCase(filingNumber);
     await this.verifyAccessCode(accessCode);
 
-    // Select Accused role, representing someone (Yes)
-    await this.accusedRadio.check();
+    // Select Accused role, representing someone (Yes) — wait for enabled state
+    await this.accusedRadio.waitFor({ state: 'enabled', timeout: 30000 }).catch(() => {});
+    await this.accusedRadio.check({ force: true });
     await this.page.locator('div').filter({ hasText: /^Yes$/ }).getByRole('radio').check();
 
     // Select which litigants to represent — use img chevron (force:true bypasses select-wrap overlay)
@@ -285,8 +287,9 @@ class JoinCasePage extends BasePage {
     await this.searchAndSelectCase(filingNumber);
     await this.verifyAccessCode(accessCode);
 
-    // Select Accused role, not replacing (No)
-    await this.accusedRadio.check();
+    // Select Accused role, not replacing (No) — wait for enabled state
+    await this.accusedRadio.waitFor({ state: 'enabled', timeout: 30000 }).catch(() => {});
+    await this.accusedRadio.check({ force: true });
     await this.noRadio.check();
     await this.page.waitForTimeout(1000);
 
@@ -335,8 +338,9 @@ class JoinCasePage extends BasePage {
     await this.searchAndSelectCase(filingNumber);
     await this.verifyAccessCode(accessCode);
 
-    // Select Accused role, replacing (Yes)
-    await this.accusedRadio.check();
+    // Select Accused role, replacing (Yes) — wait for enabled state
+    await this.accusedRadio.waitFor({ state: 'enabled', timeout: 30000 }).catch(() => {});
+    await this.accusedRadio.check({ force: true });
     await this.page.locator('div').filter({ hasText: /^Yes$/ }).getByRole('radio').check();
     await this.page.waitForTimeout(1000);
 

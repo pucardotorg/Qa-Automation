@@ -32,7 +32,13 @@ class FSOPage extends BasePage {
   }
 
   async openCase() {
-    await this.page.getByText('vs').first().click();
+    // CI/CD fix: Wait for case list to fully render before clicking
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(3000);
+
+    const vsText = this.page.getByText('vs').first();
+    await vsText.waitFor({ state: 'visible', timeout: 30000 });
+    await vsText.click();
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(2000);
   }
