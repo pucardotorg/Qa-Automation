@@ -92,11 +92,36 @@ class CourtStaffPage extends BasePage {
     await expect(this.markAsSentBtn).toBeVisible({ timeout: 10000 });
     await this.markAsSentBtn.click();
     await this.page.waitForTimeout(2000);
+
+    // Close the success modal that appears after "Mark as Sent"
+    const successPopup = this.page.locator('div.popup-wrap');
+    if (await successPopup.isVisible({ timeout: 5000 }).catch(() => false)) {
+      console.log('[CourtStaffPage] Closing success popup');
+      // Try to find and click a close button (X icon)
+      const closeBtn = successPopup.locator('button').first();
+      if (await closeBtn.count() > 0) {
+        await closeBtn.click().catch(() => {});
+        await this.page.waitForTimeout(500);
+      }
+      // Fallback: press Escape to close the modal
+      await this.page.keyboard.press('Escape').catch(() => {});
+      await this.page.waitForTimeout(1000);
+    }
   }
 
   async updateDeliveryStatus(caseNumber) {
+    // Ensure popup is closed before clicking Sent tab
+    const successPopup = this.page.locator('div.popup-wrap');
+    if (await successPopup.isVisible({ timeout: 3000 }).catch(() => false)) {
+      console.log('[CourtStaffPage] Popup still visible, closing it');
+      await this.page.keyboard.press('Escape').catch(() => {});
+      await this.page.waitForTimeout(1000);
+    }
+
+    // Wait for Sent tab to be clickable
+    await expect(this.sentTabBtn).toBeVisible({ timeout: 10000 });
     await this.sentTabBtn.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(2000);
 
     await this.searchCase(caseNumber);
     await this.openCase();
