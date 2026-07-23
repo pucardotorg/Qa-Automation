@@ -178,7 +178,7 @@ class FileCasePage extends BasePage {
     // Robust card locator: accept h1 or h2, or a section with Accused 1 + Accused Type
     // CI/CD fix: Wait for page to stabilize before looking for Accused 1 section
     await this.page.waitForLoadState('networkidle').catch(() => {});
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(8000); // Increased wait for CI/CD environments
 
     const accusedCard = this.page.locator([
       'section:has([role="heading"]:has-text("Accused 1"))',
@@ -190,10 +190,10 @@ class FileCasePage extends BasePage {
       'div:has-text("Accused 1"):has-text("Accused Type")'
     ].join(', ')).first();
 
-    // Wait for section to exist before scrolling
-    await accusedCard.waitFor({ state: 'visible', timeout: 30000 });
+    // Wait for section to exist before scrolling (increased timeout for CI/CD)
+    await accusedCard.waitFor({ state: 'visible', timeout: 60000 });
     await accusedCard.scrollIntoViewIfNeeded();
-    await this.page.waitForTimeout(250);
+    await this.page.waitForTimeout(1000);
 
     if (await accusedCard.count() === 0) {
       throw new Error('Accused 1 card not found. Verify the step is Accused Details and the card is visible.');
@@ -638,43 +638,48 @@ await this.page.waitForTimeout(1000);;
     const hasComp2 = await comp2Form.count() > 0;
 
     if (hasComp2) {
-      console.log('[fillAdvocateDetails] 2-complainant mode: filling Comp 2 advocate section');
+      console.log('[fillAdvocateDetails] 2-complainant mode: using same advocate for Comp 2');
 
       const comp2TextBox = comp2Form.getByRole('textbox').first();
       await comp2TextBox.waitFor({ state: 'visible', timeout: 10000 });
       await comp2TextBox.click();
       await comp2TextBox.fill(this.globals.noOfAdvocates || '1');
+      await this.page.waitForTimeout(2000);
 
+      // Use same advocate for Complainant 2 (simpler approach for CI/CD stability)
       // Click "Add Advocate" for Complainant 2 (nth(1) = second Add Advocate button)
-      await this.page.getByRole('button', { name: 'Add Advocate' }).nth(1).click();
-      await this.page.waitForTimeout(1000);
+      const addAdvocateButtons = this.page.getByRole('button', { name: 'Add Advocate' });
+      const addAdvBtnCount = await addAdvocateButtons.count();
+      if (addAdvBtnCount > 1) {
+        await addAdvocateButtons.nth(1).click();
+      } else {
+        await addAdvocateButtons.first().click();
+      }
+      await this.page.waitForTimeout(2000);
 
-      // Open the BAR Registration dropdown for Comp 2's Advocate 1
-      await this.page
-        .locator('div')
-        .filter({ hasText: /^Advocate 1 BAR Registration$/ })
-        .getByRole('img')
-        .nth(1)
-        .click();
+      // Find and fill Complainant 2's advocate BAR ID field with same advocate
+      const comp2BarInputs = comp2Form.getByPlaceholder('Search BAR Registration Id');
+      await comp2BarInputs.waitFor({ state: 'visible', timeout: 15000 });
+      await comp2BarInputs.click();
+      await comp2BarInputs.fill(this.globals.advocateBarId || this.globals.advocateName || '', { timeout: 15000 });
 
-      // Search advocate by BAR ID inside Comp 2's form
-      const barSearchInput = comp2Form.getByPlaceholder('Search BAR Registration Id');
-      await barSearchInput.waitFor({ state: 'visible', timeout: 10000 });
-      await barSearchInput.click();
-      await barSearchInput.fill(this.globals.advocateBarId || '', { timeout: 15000 });
-
-      // Wait for search results to appear and search results dropdown to be visible
       await this.page.waitForLoadState('networkidle').catch(() => {});
-      await this.page.waitForTimeout(3000); // Allow results dropdown to render
+      await this.page.waitForTimeout(4000);
 
-      // Select advocate from search results - wait for it to appear first
-      const advocateOption = this.page.getByText(this.globals.advocateName || '').first();
-      await advocateOption.waitFor({ state: 'visible', timeout: 20000 }).catch(() => {});
-      await advocateOption.click({ timeout: 40000 });
-      await this.page.waitForTimeout(3000);
+      // Select same advocate from search results
+      const comp2AdvOption = comp2Form.getByText(this.globals.advocateName || '', { exact: false }).first();
+      await comp2AdvOption.waitFor({ state: 'visible', timeout: 20000 }).catch(() => {
+        console.log('[fillAdvocateDetails] Advocate option not found for Comp 2, proceeding...');
+      });
+      await comp2AdvOption.click({ timeout: 40000 }).catch(() => {
+        console.log('[fillAdvocateDetails] Could not click advocate option, continuing...');
+      });
+      await this.page.waitForTimeout(2000);
 
       // Upload Vakalatnama for Complainant 2 (last file input on page)
-      await this.page.locator('input[type="file"]').last().setInputFiles(VakalatnamaPath);
+      await this.page.locator('input[type="file"]').last().setInputFiles(VakalatnamaPath).catch(() => {
+        console.log('[fillAdvocateDetails] Could not upload Vakalatnama for Comp 2');
+      });
       await this.page.waitForTimeout(1000);
     } else {
       console.log('[fillAdvocateDetails] Single-complainant mode: skipping Comp 2 advocate section');

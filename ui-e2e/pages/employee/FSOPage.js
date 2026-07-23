@@ -34,13 +34,13 @@ class FSOPage extends BasePage {
   async openCase() {
     // CI/CD fix: Wait for case list to fully render before clicking
     await this.page.waitForLoadState('networkidle').catch(() => {});
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(6000); // Increased wait for FSO case list rendering
 
     const vsText = this.page.getByText('vs').first();
-    await vsText.waitFor({ state: 'visible', timeout: 30000 });
+    await vsText.waitFor({ state: 'visible', timeout: 45000 }); // Increased timeout
     await vsText.click();
     await this.page.waitForLoadState('networkidle');
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(3000);
   }
 
   async forwardToJudge(comments = 'FSO comments') {

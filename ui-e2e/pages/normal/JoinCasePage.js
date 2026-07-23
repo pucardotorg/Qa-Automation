@@ -176,11 +176,16 @@ class JoinCasePage extends BasePage {
     await this.searchAndSelectCase(filingNumber);
     await this.verifyAccessCode(accessCode);
 
-    // Select Accused role — wait for enabled state (CI/CD timing fix)
-    await this.accusedRadio.waitFor({ state: 'enabled', timeout: 30000 }).catch(() => {});
-    await this.accusedRadio.check({ force: true });
+    // Wait for page to fully load before accessing form elements
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(5000);
+
+    // Select Accused role — form should be fully initialized now
+    await this.accusedRadio.click({ force: true });
+    await this.page.waitForTimeout(1000);
+
     // Not representing anyone (PiP = No)
-    await this.noRadio.check();
+    await this.noRadio.click({ force: true });
     await this.page.waitForTimeout(1000);
 
     // "Which litigant are you?" — check if it's pre-selected (disabled readonly input)
@@ -223,10 +228,14 @@ class JoinCasePage extends BasePage {
     await this.searchAndSelectCase(filingNumber);
     await this.verifyAccessCode(accessCode);
 
-    // Select Accused role, representing someone (Yes) — wait for enabled state
-    await this.accusedRadio.waitFor({ state: 'enabled', timeout: 30000 }).catch(() => {});
-    await this.accusedRadio.check({ force: true });
-    await this.page.locator('div').filter({ hasText: /^Yes$/ }).getByRole('radio').check();
+    // Wait for page to fully load before accessing form elements
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(5000);
+
+    // Select Accused role, representing someone (Yes) — use click instead of check
+    await this.accusedRadio.click({ force: true });
+    await this.page.waitForTimeout(1000);
+    await this.page.locator('div').filter({ hasText: /^Yes$/ }).getByRole('radio').click({ force: true });
 
     // Select which litigants to represent — use img chevron (force:true bypasses select-wrap overlay)
     await this.page.locator('div').filter({ hasText: /^Which litigant\(s\) are you representing\?$/ }).getByRole('img').click({ force: true });
@@ -287,10 +296,14 @@ class JoinCasePage extends BasePage {
     await this.searchAndSelectCase(filingNumber);
     await this.verifyAccessCode(accessCode);
 
-    // Select Accused role, not replacing (No) — wait for enabled state
-    await this.accusedRadio.waitFor({ state: 'enabled', timeout: 30000 }).catch(() => {});
-    await this.accusedRadio.check({ force: true });
-    await this.noRadio.check();
+    // Wait for page to fully load before accessing form elements
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(5000);
+
+    // Select Accused role, not replacing (No) — use click instead of check
+    await this.accusedRadio.click({ force: true });
+    await this.page.waitForTimeout(1000);
+    await this.noRadio.click({ force: true });
     await this.page.waitForTimeout(1000);
 
     // Select litigant to represent — use img chevron (force:true bypasses select-wrap overlay)
@@ -338,10 +351,14 @@ class JoinCasePage extends BasePage {
     await this.searchAndSelectCase(filingNumber);
     await this.verifyAccessCode(accessCode);
 
-    // Select Accused role, replacing (Yes) — wait for enabled state
-    await this.accusedRadio.waitFor({ state: 'enabled', timeout: 30000 }).catch(() => {});
-    await this.accusedRadio.check({ force: true });
-    await this.page.locator('div').filter({ hasText: /^Yes$/ }).getByRole('radio').check();
+    // Wait for page to fully load before accessing form elements
+    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await this.page.waitForTimeout(5000);
+
+    // Select Accused role, replacing (Yes) — use click instead of check
+    await this.accusedRadio.click({ force: true });
+    await this.page.waitForTimeout(1000);
+    await this.page.locator('div').filter({ hasText: /^Yes$/ }).getByRole('radio').click({ force: true });
     await this.page.waitForTimeout(1000);
 
     // Select all litigants — use img chevron (force:true bypasses select-wrap overlay)
