@@ -658,9 +658,15 @@ await this.page.waitForTimeout(1000);;
       await barSearchInput.click();
       await barSearchInput.fill(this.globals.advocateBarId || '', { timeout: 15000 });
 
-      // Select advocate from search results
-      await this.page.getByText(this.globals.advocateName || '').first().click({ timeout: 40000 });
-      await this.page.waitForTimeout(30000);
+      // Wait for search results to appear and search results dropdown to be visible
+      await this.page.waitForLoadState('networkidle').catch(() => {});
+      await this.page.waitForTimeout(3000); // Allow results dropdown to render
+
+      // Select advocate from search results - wait for it to appear first
+      const advocateOption = this.page.getByText(this.globals.advocateName || '').first();
+      await advocateOption.waitFor({ state: 'visible', timeout: 20000 }).catch(() => {});
+      await advocateOption.click({ timeout: 40000 });
+      await this.page.waitForTimeout(3000);
 
       // Upload Vakalatnama for Complainant 2 (last file input on page)
       await this.page.locator('input[type="file"]').last().setInputFiles(VakalatnamaPath);

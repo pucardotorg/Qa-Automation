@@ -334,9 +334,14 @@ test.describe.serial('Judge Resubmit Case Flow - End to End', () => {
         await employeeLogin.loginAsNayaMitra();
 
         await payment.navigateToCollectPayments();
-        await payment.searchCaseByFilingNumber(globals.cmpNumber);
+        // Use filingNumber to search for the case, not cmpNumber
+        await payment.searchCaseByFilingNumber(globals.filingNumber);
 
-        await page.waitForSelector('a:has-text("Record Payment")', { state: 'visible', timeout: 30000 });
+        // Wait for Record Payment link to appear
+        await page.waitForLoadState('networkidle').catch(() => {});
+        await page.waitForTimeout(3000);
+        const recordPaymentLink = page.locator('a:has-text("Record Payment")');
+        await recordPaymentLink.waitFor({ state: 'visible', timeout: 30000 });
 
         await payment.recordPaymentForCase();
         await payment.selectPaymentMode('Cash');
