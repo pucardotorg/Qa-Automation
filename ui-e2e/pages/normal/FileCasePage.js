@@ -85,11 +85,12 @@ class FileCasePage extends BasePage {
 
     // Complainant and Accused are tabs within "Litigant Details" section
     // Click the Accused Details radio to switch to that tab
-    const cont1 = this.page.locator('button:has-text("Continue")').first();
+    // Use nth(1) to click the second Continue button (for 2 complainants scenario)
+    const cont1 = this.page.locator('button:has-text("Continue")').nth(1);
     await expect(cont1).toBeVisible({ timeout: 15000 });
     await expect(cont1).toBeEnabled({ timeout: 15000 });
     await cont1.scrollIntoViewIfNeeded();
-    await this.page.waitForTimeout(150);
+    await this.page.waitForTimeout(1500); // Increased wait time for page stability
     await cont1.click({ force: true }); // Use force to click through any overlays
     await this.waitIdle();
   }
@@ -699,7 +700,9 @@ await this.page.waitForTimeout(1000);;
   async processdelivery() {
     // process delivery - courier services
     await this.page.waitForTimeout(15000);
-    await this.page.getByRole('button').filter({ hasText: 'Continue' }).click();
+    // Use last() to handle cases with multiple Continue buttons (e.g., 2 complainants)
+    const continueBtn = this.page.getByRole('button').filter({ hasText: 'Continue' }).last();
+    await continueBtn.click();
     await this.page.waitForLoadState("networkidle");
   }
   async processdelivery1() {
